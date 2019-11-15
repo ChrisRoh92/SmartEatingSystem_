@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single" android:id="@+id/item1">
+
+
+        <item
+            android:id="@+id/nav_foodtracker"
+            android:icon="@drawable/ic_foodtracker"
+            android:title="FoodTracker"/>
+
+        <item
+            android:id="@+id/nav_bodytracker"
+            android:icon="@drawable/ic_bodytracker"
+
+            android:title="BodyTracker"/>
+
+        <item
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/ic_statistic"
+            android:title="Statistics"/>
+
+        <item
+            android:id="@+id/nav_setting"
+            android:title="Settings"
+            android:icon="@drawable/ic_settings"/>
+
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share"
+            android:title="@string/menu_share"/>
+
+
+        <item
+            android:id="@+id/nav_help"
+            android:title="Help"
+            android:icon="@drawable/ic_help"/>
+
+        <item
+            android:id="@+id/nav_premium"
+            android:icon="@drawable/ic_premium"
+            android:title="Premium" />
+
+
+    </group>
+
+</menu>

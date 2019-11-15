@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/action_foodlist_search"
+            android:icon="@drawable/ic_search_dark"
+            android:title="Search" app:actionViewClass="androidx.appcompat.widget.SearchView" app:showAsAction="always"
+            android:enabled="true" android:checked="true" android:checkable="true"/>
+
+    <item
+            android:id="@+id/foodlist_filter"
+            android:icon="@drawable/ic_false_dark"
+            android:title="Filter"
+            app:showAsAction="never" />
+
+    <item
+            android:id="@+id/foodlist_sort"
+
+            android:title="Sortieren"
+            app:showAsAction="never" />
+</menu>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_foodtracker">
+
+    <fragment
+        android:id="@+id/nav_foodtracker"
+        android:name="de.rohnert.smeasy.frontend.foodtracker.fragment.FoodTrackerFragment"
+        android:label="FoodTracker"
+        tools:layout="@layout/fragment_foodtracker"/>
+
+    <fragment
+        android:id="@+id/nav_bodytracker"
+        android:name="de.rohnert.smeasy.frontend.bodytracker.fragment.BodyTrackerFragment"
+        android:label="Bodytracker"
+        tools:layout="@layout/fragment_bodytracker"/>
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="de.rohnert.smeasy.frontend.settings.fragment.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="de.rohnert.smeasy.frontend.share.fragment.ShareFragment"
+        android:label="@string/menu_share"
+        tools:layout="@layout/fragment_share" />
+    <fragment
+        android:id="@+id/nav_statistics"
+        android:name="de.rohnert.smeasy.frontend.statistics.fragment.StatisticsFragment"
+        android:label="Statistics"
+        tools:layout="@layout/fragment_statistics"/>
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="de.rohnert.smeasy.frontend.helper.fragment.HelpFragment"
+        android:label="Help"
+        tools:layout="@layout/fragment_help"/>
+    <fragment
+        android:id="@+id/nav_premium"
+        android:name="de.rohnert.smeasy.frontend.premium.fragment.PremiumFragment"
+        android:label="Premium"
+        tools:layout="@layout/fragment_premium"/>
+
+
+</navigation>

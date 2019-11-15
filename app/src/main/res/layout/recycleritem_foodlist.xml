@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:background="?android:attr/selectableItemBackground"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/mealcard_item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Lebensmittel"
+            android:textColor="@color/textColor1"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/mealcard_item_group"
+            app:layout_constraintEnd_toStartOf="@+id/button_favorite"
+            app:layout_constraintStart_toEndOf="@+id/mealcard_item_fab"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/mealcard_item_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lebensmittelgruppe"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/mealcard_item_kcal"
+            app:layout_constraintStart_toStartOf="@+id/mealcard_item_name"
+            app:layout_constraintTop_toBottomOf="@+id/mealcard_item_name" />
+    <androidx.constraintlayout.widget.Barrier
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/barrier"
+            app:barrierDirection="left"
+            app:constraint_referenced_ids="mealcard_item_group,mealcard_item_name,mealcard_item_kcal"
+            tools:layout_editor_absoluteX="411dp"/>
+    <TextView
+            android:text="325 g/ml"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mealcard_item_kcal"
+            app:layout_constraintTop_toBottomOf="@+id/mealcard_item_group" android:textColor="@color/backgroundLight"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="@+id/mealcard_item_name"/>
+    <androidx.constraintlayout.widget.Barrier android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:id="@+id/barrier4" app:barrierDirection="right"
+                                              android:layout_marginEnd="75dp"
+                                              app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mealcard_item_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:fabCustomSize="24dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_false_dark" />
+
+    <ToggleButton
+        android:id="@+id/button_favorite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_premium"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/mealcard_item_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:tint="@color/background"
+        app:layout_constraintBottom_toBottomOf="@+id/mealcard_item_fab"
+        app:layout_constraintEnd_toEndOf="@+id/mealcard_item_fab"
+        app:layout_constraintStart_toStartOf="@+id/mealcard_item_fab"
+        app:layout_constraintTop_toTopOf="@+id/mealcard_item_fab"
+        app:srcCompat="@drawable/ic_check_dark" />
+</androidx.constraintlayout.widget.ConstraintLayout>

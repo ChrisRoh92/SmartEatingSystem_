@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#455A64</color>
+    <color name="colorAccent">#00CC00</color>
+
+
+    <color name="textColor1">#212121</color>
+
+
+    <color name="backgroundLight2">#F5F5F5</color>
+    <color name="background">#102027</color>
+    <color name="backgroundLight">#CFD8DC</color>
+
+
+    <color name="Error">#B00020</color>
+
+
+    <color name="bar_color_1">#0288D1</color>
+    <color name="bar_color_2">#5EB8FF</color>
+    <color name="bar_color_3">#546E7A</color>
+    <color name="bar_color_4">#819CA9</color>
+    <color name="bar_color_5">#7B1FA2</color>
+    <color name="bar_color_6">#ae52d4</color>
+
+    <!--Archiv Farben-00CC00-->
+    <color name="colorAccent2">#1DE9B6</color>
+    <color name="colorAccent3">#8BC34A</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>
