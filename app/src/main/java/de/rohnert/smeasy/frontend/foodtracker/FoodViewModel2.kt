@@ -43,6 +43,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     // FoodLists:
     //private lateinit  var appFoodList:LiveData<List<Food>>
     private lateinit var localAppFoodList:ArrayList<Food>
+    private lateinit var localFoodCategories:ArrayList<String>
 
     // Daily:
     private lateinit var localDaily:Daily
@@ -53,15 +54,19 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     init {
 
         CoroutineScope(IO).launch {
-            setFoodList()
 
-            if(localAppFoodList.isNullOrEmpty())
-            {
-                setCSVFoodList()
+            runBlocking {
                 setFoodList()
-                //Toast.makeText(application,"Food Liste wurde angelegt...",Toast.LENGTH_SHORT).show()
-                Log.d("Smeasy","FoodViewModel2 - init - FoodListe aus CSV wurde angelegt....")
+                if(localAppFoodList.isNullOrEmpty())
+                {
+                    setCSVFoodList()
+                    setFoodList()
+                    //Toast.makeText(application,"Food Liste wurde angelegt...",Toast.LENGTH_SHORT).show()
+                    Log.d("Smeasy","FoodViewModel2 - init - FoodListe aus CSV wurde angelegt....")
+                }
+
             }
+
             withContext(Main)
             {
                 setLocalDaily()
@@ -71,18 +76,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         }
 
 
-        /*CoroutineScope(IO).launch {
-            getDaily(date)
-            setFoodList()
-            if(appFoodList.value.isNullOrEmpty())
-            {
-                setCSVFoodList()
-                setFoodList()
-            }
-            createEntryLists()
-            lDate.value = date
 
-        }*/
 
 
     }
@@ -112,7 +106,8 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private suspend fun setFoodList()
     {
         localAppFoodList = repository.getAppFoodList()
-        //appFoodList = repository.getLiveAppFoodList()
+        localFoodCategories = repository.getFoodCategories()
+        // UserFood einbinden...
     }
 
     private suspend fun setCSVFoodList()
@@ -120,24 +115,23 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         repository.insertCSVFoodList()
     }
 
-    private fun createEntryLists()
+    private suspend fun createEntryLists()
     {
 
 
         //breakfastList!!.postValue(localDaily.breakfastEntry)
-        runBlocking {
 
-            lunchList!!.value = localDaily.lunchEntry
-            dinnerList!!.value = localDaily.dinnerEntry
-            snackList!!.value = localDaily.snackEntry
-            breakfastList!!.value = localDaily.breakfastEntry
-        }
+
+        lunchList!!.value = localDaily.lunchEntry
+        dinnerList!!.value = localDaily.dinnerEntry
+        snackList!!.value = localDaily.snackEntry
+        breakfastList!!.value = localDaily.breakfastEntry
 
         /*lunchList!!.postValue(localDaily.lunchEntry)
         dinnerList!!.postValue(localDaily.dinnerEntry)
         snackList!!.postValue(localDaily.snackEntry)*/
 
-        Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.breakfastEntry: ${localDaily.breakfastEntry}")
+        /*Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.breakfastEntry: ${localDaily.breakfastEntry}")
         Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.lunchEntry: ${localDaily.lunchEntry}")
         Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.dinnerEntry: ${localDaily.dinnerEntry}")
         Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.snackEntry: ${localDaily.snackEntry}")
@@ -145,14 +139,8 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         Log.d("Smeasy","FoodViewModel2 createEntryList: breakfastList: ${breakfastList!!.value}")
         Log.d("Smeasy","FoodViewModel2 createEntryList: lunchList: ${lunchList!!.value}")
         Log.d("Smeasy","FoodViewModel2 createEntryList: dinnerList: ${dinnerList!!.value}")
-        Log.d("Smeasy","FoodViewModel2 createEntryList: snackList: ${snackList!!.value}")
+        Log.d("Smeasy","FoodViewModel2 createEntryList: snackList: ${snackList!!.value}")*/
 
-    }
-
-    private suspend fun initDaily(date:String)
-    {
-        getDaily(date)
-        createEntryLists()
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -162,20 +150,13 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     {
         date = newDate
         CoroutineScope(IO).launch {
-            runBlocking {
-                setLocalDaily()
-            }
+
             withContext(Main)
             {
+                setLocalDaily()
                 createEntryLists()
             }
-
         }
-
-        /*CoroutineScope(IO).launch()
-        {
-            getDaily(date)
-        }*/
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -184,15 +165,10 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     suspend fun getAppFoodById(id:String):Food?
     {
         var food:Food? = null
-
         withContext(IO)
         {
             food = repository.getFoodById(id)
         }
-        /*CoroutineScope(IO).launch {
-
-        }*/
-
         return food
 
     }
@@ -206,15 +182,20 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         fun getNewMealEntry(iMeal:String):Int
         {
             return when(iMeal) {
-                "breakfast" -> dailyProcess.getNewMealEntryId(breakfastList!!.value!!)
-                "lunch" -> dailyProcess.getNewMealEntryId(lunchList!!.value!!)
-                "dinner" -> dailyProcess.getNewMealEntryId(dinnerList!!.value!!)
-                else -> dailyProcess.getNewMealEntryId(snackList!!.value!!)
+                "breakfast" -> dailyProcess.getNewMealEntryId(localDaily.breakfastEntry!!)
+                "lunch" -> dailyProcess.getNewMealEntryId(localDaily.lunchEntry!!)
+                "dinner" -> dailyProcess.getNewMealEntryId(localDaily.dinnerEntry!!)
+                else -> dailyProcess.getNewMealEntryId(localDaily.snackEntry!!)
+
+                // "breakfast" -> dailyProcess.getNewMealEntryId(breakfastList!!.value!!)
+                //                "lunch" -> dailyProcess.getNewMealEntryId(lunchList!!.value!!)
+                //                "dinner" -> dailyProcess.getNewMealEntryId(dinnerList!!.value!!)
+                //                else -> dailyProcess.getNewMealEntryId(snackList!!.value!!)
             }
         }
 
         var newEntry = MealEntry(getNewMealEntry(meal),foodId,menge)
-        Log.d("Smeasy","FoodViewModel2 - addNewMealEntry - newEntry = $newEntry")
+
 
         when(meal)
         {
@@ -222,6 +203,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
             {
 
                 localDaily.breakfastEntry!!.add(newEntry)
+                breakfastList!!.value = localDaily.breakfastEntry
 
             }
             "lunch" ->
@@ -230,25 +212,30 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
                 /*localDaily.lunchEntry = lunchList!!.value!!
                 lunchList!!.value!!.add(newEntry)*/
                 localDaily.lunchEntry!!.add(newEntry)
+                lunchList!!.value = localDaily.lunchEntry
             }
             "dinner" -> {
                 /*dinnerList!!.value!!.add(newEntry)
                 localDaily.dinnerEntry = dinnerList!!.value!!*/
                 localDaily.dinnerEntry!!.add(newEntry)
+                dinnerList!!.value = localDaily.dinnerEntry
             }
             "snack" ->
             {
                 /*snackList!!.value!!.add(newEntry)
                 localDaily.snackEntry = snackList!!.value!!*/
                 localDaily.snackEntry!!.add(newEntry)
+                snackList!!.value = localDaily.snackEntry
             }
         }
 
         // Neue Entrylisten erstellen.
         CoroutineScope(Main).launch {
-            createEntryLists()
+            //createEntryLists()
             updateDaily(daily = localDaily)
         }
+
+
 
 
         // Daily Updaten...
@@ -267,26 +254,46 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
                 "breakfast" ->
                 {
                     localDaily.breakfastEntry!!.remove(entry)
+                    breakfastList!!.value = localDaily.breakfastEntry
 
                 }
                 "lunch" ->
                 {
                     localDaily.lunchEntry!!.remove(entry)
+                    lunchList!!.value = localDaily.lunchEntry
                     /*lunchList!!.value!!.remove(entry)
                     daily.value!!.lunchEntry = lunchList!!.value!!*/
                 }
                 "dinner" -> {
                     localDaily.dinnerEntry!!.remove(entry)
+                    dinnerList!!.value = localDaily.dinnerEntry
                 }
                 "snack" ->
                 {
                     localDaily.snackEntry!!.remove(entry)
+                    snackList!!.value = localDaily.snackEntry
                 }
             }
         // Daily Updaten...
         CoroutineScope(Main).launch {
-            createEntryLists()
+            //createEntryLists()
             updateDaily(daily = localDaily)
+        }
+
+    }
+
+    fun changeMealEntry(entry:MealEntry,oldMeal:String,newMeal:String)
+    {
+        var localEntry = entry
+        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - entry: $entry")
+        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - oldMeal: $oldMeal")
+        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - newMeal: $newMeal")
+        CoroutineScope(Main).launch()
+        {
+            runBlocking {
+                removeMealEntry(localEntry,oldMeal)
+                addNewMealEntry(localEntry.id,localEntry.menge,newMeal)
+            }
         }
 
     }
@@ -361,10 +368,10 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
             when(meal)
             {
-                "breakfast" -> createCalcedFoodList(breakfastList!!.value!!)
-                "lunch" -> createCalcedFoodList(lunchList!!.value!!)
-                "dinner" -> createCalcedFoodList(dinnerList!!.value!!)
-                "snack" -> createCalcedFoodList(snackList!!.value!!)
+                "breakfast" -> createCalcedFoodList(localDaily.breakfastEntry!!)
+                "lunch" -> createCalcedFoodList(localDaily.lunchEntry!!)
+                "dinner" -> createCalcedFoodList(localDaily.dinnerEntry!!)
+                "snack" -> createCalcedFoodList(localDaily.snackEntry!!)
             }
         }
 
@@ -455,6 +462,10 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         return localAppFoodList
     }
 
+    fun getFoodCategories():ArrayList<String>
+    {
+        return localFoodCategories
+    }
     /*fun getDate():LiveData<String>
     {
         return lDate

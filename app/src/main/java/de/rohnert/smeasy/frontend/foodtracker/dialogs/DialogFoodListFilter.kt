@@ -1,4 +1,4 @@
-package de.rohnert.smeasy.moduls.foodtracker.dialogs
+package de.rohnert.smeasy.frontend.foodtracker.dialogs
 
 import android.app.AlertDialog
 import android.content.Context
@@ -12,18 +12,18 @@ import androidx.core.view.ViewCompat
 import de.rohnert.smeasy.R
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 
-class DialogFoodListFilter(var context: Context, var viewModel: FoodViewModel2, var categories:ArrayList<String>) : View.OnClickListener {
+class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewModel2, var categories:ArrayList<String>) : View.OnClickListener {
 
 
     lateinit var builder: AlertDialog.Builder
     lateinit var alertDialog: AlertDialog
     lateinit var view: View
     lateinit var inflater: LayoutInflater
+    var allCategories:ArrayList<String> = foodViewModel.getFoodCategories()
     // Interface Stuff:
-    lateinit var mListener:OnDialogFilterClickListener
+    lateinit var mListener: OnDialogFilterClickListener
 
     // View Elemente:
     // Buttons:
@@ -96,7 +96,7 @@ class DialogFoodListFilter(var context: Context, var viewModel: FoodViewModel2, 
     {
 
         chips = ArrayList()
-        for(i in categories)
+        for(i in allCategories)
         {
             var chip: Chip = inflater.inflate(R.layout.chip_item,null,false) as Chip
             chip.text = "$i"
@@ -160,7 +160,7 @@ class DialogFoodListFilter(var context: Context, var viewModel: FoodViewModel2, 
         fun onDialogFilterClickListener(category:ArrayList<String>, allowedFood:Boolean, favouriten:Boolean,userFood:Boolean)
     }
 
-    fun onDialogFilterClickListener(mListener:OnDialogFilterClickListener)
+    fun onDialogFilterClickListener(mListener: OnDialogFilterClickListener)
     {
         this.mListener = mListener
     }

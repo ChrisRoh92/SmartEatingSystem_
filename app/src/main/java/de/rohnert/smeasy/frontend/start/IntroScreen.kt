@@ -57,11 +57,11 @@ class IntroScreen : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         btn = findViewById(R.id.introscreen_btn)
         btn.setOnClickListener {
 
-            if(checkBox.isChecked && etUserName.editText!!.text.toString().isNotEmpty() && btnDateClicked && spinnerClicked)
+            if(checkBox.isChecked && etUserName.editText!!.text.toString().isNotEmpty() && btnDateClicked && spinnerClicked && spinner.selectedItemPosition != 0)
             {
 
                 // Speichern der Prefs...
-                sharePrefs.setNewUserName(etUserName.editText!!.text.toString())
+                sharePrefs.setNewUserName(etUserName.editText!!.text.toString().trim())
                 sharePrefs.setNewSex(spinner.selectedItem.toString())
                 sharePrefs.setNewBday(tvBday.text.toString())
                 sharePrefs.setNewAppInitialStart(true)
@@ -109,11 +109,11 @@ class IntroScreen : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         tvTitle = findViewById(R.id.introscreen_tv_title)
         tvSex = findViewById(R.id.introscreen_tv_sexTitle)
         tvBday = findViewById(R.id.introscreen_tv_bday)
-        tvBday.text = helper.getStringFromDate(helper.getCurrentDate())
+        tvBday.text = "Eingabe erforderlich"
 
         // Spinner:
         spinner = findViewById(R.id.introscreen_spinner)
-        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, arrayListOf("Frau","Mann"))
+        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, arrayListOf("Bitte Geschlecht auswählen...","Frau","Mann"))
         spinner.adapter = adapter
         spinner.onItemSelectedListener = this
 

@@ -21,6 +21,8 @@ class AnimationStatusView(var context: Context,
 
     private var valueAnimator = CustomValueAnimator(context)
     private var helper = Helper()
+    // Interface:
+    private lateinit var mListener:OnAnimationStatusViewInitListener
 
     init {
         startInitAnimation()
@@ -41,6 +43,29 @@ class AnimationStatusView(var context: Context,
         set.play(pbSet).before(tvSet)
         //set.playTogether(pbSet,tvSet)
         set.start()
+        set.addListener(object: Animator.AnimatorListener
+        {
+            override fun onAnimationRepeat(p0: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(p0: Animator?) {
+                if(mListener!=null)
+                {
+                    mListener.setOnAnimationStatusViewListener()
+                }
+            }
+
+            override fun onAnimationCancel(p0: Animator?) {
+
+            }
+
+            override fun onAnimationStart(p0: Animator?) {
+
+            }
+
+        })
+
 
 
 
@@ -210,6 +235,15 @@ class AnimationStatusView(var context: Context,
         return export
 
     }
+
+    // Interface für initListener()
+    interface OnAnimationStatusViewInitListener
+    {
+        fun setOnAnimationStatusViewListener()
+    }
+
+    fun setOnAnimationStatusViewListener(mListener:OnAnimationStatusViewInitListener)
+    {this.mListener = mListener}
 
 
 }

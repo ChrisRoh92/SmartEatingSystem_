@@ -2,14 +2,16 @@ package de.rohnert.smeasy.moduls.foodtracker.dialogs
 
 import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.frontend.foodtracker.helper.FoodListerFilter
 
-class DialogFoodListSorter(var context: Context) : View.OnClickListener {
+class DialogFoodListSorter(var context: Context,var filter:FoodListerFilter) : View.OnClickListener {
 
 
     lateinit var builder: AlertDialog.Builder
@@ -23,6 +25,7 @@ class DialogFoodListSorter(var context: Context) : View.OnClickListener {
     private lateinit var btnSave:Button
     private lateinit var btnAbort:Button
     // RadioButtons:
+    private lateinit var rbtnStandard:RadioButton
     private lateinit var rbtnName:RadioButton
     private lateinit var rbtnGruppe:RadioButton
     private lateinit var rbtnKcal:RadioButton
@@ -76,12 +79,16 @@ class DialogFoodListSorter(var context: Context) : View.OnClickListener {
         rbtnGroup = view.findViewById(R.id.dialog_sorter_rbtn_group)
 
         // RadioButtons:
+        rbtnStandard = view.findViewById(R.id.dialog_sorter_rbtn_standard)
         rbtnName = view.findViewById(R.id.dialog_sorter_rbtn_name)
         rbtnGruppe = view.findViewById(R.id.dialog_sorter_rbtn_gruppe)
         rbtnKcal = view.findViewById(R.id.dialog_sorter_rbtn_kcal)
         rbtnCarbs = view.findViewById(R.id.dialog_sorter_rbtn_carbs)
         rbtnProtein = view.findViewById(R.id.dialog_sorter_rbtn_proteine)
         rbtnFett = view.findViewById(R.id.dialog_sorter_rbtn_fett)
+
+        // Set Activ:
+
 
     }
 
@@ -119,10 +126,11 @@ class DialogFoodListSorter(var context: Context) : View.OnClickListener {
             var export=""
             when(rbtnGroup.checkedRadioButtonId)
             {
+                R.id.dialog_sorter_rbtn_standard -> export= ""
                 R.id.dialog_sorter_rbtn_name -> export= "name"
-                R.id.dialog_sorter_rbtn_gruppe -> export= "gruppe"
+                R.id.dialog_sorter_rbtn_gruppe -> export= "category"
                 R.id.dialog_sorter_rbtn_kcal -> export= "kcal"
-                R.id.dialog_sorter_rbtn_carbs -> export= "carbs"
+                R.id.dialog_sorter_rbtn_carbs -> export= "carb"
                 R.id.dialog_sorter_rbtn_proteine -> export= "protein"
                 R.id.dialog_sorter_rbtn_fett -> export= "fett"
 
@@ -132,6 +140,7 @@ class DialogFoodListSorter(var context: Context) : View.OnClickListener {
         }
         if(mListener!=null)
         {
+            Log.d("Smeasy","DialogFoodListSorter - sortierung gespeichert mit SortingItem: ${getAttribute()}")
             mListener.setOnDialogClickListener(getAttribute(),aufsteigend)
             alertDialog.dismiss()
         }

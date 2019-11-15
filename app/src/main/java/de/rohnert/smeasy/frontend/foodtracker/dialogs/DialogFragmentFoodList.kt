@@ -13,21 +13,20 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smeasy.frontend.foodtracker.adapter.ClassicFoodListAdapter
 import de.rohnert.smeasy.frontend.foodtracker.adapter.FoodListAdapter
+import de.rohnert.smeasy.frontend.foodtracker.helper.FoodListerFilter
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
-import de.rohnert.smeasy.moduls.foodtracker.dialogs.DialogFoodListFilter
+import de.rohnert.smeasy.moduls.foodtracker.dialogs.DialogFoodListSorter
 
 
-class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): DialogFragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
+class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2): DialogFragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
 
 
     // ,
@@ -39,13 +38,14 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
     private lateinit var sharePrefs:SharedAppPreferences
 
     // Content:
-    private var foodList:ArrayList<Food> = viewModel.getLocalFoodList()
+    private lateinit var filter:FoodListerFilter
+    private var foodList:ArrayList<Food> = foodViewModel.getLocalFoodList()
     private var workFoodList:ArrayList<Food> = foodList
 
 
     // Filter stuff:
     private var sItem = ""
-    private var categories: ArrayList<String> = arrayListOf("Obst","Gemuese")
+    private var categories: ArrayList<String> = foodViewModel.getFoodCategories()
     private var maxCategory = categories.size
     private lateinit var pb: ProgressBar
 
@@ -87,6 +87,7 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
     {
         Log.d("Smeasy", "DialogFragmentFoodList - onCreateView")
         rootView = inflater.inflate(R.layout.dialog_foodlist, container, false)
+
         sharePrefs = SharedAppPreferences(rootView.context)
         if(sharePrefs.maxAllowedKcal == 0f)
         {
@@ -113,22 +114,32 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
     // Init Views....
     private fun initRecyclerView() {
 
+        filter = FoodListerFilter(rootView.context,foodViewModel)
+        filter.setOnFilterItemsListener(object:FoodListerFilter.OnFilterItemsListener{
+            override fun setOnFilterItemsListener(foodList: ArrayList<Food>) {
+                classicAdapter.updateContent(foodList)
+
+                Log.d("Smeasy","DialogFragmentFoodList - initRecyclerView - setOnFilterItemsListener was called: Size of foodList: ${foodList.size}")
+            }
+
+        })
+
         rv = rootView.findViewById(R.id.dialog_foodlist_rv)
         manager = LinearLayoutManager(rootView.context, RecyclerView.VERTICAL, false)
         adapter = FoodListAdapter(sMeal)
-        classicAdapter = ClassicFoodListAdapter(workFoodList,rootView.context)
+        classicAdapter = ClassicFoodListAdapter(filter.getFilteredFoodList(),rootView.context)
         rv.layoutManager = manager
         rv.adapter = classicAdapter
 
 
 
 
-        /*adapter.submitList(viewModel.getFoodList().value!!)*//*
+        /*adapter.submitList(foodViewModel.getFoodList().value!!)*//*
         //var animator = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
-        viewModel.getFoodList().observe(viewLifecycleOwner, Observer {
+        foodViewModel.getFoodList().observe(viewLifecycleOwner, Observer {
 
-            //classicAdapter.updateContent(viewModel.getFoodList().value!!)
-            *//*adapter.submitList(viewModel.getFoodList().value!!)
+            //classicAdapter.updateContent(foodViewModel.getFoodList().value!!)
+            *//*adapter.submitList(foodViewModel.getFoodList().value!!)
             Handler().postDelayed({
                 pb.visibility = View.GONE
                 Thread.sleep(100)
@@ -145,7 +156,7 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
 
         classicAdapter.setOnClickListener(object : ClassicFoodListAdapter.OnClickListener {
             override fun setOnClickListener(food: Food, position: Int) {
-                var dialog = FoodPickerDialog(viewModel, rootView.context, food, sMeal)
+                var dialog = FoodPickerDialog(foodViewModel, rootView.context, food, sMeal)
             }
 
         })
@@ -164,7 +175,7 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
     fun initFoodCreator() {
         btnAdd = rootView.findViewById(R.id.dialog_foodlist_btn)
         btnAdd.setOnClickListener {
-            //var dialog = FoodCreatorDialog(viewModel,rootView.context)
+            //var dialog = FoodCreatorDialog(foodViewModel,rootView.context)
 
 
         }
@@ -200,24 +211,26 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
             var handler = Handler()
             handler.postDelayed(Runnable {
                 var filterDialog =
-                    DialogFoodListFilter(rootView.context, viewModel, categories)
+                    DialogFoodListFilter(rootView.context, foodViewModel, categories)
                 filterDialog.onDialogFilterClickListener(object :
                     DialogFoodListFilter.OnDialogFilterClickListener {
                     override fun onDialogFilterClickListener(category: ArrayList<String>,allowedFood: Boolean,favouriten: Boolean,userFood: Boolean)
                     {
                         Log.d("Smeasy","DialogFragmentFoodList - onDialogFilterClickListener() - Categories: $category")
+                        filter.setCategories(category)
+                        Log.d("Smeasy","DialogFragmentFoodList - onMenuItemClick - onDialogFilterClickListener was called: Size of categories: ${foodList.size}")
                         categories = category
-                        filterFoods()
+                        //filterFoods()
                         /*categories = category
                         pb.visibility = View.VISIBLE
                         rv.visibility = View.GONE
                         var handler = Handler()
                         handler.post {
-                            classicAdapter.updateContent(viewModel.getFoodListFiltered(categories))
+                            classicAdapter.updateContent(foodViewModel.getFoodListFiltered(categories))
                             pb.visibility = View.GONE
                             rv.visibility = View.VISIBLE
-                            //adapter.submitList(viewModel.getFoodList().value!!)
-                            //adapter.submitList(viewModel.searchInAppFoodList(sItem, categories))
+                            //adapter.submitList(foodViewModel.getFoodList().value!!)
+                            //adapter.submitList(foodViewModel.searchInAppFoodList(sItem, categories))
                         }*/
                     }
 
@@ -226,27 +239,28 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
 
 
         } else if (item!!.itemId == R.id.foodlist_sort) {
-            /*
+
             var handler = Handler()
             handler.postDelayed(Runnable {
-                var sortDialog = DialogFoodListSorter(rootView.context)
+                var sortDialog = DialogFoodListSorter(rootView.context,filter)
                 sortDialog.setOnDialogClickListener(object: DialogFoodListSorter.OnDialogClickListener
                 {
                     override fun setOnDialogClickListener(name: String, aufsteigend: Boolean) {
-                        when(name)
+                        filter.setSortItem(name,aufsteigend)
+                        /*when(name)
                         {
-                            "name" -> adapter.updateContent(viewModel.filter.getFoodListSortedByName(adapter.content,aufsteigend))
-                            "gruppe" -> adapter.updateContent(viewModel.filter.getFoodListSortedByCategory(adapter.content,aufsteigend))
-                            "kcal" -> adapter.updateContent(viewModel.filter.getFoodListSortedByKcal(adapter.content,aufsteigend))
-                            "carbs" -> adapter.updateContent(viewModel.filter.getFoodListSortedByCarb(adapter.content,aufsteigend))
-                            "protein" -> adapter.updateContent(viewModel.filter.getFoodListSortedByProtein(adapter.content,aufsteigend))
-                            "fett" -> adapter.updateContent(viewModel.filter.getFoodListSortedByFett(adapter.content,aufsteigend))
-                        }
+                            "name" -> adapter.updateContent(foodViewModel.filter.getFoodListSortedByName(adapter.content,aufsteigend))
+                            "gruppe" -> adapter.updateContent(foodViewModel.filter.getFoodListSortedByCategory(adapter.content,aufsteigend))
+                            "kcal" -> adapter.updateContent(foodViewModel.filter.getFoodListSortedByKcal(adapter.content,aufsteigend))
+                            "carbs" -> adapter.updateContent(foodViewModel.filter.getFoodListSortedByCarb(adapter.content,aufsteigend))
+                            "protein" -> adapter.updateContent(foodViewModel.filter.getFoodListSortedByProtein(adapter.content,aufsteigend))
+                            "fett" -> adapter.updateContent(foodViewModel.filter.getFoodListSortedByFett(adapter.content,aufsteigend))
+                        }*/
                     }
 
                 })
             },50)
-            */
+
         }
         return true
     }
@@ -258,14 +272,14 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
         rv.visibility = View.GONE
         var handler = Handler()
         handler.post {
-            viewModel.searchInAppFoodList(sItem, categories)
+            foodViewModel.searchInAppFoodList(sItem, categories)
         }*/
         searchInFoodList(query!!)
 
 
 
-        //adapter.updateContent(viewModel.getFilteredFoodList(sItem))
-        //adapter.updateContent(viewModel.filter.getFilteredFoodList(sItem,adapter.content))
+        //adapter.updateContent(foodViewModel.getFilteredFoodList(sItem))
+        //adapter.updateContent(foodViewModel.filter.getFilteredFoodList(sItem,adapter.content))
 
         return true
     }
@@ -275,9 +289,9 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
             Log.d("Smeasy", "DialogFragmentFoodList - onQueryTextChange text: All Deleted...")
             /*pb.visibility = View.VISIBLE
             rv.visibility = View.GONE
-            viewModel.createFoodList()
+            foodViewModel.createFoodList()
             sItem = ""*/
-            filterFoods()
+            searchInFoodList(newText!!)
 
         } else {
             searchInFoodList(newText!!)
@@ -291,7 +305,7 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
     /*override fun onDialogFilterClickListener(category: ArrayList<String>,allowedFood: Boolean,favouriten: Boolean,userFood: Boolean)
     {
         categories = category
-        adapter.updateContent(viewModel.filter.getFoodsByCategory(categories))
+        adapter.updateContent(foodViewModel.filter.getFoodsByCategory(categories))
 
     }*/
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,7 +313,7 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
 
     override fun onPause() {
         super.onPause()
-        //viewModel.createFoodList()
+        //foodViewModel.createFoodList()
     }
 
 
@@ -331,7 +345,7 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
 
     }
 
-    private fun getFilteredFoodList():ArrayList<Food>
+    /*private fun getFilteredFoodList():ArrayList<Food>
     {
         if(categories.size != maxCategory)
         {
@@ -355,11 +369,11 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
             workFoodList = foodList
             return workFoodList
         }
-    }
+    }*/
 
     private fun searchInFoodList(item:String)
     {
-        if(item != "")
+        /*if(item != "")
         {
             var values:ArrayList<Food> = ArrayList()
             for(i in getFilteredFoodList())
@@ -376,7 +390,8 @@ class DialogFragmentFoodList(var sMeal:String,var viewModel: FoodViewModel2): Di
         {
             workFoodList = getFilteredFoodList()
             classicAdapter.updateContent(workFoodList)
-        }
+        }*/
+        classicAdapter.updateContent(filter.filterByItemSearch(item))
 
     }
 

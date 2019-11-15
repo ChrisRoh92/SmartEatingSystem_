@@ -36,6 +36,8 @@ import de.rohnert.smeasy.frontend.foodtracker.adapter.MealCardItemAdapter
 import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationStatusView
 import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogDatePicker
 import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogFragmentFoodList
+import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogMealEntry
+import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogMealList
 import de.rohnert.smeasy.helper.others.WrapContentLinearLayoutManager
 import java.lang.Exception
 import java.util.*
@@ -106,6 +108,12 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     // Calendar Button:
     private lateinit var btnCalendar: Button
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        started = false
+        Log.d("Smeasy","FoodTrackerFragment - onCreate")
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         foodViewModel = ViewModelProviders.of(this).get(FoodViewModel2::class.java)
         rootView = inflater.inflate(R.layout.fragment_foodtracker, container, false)
@@ -133,8 +141,9 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         Handler().postDelayed({
             initCalendar()
             initMealCards()
-            initViewModelObserver()
             initStatusViewObjects()
+            initViewModelObserver()
+
 
         },150)
 
@@ -142,7 +151,9 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         return rootView
     }
 
-    // MealCards initialisieren:
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Views initialisieren...
     private fun initMealCards()
     {
         // Hier werden die Views der MealCards initialisiert.....
@@ -213,7 +224,47 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             i.setOnLongClickListener(object : MealCardItemAdapter.OnLongClickListener
             {
                 override fun setOnLongClickListener(calcedFood: CalcedFood, position: Int) {
-                    foodViewModel.removeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index])
+
+                    var dialog = DialogMealEntry(rootView.context)
+                    dialog.setOnDialogClickListener(object: DialogMealEntry.OnDialogMealEntryClickListener{
+                        override fun setOnDialogClickListener(delete: Boolean) {
+                            if(delete)
+                            {
+                                foodViewModel.removeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index])
+                            }
+                            else
+                            {
+                                // Neues Meal aussuchen
+                                // ListDialog auswählen
+                                var listDialog = DialogMealList(rootView.context)
+                                listDialog.setOnDialogMealListClickListener(object:DialogMealList.OnDialogMealListClick{
+                                    override fun setOnDialogMealListClickListener(value: String)
+                                    {
+                                        if(mealList[index] != value)
+                                        {
+                                            foodViewModel.changeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index],value)
+                                            /*viewmodel.removeMailFromDaily(MealEntry(calcedFood.food.id,calcedFood.menge),meal = mealList[index])
+                                            addFood = false
+                                            it.deleteItem(viewmodel.getCalcedFoodList().value!![index],pos)
+                                            var pos = mealList.indexOf(value)
+                                            adapterList[pos]
+                                            viewmodel.addNewMealToDaily(MealEntry(calcedFood.food.id,calcedFood.menge),meal = value)
+                                            addFood = false
+
+                                            adapterList[pos].addNewItem(viewmodel.getCalcedFoodList().value!![pos])
+                                            textList[index].text = "${viewmodel.getCalcedValueList().value!![pos][0]} Kcal"
+                                            updateStatusView()*/
+
+                                        }
+
+
+                                    }
+
+                                })
+                            }
+                        }
+
+                    })
                 }
 
             })
@@ -229,7 +280,29 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         }
 
     }
+    // View initialisieren:
+    private fun initStatusViewObjects()
+    {
+        pbKcal = rootView.findViewById(R.id.fragment_foodtracker_pb_kcal)
+        pbCarb = rootView.findViewById(R.id.fragment_foodtracker_pb_Kohlenhydrate)
+        pbProtein = rootView.findViewById(R.id.fragment_foodtracker_pb_protein)
+        pbFett = rootView.findViewById(R.id.fragment_foodtracker_pb_fett)
 
+
+        tvCarbs = rootView.findViewById(R.id.fragment_foodtracker_tv_carb)
+        tvProtein = rootView.findViewById(R.id.fragment_foodtracker_tv_protein)
+        tvFett = rootView.findViewById(R.id.fragment_foodtracker_tv_fett)
+
+        tvKcalAdded = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_added)
+        tvKcalActive = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_active)
+        tvKcalRest = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_rest)
+
+        tvAim = rootView.findViewById(R.id.fragment_foodtracker_tv_aim)
+        tvAimProgress = rootView.findViewById(R.id.fragment_foodtracker_tv_aim_progress)
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Calendar Logik + Objekte initialisieren...
     private fun initCalendar()
     {
@@ -255,39 +328,9 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
     }
 
-    // View initialisieren:
-    private fun initStatusViewObjects()
-    {
-        pbKcal = rootView.findViewById(R.id.fragment_foodtracker_pb_kcal)
-        pbCarb = rootView.findViewById(R.id.fragment_foodtracker_pb_Kohlenhydrate)
-        pbProtein = rootView.findViewById(R.id.fragment_foodtracker_pb_protein)
-        pbFett = rootView.findViewById(R.id.fragment_foodtracker_pb_fett)
 
-
-        tvCarbs = rootView.findViewById(R.id.fragment_foodtracker_tv_carb)
-        tvProtein = rootView.findViewById(R.id.fragment_foodtracker_tv_protein)
-        tvFett = rootView.findViewById(R.id.fragment_foodtracker_tv_fett)
-
-        tvKcalAdded = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_added)
-        tvKcalActive = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_active)
-        tvKcalRest = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_rest)
-
-        tvAim = rootView.findViewById(R.id.fragment_foodtracker_tv_aim)
-        tvAimProgress = rootView.findViewById(R.id.fragment_foodtracker_tv_aim_progress)
-    }
-
-    // Observer:
-    private fun initViewModelObserver2()
-    {
-        foodViewModel.getDaily().observe(this,androidx.lifecycle.Observer {
-            statusViewAnimation()
-            mealCardAnimation("breakfast", 500)
-            mealCardAnimation("lunch",500)
-            mealCardAnimation("dinner",500)
-            mealCardAnimation("snacks",500)
-        })
-    }
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Observer
     private fun initViewModelObserver()
     {
 
@@ -348,9 +391,10 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             if(!started) started = true*//*
 
         })*/
-
+        Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver -  started = $started")
         foodViewModel.getBreakfastEntries().observe( this, androidx.lifecycle.Observer
         {
+            Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - breakfast-Observer: started = $started")
             if(!started)
             {
                 statusViewAnimation()
@@ -358,7 +402,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                 mealCardAnimation("lunch")
                 mealCardAnimation("dinner")
                 mealCardAnimation("snack")
-                started = true
+                //started = true
             }
             else
             {
@@ -372,7 +416,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
         foodViewModel.getLunchEntries().observe( this, androidx.lifecycle.Observer
         {
-
+            Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - lunch-Observer: started = $started")
             adapterLunch.submitList(foodViewModel.getCalcedFoodsByMeal("lunch"))
             if(started)
             {
@@ -384,7 +428,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
         foodViewModel.getDinnerEntries().observe( this, androidx.lifecycle.Observer
         {
-
+            Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - dinner-Observer: started = $started")
             adapterDinner.submitList(foodViewModel.getCalcedFoodsByMeal("dinner"))
             if(started)
             {
@@ -396,7 +440,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
         foodViewModel.getSnackEntries().observe( this, androidx.lifecycle.Observer
         {
-
+            Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - snacks-Observer: started = $started")
             adapterSnacks.submitList(foodViewModel.getCalcedFoodsByMeal("snack"))
             if(started)
             {
@@ -407,82 +451,12 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
         })
 
-        /*
-        foodViewModel.getLunchEntries().observe( this, androidx.lifecycle.Observer
-        {
-            adapterLunch.submitList(foodViewModel.getCalcedFoodsByMeal("lunch"))
-
-
-            if(started)
-            {
-                statusViewAnimation()
-                mealCardAnimation("lunch")
-            }
-
-        })
-
-        foodViewModel.getDinnerEntries().observe( this, androidx.lifecycle.Observer
-        {
-            adapterDinner.submitList(foodViewModel.getCalcedFoodsByMeal("dinner"))
-
-
-            if(started)
-            {
-                statusViewAnimation()
-                mealCardAnimation("dinner")
-            }
-
-        })
-
-        foodViewModel.getSnackEntries().observe( this, androidx.lifecycle.Observer
-        {
-            adapterSnacks.submitList(foodViewModel.getCalcedFoodsByMeal("snack"))
-            if(started)
-                {
-                    statusViewAnimation()
-                    mealCardAnimation("snacks")
-                }
-
-
-        })*/
-
-        /*foodViewModel.getDate().observe( this, androidx.lifecycle.Observer
-        {
-
-
-                *//*try{
-                    foodViewModel.createEntryLists()
-
-
-                    mealCardAnimation("breakfast", 500)
-                    mealCardAnimation("lunch",500)
-                    mealCardAnimation("dinner",500)
-                    mealCardAnimation("snacks",500)
-                    started = true
-                } catch (e:Exception)
-                {
-                    Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - dailyObserver.getDate(): foodViewModel.createEntryLists() - $e")
-                }
-
-                try
-                {
-                    statusViewAnimation()
-                }catch (e:Exception)
-                {
-                    Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - dailyObserver.getDate(): statusViewAnimation() - $e")
-                }*//*
-
-
-
-
-
-
-        })*/
-
-
 
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Animationen...
     private fun statusViewAnimation()
     {
         var progressValues:ArrayList<Float> = arrayListOf(0f,0f,0f,0f)
@@ -510,8 +484,18 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                 }
             }
 
-
+            Log.d("Smeasy","FoodTrackerFragment - statusViewAnimation -  started = $started")
             statusAnim = AnimationStatusView(rootView.context,pbList,tvList,progressValues,maxValues)
+            statusAnim!!.setOnAnimationStatusViewListener(object: AnimationStatusView.OnAnimationStatusViewInitListener
+            {
+                override fun setOnAnimationStatusViewListener() {
+                    started = true
+                    Log.d("Smeasy","FoodTrackerFragment - statusViewAnimation - after Animation Listener:  started = $started")
+
+                }
+
+            })
+
         }
         else
         {
@@ -519,7 +503,6 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             statusAnim!!.animateNewValues(progressValues)
         }
     }
-
     private fun mealCardAnimation(meal:String, delay:Int = 100)
     {
 
@@ -550,6 +533,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Implementierte Methoden:
     override fun onClick(p0: View?) {
 
@@ -570,9 +554,22 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     }
 
 
+    // Teste:
+    override fun onPause() {
+        super.onPause()
+        started = false
+        Log.d("Smeasy","FoodTrackerFragment - onPause")
+    }
 
+    override fun onResume() {
+        super.onResume()
+        started = false
+        Log.d("Smeasy","FoodTrackerFragment - onResume")
+    }
 
-
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        started = false
+        Log.d("Smeasy","FoodTrackerFragment - onDestroyView")
+    }
 }

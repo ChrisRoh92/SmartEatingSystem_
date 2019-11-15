@@ -24,58 +24,67 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <RadioGroup
-                android:id="@+id/dialog_sorter_rbtn_group"
-                android:layout_width="0dp"
+            android:id="@+id/dialog_sorter_rbtn_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:checkedButton="@id/dialog_sorter_rbtn_standard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_sorter_btn_umkehren">
+
+            <RadioButton
+                android:id="@+id/dialog_sorter_rbtn_standard"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dialog_sorter_btn_umkehren">
+                android:checked="false"
+                android:paddingVertical="15dp"
+                android:text="Standard" />
 
             <RadioButton
-                    android:id="@+id/dialog_sorter_rbtn_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:paddingVertical="15dp"
-                    android:text="Name (A-Z)" />
+                android:id="@+id/dialog_sorter_rbtn_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:paddingVertical="15dp"
+                android:text="Name (A-Z)" />
 
             <RadioButton
-                    android:id="@+id/dialog_sorter_rbtn_gruppe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="15dp"
-                    android:text="Gruppe (A-Z)" />
+                android:id="@+id/dialog_sorter_rbtn_gruppe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:text="Gruppe (A-Z)" />
 
             <RadioButton
-                    android:id="@+id/dialog_sorter_rbtn_kcal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="15dp"
-                    android:text="Kalorien (Niedrigster zuerst)" />
+                android:id="@+id/dialog_sorter_rbtn_kcal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:text="Kalorien (Niedrigster zuerst)" />
 
             <RadioButton
-                    android:id="@+id/dialog_sorter_rbtn_carbs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="15dp"
-                    android:text="Kohlenhydrate (Niedrigster zuerst)" />
+                android:id="@+id/dialog_sorter_rbtn_carbs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:text="Kohlenhydrate (Niedrigster zuerst)" />
 
             <RadioButton
-                    android:id="@+id/dialog_sorter_rbtn_proteine"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="15dp"
-                    android:text="Protein (Niedrigster zuerst)" />
+                android:id="@+id/dialog_sorter_rbtn_proteine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:text="Protein (Niedrigster zuerst)" />
 
             <RadioButton
-                    android:id="@+id/dialog_sorter_rbtn_fett"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="15dp"
-                    android:text="Fett (Niedrigster zuerst)" />
+                android:id="@+id/dialog_sorter_rbtn_fett"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:text="Fett (Niedrigster zuerst)" />
         </RadioGroup>
 
         <Button

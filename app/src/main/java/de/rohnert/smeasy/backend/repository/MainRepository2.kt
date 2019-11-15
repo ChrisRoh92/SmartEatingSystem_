@@ -32,6 +32,22 @@ class MainRepository2(var application: Application)
         return foodRepository2.getLiveFoodList()
     }
 
+    suspend fun getFoodCategories():ArrayList<String>
+    {
+        var export:ArrayList<String> = ArrayList()
+        for(i in getAppFoodList())
+        {
+            if(!export.contains(i.category))
+            {
+                export.add(i.category)
+            }
+        }
+
+
+        return export
+
+    }
+
     suspend fun getFoodById(id:String):Food
     {
         return foodRepository2.getFoodByID(id)
