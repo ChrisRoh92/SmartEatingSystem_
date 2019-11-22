@@ -14,7 +14,7 @@ import com.example.roomdatabaseexample.backend.repository.subrepositories.food.F
 class MainRepository(var application: Application)
 {
 
-    // SubRepositories:
+    /*// SubRepositories:
     private var dailyRepository: DailyRepository =
         DailyRepository(
             application
@@ -191,5 +191,5 @@ class MainRepository(var application: Application)
     {
         return foodRepository.getNumberOfAppFoods()
     }
-
+*/
 }

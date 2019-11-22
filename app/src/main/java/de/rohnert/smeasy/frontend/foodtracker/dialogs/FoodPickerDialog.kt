@@ -163,6 +163,8 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
         tvSubTitle.text = food.category
 
 
+
+
         tvMenge.text = "${skMenge.progress} g / ${skMenge.max} g"
         // Diese Info muss aus dem ViewModel abgefragt werden...
         barKcal.max = restKcal
@@ -172,14 +174,23 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
 
 
 
-        barFett.progress = food.kcal.roundToInt()
+        /*barFett.progress = food.kcal.roundToInt()
         barCarbs.progress = food.carb.roundToInt()
         barProtein.progress = food.protein.roundToInt()
         barFett.progress = food.fett.roundToInt()
         tvKcal.text = "${food.kcal} Kcal / $restKcal Kcal"
         tvCarb.text = "${food.carb} g / $restCarbs g"
         tvProtein.text = "${food.protein} g / $restProtein g"
-        tvFett.text = "${food.fett} g / $restFett g"
+        tvFett.text = "${food.fett} g / $restFett g"*/
+
+        barFett.progress = 0
+        barCarbs.progress = 0
+        barProtein.progress = 0
+        barFett.progress = 0
+        tvKcal.text = ""
+        tvCarb.text = ""
+        tvProtein.text = ""
+        tvFett.text = ""
 
         var pbList:ArrayList<ProgressBar> = arrayListOf(barKcal,barCarbs,barProtein,barFett)
         var tvList:ArrayList<TextView> = arrayListOf(tvKcal,tvCarb,tvProtein,tvFett)
@@ -260,7 +271,17 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
 
     fun createInputDialog()
     {
-        var dialog = DialogSingleLineInput("Bitte die Menge in g/ml angeben","Manuelle Eingabe",context,InputType.TYPE_CLASS_NUMBER)
+        var unit = ""
+        if(food.unit.contains("g"))
+        {
+            unit = "g"
+        }
+        else
+        {
+            unit = "ml"
+        }
+
+        var dialog = DialogSingleLineInput("Bitte die Menge in $unit angeben","Manuelle Eingabe",context,InputType.TYPE_CLASS_NUMBER)
         dialog.onDialogClickListener(object : OnDialogListener {
             override fun onDialogClickListener(export: String) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

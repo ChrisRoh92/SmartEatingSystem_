@@ -7,18 +7,18 @@
                                                    android:layout_height="wrap_content">
 
     <TextView
-            android:id="@+id/mealcard_item_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Lebensmittel"
-            android:textColor="@color/textColor1"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/mealcard_item_group"
-            app:layout_constraintEnd_toStartOf="@+id/button_favorite"
-            app:layout_constraintStart_toEndOf="@+id/mealcard_item_fab"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/mealcard_item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Lebensmittel"
+        android:textColor="@color/textColor1"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/mealcard_item_group"
+        app:layout_constraintEnd_toStartOf="@+id/button_favorite"
+        app:layout_constraintStart_toEndOf="@+id/mealcard_item_fab"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/mealcard_item_group"
@@ -54,7 +54,7 @@
         android:id="@+id/mealcard_item_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:clickable="true"
         android:visibility="invisible"
         app:fabCustomSize="24dp"

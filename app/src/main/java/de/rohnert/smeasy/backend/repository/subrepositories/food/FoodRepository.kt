@@ -15,7 +15,7 @@ import com.example.roomdatabaseexample.backend.databases.food_database.userfood_
 
 class FoodRepository(var application: Application)
 {
-    private var appFoodDao:AppFoodDao
+   /* private var appFoodDao:AppFoodDao
     private var appFoodList:List<Food>
 
     private var userFoodDao:UserFoodDao
@@ -49,11 +49,11 @@ class FoodRepository(var application: Application)
     {
 
         var export:ArrayList<Food> = ArrayList(appFoodDao.getAllData())
-        /*var t = Thread(Runnable {
+        *//*var t = Thread(Runnable {
 
         })
         t.start()
-        t.join()*/
+        t.join()*//*
 
         export.addAll(ArrayList(userFoodList))
 
@@ -128,11 +128,11 @@ class FoodRepository(var application: Application)
         //var export:MutableLiveData<ArrayList<Food>> = MutableLiveData()
         var foods:ArrayList<Food> = getFoodList()
         var values:ArrayList<Food> = ArrayList()
-        /*var t = Thread(Runnable {
+        *//*var t = Thread(Runnable {
 
         })
         t.start()
-        t.join()*/
+        t.join()*//*
 
         if(item != "")
         {
@@ -258,6 +258,6 @@ class FoodRepository(var application: Application)
     fun getNumberOfAppFoods():Int
     {
         return appFoodDao.getNumberOfEntries()
-    }
+    }*/
 
 }

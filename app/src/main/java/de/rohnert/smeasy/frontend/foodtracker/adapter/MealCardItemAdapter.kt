@@ -31,7 +31,15 @@ class MealCardItemAdapter : ListAdapter<CalcedFood, MealCardItemAdapter.MealCard
         val currentCalcedFood = getItem(position)
         holder.tvName.text = currentCalcedFood.f.name
         holder.tvGroup.text = currentCalcedFood.f.category
-        holder.tvMenge.text = "${helper.getFloatAsFormattedString(currentCalcedFood.menge,"#")} g/ml"
+        if(currentCalcedFood.f.unit.contains("g"))
+        {
+            holder.tvMenge.text = "${helper.getFloatAsFormattedString(currentCalcedFood.menge,"#")} g"
+        }
+        else
+        {
+            holder.tvMenge.text = "${helper.getFloatAsFormattedString(currentCalcedFood.menge,"#")} ml"
+        }
+
         holder.tvKcal.text = "${helper.getFloatAsFormattedString(currentCalcedFood.values[0],"#")} kcal"
 
         holder.itemView.setOnLongClickListener {

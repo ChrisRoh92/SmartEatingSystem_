@@ -32,6 +32,21 @@ class Helper
         return formatted
     }
 
+    // LocalDate aus Date
+    fun getLocalDateFromDate(date:Date):LocalDate
+    {
+        var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        var localDate:LocalDate = LocalDate.parse(getStringFromDate(date),formatter)
+        return localDate
+
+    }
+
+    fun getDateFromLocalDate(localDate: LocalDate):Date
+    {
+        val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+        return date
+    }
+
     // Über diese Methode wird die Anzahl der Jahre zwischen zwei Datums zurückgegeben...
     fun getYearsBetweenDates(date1:Date,date2:Date):Int
     {

@@ -23,6 +23,9 @@
     <color name="bar_color_5">#7B1FA2</color>
     <color name="bar_color_6">#ae52d4</color>
 
+    <color name="premium_dark">#FFA000</color>
+    <color name="premium">#FFD600</color>
+
     <!--Archiv Farben-00CC00-->
     <color name="colorAccent2">#1DE9B6</color>
     <color name="colorAccent3">#8BC34A</color>

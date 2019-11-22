@@ -10,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
@@ -151,7 +153,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
 
 
         rv.addItemDecoration(
-            CustomDividerItemDecoration(RecyclerView.VERTICAL, rootView.context, 40)
+            CustomDividerItemDecoration(RecyclerView.VERTICAL, rootView.context, 56)
         )
 
         classicAdapter.setOnClickListener(object : ClassicFoodListAdapter.OnClickListener {
@@ -168,6 +170,12 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
 
         })
 
+        // Observer für die LiveDaten...
+        foodViewModel.getUpdatedFoodValue().observe(viewLifecycleOwner, Observer{
+            categories = foodViewModel.getFoodCategories()
+            filter.setNewFoodList()
+        })
+
 
     }
 
@@ -175,7 +183,8 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
     fun initFoodCreator() {
         btnAdd = rootView.findViewById(R.id.dialog_foodlist_btn)
         btnAdd.setOnClickListener {
-            //var dialog = FoodCreatorDialog(foodViewModel,rootView.context)
+            var dialog = FoodCreatorDialog(foodViewModel,rootView.context)
+            //Toast.makeText(rootView.context,"Funktion befindet sich noch im Aufbau...", Toast.LENGTH_SHORT).show()
 
 
         }
@@ -188,6 +197,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
             // handle back button naviagtion
             dismiss()
         }
+        toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.foodlist_menu)
 
         toolbar.setOnMenuItemClickListener(this)

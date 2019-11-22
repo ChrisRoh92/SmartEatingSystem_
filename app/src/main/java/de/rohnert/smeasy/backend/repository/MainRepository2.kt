@@ -16,26 +16,38 @@ import kotlinx.coroutines.launch
 class MainRepository2(var application: Application)
 {
     private var dailyRepository2:DailyRepository2 = DailyRepository2(application)
-    private var foodRepository2:FoodRepository2 = FoodRepository2(application)
+    private var foodRepository:FoodRepository2 = FoodRepository2(application)
     private var sharePrefs = SharedAppPreferences(application)
 
 
 
     // Methods from Food Repository2
+    // Allgemeine Methoden:
+    suspend fun getFoodList():ArrayList<Food>
+    {
+        var export:ArrayList<Food> = getAppFoodList()
+        if(!getUserFoodList().isNullOrEmpty())
+        {
+            export.addAll(getUserFoodList())
+        }
+        return export
+    }
+
+    // AppFood Stuff
     suspend fun getAppFoodList():ArrayList<Food>
     {
-        return foodRepository2.getAppFoodList()
+        return foodRepository.getAppFoodList()
     }
 
     suspend fun getLiveAppFoodList():LiveData<List<Food>>
     {
-        return foodRepository2.getLiveFoodList()
+        return foodRepository.getLiveFoodList()
     }
 
     suspend fun getFoodCategories():ArrayList<String>
     {
         var export:ArrayList<String> = ArrayList()
-        for(i in getAppFoodList())
+        for(i in getFoodList())
         {
             if(!export.contains(i.category))
             {
@@ -48,9 +60,9 @@ class MainRepository2(var application: Application)
 
     }
 
-    suspend fun getFoodById(id:String):Food
+    suspend fun getAppFoodById(id:String):Food
     {
-        return foodRepository2.getFoodByID(id)
+        return foodRepository.getAppFoodByID(id)
     }
 
     suspend fun insertCSVFoodList()
@@ -60,9 +72,34 @@ class MainRepository2(var application: Application)
         var importList:ArrayList<String> = handler.getAppFoodList()
         var csvList:ArrayList<Food> = ArrayList()
         for(i in importList)csvList.add(splitter.createFoodFromString(i))
-        foodRepository2.insertCSVFoodList(csvList)
+        foodRepository.insertCSVFoodList(csvList)
     }
 
+    // UserFood Stuff
+    suspend fun getUserFoodList():ArrayList<Food>
+    {
+        return foodRepository.getUserFoodList()
+    }
+
+    suspend fun addNewUserFood(newFood:Food)
+    {
+        foodRepository.addNewUserFood(newFood)
+    }
+
+    suspend fun updateUserFood(updatedFood:Food)
+    {
+        foodRepository.updateUserFood(updatedFood)
+    }
+
+    suspend fun deleteUserFood(food:Food)
+    {
+        foodRepository.deleteUserFood(food)
+    }
+
+    suspend fun getUserFoodById(id:String):Food
+    {
+        return foodRepository.getUserFoodByID(id)
+    }
 
 
 

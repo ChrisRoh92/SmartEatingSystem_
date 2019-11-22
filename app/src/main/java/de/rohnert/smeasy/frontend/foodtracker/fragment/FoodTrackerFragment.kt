@@ -6,15 +6,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -34,10 +32,7 @@ import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smeasy.frontend.foodtracker.adapter.MealCardItemAdapter
 import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationStatusView
-import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogDatePicker
-import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogFragmentFoodList
-import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogMealEntry
-import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogMealList
+import de.rohnert.smeasy.frontend.foodtracker.dialogs.*
 import de.rohnert.smeasy.helper.others.WrapContentLinearLayoutManager
 import java.lang.Exception
 import java.util.*
@@ -119,6 +114,9 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         rootView = inflater.inflate(R.layout.fragment_foodtracker, container, false)
 
 
+
+
+
         sharePrefs = SharedAppPreferences(rootView.context)
         if(!sharePrefs.appInitalStart)
         {
@@ -143,6 +141,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             initMealCards()
             initStatusViewObjects()
             initViewModelObserver()
+            initToolbar()
 
 
         },150)
@@ -268,6 +267,14 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                 }
 
             })
+
+            i.setOnClickListener(object: MealCardItemAdapter.OnClickListener{
+                override fun setOnClickListener(calcedFood: CalcedFood, position: Int) {
+                    //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    Toast.makeText(rootView.context,"${calcedFood.f.name} mit ${calcedFood.values[2]} g Protein",Toast.LENGTH_SHORT).show()
+                }
+
+            })
         }
 
 
@@ -299,6 +306,25 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
         tvAim = rootView.findViewById(R.id.fragment_foodtracker_tv_aim)
         tvAimProgress = rootView.findViewById(R.id.fragment_foodtracker_tv_aim_progress)
+    }
+
+    // Toolbar:
+    private fun initToolbar()
+    {
+        // Access to Toolbar.
+        var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.inflateMenu(R.menu.menu_foodtracker)
+        toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener{
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                if(item!!.itemId == R.id.menu_foodtracker_weekreport)
+                {
+                    var dialog = DialogFragmentWeekReport(foodViewModel)
+                    dialog.show(fragmentManager!!,"WeekReport")
+                }
+                return true
+            }
+
+        })
     }
 
 

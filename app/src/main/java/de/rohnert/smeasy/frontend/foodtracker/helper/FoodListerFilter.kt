@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2)
 {
     // Default Operators.
-    private var foodlist:ArrayList<Food> = foodViewModel.getLocalFoodList()
+    private var foodlist:ArrayList<Food> = foodViewModel.getFoodList()
     private var categories:ArrayList<String> = foodViewModel.getFoodCategories()
     private var allowedFood:Boolean = false
     private var userFood:Boolean = false
@@ -184,6 +184,14 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2)
     {
         sortingItem = item
         this.up = up
+        callInterFace()
+    }
+
+    // Neue LebensmittelListe abrufen...
+    fun setNewFoodList()
+    {
+        foodlist = foodViewModel.getFoodList()
+        categories = foodViewModel.getFoodCategories()
         callInterFace()
     }
 

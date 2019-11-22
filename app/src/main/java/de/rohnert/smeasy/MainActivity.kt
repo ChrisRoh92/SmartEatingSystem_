@@ -1,8 +1,6 @@
 package de.rohnert.smeasy
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -44,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        fragments = setOf(R.id.nav_foodtracker,R.id.nav_bodytracker,R.id.nav_statistics,R.id.nav_share,R.id.nav_help,R.id.nav_premium)
+        fragments = setOf(R.id.nav_foodtracker,R.id.nav_bodytracker,R.id.nav_statistics,R.id.nav_setting,R.id.nav_share,R.id.nav_help,R.id.nav_premium)
         appBarConfiguration = AppBarConfiguration(fragments,drawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+        //menuInflater.inflate(R.menu.main, menu)
         return true
     }
 

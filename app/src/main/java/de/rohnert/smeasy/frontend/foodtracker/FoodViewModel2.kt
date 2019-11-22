@@ -26,27 +26,36 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     //Allgemeines:
     private var helper = Helper()
     private var repository = MainRepository2(application)
+    // Prozessoren...
     private var dailyProcess = DailyProcessor(application)
     private var foodProcessor = FoodProcessor(application)
+    // Zentraler Zugriff auf Einstellungen...
     private var sharePrefs = SharedAppPreferences(application)
 
 
     var date:String = helper.getStringFromDate(helper.getCurrentDate())
-    //private var lDate:MutableLiveData<String> = MutableLiveData()
+
+
+
+    // FoodLists:
+    //private lateinit  var appFoodList:LiveData<List<Food>>
+    private lateinit var localAppFoodList:ArrayList<Food>
+    private lateinit var localUserFoodList:ArrayList<Food>
+    private lateinit var localFoodList:ArrayList<Food>
+    private lateinit var localFoodCategories:ArrayList<String>
+
+    // Daily:
+    private lateinit var localDaily:Daily
+
+    // LiveDatas...
+    // LiveDate, wenn ein neues UserFood eingetragen/verändert/gelöscht wird...
+    private var updatedFoodList:MutableLiveData<Int> = MutableLiveData()
     // Daily-Stuff
     private lateinit var daily:LiveData<Daily>
     private var breakfastList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
     private var lunchList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
     private var dinnerList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
     private var snackList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
-
-    // FoodLists:
-    //private lateinit  var appFoodList:LiveData<List<Food>>
-    private lateinit var localAppFoodList:ArrayList<Food>
-    private lateinit var localFoodCategories:ArrayList<String>
-
-    // Daily:
-    private lateinit var localDaily:Daily
 
 
 
@@ -106,6 +115,9 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private suspend fun setFoodList()
     {
         localAppFoodList = repository.getAppFoodList()
+        localUserFoodList = repository.getUserFoodList()
+        localFoodList = localAppFoodList
+        localFoodList.addAll(localUserFoodList)
         localFoodCategories = repository.getFoodCategories()
         // UserFood einbinden...
     }
@@ -167,7 +179,15 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         var food:Food? = null
         withContext(IO)
         {
-            food = repository.getFoodById(id)
+            if(id.contains("a"))
+            {
+                food = repository.getAppFoodById(id)
+            }
+            else
+            {
+                food = repository.getUserFoodById(id)
+            }
+
         }
         return food
 
@@ -343,7 +363,6 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         return export
     }
 
-
     fun getCalcedFoodsByMeal(meal:String):ArrayList<CalcedFood>
     {
         var calcedFoodList:ArrayList<CalcedFood> = ArrayList()
@@ -421,7 +440,56 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         export.add(localDaily.maxFett)
         return export
     }
-///////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // FoodList Operations.
+    fun addNewFood(category:String,name:String,unit:String,kcal:Float,carb:Float,protein:Float,fett:Float,ean:String = "")
+    {
+        CoroutineScope(IO).launch {
+            var newID = foodProcessor.getNextUserFoodList(repository.getUserFoodList())
+            var food = Food(newID,category,name,unit,kcal,carb,protein,fett,ean)
+            repository.addNewUserFood(food)
+            withContext(Main)
+            {
+                runBlocking {
+                    setFoodList()
+                    setFoodListUpdater()
+                }
+            }
+        }
+    }
+
+    fun updateUserFood(newFood:Food)
+    {
+        CoroutineScope(IO).launch {
+            repository.updateUserFood(newFood)
+            withContext(Main)
+            {
+                runBlocking {
+                    setFoodList()
+                    setFoodListUpdater()
+                }
+            }
+        }
+    }
+
+    // Methode wird aufgerufen, wenn sich wegen der UserFoods etwas ändert...
+    fun setFoodListUpdater()
+    {
+        if(updatedFoodList.value != 1)
+        {
+            updatedFoodList.value = 1
+        }
+        else
+        {
+            updatedFoodList.value = 1
+        }
+    }
+
+
+
+
 
 
 
@@ -452,29 +520,59 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         return snackList!!
     }
 
-    /*fun getFoodList():LiveData<List<Food>>
-    {
-        return appFoodList
-    }*/
 
+
+
+    // Getters for FoodLists...
     fun getLocalFoodList():ArrayList<Food>
     {
         return localAppFoodList
+    }
+
+    fun getLocalUserFoodList():ArrayList<Food>
+    {
+        return localUserFoodList
+    }
+
+    fun getFoodList():ArrayList<Food>
+    {
+        return localFoodList
     }
 
     fun getFoodCategories():ArrayList<String>
     {
         return localFoodCategories
     }
-    /*fun getDate():LiveData<String>
+
+    fun getUpdatedFoodValue():LiveData<Int>
     {
-        return lDate
-    }*/
+        return updatedFoodList
+    }
 
 
 
 
 
+    // Methoden für WeekReportCreator:
+    fun getDailyByDate(date:String):Daily?
+    {
+        var daily:Daily? = null
+        runBlocking {
+            daily = repository.getDailyByDate(date)
+        }
+
+        return daily!!
+
+    }
+
+    fun getFoodById(id:String):Food
+    {
+        var food:Food? = null
+        runBlocking {
+            food = getAppFoodById(id)
+        }
+        return food!!
+    }
 
 
 

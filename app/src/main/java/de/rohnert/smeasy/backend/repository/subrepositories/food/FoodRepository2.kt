@@ -3,6 +3,8 @@ package de.rohnert.smeasy.backend.repository.subrepositories.food
 import android.app.Application
 import androidx.lifecycle.LiveData
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import com.example.roomdatabaseexample.backend.databases.food_database.userfood_database.UserFoodDao
+import com.example.roomdatabaseexample.backend.databases.food_database.userfood_database.UserFoodDataBaseProvider
 import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smeasy.backend.databases.food_database.appfood_database.AppFoodDao2
 import de.rohnert.smeasy.backend.databases.food_database.appfood_database.AppFoodDataBaseProvider2
@@ -12,14 +14,20 @@ class FoodRepository2(var application: Application)
     private var appFoodDao2: AppFoodDao2
     private var foodProcessor:FoodProcessor = FoodProcessor(application)
 
+    // userfood stuff:
+    private var userFoodDao:UserFoodDao
+
     init {
         var appDB = AppFoodDataBaseProvider2.getDatabase(application)
         appFoodDao2 = appDB.appFoodDao2()
-        foodProcessor
+
+        var userDB = UserFoodDataBaseProvider.getDatabase(application)
+        userFoodDao = userDB.userFoodDao()
 
     }
 
 
+    // AppFood Stuff
     suspend fun getAppFoodList():ArrayList<Food>
     {
         return ArrayList(appFoodDao2.getAppFoodData())
@@ -35,9 +43,37 @@ class FoodRepository2(var application: Application)
         appFoodDao2.insertAll(list)
     }
 
-    suspend fun getFoodByID(id:String):Food
+    suspend fun getAppFoodByID(id:String):Food
     {
         return appFoodDao2.getDataById(id)
+    }
+
+
+
+    // UserFood Stuff
+    suspend fun getUserFoodList():ArrayList<Food>
+    {
+        return ArrayList(userFoodDao.getUserFoodData())
+    }
+
+    suspend fun addNewUserFood(newFood:Food)
+    {
+        userFoodDao.insert(newFood)
+    }
+
+    suspend fun updateUserFood(updatedFood:Food)
+    {
+        userFoodDao.update(updatedFood)
+    }
+
+    suspend fun deleteUserFood(food:Food)
+    {
+        userFoodDao.removeFood(food)
+    }
+
+    suspend fun getUserFoodByID(id:String):Food
+    {
+        return userFoodDao.getDataById(id)
     }
 
 
