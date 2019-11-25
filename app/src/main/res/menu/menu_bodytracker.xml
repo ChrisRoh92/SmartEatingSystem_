@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_foodtracker_weekreport"
+        android:id="@+id/menu_bodytracker_report"
         android:title="Bericht"
-        app:showAsAction="always|withText" />
+        app:showAsAction="always" />
 </menu>

@@ -87,6 +87,11 @@ class AnimationStatusView(var context: Context,
 
     }
 
+    fun setNewMaxValues(values:ArrayList<Float>)
+    {
+        this.maxValues = values
+    }
+
 
     // Animationen initial erstellen...
     private fun createInitProgessBarAnimatorList():List<ValueAnimator>

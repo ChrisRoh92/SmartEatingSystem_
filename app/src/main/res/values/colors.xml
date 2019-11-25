@@ -10,6 +10,7 @@
 
     <color name="backgroundLight2">#F5F5F5</color>
     <color name="background">#102027</color>
+    <color name="backgroundDivider">#182E37</color>
     <color name="backgroundLight">#CFD8DC</color>
 
 

@@ -5,7 +5,7 @@ import android.app.Application
 import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.SharedPreferences
-
+import kotlin.math.roundToInt
 
 
 class SharedAppPreferences(var context: Context)
@@ -21,10 +21,24 @@ class SharedAppPreferences(var context: Context)
     var maxCarb:Float
     var maxProtein:Float
     var maxFett:Float
+    var maxCarbValue:Float = 0f
+    var maxProteinValue:Float = 0f
+    var maxFettValue:Float = 0f
     // User Data:
     var userName:String
+    var userHeight:Float
     var sex:String
     var bday:String
+
+    // Andere BodySettings:
+    var aim:String
+    var weightAim:Float
+    var bmiAim:Float
+    var kfaAim:Float
+    var bauchAim:Float
+    var brustAim:Float
+    var halsAim:Float
+    var huefteAim:Float
 
     // Werte für FoodListFilter:
     var maxAllowedKcal:Float
@@ -38,9 +52,22 @@ class SharedAppPreferences(var context: Context)
         maxProtein = sharedPref.getFloat("maxProtein",0f)
         maxFett = sharedPref.getFloat("maxFett",0f)
 
+        initMaxValues()
+
+        aim = sharedPref.getString("aim","Abnehmen")!!
+
+        weightAim = sharedPref.getFloat("weightAim",0f)!!
+        bmiAim = sharedPref.getFloat("bmiAim",0f)
+        kfaAim = sharedPref.getFloat("kfaAim",0f)!!
+        bauchAim = sharedPref.getFloat("bauchAim",0f)!!
+        brustAim = sharedPref.getFloat("brustAim",0f)!!
+        halsAim = sharedPref.getFloat("halsAim",0f)!!
+        huefteAim = sharedPref.getFloat("huefteAim",0f)!!
+
 
 
         userName = sharedPref.getString("userName","")!!
+        userHeight = sharedPref.getFloat("userHeight",1.8f)!!
         sex = sharedPref.getString("sex","")!!
         bday = sharedPref.getString("bday","")!!
 
@@ -48,6 +75,13 @@ class SharedAppPreferences(var context: Context)
 
         appInitalStart = sharedPref.getBoolean("appInitalStart",false)
 
+    }
+
+    private fun initMaxValues()
+    {
+        maxCarbValue = (((maxCarb/100f)*maxKcal)/4.1f).roundToInt().toFloat()
+        maxProteinValue = (((maxProtein/100f)*maxKcal)/4.1f).roundToInt().toFloat()
+        maxFettValue = (((maxFett/100f)*maxKcal)/9.2f).roundToInt().toFloat()
     }
 
     fun setNewAppInitialStart(value:Boolean)
@@ -61,6 +95,7 @@ class SharedAppPreferences(var context: Context)
     {
         maxKcal = value
         saveFloat(value,"maxKcal")
+        initMaxValues()
 
 
     }
@@ -69,6 +104,7 @@ class SharedAppPreferences(var context: Context)
     {
         maxCarb = value
         saveFloat(value,"maxCarb")
+        initMaxValues()
 
 
     }
@@ -77,6 +113,7 @@ class SharedAppPreferences(var context: Context)
     {
         maxProtein = value
         saveFloat(value,"maxProtein")
+        initMaxValues()
 
 
     }
@@ -85,6 +122,7 @@ class SharedAppPreferences(var context: Context)
     {
         maxFett = value
         saveFloat(value,"maxFett")
+        initMaxValues()
 
 
     }
@@ -97,10 +135,67 @@ class SharedAppPreferences(var context: Context)
 
     }
 
+    fun setNewAim(value:String)
+    {
+        aim = value
+        saveString(aim,"aim")
+    }
+
+    fun setNewBmiAim()
+    {
+        bmiAim = weightAim/(userHeight*userHeight)
+        saveFloat(bmiAim,"bmiAim")
+    }
+
+    fun setNewWeightAim(value:Float)
+    {
+        weightAim = value
+        saveFloat(value,"weightAim")
+    }
+
+    fun setNewKfaAim(value:Float)
+    {
+        kfaAim = value
+        saveFloat(value,"kfaAim")
+    }
+
+    fun setNewBauchAim(value:Float)
+    {
+        bauchAim = value
+        saveFloat(value,"bauchAim")
+    }
+
+    fun setNewBrustAim(value:Float)
+    {
+        brustAim = value
+        saveFloat(value,"brustAim")
+    }
+
+    fun setNewHalsAim(value:Float)
+    {
+        halsAim = value
+        saveFloat(value,"halsAim")
+    }
+
+    fun setNewHueftAim(value:Float)
+    {
+        huefteAim = value
+        saveFloat(value,"huefteAim")
+    }
+
+
+
+
     fun setNewUserName(value:String)
     {
         userName = value
         saveString(value,"userName")
+    }
+
+    fun setNewUserHeight(value:Float)
+    {
+        userHeight = value
+        saveFloat(userHeight,"userHeight")
     }
 
     fun setNewSex(value:String)

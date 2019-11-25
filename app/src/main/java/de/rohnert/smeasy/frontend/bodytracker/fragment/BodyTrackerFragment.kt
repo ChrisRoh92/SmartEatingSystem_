@@ -3,8 +3,10 @@ package de.rohnert.smeasy.frontend.bodytracker.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -12,6 +14,7 @@ import com.google.android.material.tabs.TabLayout
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.frontend.bodytracker.adapter.BodyTrackerPagerAdapter
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
+import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogFragmentWeekReport
 
 class BodyTrackerFragment: Fragment() {
 
@@ -31,8 +34,28 @@ class BodyTrackerFragment: Fragment() {
 
         //
         initViewPager()
+        initToolbar()
 
         return rootView
+    }
+
+    // Toolbar:
+    private fun initToolbar()
+    {
+        // Access to Toolbar.
+        var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.menu_bodytracker)
+        toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener{
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                if(item!!.itemId == R.id.menu_bodytracker_report)
+                {
+
+                }
+                return true
+            }
+
+        })
     }
 
     private fun initViewPager()

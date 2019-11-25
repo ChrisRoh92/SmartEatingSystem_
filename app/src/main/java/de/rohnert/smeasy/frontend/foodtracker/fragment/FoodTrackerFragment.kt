@@ -313,6 +313,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     {
         // Access to Toolbar.
         var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.menu_foodtracker)
         toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener{
             override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -526,7 +527,10 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         else
         {
             // hier werden updates gestartet.
+            var maxValues = foodViewModel.getDailyMaxValues()
+            statusAnim!!.setNewMaxValues(maxValues)
             statusAnim!!.animateNewValues(progressValues)
+            // Die Max Werte müssen noch angepasst werden...
         }
     }
     private fun mealCardAnimation(meal:String, delay:Int = 100)

@@ -27,6 +27,7 @@ import de.rohnert.smeasy.R
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import de.rohnert.smeasy.frontend.bodytracker.adapter.BodyEntryRecyclerViewAdapter
 import de.rohnert.smeasy.frontend.bodytracker.animations.BodyEntryStatusViewAnimator
+import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogNewBodyEntry
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
 
 class BodyEntryFragment: Fragment() {
@@ -73,7 +74,9 @@ class BodyEntryFragment: Fragment() {
         /*initRecyclerView()*/
         Handler().postDelayed({
             initStatusView()
-            var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Funktion befindet sich zum Teil noch im Aufbau...",
+            initRecyclerView()
+            startStatusViewAnimation()
+            /*var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Funktion befindet sich zum Teil noch im Aufbau...",
                 Snackbar.LENGTH_LONG)
             var snackView = snackbar.view
             var snackTv:TextView = snackView!!.findViewById(com.google.android.material.R.id.snackbar_text)
@@ -82,13 +85,15 @@ class BodyEntryFragment: Fragment() {
             } else {
                 snackTv.gravity = Gravity.CENTER_HORIZONTAL
             }
-            snackbar.show()
+            snackbar.show()*/
 
         },100)
 
 
         return rootView
     }
+
+
 
 
 
@@ -115,7 +120,7 @@ class BodyEntryFragment: Fragment() {
 
         btnAdd = rootView.findViewById(R.id.bodyentry_btn_add)
         btnAdd.setOnClickListener {
-            Toast.makeText(rootView.context,"Funktion befindet sich noch im Aufbau...",Toast.LENGTH_SHORT).show()
+            var dialog = DialogNewBodyEntry(rootView.context,fragmentManager!!,bodyViewModel)
         }
 
 
@@ -134,7 +139,7 @@ class BodyEntryFragment: Fragment() {
         tvKfa = rootView.findViewById(R.id.bodyentry_tv_kfa)
         tvBMI = rootView.findViewById(R.id.bodyentry_tv_bmi)
 
-        startCardViewAnimation()
+        //startCardViewAnimation()
 
 
     }

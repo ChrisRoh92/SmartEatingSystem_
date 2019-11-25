@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView103"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Nährwerte Einstellen"
+                android:textColor="@color/textColor1"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView104"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stelle hier die Menge und die Zusammenstellung deiner Nährwerte ein."
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/textView103"
+                app:layout_constraintTop_toBottomOf="@+id/textView103" />
+
+            <View
+                android:id="@+id/divider30"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView104" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dialog_bodysettings_nutrition_et_kcal"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/dialog_bodysettings_nutrition_btn_auto"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider30">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tägliche Kalorien"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/dialog_bodysettings_nutrition_btn_auto"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Auto"
+                app:layout_constraintBottom_toBottomOf="@+id/dialog_bodysettings_nutrition_et_kcal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/dialog_bodysettings_nutrition_et_kcal" />
+
+            <View
+                android:id="@+id/divider31"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_btn_auto" />
+
+            <SeekBar
+                android:id="@+id/dialog_bodysettings_nutrition_sk_carb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="20"
+                android:progress="5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_tv_carb_percent" />
+
+            <TextView
+                android:id="@+id/textView114"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Kohlenhydrate"
+                android:textColor="@color/textColor1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/dialog_bodysettings_nutrition_sk_carb"
+                app:layout_constraintStart_toStartOf="@+id/dialog_bodysettings_nutrition_sk_carb"
+                app:layout_constraintTop_toBottomOf="@+id/divider31" />
+
+            <TextView
+                android:id="@+id/textView116"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="0%"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="@+id/dialog_bodysettings_nutrition_sk_carb"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_carb" />
+
+            <TextView
+                android:id="@+id/textView117"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="100%"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/dialog_bodysettings_nutrition_sk_carb"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_carb" />
+
+            <TextView
+                android:id="@+id/dialog_bodysettings_nutrition_tv_carbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="125g"
+                android:textColor="@color/textColor1"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/dialog_bodysettings_nutrition_sk_carb"
+                app:layout_constraintStart_toStartOf="@+id/dialog_bodysettings_nutrition_sk_carb"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_carb" />
+
+            <TextView
+                android:id="@+id/dialog_bodysettings_nutrition_tv_carb_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25 %"
+                app:layout_constraintEnd_toEndOf="@+id/textView114"
+                app:layout_constraintStart_toStartOf="@+id/textView114"
+                app:layout_constraintTop_toBottomOf="@+id/textView114" />
+
+            <TextView
+                android:id="@+id/textView120"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Protein"
+                android:textColor="@color/textColor1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_tv_carbs" />
+
+            <TextView
+                android:id="@+id/dialog_bodysettings_nutrition_tv_protein_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50%"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView120" />
+
+            <SeekBar
+                android:id="@+id/dialog_bodysettings_nutrition_sk_protein"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="20"
+                android:progress="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_tv_protein_percent" />
+
+            <TextView
+                android:id="@+id/textView122"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="0%"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="@+id/dialog_bodysettings_nutrition_sk_protein"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_protein" />
+
+            <TextView
+                android:id="@+id/textView123"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="100%"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/dialog_bodysettings_nutrition_sk_protein"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_protein" />
+
+            <TextView
+                android:id="@+id/dialog_bodysettings_nutrition_tv_protein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="175g"
+                android:textColor="@color/textColor1"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_protein" />
+
+            <TextView
+                android:id="@+id/textView105"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Fett"
+                android:textColor="@color/textColor1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_tv_protein" />
+
+            <TextView
+                android:id="@+id/dialog_bodysettings_nutrition_tv_fett_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25%"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView105" />
+
+            <SeekBar
+                android:id="@+id/dialog_bodysettings_nutrition_sk_fett"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="20"
+                android:progress="5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_tv_fett_percent" />
+
+            <TextView
+                android:id="@+id/textView107"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="0%"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_fett" />
+
+            <TextView
+                android:id="@+id/dialog_bodysettings_nutrition_tv_fett"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50g"
+                android:textColor="@color/textColor1"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_fett" />
+
+            <TextView
+                android:id="@+id/textView109"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="100%"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_sk_fett" />
+
+            <View
+                android:id="@+id/divider32"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_bodysettings_nutrition_tv_fett" />
+
+            <Button
+                android:id="@+id/dialog_bodysettings_nutrition_btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Speichern"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider32" />
+
+            <Button
+                android:id="@+id/dialog_bodysettings_nutrition_btn_abort"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Abbrechen"
+                app:layout_constraintBottom_toBottomOf="@+id/dialog_bodysettings_nutrition_btn_save"
+                app:layout_constraintEnd_toStartOf="@+id/dialog_bodysettings_nutrition_btn_save"
+                app:layout_constraintTop_toTopOf="@+id/dialog_bodysettings_nutrition_btn_save" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.cardview.widget.CardView>

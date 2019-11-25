@@ -7,11 +7,13 @@ import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.
 import de.rohnert.smeasy.backend.databases.daily_database.DailyDao2
 import de.rohnert.smeasy.backend.databases.daily_database.DailyDataBase2
 import de.rohnert.smeasy.backend.databases.daily_database.DailyDataBaseProvider2
+import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 
 class DailyRepository2(var application: Application)
 {
     private var dailyDao2: DailyDao2
     private var dailyProcessor: DailyProcessor
+    private var prefs = SharedAppPreferences(application)
 
     init {
         var db = DailyDataBaseProvider2.getDatabase(application)
@@ -29,7 +31,7 @@ class DailyRepository2(var application: Application)
         else
         {
             var daily = Daily(date, ArrayList(), ArrayList(), ArrayList(),
-                ArrayList(),2500f,150f,200f,50f
+                ArrayList(),prefs.maxKcal,prefs.maxCarb,prefs.maxProtein,prefs.maxFett
             )
             addNewDaily(daily)
             return dailyDao2.getOffLineDailyByDate(date)

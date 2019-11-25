@@ -101,6 +101,8 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
 
         initToolBar()
         initViewElements()
+        initCharts()
+
 
 
 
@@ -112,7 +114,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
                 toolbar.subtitle = "${reporter.getFirstDay()} - ${reporter.getLastDay()} "
                 initContent()
                 initRecyclerView()
-                initCharts()
+                updateChartContent()
 
                 initAnimation()
             }
@@ -226,8 +228,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         var alpha = PropertyValuesHolder.ofFloat(View.ALPHA,0f,1f)
         var scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X,0f,1f)
         var scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y,0f,1f)
-        var views:ArrayList<View> = arrayListOf(chart)
-
+        var views:ArrayList<View> = ArrayList()
         views.addAll(titleTextList)
         views.addAll(subTitleTextList)
 
@@ -253,8 +254,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         var alpha = PropertyValuesHolder.ofFloat(View.ALPHA,1f,0f)
         var scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X,1f,0f)
         var scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y,1f,0f)
-        var views:ArrayList<View> = arrayListOf(chart)
-
+        var views:ArrayList<View> = ArrayList()
         views.addAll(titleTextList)
         views.addAll(subTitleTextList)
 
@@ -282,7 +282,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
                 toolbar.subtitle = "${reporter.getFirstDay()} - ${reporter.getLastDay()} "
                 initContent()
                 initRecyclerView()
-                initCharts()
+                updateChartContent()
                 initAnimation(200)
             }
 
@@ -303,12 +303,12 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
     {
 
         var dataSetList:ArrayList<LineDataSet> = ArrayList()
-        for((index,i) in reporter.getChartValues().withIndex())
+        for(i in 0..3)
         {
             var entries:ArrayList<Entry> = ArrayList()
             for(j in 0..6)
             {
-                entries.add(Entry(j.toFloat(),i[j]))
+                entries.add(Entry(j.toFloat(),0f))
 
             }
             dataSetList.add(LineDataSet(entries,""))
@@ -420,10 +420,76 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         yAxisLeft.axisMinimum = 0f
         yAxisRight.axisMinimum = 0f
 
+
+        yAxisLeft.axisMaximum = 1000f
+        yAxisRight.axisMaximum = 100f
+
         chart.extraBottomOffset = 10f
         chart.invalidate()
 
     }
+
+    private fun updateChartContent()
+    {
+        var dataSetList:ArrayList<LineDataSet> = ArrayList()
+        for(i in reporter.getChartValues())
+        {
+            var entries:ArrayList<Entry> = ArrayList()
+            for(j in 0..6)
+            {
+                entries.add(Entry(j.toFloat(),i[j]))
+
+            }
+            dataSetList.add(LineDataSet(entries,""))
+        }
+
+        var colors = arrayListOf(
+            ContextCompat.getColor(rootView.context,R.color.colorPrimary),
+            ContextCompat.getColor(rootView.context,R.color.bar_color_1),
+            ContextCompat.getColor(rootView.context,R.color.bar_color_2),
+            ContextCompat.getColor(rootView.context,R.color.textColor1))
+        var labels = arrayListOf("Kalorien","Kohlenhydrate","Protein","Fett")
+
+        // Settings für die Entries
+        for((index,i) in dataSetList.withIndex())
+        {
+            i.label = labels[index]
+            i.color = colors[index]
+            i.valueFormatter = MyValueFormatter()
+            i.setDrawFilled(false)
+            i.fillColor = colors[index]
+            i.fillAlpha = 50
+            //i.mode = LineDataSet.Mode.CUBIC_BEZIER
+            i.setDrawCircles(true)
+            i.circleRadius = 3f
+            i.circleHoleRadius = 0f
+            i.setCircleColor(colors[index])
+            i.lineWidth = 3f
+            if(index == 0) i.axisDependency = YAxis.AxisDependency.LEFT
+            else i.axisDependency = YAxis.AxisDependency.RIGHT
+
+        }
+
+        var dataSets:ArrayList<ILineDataSet> = ArrayList()
+        for(i in dataSetList) dataSets.add(i)
+        var data = LineData(dataSets)
+        data.setValueFormatter(MyValueFormatter())
+        data.setDrawValues(false)
+
+        var yAxisLeft = chart.axisLeft
+        var yAxisRight = chart.axisRight
+        yAxisRight.resetAxisMaximum()
+        yAxisLeft.resetAxisMaximum()
+
+        chart.clearValues()
+        chart.data = data
+        chart.animateY(500)
+
+
+        chart.invalidate()
+
+    }
+
 
     /*private fun initBarChars()
     {

@@ -110,6 +110,38 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private suspend fun setLocalDaily()
     {
         localDaily = repository.getDailyByDate(date)
+        if(helper.isDateInFuture(helper.getDateFromString(date)))
+        {
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - true")
+
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal - ${localDaily.maxKcal}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal - ${localDaily.maxCarb}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal - ${localDaily.maxProtein}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal - ${localDaily.maxFett}")
+            if(localDaily.maxKcal != sharePrefs.maxKcal)
+            {
+                localDaily.maxKcal = sharePrefs.maxKcal
+            }
+            else if(localDaily.maxCarb != sharePrefs.maxCarbValue)
+            {
+                localDaily.maxCarb = sharePrefs.maxCarbValue
+            }
+            else if(localDaily.maxProtein != sharePrefs.maxProteinValue)
+            {
+                localDaily.maxProtein = sharePrefs.maxProteinValue
+            }
+            else if(localDaily.maxFett != sharePrefs.maxFettValue)
+            {
+                localDaily.maxFett = sharePrefs.maxFettValue
+            }
+            updateDaily(localDaily)
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal after - ${localDaily.maxKcal}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal after - ${localDaily.maxCarb}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal after - ${localDaily.maxProtein}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal after - ${localDaily.maxFett}")
+        }
+
+        Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - false")
     }
 
     private suspend fun setFoodList()
@@ -434,10 +466,30 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     fun getDailyMaxValues():ArrayList<Float>
     {
         var export:ArrayList<Float> = ArrayList()
-        export.add(localDaily.maxKcal)
-        export.add(localDaily.maxCarb)
-        export.add(localDaily.maxProtein)
-        export.add(localDaily.maxFett)
+        if(localDaily.date == date)
+        {
+            export.add(localDaily.maxKcal)
+            export.add(localDaily.maxCarb)
+            export.add(localDaily.maxProtein)
+            export.add(localDaily.maxFett)
+        }
+        else
+        {
+            runBlocking {
+                export.add(localDaily.maxKcal)
+                export.add(localDaily.maxCarb)
+                export.add(localDaily.maxProtein)
+                export.add(localDaily.maxFett)
+            }
+        }
+        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - date - ${date}")
+        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.date - ${localDaily.date}")
+        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxKcal}")
+        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxCarb}")
+        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxProtein}")
+        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxFett}")
+
+
         return export
     }
     ///////////////////////////////////////////////////////////////////////////////////////////

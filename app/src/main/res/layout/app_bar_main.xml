@@ -17,7 +17,7 @@
             android:layout_height="?attr/actionBarSize"
 
             app:popupTheme="@style/AppTheme.PopupOverlay"
-
+            app:elevation="2dp"
             android:elevation="2dp"
             android:background="@android:color/background_light"/>
 

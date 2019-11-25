@@ -17,7 +17,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         var export:ArrayList<Body> = ArrayList()
         for(i in 1..10)
         {
-            var body = Body("${i*2}.11.2019",100f*((100-2*i)/100f))
+            var body = Body("${i*2}.11.2019",100f*((100-2*i)/100f),25f,90f,90f,90f,90f,"")
             export.add(body)
         }
         return ArrayList(export.asReversed())
