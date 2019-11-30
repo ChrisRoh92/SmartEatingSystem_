@@ -67,7 +67,7 @@
             android:adjustViewBounds="true"
             android:cropToPadding="true"
             android:minHeight="250dp"
-            android:scaleType="@null"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@+id/dialog_capturephoto_btn_capture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

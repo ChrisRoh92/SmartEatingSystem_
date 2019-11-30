@@ -332,7 +332,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
             i.setDrawFilled(false)
             i.fillColor = colors[index]
             i.fillAlpha = 50
-            //i.mode = LineDataSet.Mode.CUBIC_BEZIER
+            i.mode = LineDataSet.Mode.CUBIC_BEZIER
             i.setDrawCircles(true)
             i.circleRadius = 3f
             i.circleHoleRadius = 0f
@@ -403,7 +403,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
 
         var xAxis = chart.xAxis
         xAxis.setDrawAxisLine(true)
-        xAxis.setDrawGridLines(true)
+        xAxis.setDrawGridLines(false)
         xAxis.setDrawLabels(true)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.valueFormatter = MyValueFormatter()
@@ -459,7 +459,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
             i.setDrawFilled(false)
             i.fillColor = colors[index]
             i.fillAlpha = 50
-            //i.mode = LineDataSet.Mode.CUBIC_BEZIER
+            i.mode = LineDataSet.Mode.CUBIC_BEZIER
             i.setDrawCircles(true)
             i.circleRadius = 3f
             i.circleHoleRadius = 0f

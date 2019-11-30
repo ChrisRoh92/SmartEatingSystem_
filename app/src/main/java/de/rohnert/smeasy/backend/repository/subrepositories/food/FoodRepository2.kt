@@ -8,6 +8,9 @@ import com.example.roomdatabaseexample.backend.databases.food_database.userfood_
 import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smeasy.backend.databases.food_database.appfood_database.AppFoodDao2
 import de.rohnert.smeasy.backend.databases.food_database.appfood_database.AppFoodDataBaseProvider2
+import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
+import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFoodDao
+import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFoodDataBaseProvider
 
 class FoodRepository2(var application: Application)
 {
@@ -17,12 +20,18 @@ class FoodRepository2(var application: Application)
     // userfood stuff:
     private var userFoodDao:UserFoodDao
 
+    // favFood Stuff:
+    private var favFoodDao:FavFoodDao
+
     init {
         var appDB = AppFoodDataBaseProvider2.getDatabase(application)
         appFoodDao2 = appDB.appFoodDao2()
 
         var userDB = UserFoodDataBaseProvider.getDatabase(application)
         userFoodDao = userDB.userFoodDao()
+
+        var favFoodDB = FavFoodDataBaseProvider.getDatabase(application)
+        favFoodDao = favFoodDB.favFoodDao()
 
     }
 
@@ -72,6 +81,32 @@ class FoodRepository2(var application: Application)
     }
 
     suspend fun getUserFoodByID(id:String):Food
+    {
+        return userFoodDao.getDataById(id)
+    }
+
+    // FavFood Stuff
+    suspend fun getFavFoodList():ArrayList<FavFood>
+    {
+        return ArrayList(favFoodDao.getFavFoods())
+    }
+
+    suspend fun addNewFavFood(newFavFood:FavFood)
+    {
+        favFoodDao.insert(newFavFood)
+    }
+
+    suspend fun updateFavFood(updatedFavFood:FavFood)
+    {
+        favFoodDao.update(updatedFavFood)
+    }
+
+    suspend fun deleteFavFood(removedFavFood:FavFood)
+    {
+        favFoodDao.removeFavFood(removedFavFood)
+    }
+
+    suspend fun getFavFoodByID(id:String):Food
     {
         return userFoodDao.getDataById(id)
     }

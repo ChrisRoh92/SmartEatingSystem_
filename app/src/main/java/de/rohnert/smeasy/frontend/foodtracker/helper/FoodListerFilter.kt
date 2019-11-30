@@ -3,6 +3,7 @@ package de.rohnert.smeasy.frontend.foodtracker.helper
 import android.content.Context
 import android.util.Log
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import kotlinx.coroutines.CoroutineScope
@@ -10,17 +11,28 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2)
+class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, var extendFilterValues:ArrayList<Float>)
 {
     // Default Operators.
     private var foodlist:ArrayList<Food> = foodViewModel.getFoodList()
     private var categories:ArrayList<String> = foodViewModel.getFoodCategories()
+    private var favFoodList:ArrayList<FavFood> = foodViewModel.getFavFoodList()
     private var allowedFood:Boolean = false
     private var userFood:Boolean = false
     private var favourites:Boolean = false
     private var sortingItem:String = ""
     private var up:Boolean = false
     private var sharePrefs = SharedAppPreferences(context)
+
+    // Extend Filter Values:
+    private var minKcal = extendFilterValues[0]
+    private var maxKcal = extendFilterValues[1]
+    private var minCarb = extendFilterValues[2]
+    private var maxCarb = extendFilterValues[3]
+    private var minProtein = extendFilterValues[4]
+    private var maxProtein = extendFilterValues[5]
+    private var minFett = extendFilterValues[6]
+    private var maxFett = extendFilterValues[7]
 
     // Interface
     private lateinit var mListener:OnFilterItemsListener
@@ -43,6 +55,7 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2)
             sortList = sortList(export)
             export = sortList
         }
+        export = filterByExtendValues(export)
 
         return export
 
@@ -149,8 +162,243 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2)
 
     private fun filterByFavourites(list:ArrayList<Food>):ArrayList<Food>
     {
-        // Hier noch alles impementieren...
-        return list
+        var export:ArrayList<Food> = ArrayList()
+        //Log.d("Smeasy","FoodListFilter - filterByFavourites list.size before = ${list.size}")
+        for(i in list)
+        {
+            if(checkIfFoodIsFavourite(i))
+            {
+                export.add(i)
+            }
+        }
+        //Log.d("Smeasy","FoodListFilter - filterByFavourites export.size before = ${export.size}")
+        return export
+    }
+
+
+    private fun filterByExtendValues(list:ArrayList<Food>):ArrayList<Food>
+    {
+        var export = list
+        var workList:ArrayList<Food> = ArrayList()
+
+
+
+        Log.d("Smeasy","FoodListFilter - filterByExtendValues minKcal = $minKcal")
+        Log.d("Smeasy","FoodListFilter - filterByExtendValues maxKcal = $maxKcal")
+
+        Log.d("Smeasy","FoodListFilter - filterByExtendValues minCarb = $minCarb")
+        Log.d("Smeasy","FoodListFilter - filterByExtendValues maxCarb = $maxCarb")
+
+        Log.d("Smeasy","FoodListFilter - filterByExtendValues minProtein = $minProtein")
+        Log.d("Smeasy","FoodListFilter - filterByExtendValues maxProtein = $maxProtein")
+
+        Log.d("Smeasy","FoodListFilter - filterByExtendValues minFett = $minFett")
+        Log.d("Smeasy","FoodListFilter - filterByExtendValues maxFett = $maxFett")
+
+        // Nach Kalorien Filtern:
+        if(minKcal == 0f && maxKcal == 0f)
+        {
+            workList = export
+        }
+        else if (maxKcal == 0f && minKcal > 0)
+        {
+            for(i in export)
+            {
+                if(i.kcal >= minKcal)
+                {
+                    workList.add(i)
+                }
+            }
+
+        }
+
+        else if (minKcal == 0f && maxKcal > 0)
+        {
+            for(i in export)
+            {
+                if(i.kcal <= maxKcal)
+                {
+                    workList.add(i)
+                }
+            }
+
+        }
+
+        else if(minKcal>0 && maxKcal >0 && maxKcal > minKcal)
+            for(i in export)
+            {
+                if(i.kcal >= minKcal && i.kcal < maxKcal)
+                {
+                    workList.add(i)
+                }
+            }
+
+        else
+        {
+            workList = export
+        }
+        export = workList
+        workList = ArrayList()
+
+        // Nach Kohlenhydrate Filtern:
+        if(minCarb == 0f && maxCarb == 0f)
+        {
+            workList = export
+        }
+        else if (maxCarb == 0f && minCarb > 0)
+        {
+            for(i in export)
+            {
+                if(i.carb >= minCarb)
+                {
+                    workList.add(i)
+                }
+            }
+
+        }
+
+        else if (minCarb == 0f && maxCarb > 0)
+        {
+            for(i in export)
+            {
+                if(i.carb <= maxCarb)
+                {
+                    workList.add(i)
+                }
+            }
+
+        }
+
+        else if(minCarb>0 && maxCarb >0 && maxCarb > minCarb)
+            for(i in export)
+            {
+                if(i.carb >= minCarb && i.carb < maxCarb)
+                {
+                    workList.add(i)
+                }
+            }
+
+        else
+        {
+            workList = export
+        }
+        export = workList
+        workList = ArrayList()
+
+        // Nach Protein Filtern:
+        if(minProtein == 0f && maxProtein == 0f)
+        {
+            workList = export
+        }
+        else if (maxProtein == 0f && minProtein > 0)
+        {
+            for(i in export)
+            {
+                if(i.protein >= minProtein)
+                {
+                    workList.add(i)
+                }
+            }
+
+        }
+
+        else if (minProtein == 0f && maxProtein > 0)
+        {
+            for(i in export)
+            {
+                if(i.protein <= maxProtein)
+                {
+                    workList.add(i)
+                }
+            }
+
+        }
+
+        else if(minProtein>0 && maxProtein >0 && maxProtein > minProtein)
+            for(i in export)
+            {
+                if(i.protein >= minProtein && i.protein < maxProtein)
+                {
+                    workList.add(i)
+                }
+            }
+
+        else
+        {
+            workList = export
+        }
+        export = workList
+        workList = ArrayList()
+
+        // Nach Fett Filtern:
+        if(minFett == 0f && maxFett == 0f)
+        {
+            workList = export
+        }
+        else if (maxFett == 0f && minFett > 0)
+        {
+            for(i in export)
+            {
+                if(i.fett >= minFett)
+                {
+                    workList.add(i)
+                }
+            }
+
+        }
+
+        else if (minFett == 0f && maxFett > 0)
+        {
+            for(i in export)
+            {
+                if(i.fett <= maxFett)
+                {
+                    workList.add(i)
+                }
+            }
+
+        }
+
+        else if(minFett>0 && maxFett >0 && maxFett > minFett)
+            for(i in export)
+            {
+                if(i.fett >= minFett && i.fett < maxFett)
+                {
+                    workList.add(i)
+                }
+            }
+
+        else
+        {
+            workList = export
+        }
+        export = workList
+        workList = ArrayList()
+
+
+
+
+
+
+
+
+        return export
+    }
+
+
+
+    private fun checkIfFoodIsFavourite(food:Food):Boolean
+    {
+        var check = false
+        for(i in favFoodList)
+        {
+            if(i.id == food.id)
+            {
+                check = true
+                break
+            }
+        }
+        return check
     }
 
 
@@ -175,8 +423,13 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2)
 
     fun setFavourites(newFavourites:Boolean)
     {
-        favourites = newFavourites
-        callInterFace()
+        Log.d("Smeasy","FoodListFilter - setFavourites newFavourites = $newFavourites && favourites = $favourites")
+        if(favourites!=newFavourites)
+        {
+            favourites = newFavourites
+            callInterFace()
+        }
+
     }
 
 
@@ -194,6 +447,29 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2)
         categories = foodViewModel.getFoodCategories()
         callInterFace()
     }
+    // Neue Favouriten Setzen
+    fun setNewFavFoodList()
+    {
+        favFoodList = foodViewModel.getFavFoodList()
+    }
+    // Neue Extended Values setzen:
+    fun setNewExtendedFilterValues(newValues:ArrayList<Float>)
+    {
+        extendFilterValues = newValues
+        minKcal = extendFilterValues[0]
+        maxKcal = extendFilterValues[1]
+        minCarb = extendFilterValues[2]
+        maxCarb = extendFilterValues[3]
+        minProtein = extendFilterValues[4]
+        maxProtein = extendFilterValues[5]
+        minFett = extendFilterValues[6]
+        maxFett = extendFilterValues[7]
+        callInterFace()
+    }
+
+
+
+
 
 
     fun callInterFace()

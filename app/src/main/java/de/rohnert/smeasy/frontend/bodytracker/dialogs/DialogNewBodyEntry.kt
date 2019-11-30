@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
@@ -33,6 +34,10 @@ class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManag
     private lateinit var btnPhoto:ImageButton
     private lateinit var btnSave:Button
     private lateinit var btnAbort:Button
+
+    // TextInputLayouts...
+
+
 
     init {
         initDialog()
@@ -88,6 +93,39 @@ class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManag
 
     }
 
+    private fun getDataFromTextInputs():ArrayList<Float>
+    {
+        var export:ArrayList<Float> = ArrayList()
+        for(i in etList)
+        {
+            if(i.editText!!.text.isNullOrEmpty())
+            {
+                export.add(0f)
+            }
+            else
+            {
+                export.add(i.editText!!.text.toString().toFloat())
+            }
+        }
+
+        return export
+    }
+
+    private fun startSaveProcess()
+    {
+        if(!bodyViewModel.checkIfBodyExist())
+        {
+            var values = getDataFromTextInputs()
+            bodyViewModel.addNewBody(values[0],values[1],values[2],values[3],values[4],values[5],imagePath)
+            alertDialog.dismiss()
+        }
+        else
+        {
+
+        }
+
+    }
+
 
     // Implementierte Methoden
     override fun onClick(view: View?) {
@@ -107,6 +145,8 @@ class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManag
         else if(view == btnSave)
         {
             // Methode zum speichern:
+            startSaveProcess()
+
         }
         else
         {

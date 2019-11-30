@@ -2,6 +2,7 @@ package backend.helper
 
 import android.util.Log
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -19,28 +20,36 @@ class Helper
     // Über diese Methode wird aus einem String ein Date-Objekt
     fun getDateFromString(input:String):Date
     {
-        var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        var localDate:LocalDate = LocalDate.parse(input,formatter)
-        val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
-        return date
+        //var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        //var localDate:LocalDate = LocalDate.parse(input,formatter)
+        //val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+
+        val formatter2 = SimpleDateFormat("dd.MM.yyyy")
+        var date2 = formatter2.parse(input)
+
+        return date2
     }
     // Über diese Methode wird aus einem Date-Objekt wieder ein String
     fun getStringFromDate(date:Date):String
     {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        var localDate:LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        val formatted = localDate.format(formatter)
+        val formatter2 = SimpleDateFormat("dd.MM.yyyy")
+        //val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        //var localDate:LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        var formatted2 = formatter2.format(date)
+        //val formatted = localDate.format(formatter)
 
-        return formatted
+        return formatted2
     }
 
     fun getStringFromDateWithPattern(date:Date,pattern: String):String
     {
-        val formatter = DateTimeFormatter.ofPattern(pattern)
-        var localDate:LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        val formatted = localDate.format(formatter)
+        val formatter2 = SimpleDateFormat(pattern)
+       //val formatter = DateTimeFormatter.ofPattern(pattern)
+       //var localDate:LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+       //val formatted = localDate.format(formatter)
+        var formatted2 = formatter2.format(date)
 
-        return formatted
+        return formatted2
     }
 
     // LocalDate aus Date

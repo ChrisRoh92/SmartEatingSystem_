@@ -9,16 +9,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground">
 
         <ImageButton
             android:id="@+id/recycleritem_bodyentry_btn"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@null"
+            android:background="?android:selectableItemBackground"
+            android:scaleType="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,13 +43,14 @@
                 android:layout_marginStart="0dp"
                 android:text="Aufgenommes Gewicht"
                 android:textColor="@color/textColor1"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/recycleritem_bodyentry_tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="vom 16.11.2019" />
+                android:text="vom 16.11.2019"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -57,7 +60,7 @@
             android:layout_marginEnd="24dp"
             android:text="94 Kg"
             android:textColor="@color/colorAccent"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/linearLayout2" />

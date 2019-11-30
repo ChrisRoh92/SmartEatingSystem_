@@ -65,6 +65,10 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private lateinit var tvAim: TextView
     private lateinit var tvAimProgress: TextView
 
+    // TextViews of the StatusView:
+    private lateinit var tvAimWeight:TextView
+    private lateinit var tvAimKfa:TextView
+
     // MealCards:
     // Breakfast
     private lateinit var cardBreakfast: CardView
@@ -213,7 +217,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         btnAddDinner.setOnClickListener(this)
         btnAddSnacks.setOnClickListener(this)
 
-        var adapterList:ArrayList<MealCardItemAdapter> = arrayListOf(adapterBreakfast,adapterLunch,adapterDinner,adapterSnacks)
+        /*var adapterList:ArrayList<MealCardItemAdapter> = arrayListOf(adapterBreakfast,adapterLunch,adapterDinner,adapterSnacks)
         var mealList:ArrayList<String> = arrayListOf("breakfast","lunch","dinner","snack")
 
         for((index,i) in adapterList.withIndex())
@@ -242,6 +246,85 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                                         if(mealList[index] != value)
                                         {
                                             foodViewModel.changeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index],value)
+                                            *//*viewmodel.removeMailFromDaily(MealEntry(calcedFood.food.id,calcedFood.menge),meal = mealList[index])
+                                            addFood = false
+                                            it.deleteItem(viewmodel.getCalcedFoodList().value!![index],pos)
+                                            var pos = mealList.indexOf(value)
+                                            adapterList[pos]
+                                            viewmodel.addNewMealToDaily(MealEntry(calcedFood.food.id,calcedFood.menge),meal = value)
+                                            addFood = false
+
+                                            adapterList[pos].addNewItem(viewmodel.getCalcedFoodList().value!![pos])
+                                            textList[index].text = "${viewmodel.getCalcedValueList().value!![pos][0]} Kcal"
+                                            updateStatusView()*//*
+
+                                        }
+
+
+                                    }
+
+                                })
+                            }
+                        }
+
+                    })
+                }
+
+            })
+
+            i.setOnClickListener(object: MealCardItemAdapter.OnClickListener{
+                override fun setOnClickListener(calcedFood: CalcedFood, position: Int) {
+                    //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    Toast.makeText(rootView.context,"${calcedFood.f.name} mit ${calcedFood.values[2]} g Protein",Toast.LENGTH_SHORT).show()
+                }
+
+            })
+        }*/
+        initMealCardItemClickListener()
+
+        // Animationen....
+        var animator = AnimationUtils.loadLayoutAnimation(rootView.context, R.anim.layout_animation_fall_down)
+        var rvList:ArrayList<RecyclerView> = arrayListOf(rvBreakfast,rvLunch,rvDinner,rvSnacks)
+        for(i in rvList)
+        {
+            i.layoutAnimation = animator
+        }
+
+    }
+
+    private fun initMealCardItemClickListener()
+    {
+        var adapterList:ArrayList<MealCardItemAdapter> = arrayListOf(adapterBreakfast,adapterLunch,adapterDinner,adapterSnacks)
+        var mealList:ArrayList<String> = arrayListOf("breakfast","lunch","dinner","snack")
+
+        for((index,i) in adapterList.withIndex())
+        {
+
+
+            i.setOnLongClickListener(object : MealCardItemAdapter.OnLongClickListener
+            {
+                override fun setOnLongClickListener(calcedFood: CalcedFood, position: Int) {
+
+                    var dialog = DialogMealEntry(rootView.context)
+                    dialog.setOnDialogClickListener(object: DialogMealEntry.OnDialogMealEntryClickListener{
+                        override fun setOnDialogClickListener(delete: Boolean) {
+                            if(delete)
+                            {
+                                foodViewModel.removeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index])
+                                undoMealEntryDelete(calcedFood.f.id,calcedFood.menge,mealList[index])
+                            }
+                            else
+                            {
+                                // Neues Meal aussuchen
+                                // ListDialog auswählen
+                                var listDialog = DialogMealList(rootView.context)
+                                listDialog.setOnDialogMealListClickListener(object:DialogMealList.OnDialogMealListClick{
+                                    override fun setOnDialogMealListClickListener(value: String)
+                                    {
+                                        if(mealList[index] != value)
+                                        {
+                                            foodViewModel.changeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index],value)
+                                            //undoMealChange(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),value,mealList[index])
                                             /*viewmodel.removeMailFromDaily(MealEntry(calcedFood.food.id,calcedFood.menge),meal = mealList[index])
                                             addFood = false
                                             it.deleteItem(viewmodel.getCalcedFoodList().value!![index],pos)
@@ -271,21 +354,16 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             i.setOnClickListener(object: MealCardItemAdapter.OnClickListener{
                 override fun setOnClickListener(calcedFood: CalcedFood, position: Int) {
                     //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    Toast.makeText(rootView.context,"${calcedFood.f.name} mit ${calcedFood.values[2]} g Protein",Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(rootView.context,"${calcedFood.f.name} mit ${calcedFood.values[2]} g Protein",Toast.LENGTH_SHORT).show()
+                    Handler().postDelayed({
+                        var dialog = DialogMealEntryChanger(foodViewModel,rootView.context,calcedFood,mealList[index])
+                    },100)
+
+
                 }
 
             })
         }
-
-
-        // Animationen....
-        var animator = AnimationUtils.loadLayoutAnimation(rootView.context, R.anim.layout_animation_fall_down)
-        var rvList:ArrayList<RecyclerView> = arrayListOf(rvBreakfast,rvLunch,rvDinner,rvSnacks)
-        for(i in rvList)
-        {
-            i.layoutAnimation = animator
-        }
-
     }
     // View initialisieren:
     private fun initStatusViewObjects()
@@ -296,12 +374,18 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         pbFett = rootView.findViewById(R.id.fragment_foodtracker_pb_fett)
 
 
+
+
+        // TextViews of the StatusView...
+        tvKcalAdded = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_added)
+        tvKcalActive = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_active)
+        tvAimWeight = rootView.findViewById(R.id.fragment_foodtracker_tv_aim_weight)
+        tvAimKfa = rootView.findViewById(R.id.fragment_foodtracker_tv_aim_kfa)
+
         tvCarbs = rootView.findViewById(R.id.fragment_foodtracker_tv_carb)
         tvProtein = rootView.findViewById(R.id.fragment_foodtracker_tv_protein)
         tvFett = rootView.findViewById(R.id.fragment_foodtracker_tv_fett)
 
-        tvKcalAdded = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_added)
-        tvKcalActive = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_active)
         tvKcalRest = rootView.findViewById(R.id.fragment_foodtracker_tv_kcal_rest)
 
         tvAim = rootView.findViewById(R.id.fragment_foodtracker_tv_aim)
@@ -319,8 +403,11 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 if(item!!.itemId == R.id.menu_foodtracker_weekreport)
                 {
-                    var dialog = DialogFragmentWeekReport(foodViewModel)
-                    dialog.show(fragmentManager!!,"WeekReport")
+                    Handler().postDelayed({
+                        var dialog = DialogFragmentWeekReport(foodViewModel)
+                        dialog.show(fragmentManager!!,"WeekReport")
+                    },100)
+
                 }
                 return true
             }
@@ -328,6 +415,43 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         })
     }
 
+
+    // Undo Methoden:
+    private fun undoMealEntryDelete(foodID:String,foodMenge:Float,meal:String)
+    {
+        // Sneakbar starten
+        var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Rückgängig machen",Snackbar.LENGTH_LONG)
+
+
+
+        snackbar.setAction("Rückgängig", object: View.OnClickListener{
+            override fun onClick(v: View?) {
+                foodViewModel.addNewMealEntry(foodID,foodMenge,meal)
+            }
+
+        })
+        snackbar.show()
+        // Click, soll das Löschen wieder rückgängig gemacht werden...
+    }
+
+    private fun undoMealChange(entry:MealEntry,oldMeal:String,newMeal:String)
+    {
+        // Sneakbar starten
+        var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Rückgängig machen",Snackbar.LENGTH_LONG)
+
+
+
+        snackbar.setAction("Rückgängig", object: View.OnClickListener{
+            override fun onClick(v: View?) {
+                foodViewModel.changeMealEntry(entry,oldMeal,newMeal)
+                foodViewModel.removeMealEntry(entry,oldMeal)
+            }
+
+        })
+        snackbar.show()
+        // Click, soll das Löschen wieder rückgängig gemacht werden...
+
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Calendar Logik + Objekte initialisieren...
@@ -429,7 +553,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                 mealCardAnimation("lunch")
                 mealCardAnimation("dinner")
                 mealCardAnimation("snack")
-                //started = true
+                started = true
             }
             else
             {
@@ -444,36 +568,38 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         foodViewModel.getLunchEntries().observe( this, androidx.lifecycle.Observer
         {
             Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - lunch-Observer: started = $started")
-            adapterLunch.submitList(foodViewModel.getCalcedFoodsByMeal("lunch"))
+
             if(started)
             {
                 statusViewAnimation()
                 mealCardAnimation("lunch")
             }
+            adapterLunch.submitList(foodViewModel.getCalcedFoodsByMeal("lunch"))
 
         })
 
         foodViewModel.getDinnerEntries().observe( this, androidx.lifecycle.Observer
         {
             Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - dinner-Observer: started = $started")
-            adapterDinner.submitList(foodViewModel.getCalcedFoodsByMeal("dinner"))
+
             if(started)
             {
                 statusViewAnimation()
                 mealCardAnimation("dinner")
             }
-
+            adapterDinner.submitList(foodViewModel.getCalcedFoodsByMeal("dinner"))
         })
 
         foodViewModel.getSnackEntries().observe( this, androidx.lifecycle.Observer
         {
             Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - snacks-Observer: started = $started")
-            adapterSnacks.submitList(foodViewModel.getCalcedFoodsByMeal("snack"))
+
             if(started)
             {
                 statusViewAnimation()
                 mealCardAnimation("snack")
             }
+            adapterSnacks.submitList(foodViewModel.getCalcedFoodsByMeal("snack"))
 
 
         })
@@ -494,14 +620,19 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             Log.d("Smeasy","FoodTrackerFragment - statusViewAnimation - foodViewModel.getDailyValues() - $e")
         }
 
+        // Hier muss später der Fortschritt eingefügt werden
+        progressValues.add(0f)
+        progressValues.add(0f)
 
 
         if(statusAnim == null)
         {
 
             var maxValues = foodViewModel.getDailyMaxValues()
+            maxValues.add(100f)
+            maxValues.add(100f)
             var pbList:ArrayList<ProgressBar> = arrayListOf(pbKcal,pbCarb,pbProtein,pbFett)
-            var tvList:ArrayList<TextView> = arrayListOf(tvKcalAdded,tvKcalRest,tvCarbs,tvProtein,tvFett)
+            var tvList:ArrayList<TextView> = arrayListOf(tvKcalAdded,tvKcalRest,tvCarbs,tvProtein,tvFett,tvAimWeight,tvAimKfa,tvAim)
             for((index,i) in pbList.withIndex())
             {
                 if(index >0) i.max = 1000
@@ -522,6 +653,10 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                 }
 
             })
+
+        }
+        else if (!started)
+        {
 
         }
         else

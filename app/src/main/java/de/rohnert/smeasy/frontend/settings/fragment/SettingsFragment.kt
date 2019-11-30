@@ -17,7 +17,7 @@ class SettingsFragment : Fragment() {
     private lateinit var rootView:View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_premium, container, false)
+        rootView = inflater.inflate(R.layout.fragment_settings, container, false)
 
         return rootView
     }

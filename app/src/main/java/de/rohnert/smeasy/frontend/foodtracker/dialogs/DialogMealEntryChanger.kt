@@ -2,69 +2,66 @@ package de.rohnert.smeasy.frontend.foodtracker.dialogs
 
 import android.content.Context
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import backend.helper.Helper
+import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
+import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
-import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
-import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationFoodPicker
 import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationFoodPicker2
-import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput
-import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput.OnDialogListener
 import kotlin.math.roundToInt
 
+class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Context, var calcedFood: CalcedFood, var meal:String)
+{
+    private lateinit var builder: AlertDialog.Builder
+    private lateinit var alertDialog: AlertDialog
+    private lateinit var view: View
+    private lateinit var inflater: LayoutInflater
+    private lateinit var animator: AnimationFoodPicker2
 
-class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, var food: Food, var meal:String)
-     {
-
-
-
-    lateinit var builder: AlertDialog.Builder
-    lateinit var alertDialog: AlertDialog
-    lateinit var view: View
-    lateinit var inflater: LayoutInflater
-    var helper: Helper = Helper()
+    private var helper: Helper = Helper()
     private var dailyProcessor = DailyProcessor(context)
-    lateinit var animator: AnimationFoodPicker2
-
-    // View Elemente:
-    //EditTest:
-    lateinit var etMenge:TextInputLayout
-    // TextViews
-    lateinit var tvTitle:TextView
-    lateinit var tvSubTitle:TextView
-    lateinit var tvKcal:TextView
-    lateinit var tvKcalRest:TextView
-    lateinit var tvCarb:TextView
-    lateinit var tvProtein:TextView
-    lateinit var tvFett:TextView
-    // ProgressBar:
-    lateinit var barKcal:ProgressBar
-    lateinit var barCarbs:ProgressBar
-    lateinit var barProtein:ProgressBar
-    lateinit var barFett:ProgressBar
-   // Buttons:
-    lateinit var btnSave:Button
-    lateinit var btnAbort:Button
 
     // Content
     var started = false
-    var menge:Float = 100f
+    var menge:Float = calcedFood.menge
     var restKcal:Int = 0
     var restCarbs:Int = 0
     var restProtein:Int = 0
     var restFett:Int = 0
 
+    // View Elemente:
+    //EditTest:
+    lateinit var etMenge: TextInputLayout
+    // TextViews
+    lateinit var tvTitle: TextView
+    lateinit var tvSubTitle: TextView
+    lateinit var tvKcal: TextView
+    lateinit var tvKcalRest: TextView
+    lateinit var tvCarb: TextView
+    lateinit var tvProtein: TextView
+    lateinit var tvFett: TextView
+    // ProgressBar:
+    lateinit var barKcal: ProgressBar
+    lateinit var barCarbs: ProgressBar
+    lateinit var barProtein: ProgressBar
+    lateinit var barFett: ProgressBar
+    // Buttons:
+    lateinit var btnSave: Button
+    lateinit var btnAbort: Button
 
-        init {
+
+    init {
         initDialog()
     }
 
@@ -84,25 +81,24 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
 
 
 
-
-
         alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawableResource(android.R.color.white)
         alertDialog.show()
 
     }
 
-    fun setRestNutritionValues()
+    // Werte abrufen:
+    private fun setRestNutritionValues()
     {
-        restKcal = foodViewModel.getDailyMaxValues()[0].roundToInt() - foodViewModel.getDailyValues()[0].roundToInt()
-        restCarbs = foodViewModel.getDailyMaxValues()[1].roundToInt() - foodViewModel.getDailyValues()[1].roundToInt()
-        restProtein = foodViewModel.getDailyMaxValues()[2].roundToInt() - foodViewModel.getDailyValues()[2].roundToInt()
-        restFett = foodViewModel.getDailyMaxValues()[3].roundToInt() - foodViewModel.getDailyValues()[3].roundToInt()
+        restKcal = foodViewModel.getDailyMaxValues()[0].roundToInt() - foodViewModel.getDailyValues()[0].roundToInt() + calcedFood.values[0].roundToInt()
+        restCarbs = foodViewModel.getDailyMaxValues()[1].roundToInt() - foodViewModel.getDailyValues()[1].roundToInt() + calcedFood.values[1].roundToInt()
+        restProtein = foodViewModel.getDailyMaxValues()[2].roundToInt() - foodViewModel.getDailyValues()[2].roundToInt() + calcedFood.values[2].roundToInt()
+        restFett = foodViewModel.getDailyMaxValues()[3].roundToInt() - foodViewModel.getDailyValues()[3].roundToInt() + calcedFood.values[3].roundToInt()
 
     }
 
     // Alle Views initialisieren...
-    fun initViews()
+    private fun initViews()
     {
         // TextViews...
         tvTitle = view.findViewById(R.id.foodpicker_tv_title)
@@ -170,15 +166,25 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
         btnSave.setOnClickListener(View.OnClickListener {
             // Über das Repository muss ein neues MealEntry in das Daily-Objekt gebracht werden, damit das auch direkt
             // gespeichert werden kann..
-            if(menge != 0f)
+            //foodViewModel.addNewMealEntry(calcedFood.f.id,menge,meal)
+            if(menge != calcedFood.menge)
             {
-                foodViewModel.addNewMealEntry(food.id,menge,meal)
+                if(menge != 0f)
+                {
+                    foodViewModel.updateMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,menge),meal)
 
-                alertDialog.dismiss()
+                    alertDialog.dismiss()
+                }
+
+                else
+                {
+                    Toast.makeText(context,"Bitte eine Menge größer 0 angeben...",Toast.LENGTH_SHORT).show()
+                }
+
             }
             else
             {
-                Toast.makeText(context,"Bitte eine Menge größer 0 angeben...",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Bitte die Menge verändern...",Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -194,13 +200,14 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
 
     }
 
+    // InitContent:
     // Initial alle Views mit Werten belegen:
     private fun initContent()
     {
 
         // Titles:
-        tvTitle.text = food.name
-        tvSubTitle.text = food.category
+        tvTitle.text = calcedFood.f.name
+        tvSubTitle.text = calcedFood.f.category
 
         // EditTexts:
         //etMenge.editText!!.setText(helper.getFloatAsFormattedString(menge,"#.##"))
@@ -229,7 +236,7 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
         var pbList:ArrayList<ProgressBar> = arrayListOf(barCarbs,barProtein,barFett)
         var tvList:ArrayList<TextView> = arrayListOf(tvKcal,tvKcalRest,tvCarb,tvProtein,tvFett)
         var maxValues:ArrayList<Float> = arrayListOf(restKcal.toFloat(),restCarbs.toFloat(),restProtein.toFloat(),restFett.toFloat())
-        var values:ArrayList<Float> = dailyProcessor.getCalcedFood(0,food,menge).values
+        var values:ArrayList<Float> = dailyProcessor.getCalcedFood(0,calcedFood.f,menge).values
 
 
         animator = AnimationFoodPicker2(context,barKcal,pbList,tvList,maxValues,values)
@@ -238,106 +245,15 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
         etMenge.editText!!.setText(helper.getFloatAsFormattedString(menge,"#.##"))
 
 
-        }
+    }
 
 
 
-
-
-
-        // Über das ViewModel muss abgecheckt werden, wieviel noch verbraucht werden darf...
-        // Darüber muss noch die ProgressBars, die Reste gefüllt werden...
-
-
-
-
-
-
-    fun updateContent(value:Float)
+    // Content updaten:
+    private fun updateContent(value:Float)
     {
-        var values:ArrayList<Float> = dailyProcessor.getCalcedFood(0,food,value).values
+        var values:ArrayList<Float> = dailyProcessor.getCalcedFood(0,calcedFood.f,value).values
         if(animator!=null) animator.updateAnimation(values)
-
-    }
-
-    /*// Dialog zur Aufnahme der neuen Menge:
-    fun createAlertDialog()
-    {
-        var builder:AlertDialog.Builder = AlertDialog.Builder(context)
-        var dialog:AlertDialog
-        var et:EditText = EditText(context)
-        builder.setMessage("Bitte die Menge in g/ml angeben")
-        builder.setTitle("Manuelle Eingabe")
-        et.inputType = (InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
-        builder.setView(et)
-        // Positiver Button:
-        builder.setPositiveButton("OK", DialogInterface.OnClickListener {
-                dialogInterface, i ->  if(!et.text.toString().isEmpty())
-        {
-            updateContent(et.text.toString().toFloat())
-            if(et.text.toString().toInt() > skMenge.max)
-            {
-                skMenge.max = et.text.toString().toInt() + 500
-                skMenge.progress = et.text.toString().toInt()
-            }
-            else
-            {
-                skMenge.progress = et.text.toString().toInt()
-            }
-
-
-
-        }
-            else
-        {
-            Toast.makeText(context,"Bitte einen Wert eintragen",Toast.LENGTH_SHORT).show()
-        }
-
-        })
-
-        builder.setNegativeButton("Abbrechen", DialogInterface.OnClickListener {
-                dialogInterface, i ->
-
-
-        })
-
-        dialog = builder.create()
-        dialog.show()
-
-    }*/
-
-    /*fun createInputDialog()
-    {
-        var unit = ""
-        if(food.unit.contains("g"))
-        {
-            unit = "g"
-        }
-        else
-        {
-            unit = "ml"
-        }
-
-        var dialog = DialogSingleLineInput("Bitte die Menge in $unit angeben","Manuelle Eingabe",context,InputType.TYPE_CLASS_NUMBER)
-        dialog.onDialogClickListener(object : OnDialogListener {
-            override fun onDialogClickListener(export: String) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDialogClickListener(export: Float) {
-                if(export > skMenge.max)
-                {
-                    skMenge.max = export.roundToInt() + 500
-                    skMenge.progress = export.roundToInt()
-                }
-                else
-                {
-                    skMenge.progress = export.roundToInt()
-                }
-                updateContent(export)
-            }
-
-        })*/
     }
 
 
@@ -345,24 +261,4 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

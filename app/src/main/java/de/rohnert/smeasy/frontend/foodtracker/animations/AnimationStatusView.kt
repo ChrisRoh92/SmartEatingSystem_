@@ -40,7 +40,7 @@ class AnimationStatusView(var context: Context,
         var tvSet = AnimatorSet()
         pbSet.playTogether(createInitProgessBarAnimatorList())
         tvSet.playTogether(createInitTextViewAnimatorList())
-        set.play(pbSet).before(tvSet)
+        set.play(pbSet)
         //set.playTogether(pbSet,tvSet)
         set.start()
         set.addListener(object: Animator.AnimatorListener
@@ -50,6 +50,7 @@ class AnimationStatusView(var context: Context,
             }
 
             override fun onAnimationEnd(p0: Animator?) {
+                tvSet.start()
                 if(mListener!=null)
                 {
                     mListener.setOnAnimationStatusViewListener()
@@ -142,10 +143,22 @@ class AnimationStatusView(var context: Context,
             {
                 export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(maxValues[0] - progressValues[0],"#")} Kcal",((maxValues[0] - progressValues[0])<0)))
             }
-            else
+            else if( index in 2..4)
             {
                 export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(progressValues[index-1],"#")} g / ${helper.getFloatAsFormattedString(maxValues[index-1],"#")} g",(progressValues[index-1]>maxValues[index-1])))
             }
+            else if (index in 5..6)
+            {
+                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(progressValues[index-1],"#")} % ",(progressValues[index-1]>maxValues[index-1])))
+            }
+
+            else
+            {
+                export.add(createTextViewAnimation(i,"Halten",false))
+
+            }
+
+
         }
 
         return export
@@ -200,10 +213,20 @@ class AnimationStatusView(var context: Context,
             {
                 export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(maxValues[0] - newProgressValues[0],"#")} Kcal",((maxValues[0] - newProgressValues[0])<0)))
             }
-            else
+            else if(index in 2..4)
             {
                 export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(newProgressValues[index-1],"#")} g / ${helper.getFloatAsFormattedString(maxValues[index-1],"#")} g",(newProgressValues[index-1]>maxValues[index-1])))
             }
+            /*else if (index in 5..6)
+            {
+                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(newProgressValues[index],"#")} %",(newProgressValues[index-1]>maxValues[index])))
+            }
+            else
+            {
+                export.add(createTextViewAnimation(i,"Halten",false))
+
+            }*/
+
         }
 
         return export

@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_foodtracker_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLight"
-    android:orientation="vertical" android:id="@+id/fragment_foodtracker_background">
+    android:background="@android:color/background_light"
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
@@ -27,14 +28,14 @@
                 android:layout_height="match_parent">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView4"
+                    android:id="@+id/foodtracker_card_statusview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -53,7 +54,7 @@
                             android:layout_marginEnd="8dp"
                             android:max="3600"
                             android:progress="2700"
-                            android:progressDrawable="@drawable/circle"
+                            android:progressDrawable="@drawable/circle_thin"
                             android:progressTint="@color/backgroundLight"
                             android:rotation="135"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +70,7 @@
                             android:backgroundTint="@color/background"
                             android:max="3600"
                             android:progress="0"
-                            android:progressDrawable="@drawable/circle"
+                            android:progressDrawable="@drawable/circle_thin"
                             android:rotation="135"
                             app:layout_constraintBottom_toBottomOf="@+id/background_progress_test2"
                             app:layout_constraintEnd_toEndOf="@+id/background_progress_test2"
@@ -83,6 +84,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:orientation="horizontal"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -232,77 +234,85 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="8dp"
                             android:text="Verfügbar"
-                            android:textColor="@color/background"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="@+id/fragment_foodtracker_pb_kcal"
+                            android:textSize="10sp"
                             app:layout_constraintEnd_toEndOf="@+id/fragment_foodtracker_pb_kcal"
                             app:layout_constraintStart_toStartOf="@+id/fragment_foodtracker_pb_kcal"
-                            app:layout_constraintTop_toTopOf="@+id/fragment_foodtracker_pb_kcal"
-                            app:layout_constraintVertical_bias="0.45" />
+                            app:layout_constraintTop_toBottomOf="@+id/fragment_foodtracker_tv_kcal_rest" />
 
                         <TextView
                             android:id="@+id/fragment_foodtracker_tv_kcal_rest"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
+                            android:alpha="0"
+                            android:text="0 kcal"
+                            android:textColor="@color/textColor1"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/background_progress_test2"
+                            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                             app:layout_constraintEnd_toEndOf="@+id/textView19"
                             app:layout_constraintStart_toStartOf="@+id/textView19"
-                            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                            app:layout_constraintTop_toTopOf="@+id/background_progress_test2"
+                            app:layout_constraintVertical_bias="0.45" />
 
                         <TextView
                             android:id="@+id/textView52"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="32dp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
                             android:text="Konsumiert"
-                            android:textColor="@color/textColor1"
-                            android:textSize="18sp"
-                            app:layout_constraintEnd_toStartOf="@+id/fragment_foodtracker_pb_kcal"
+                            android:textSize="10sp"
+                            app:layout_constraintEnd_toStartOf="@+id/background_progress_test2"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/fragment_foodtracker_tv_kcal_added" />
 
                         <TextView
                             android:id="@+id/fragment_foodtracker_tv_kcal_added"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            app:layout_constraintEnd_toEndOf="@+id/textView52"
-                            app:layout_constraintStart_toStartOf="@+id/textView52"
-                            app:layout_constraintTop_toBottomOf="@+id/textView52" />
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="32dp"
+                            android:alpha="0"
+                            android:text="0 kcal"
+                            android:textColor="@color/textColor1"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toStartOf="@+id/background_progress_test2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView54"
+                            android:id="@+id/fragment_foodtracker_tv_aim_kfa"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Aktivität"
+                            android:layout_marginStart="8dp"
+                            android:alpha="0"
+                            android:text="25 %"
                             android:textColor="@color/textColor1"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toTopOf="@+id/fragment_foodtracker_tv_kcal_active"
-                            app:layout_constraintEnd_toEndOf="@+id/textView52"
-                            app:layout_constraintStart_toStartOf="@+id/textView52" />
+                            app:layout_constraintEnd_toStartOf="@+id/background_progress_test2"
+                            app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
                             android:id="@+id/fragment_foodtracker_tv_kcal_active"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
                             android:layout_marginBottom="24dp"
-                            android:text="0 Kcal"
+                            android:text="Fortschritt KFA"
                             android:textSize="10sp"
                             app:layout_constraintBottom_toBottomOf="@+id/fragment_foodtracker_pb_kcal"
-                            app:layout_constraintEnd_toEndOf="@+id/textView54"
-                            app:layout_constraintStart_toStartOf="@+id/textView54" />
+                            app:layout_constraintEnd_toStartOf="@+id/background_progress_test2"
+                            app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView56"
+                            android:id="@+id/fragment_foodtracker_tv_aim"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="16dp"
-                            android:text="Ziel"
+                            android:alpha="0"
+                            android:text="Halten"
                             android:textColor="@color/textColor1"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toTopOf="@+id/fragment_foodtracker_tv_kcal_added"
@@ -311,38 +321,40 @@
                             app:layout_constraintTop_toTopOf="@+id/textView52" />
 
                         <TextView
-                            android:id="@+id/fragment_foodtracker_tv_aim"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Abnehmen"
+                            android:layout_marginEnd="8dp"
+                            android:text="Aktuelles Ziel"
                             android:textSize="10sp"
-                            app:layout_constraintEnd_toEndOf="@+id/textView56"
-                            app:layout_constraintStart_toStartOf="@+id/textView56"
-                            app:layout_constraintTop_toBottomOf="@+id/textView56" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/background_progress_test2"
+                            app:layout_constraintTop_toBottomOf="@+id/fragment_foodtracker_tv_aim" />
 
                         <TextView
-                            android:id="@+id/textView58"
+                            android:id="@+id/fragment_foodtracker_tv_aim_weight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:text="Forschritt"
+                            android:alpha="0"
+                            android:text="24 %"
                             android:textColor="@color/textColor1"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toTopOf="@+id/fragment_foodtracker_tv_kcal_active"
-                            app:layout_constraintEnd_toEndOf="@+id/textView56"
-                            app:layout_constraintStart_toStartOf="@+id/textView56"
-                            app:layout_constraintTop_toTopOf="@+id/textView54" />
+                            app:layout_constraintEnd_toEndOf="@+id/fragment_foodtracker_tv_aim"
+                            app:layout_constraintStart_toStartOf="@+id/fragment_foodtracker_tv_aim"
+                            app:layout_constraintTop_toTopOf="@+id/fragment_foodtracker_tv_aim_kfa" />
 
                         <TextView
                             android:id="@+id/fragment_foodtracker_tv_aim_progress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="6,7 Kg Verloren"
+                            android:layout_marginEnd="8dp"
+                            android:text="Fortschritt Gewicht"
                             android:textSize="10sp"
-                            app:layout_constraintEnd_toEndOf="@+id/textView58"
-                            app:layout_constraintStart_toStartOf="@+id/textView58"
-                            app:layout_constraintTop_toBottomOf="@+id/textView58" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/background_progress_test2"
+                            app:layout_constraintTop_toBottomOf="@+id/fragment_foodtracker_tv_aim_weight" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -352,14 +364,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
                     android:alpha="1"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView2">
+                    app:layout_constraintTop_toBottomOf="@+id/foodtracker_card_premium">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -448,11 +460,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
                     android:alpha="1"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/foodtracker_mealcard_breakfast">
@@ -544,11 +556,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
                     android:alpha="1"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/foodtracker_mealcard_lunch">
@@ -640,12 +652,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="100dp"
                     android:alpha="1"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -734,21 +746,37 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView2"
+                    android:id="@+id/foodtracker_card_premium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/background_premium"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView4">
+                    app:layout_constraintTop_toBottomOf="@+id/foodtracker_card_statusview">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/background">
+                        android:background="@drawable/background_premium">
+
+                        <View
+                            android:id="@+id/divider43"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/backgroundLight"
+                            app:layout_constraintBottom_toTopOf="@+id/foodtracker_btn_premium"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
                         <TextView
                             android:id="@+id/textView11"
@@ -763,7 +791,7 @@
                             android:textSize="20sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/divider42" />
 
                         <TextView
                             android:id="@+id/textView14"
@@ -773,7 +801,7 @@
                             android:layout_marginEnd="8dp"
                             android:shadowDx="5"
                             android:shadowDy="5"
-                            android:text="Vielen Dank, dass du SMEASY unterstützt und bekannt machst. Wir freuen uns sehr!"
+                            android:text="Vielen Dank, dass du Smeasy unterstützt und bekannt machst. Wir freuen uns sehr!"
                             android:textAlignment="center"
                             android:textColor="@color/backgroundLight"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -781,10 +809,11 @@
                             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
                         <Button
-                            android:id="@+id/button3"
-                            style="@style/Widget.MaterialComponents.Button"
+                            android:id="@+id/foodtracker_btn_premium"
+                            style="@style/Widget.MaterialComponents.Button.Icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             android:backgroundTint="@color/premium_dark"
@@ -793,10 +822,41 @@
                             android:shadowDx="10"
                             android:shadowDy="0"
                             android:text="Freischalten"
+                            app:icon="@drawable/ic_lock_black"
+                            app:iconSize="18dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView56"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:shadowColor="@android:color/white"
+                            android:shadowDx="0"
+                            android:shadowDy="0"
+                            android:shadowRadius="0"
+                            android:text="Premium"
+                            android:textColor="@color/premium_dark"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/divider42"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@color/backgroundLight"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView56" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 

@@ -10,7 +10,7 @@ import de.rohnert.smeasy.backend.databases.daily_database.DailyDao
 
 @Database(entities = [Daily::class], version = 1)
 @TypeConverters(DailyConverter::class)
-public abstract class DailyDataBase:RoomDatabase() {
+abstract class DailyDataBase:RoomDatabase() {
     abstract fun dailyDao(): DailyDao
 }
 

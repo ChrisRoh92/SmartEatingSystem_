@@ -6,17 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import backend.helper.Helper
 import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
+import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogCapturePhoto
 
 
-class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>):
+class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentManager: FragmentManager):
     RecyclerView.Adapter<BodyEntryRecyclerViewAdapter.ViewHolder>() {
 
     private var helper = Helper()
+    // Interface:
+    private lateinit var mLongListener:OnBodyEntryLongClickListener
+    private lateinit var mListener:OnBodyEntryClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -33,6 +38,24 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>):
         holder.tvWeight.text = "${helper.getFloatAsFormattedString(content[position].weight,"#.#")} kg"
         holder.imageBtn.setOnClickListener {
             Log.d("Smeasy","BodyEntryRecyclerViewAdapter imageButton Click Listener")
+            var captureDialog = DialogCapturePhoto(content[position].fotoDir)
+            captureDialog.show(fragmentManager,"capture")
+        }
+
+        holder.itemView.setOnLongClickListener {
+            if(mLongListener!=null)
+            {
+                mLongListener.setOnBodyEntryLongClickListener(content[holder.adapterPosition],holder.adapterPosition)
+            }
+            true
+        }
+
+        holder.itemView.setOnLongClickListener {
+            if(mListener!=null)
+            {
+                mListener.setOnBodyEntryClickListener(content[holder.adapterPosition],holder.adapterPosition)
+            }
+            true
         }
     }
 
@@ -50,5 +73,26 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>):
         var tvDate:TextView = itemView.findViewById(R.id.recycleritem_bodyentry_tvDate)
         var tvWeight:TextView = itemView.findViewById(R.id.recycleritem_bodyentry_tvWeight)
 
+    }
+
+    // Interface:
+    interface OnBodyEntryLongClickListener
+    {
+        fun setOnBodyEntryLongClickListener(body:Body,pos:Int)
+    }
+
+    fun setOnBodyEntryLongClickListener(mLongListener:OnBodyEntryLongClickListener)
+    {
+        this.mLongListener = mLongListener
+    }
+
+    interface OnBodyEntryClickListener
+    {
+        fun setOnBodyEntryClickListener(body:Body,pos:Int)
+    }
+
+    fun setOnBodyEntryClickListener(mListener:OnBodyEntryClickListener)
+    {
+        this.mListener = mListener
     }
 }

@@ -7,17 +7,17 @@ import androidx.room.*
 interface BodyDao
 {
     @Insert
-    fun insert(body:Body)
+    suspend fun insert(body:Body)
 
     @Update
-    fun update(body:Body)
+    suspend fun update(body:Body)
 
     @Delete
-    fun delete(body:Body)
+    suspend fun delete(body:Body)
 
     @Query("Select * FROM bodies")
-    fun getBodyList():LiveData<List<Body>>
+    suspend fun getBodyList():List<Body>
 
     @Query("SELECT * FROM bodies WHERE date= :date")
-    fun getBodyByDate(date:String):Body
+    suspend fun getBodyByDate(date:String):Body
 }

@@ -4,17 +4,20 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import backend.helper.Helper
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import kotlin.random.Random
 
-class ClassicFoodListAdapter(var content:ArrayList<Food>, var context: Context): RecyclerView.Adapter<ClassicFoodListAdapter.ViewHolder>() {
+class ClassicFoodListAdapter(var content:ArrayList<Food>,var favContent:ArrayList<FavFood>, var context: Context): RecyclerView.Adapter<ClassicFoodListAdapter.ViewHolder>() {
 
 
     private var helper = Helper()
@@ -23,6 +26,7 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>, var context: Context):
     // Interface:
     lateinit var mLongListener: ClassicFoodListAdapter.OnLongClickListener
     lateinit var mListener: ClassicFoodListAdapter.OnClickListener
+    lateinit var mCheckedListener:OnCheckedChangedListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -53,6 +57,21 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>, var context: Context):
 
         }
 
+        // ToggleButton
+        holder.favButton.isChecked = checkIfFoodIsFavourite(food)
+        holder.favButton.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener
+        {
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if(mCheckedListener!=null)
+                {
+                    mCheckedListener.setOnCheckedChangeListener(content[holder.adapterPosition],isChecked)
+                }
+
+            }
+
+        })
+
+
 
         holder.itemView.setOnClickListener {
             if (mListener != null) {
@@ -61,6 +80,19 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>, var context: Context):
         }
     }
 
+    fun checkIfFoodIsFavourite(food:Food):Boolean
+    {
+        var check = false
+        for(i in favContent)
+        {
+            if(i.id == food.id)
+            {
+                check = true
+                break
+            }
+        }
+        return check
+    }
 
     fun updateContent(content:ArrayList<Food>)
     {
@@ -76,6 +108,7 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>, var context: Context):
         var tvGroup: TextView = itemView.findViewById(R.id.mealcard_item_group)
         var tvKcal: TextView = itemView.findViewById(R.id.mealcard_item_kcal)
         var icon: ImageView = itemView.findViewById(R.id.mealcard_item_icon)
+        var favButton:ToggleButton = itemView.findViewById(R.id.button_favorite)
     }
 
 
@@ -95,5 +128,15 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>, var context: Context):
 
     fun setOnClickListener(mListener: OnClickListener) {
         this.mListener = mListener
+    }
+
+    interface OnCheckedChangedListener
+    {
+        fun setOnCheckedChangeListener(food:Food,buttonState:Boolean)
+    }
+
+    fun setOnCheckedChangeListener(mCheckedListener:OnCheckedChangedListener)
+    {
+        this.mCheckedListener = mCheckedListener
     }
 }

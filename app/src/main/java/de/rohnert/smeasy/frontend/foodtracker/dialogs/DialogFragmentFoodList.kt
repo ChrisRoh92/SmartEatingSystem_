@@ -41,8 +41,10 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
 
     // Content:
     private lateinit var filter:FoodListerFilter
+    private var favFoodList = foodViewModel.getFavFoodList()
     private var foodList:ArrayList<Food> = foodViewModel.getLocalFoodList()
     private var workFoodList:ArrayList<Food> = foodList
+    private var extendFilterValues:ArrayList<Float> = arrayListOf(0f,0f,0f,0f,0f,0f,0f,0f)
 
 
     // Filter stuff:
@@ -116,7 +118,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
     // Init Views....
     private fun initRecyclerView() {
 
-        filter = FoodListerFilter(rootView.context,foodViewModel)
+        filter = FoodListerFilter(rootView.context,foodViewModel,extendFilterValues)
         filter.setOnFilterItemsListener(object:FoodListerFilter.OnFilterItemsListener{
             override fun setOnFilterItemsListener(foodList: ArrayList<Food>) {
                 classicAdapter.updateContent(foodList)
@@ -129,26 +131,12 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
         rv = rootView.findViewById(R.id.dialog_foodlist_rv)
         manager = LinearLayoutManager(rootView.context, RecyclerView.VERTICAL, false)
         adapter = FoodListAdapter(sMeal)
-        classicAdapter = ClassicFoodListAdapter(filter.getFilteredFoodList(),rootView.context)
+        classicAdapter = ClassicFoodListAdapter(filter.getFilteredFoodList(),favFoodList,rootView.context)
         rv.layoutManager = manager
         rv.adapter = classicAdapter
 
 
 
-
-        /*adapter.submitList(foodViewModel.getFoodList().value!!)*//*
-        //var animator = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
-        foodViewModel.getFoodList().observe(viewLifecycleOwner, Observer {
-
-            //classicAdapter.updateContent(foodViewModel.getFoodList().value!!)
-            *//*adapter.submitList(foodViewModel.getFoodList().value!!)
-            Handler().postDelayed({
-                pb.visibility = View.GONE
-                Thread.sleep(100)
-                rv.visibility = View.VISIBLE
-            },500)*//*
-
-        })*/
 
 
 
@@ -165,6 +153,26 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
 
         adapter.setOnLongClickListener(object : FoodListAdapter.OnLongClickListener {
             override fun setOnLongClickListener(food: Food, position: Int, meal: String) {
+
+            }
+
+        })
+
+        // Favouriten setzen bzw. entfernen...
+        classicAdapter.setOnCheckedChangeListener(object: ClassicFoodListAdapter.OnCheckedChangedListener{
+            override fun setOnCheckedChangeListener(food: Food, buttonState:Boolean) {
+                Log.d("Smeasy","DialogFragmentFoodList - initRecyclerView onCheckedChangeListener - buttonState = $buttonState")
+                if(buttonState)
+               {
+                   foodViewModel.addNewFavFood(food.id,food.name)
+                   filter.setNewFavFoodList()
+               }
+                else
+               {
+
+                   foodViewModel.deleteFavFood(food.id,food.name)
+                   filter.setNewFavFoodList()
+               }
 
             }
 
@@ -221,13 +229,16 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
             var handler = Handler()
             handler.postDelayed(Runnable {
                 var filterDialog =
-                    DialogFoodListFilter(rootView.context, foodViewModel, categories)
+                    DialogFoodListFilter(rootView.context, foodViewModel, categories,extendFilterValues)
                 filterDialog.onDialogFilterClickListener(object :
                     DialogFoodListFilter.OnDialogFilterClickListener {
-                    override fun onDialogFilterClickListener(category: ArrayList<String>,allowedFood: Boolean,favouriten: Boolean,userFood: Boolean)
+                    override fun onDialogFilterClickListener(category: ArrayList<String>,allowedFood: Boolean,favouriten: Boolean,userFood: Boolean, newExtendFilterValues:ArrayList<Float>)
                     {
                         Log.d("Smeasy","DialogFragmentFoodList - onDialogFilterClickListener() - Categories: $category")
                         filter.setCategories(category)
+                        extendFilterValues = newExtendFilterValues
+                        filter.setNewExtendedFilterValues(extendFilterValues)
+                        filter.setFavourites(favouriten)
                         Log.d("Smeasy","DialogFragmentFoodList - onMenuItemClick - onDialogFilterClickListener was called: Size of categories: ${foodList.size}")
                         categories = category
                         //filterFoods()

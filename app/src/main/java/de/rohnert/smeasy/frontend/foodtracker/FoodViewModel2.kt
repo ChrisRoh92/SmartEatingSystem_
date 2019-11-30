@@ -14,6 +14,7 @@ import com.example.roomdatabaseexample.backend.databases.daily_database.helper.C
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
 import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
+import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import kotlinx.coroutines.*
@@ -47,6 +48,9 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     // Daily:
     private lateinit var localDaily:Daily
 
+    // FavFoodList:
+    private lateinit var localFavFoodList:ArrayList<FavFood>
+
     // LiveDatas...
     // LiveDate, wenn ein neues UserFood eingetragen/verändert/gelöscht wird...
     private var updatedFoodList:MutableLiveData<Int> = MutableLiveData()
@@ -78,6 +82,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
             withContext(Main)
             {
+                setFavFoodList()
                 setLocalDaily()
                 createEntryLists()
             }
@@ -152,6 +157,11 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         localFoodList.addAll(localUserFoodList)
         localFoodCategories = repository.getFoodCategories()
         // UserFood einbinden...
+    }
+
+    private suspend fun setFavFoodList()
+    {
+        localFavFoodList = repository.getFavFoodList()
     }
 
     private suspend fun setCSVFoodList()
@@ -334,6 +344,72 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     }
 
+    // Aufrufen, wenn ein MealEntry, neu gemacht werden muss...
+    fun updateMealEntry(mealEntry: MealEntry,meal:String)
+    {
+        fun getMealList():ArrayList<MealEntry>
+        {
+            when(meal)
+            {
+                "breakfast" -> return localDaily.breakfastEntry!!
+                "lunch" -> return localDaily.lunchEntry!!
+                "dinner" -> return localDaily.dinnerEntry!!
+                else -> return localDaily.snackEntry!!
+
+            }
+        }
+
+        var values = getMealList()
+        var pos = -1
+        for((index,i) in getMealList().withIndex())
+        {
+            if(i.id == mealEntry.id)
+            {
+                pos = index
+                getMealList()[pos].menge = mealEntry.menge
+
+                break
+            }
+        }
+        /*if(pos == -1)
+        {
+            values[pos].menge = mealEntry.menge
+        }*/
+
+        when(meal)
+        {
+            "breakfast" ->
+            {
+                localDaily.breakfastEntry = values
+                breakfastList!!.value = localDaily.breakfastEntry
+            }
+            "lunch" ->
+            {
+                localDaily.lunchEntry = values
+                lunchList!!.value = localDaily.lunchEntry
+            }
+            "dinner" ->
+            {
+                localDaily.dinnerEntry = values
+                dinnerList!!.value = localDaily.dinnerEntry
+            }
+            "snack" ->
+            {
+                localDaily.snackEntry = values
+                snackList!!.value = localDaily.snackEntry
+            }
+        }
+
+        // Daily Updaten...
+        CoroutineScope(Main).launch {
+            //createEntryLists()
+            updateDaily(daily = localDaily)
+        }
+
+
+
+            }
+
     fun changeMealEntry(entry:MealEntry,oldMeal:String,newMeal:String)
     {
         var localEntry = entry
@@ -465,6 +541,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     fun getDailyMaxValues():ArrayList<Float>
     {
+        sharePrefs = SharedAppPreferences(getApplication())
         var export:ArrayList<Float> = ArrayList()
         if(localDaily.date == date)
         {
@@ -482,12 +559,12 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
                 export.add(localDaily.maxFett)
             }
         }
-        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - date - ${date}")
-        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.date - ${localDaily.date}")
-        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxKcal}")
-        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxCarb}")
-        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxProtein}")
-        Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxFett}")
+        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - date - ${date}")
+        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.date - ${localDaily.date}")
+        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxKcal}")
+        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxCarb}")
+        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxProtein}")
+        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxFett}")
 
 
         return export
@@ -539,6 +616,47 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    // FavFood List:
+    fun addNewFavFood(id:String,name:String)
+    {
+        var favFood = FavFood(id,name)
+        if(!localFavFoodList.contains(favFood))
+        {
+            localFavFoodList.add(favFood)
+            CoroutineScope(IO).launch {
+                repository.addNewFavFood(favFood)
+                Log.d("Smeasy","FoodViewModel - addNewFood")
+            }
+        }
+
+
+    }
+    fun deleteFavFood(id:String,name:String)
+    {
+        var favFood = FavFood(id,name)
+        var pos = -1
+        for((index,i) in localFavFoodList.withIndex())
+        {
+            if(i.id == id)
+            {
+                pos = index
+                break
+            }
+        }
+        Log.d("Smeasy","FoodViewModel - deleteFavFood pos: $pos")
+        if(pos > -1)
+        {
+            localFavFoodList.removeAt(pos)
+            CoroutineScope(IO).launch {
+                repository.deleteFavFood(favFood)
+            }
+        }
+    }
+
+
+
+
 
 
 
@@ -572,9 +690,6 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         return snackList!!
     }
 
-
-
-
     // Getters for FoodLists...
     fun getLocalFoodList():ArrayList<Food>
     {
@@ -599,6 +714,11 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     fun getUpdatedFoodValue():LiveData<Int>
     {
         return updatedFoodList
+    }
+
+    fun getFavFoodList():ArrayList<FavFood>
+    {
+        return localFavFoodList
     }
 
 

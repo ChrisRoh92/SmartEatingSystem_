@@ -19,9 +19,11 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import com.google.android.material.snackbar.Snackbar
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
@@ -42,12 +44,11 @@ class BodyEntryFragment: Fragment() {
     // View Elemente:
     private lateinit var recyclerViewCardView:CardView
     private lateinit var statusCardView:CardView
-    private lateinit var pbAll:ProgressBar
     private lateinit var pbWeight:ProgressBar
     private lateinit var pbKfa:ProgressBar
     private lateinit var pbBMI:ProgressBar
 
-    private lateinit var tvAll:TextView
+
     private lateinit var tvWeight:TextView
     private lateinit var tvKfa:TextView
     private lateinit var tvBMI:TextView
@@ -75,7 +76,9 @@ class BodyEntryFragment: Fragment() {
         Handler().postDelayed({
             initStatusView()
             initRecyclerView()
+            initObserver()
             startStatusViewAnimation()
+
             /*var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Funktion befindet sich zum Teil noch im Aufbau...",
                 Snackbar.LENGTH_LONG)
             var snackView = snackbar.view
@@ -96,15 +99,37 @@ class BodyEntryFragment: Fragment() {
 
 
 
+    private fun initObserver()
+    {
+        bodyViewModel.getLiveBodyList().observe(viewLifecycleOwner,androidx.lifecycle.Observer{
+            adapter.updateContent(it)
+        })
+    }
 
     private fun initRecyclerView()
     {
         recyclerView = rootView.findViewById(R.id.bodyentry_recyclerview)
-        adapter = BodyEntryRecyclerViewAdapter(bodyViewModel.getBodyList())
+        adapter = BodyEntryRecyclerViewAdapter(ArrayList(),fragmentManager!!)
         manager = LinearLayoutManager(rootView.context, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(CustomDividerItemDecoration(RecyclerView.VERTICAL, rootView.context, 68))
+
+        adapter.setOnBodyEntryLongClickListener(object:BodyEntryRecyclerViewAdapter.OnBodyEntryLongClickListener{
+            override fun setOnBodyEntryLongClickListener(body: Body, pos: Int) {
+                bodyViewModel.deleteBody(body)
+            }
+
+        })
+
+        adapter.setOnBodyEntryClickListener(object:BodyEntryRecyclerViewAdapter.OnBodyEntryClickListener{
+            override fun setOnBodyEntryClickListener(body: Body, pos: Int) {
+                bodyViewModel.deleteBody(body)
+            }
+
+        })
+
+
 
 
         //
@@ -120,12 +145,19 @@ class BodyEntryFragment: Fragment() {
 
         btnAdd = rootView.findViewById(R.id.bodyentry_btn_add)
         btnAdd.setOnClickListener {
-            var dialog = DialogNewBodyEntry(rootView.context,fragmentManager!!,bodyViewModel)
+            if(!bodyViewModel.checkIfBodyExist())
+            {
+                var dialog = DialogNewBodyEntry(rootView.context,fragmentManager!!,bodyViewModel)
+            }
+            else
+            {
+                Toast.makeText(rootView.context,"Du hast heute bereits ein Eintrag erstellt...",Toast.LENGTH_SHORT).show()
+            }
+
         }
 
 
         // ProgressBars...
-        pbAll = rootView.findViewById(R.id.bodyentry_pb_all)
         pbWeight = rootView.findViewById(R.id.bodyentry_pb_weight)
         pbKfa = rootView.findViewById(R.id.bodyentry_pb_kfa)
         pbBMI = rootView.findViewById(R.id.bodyentry_pb_bmi)
@@ -134,7 +166,6 @@ class BodyEntryFragment: Fragment() {
 
 
         // TextViews...
-        tvAll = rootView.findViewById(R.id.bodyentry_tv_all)
         tvWeight = rootView.findViewById(R.id.bodyentry_tv_weight)
         tvKfa = rootView.findViewById(R.id.bodyentry_tv_kfa)
         tvBMI = rootView.findViewById(R.id.bodyentry_tv_bmi)
@@ -202,12 +233,12 @@ class BodyEntryFragment: Fragment() {
 
     private fun startStatusViewAnimation()
     {
-        var pbList:ArrayList<ProgressBar> = arrayListOf(pbAll,pbWeight,pbKfa,pbBMI)
+        var pbList:ArrayList<ProgressBar> = arrayListOf(pbWeight,pbKfa,pbBMI)
         pbList.forEach {
             it.max = 100
             it.progress = 0}
-        var tvList:ArrayList<TextView> = arrayListOf(tvAll,tvWeight,tvKfa,tvBMI)
-        var maxList:ArrayList<Float> = arrayListOf(100f,100f,100f,100f)
+        var tvList:ArrayList<TextView> = arrayListOf(tvWeight,tvKfa,tvBMI)
+        var maxList:ArrayList<Float> = arrayListOf(100f,100f,100f)
         var progressList:ArrayList<Float> = bodyViewModel.getProgressValues()
 
         animator = BodyEntryStatusViewAnimator(rootView.context,pbList,tvList,progressList,maxList)
