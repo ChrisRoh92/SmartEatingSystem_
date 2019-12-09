@@ -77,13 +77,14 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
                     //Toast.makeText(application,"Food Liste wurde angelegt...",Toast.LENGTH_SHORT).show()
                     Log.d("Smeasy","FoodViewModel2 - init - FoodListe aus CSV wurde angelegt....")
                 }
+                setLocalDaily()
 
             }
 
             withContext(Main)
             {
                 setFavFoodList()
-                setLocalDaily()
+
                 createEntryLists()
             }
 
@@ -117,36 +118,41 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         localDaily = repository.getDailyByDate(date)
         if(helper.isDateInFuture(helper.getDateFromString(date)))
         {
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - true")
+            /*Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - true")
 
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal - ${localDaily.maxKcal}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal - ${localDaily.maxCarb}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal - ${localDaily.maxProtein}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal - ${localDaily.maxFett}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - davor localDaily.maxKcal - ${localDaily.maxKcal}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - davor localDaily.maxCarb - ${localDaily.maxCarb}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - davor localDaily.maxProtein - ${localDaily.maxProtein}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - davor localDaily.maxFett - ${localDaily.maxFett}")*/
             if(localDaily.maxKcal != sharePrefs.maxKcal)
             {
                 localDaily.maxKcal = sharePrefs.maxKcal
             }
-            else if(localDaily.maxCarb != sharePrefs.maxCarbValue)
+            if(localDaily.maxCarb != sharePrefs.maxCarbValue)
             {
                 localDaily.maxCarb = sharePrefs.maxCarbValue
             }
-            else if(localDaily.maxProtein != sharePrefs.maxProteinValue)
+            if(localDaily.maxProtein != sharePrefs.maxProteinValue)
             {
                 localDaily.maxProtein = sharePrefs.maxProteinValue
             }
-            else if(localDaily.maxFett != sharePrefs.maxFettValue)
+            if(localDaily.maxFett != sharePrefs.maxFettValue)
             {
                 localDaily.maxFett = sharePrefs.maxFettValue
             }
+            /*Log.d("Smeasy","FoodViewModel2 - setLocalDaily - sharePrefs.maxKcal  - ${sharePrefs.maxKcal}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - sharePrefs.maxCarbValue  - ${sharePrefs.maxCarbValue}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - sharePrefs.maxProteinValue  - ${sharePrefs.maxProteinValue}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - sharePrefs.maxFettValue  - ${sharePrefs.maxFettValue}")
+
             updateDaily(localDaily)
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal after - ${localDaily.maxKcal}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal after - ${localDaily.maxCarb}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal after - ${localDaily.maxProtein}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - localDaily.maxKcal after - ${localDaily.maxFett}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxKcal  - ${localDaily.maxKcal}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxCarb  - ${localDaily.maxCarb}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxProtein  - ${localDaily.maxProtein}")
+            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxFett  - ${localDaily.maxFett}")*/
         }
 
-        Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - false")
+        /*Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - false")*/
     }
 
     private suspend fun setFoodList()
@@ -559,15 +565,21 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
                 export.add(localDaily.maxFett)
             }
         }
-        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - date - ${date}")
-        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.date - ${localDaily.date}")
-        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxKcal}")
-        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxCarb}")
-        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxProtein}")
-        // Log.d("Smeasy","FoodViewModel2 - getDailyMaxValues - localDaily.maxKcal - ${localDaily.maxFett}")
+        var values:ArrayList<Float> = ArrayList()
+        for(i in export)
+        {
+            if(i == 0f)
+            {
+                values.add(25f)
+            }
+            else
+            {
+                values.add(i)
+            }
+        }
 
 
-        return export
+        return values
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
 

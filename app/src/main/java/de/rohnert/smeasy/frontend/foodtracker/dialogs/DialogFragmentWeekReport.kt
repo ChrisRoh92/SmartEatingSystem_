@@ -5,15 +5,11 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.BounceInterpolator
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -22,13 +18,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import backend.helper.Helper
-import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
@@ -37,12 +31,9 @@ import de.rohnert.smeasy.frontend.foodtracker.adapter.WeekReportRecyclerViewAdap
 import de.rohnert.smeasy.frontend.foodtracker.helper.MyValueFormatter
 import de.rohnert.smeasy.frontend.foodtracker.helper.WeekReportCreator
 import de.rohnert.smeasy.frontend.premium.dialogs.DialogPremiumAlert
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.withContext
+import de.rohnert.smeasy.helper.dialogs.DialogLoading
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.sqrt
 
 class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment(),
     View.OnClickListener {
@@ -54,6 +45,9 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
     private var helper = Helper()
     private var mDate:String = foodViewModel.date
     private lateinit var reporter:WeekReportCreator
+
+    // Loading Dialog
+    private lateinit var dialogLoader:DialogLoading
 
     // Chart:
     private lateinit var chart: LineChart
@@ -99,6 +93,8 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
     {
         rootView = inflater.inflate(R.layout.dialog_weekreport, container, false)
 
+
+        dialogLoader = DialogLoading(rootView.context)
         initToolBar()
         initViewElements()
         initCharts()
@@ -111,16 +107,20 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
 
             if(it == 0)
             {
+
                 toolbar.subtitle = "${reporter.getFirstDay()} - ${reporter.getLastDay()} "
                 initContent()
                 initRecyclerView()
                 updateChartContent()
 
+
                 initAnimation()
+
             }
             else
             {
                 newValuesAnimation()
+
             }
 
         })
@@ -151,7 +151,6 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
             // handle back button naviagtion
             dismiss()
         }
-
         toolbar.inflateMenu(R.menu.menu_weekreport)
         toolbar.setOnMenuItemClickListener{
             initCalendar()
@@ -159,6 +158,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         }
 
     }
+
     // InitViews:
     private fun initViewElements()
     {
@@ -247,6 +247,24 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         var set = AnimatorSet()
         set.playTogether(animators as Collection<Animator>?)
         set.start()
+        set.addListener(object:Animator.AnimatorListener{
+            override fun onAnimationRepeat(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                dialogLoader.dismiss()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+
+            }
+
+        })
     }
 
     private fun newValuesAnimation()
@@ -284,6 +302,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
                 initRecyclerView()
                 updateChartContent()
                 initAnimation(200)
+                dialogLoader.dismiss()
             }
 
             override fun onAnimationCancel(p0: Animator?) {
@@ -576,7 +595,9 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         if(view == btnNutrition)
         {
             // DetailAnsicht von den Charts anzeigen
-            var dialog = DialogPremiumAlert(rootView.context)
+            //var dialog = DialogPremiumAlert(rootView.context)
+            var dialog = DialogFragmentWeekReportNutrition(foodViewModel,mDate,reporter)
+            dialog.show(fragmentManager!!,"nutrition")
         }
         else
         {
@@ -594,7 +615,9 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         dialog.setOnDialogClickListener(object: DialogDatePicker.OnDialogClickListener
         {
             override fun setOnDialogClickListener(date: Date) {
-                reporter.setNewDate(helper.getStringFromDate(date))
+                dialogLoader = DialogLoading(rootView.context)
+                reporter.setNewDate(helper.getStringFromDate(date),dialogLoader)
+
 
             }
 

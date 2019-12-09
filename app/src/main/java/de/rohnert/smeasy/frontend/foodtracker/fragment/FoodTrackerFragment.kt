@@ -373,6 +373,11 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         pbProtein = rootView.findViewById(R.id.fragment_foodtracker_pb_protein)
         pbFett = rootView.findViewById(R.id.fragment_foodtracker_pb_fett)
 
+        pbKcal.max = 3600
+        pbCarb.max = 1000
+        pbProtein.max = 1000
+        pbFett.max = 1000
+
 
 
 

@@ -2,6 +2,7 @@ package de.rohnert.smeasy.frontend.foodtracker.animations
 
 import android.animation.*
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -99,7 +100,20 @@ class AnimationStatusView(var context: Context,
     {
         var export:ArrayList<ValueAnimator> = ArrayList()
         // Hinzufügen vom Kcal ProgressBar:
-        var startValue = ((progressValues[0]/maxValues[0])*2700).roundToInt()
+        var startValue = 0
+        var start = ((progressValues[0]/maxValues[0])*2700)
+        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList progressValues[0] = ${progressValues[0]}")
+        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList maxValues[0] = ${maxValues[0]}")
+        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList start = $start")
+        if(start == 0f)
+        {
+
+        }
+        else
+        {
+            startValue = start.roundToInt()
+        }
+       // var startValue = ((progressValues[0]/maxValues[0])*2700).roundToInt()
         if(startValue <= 2700)
         {
             var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 1000)

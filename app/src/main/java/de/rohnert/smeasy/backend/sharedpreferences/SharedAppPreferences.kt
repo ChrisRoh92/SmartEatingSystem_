@@ -32,6 +32,7 @@ class SharedAppPreferences(var context: Context)
 
     // Andere BodySettings:
     var aim:String
+    var aimWeightLoss:Float
     var weightAim:Float
     var bmiAim:Float
     var kfaAim:Float
@@ -42,20 +43,23 @@ class SharedAppPreferences(var context: Context)
 
     // Werte für FoodListFilter:
     var maxAllowedKcal:Float
+    var maxAllowedCarbs:Float = 0f
+    var maxAllowedProtein:Float = 0f
+    var maxAllowedFett:Float = 0f
 
     init {
 
 
 
-        maxKcal = sharedPref.getFloat("maxKcal",0f)
-        maxCarb = sharedPref.getFloat("maxCarb",0f)
-        maxProtein = sharedPref.getFloat("maxProtein",0f)
-        maxFett = sharedPref.getFloat("maxFett",0f)
+        maxKcal = sharedPref.getFloat("maxKcal",2500f)
+        maxCarb = sharedPref.getFloat("maxCarb",100f)
+        maxProtein = sharedPref.getFloat("maxProtein",100f)
+        maxFett = sharedPref.getFloat("maxFett",50f)
 
         initMaxValues()
 
         aim = sharedPref.getString("aim","Abnehmen")!!
-
+        aimWeightLoss = sharedPref.getFloat("aimWeightLoss",0f)
         weightAim = sharedPref.getFloat("weightAim",0f)!!
         bmiAim = sharedPref.getFloat("bmiAim",0f)
         kfaAim = sharedPref.getFloat("kfaAim",0f)!!
@@ -67,7 +71,7 @@ class SharedAppPreferences(var context: Context)
 
 
         userName = sharedPref.getString("userName","")!!
-        userHeight = sharedPref.getFloat("userHeight",1.8f)!!
+        userHeight = sharedPref.getFloat("userHeight",180f)!!
         sex = sharedPref.getString("sex","")!!
         bday = sharedPref.getString("bday","")!!
 
@@ -139,6 +143,12 @@ class SharedAppPreferences(var context: Context)
     {
         aim = value
         saveString(aim,"aim")
+    }
+
+    fun setNewAimWeightLoss(value:Float)
+    {
+        weightAim = value
+        saveFloat(value,"aimWeightLoss")
     }
 
     fun setNewBmiAim()

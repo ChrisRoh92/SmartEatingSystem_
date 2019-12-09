@@ -3,12 +3,8 @@ package backend.helper
 import android.util.Log
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
-
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import kotlin.collections.ArrayList
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -53,7 +49,7 @@ class Helper
     }
 
     // LocalDate aus Date
-    fun getLocalDateFromDate(date:Date):LocalDate
+    /*fun getLocalDateFromDate(date:Date):LocalDate
     {
         var formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         var localDate:LocalDate = LocalDate.parse(getStringFromDate(date),formatter)
@@ -65,7 +61,7 @@ class Helper
     {
         val date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
         return date
-    }
+    }*/
 
     // Über diese Methode wird die Anzahl der Jahre zwischen zwei Datums zurückgegeben...
     fun getYearsBetweenDates(date1:Date,date2:Date):Int
@@ -99,6 +95,40 @@ class Helper
 
         return sameDay
     }
+    
+    fun getWeekListFromDate(date:Date):ArrayList<Date>
+    {
+        var export:ArrayList<Date> = ArrayList()
+        var cal = Calendar.getInstance();
+        cal.time = date
+        //cal.set(mDate.year,mDate.month,mDate.day)
+        cal.firstDayOfWeek = Calendar.MONDAY
+        var items = arrayListOf(Calendar.MONDAY,Calendar.TUESDAY,Calendar.WEDNESDAY,Calendar.THURSDAY,Calendar.FRIDAY,Calendar.SATURDAY,Calendar.SUNDAY)
+
+        for(i in items)
+        {
+            cal.set(Calendar.DAY_OF_WEEK, i)
+            export.add(cal.time)
+            //println(simpleDateFormat.format(cal.getTime()))
+        }
+
+
+        return export
+    }
+
+    fun getWeekListAsString(mDate:Date):ArrayList<String>
+    {
+        var values = getWeekListFromDate(mDate)
+        var export:ArrayList<String> = ArrayList()
+        for(i in values)
+        {
+            export.add(getStringFromDate(i))
+        }
+
+        return export
+
+
+    }
 
 
 
@@ -117,8 +147,8 @@ class Helper
     fun getCurrentDate():Date
     {
 
-        var mDate: LocalDateTime = LocalDateTime.now()
-        return Date.from(mDate.atZone(ZoneId.systemDefault()).toInstant());
+        var mDate: Date = Date()
+        return mDate
     }
 
 

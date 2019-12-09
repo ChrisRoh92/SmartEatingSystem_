@@ -10,12 +10,15 @@ import com.example.roomdatabaseexample.backend.databases.daily_database.helper.C
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smeasy.helper.dialogs.DialogLoading
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.util.*
+import kotlin.collections.ArrayList
 
 class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
 {
@@ -26,17 +29,22 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
     private var dailyList:ArrayList<Daily> = ArrayList()
     private var dailyProcess = DailyProcessor(foodViewModel.getApplication())
     private var created:MutableLiveData<Int> = MutableLiveData()
+    var content:ArrayList<ArrayList<Float>> = ArrayList()
     // Interface:
     private lateinit var mListener:OnWeekReportChangeListener
 
 
     init {
 
+
         // Woche herausfunden...
         runBlocking {
             CoroutineScope(IO).launch {
-                createDayList()
+                /*createDayList()
+                createDailyList()*/
+                createWeekList()
                 createDailyList()
+                content = getChartValues()
                 created.postValue(0)
             }
 
@@ -56,27 +64,12 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
 
     }
 
-    // Init Funktionen....
-    private suspend fun createDayList()
+    private fun createWeekList()
     {
-
-
-        var dayOfWeek = helper.getLocalDateFromDate(helper.getDateFromString(mDate))
-        var dayOfWeekValue = dayOfWeek.dayOfWeek
-        Log.d("Smeasy","WeekReportCreator: createDayList dayOfWeek.dayOfWeek = $dayOfWeekValue")
-        Log.d("Smeasy","WeekReportCreator: createDayList dayOfWeek.dayOfWeek.value = ${dayOfWeekValue.value}")
-        var diff = (dayOfWeekValue.value).toLong()
-        Log.d("Smeasy","WeekReportCreator: createDayList diff = $diff")
-        var startDay = dayOfWeek.minusDays(diff-1)
-        Log.d("Smeasy","WeekReportCreator: createDayList startDay = $startDay")
-        dayList.clear()
-        for(i in 0..6)
-        {
-
-            dayList.add(helper.getStringFromDate(helper.getDateFromLocalDate(startDay.plusDays(i.toLong()))))
-        }
-
+        dayList = helper.getWeekListAsString(helper.getDateFromString(mDate))
     }
+
+    // Init Funktionen....
 
     private suspend fun createDailyList()
     {
@@ -161,20 +154,37 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
         return export
     }
 
+    fun getNutritionValues():ArrayList<Float>
+    {
+        var export:ArrayList<Float> = ArrayList()
+        for((index,i) in content.withIndex())
+        {
+            export.add(0f)
+            for((indexJ,j) in i.withIndex())
+            {
+                export[index] += j
+            }
+        }
 
-    fun setNewDate(newDate:String)
+        return export
+    }
+
+
+    fun setNewDate(newDate:String,dialogLoader:DialogLoading)
     {
         mDate = newDate
         if(dayList.contains(mDate))
         {
             // Do Nothing
+            dialogLoader.dismiss()
         }
         else
         {
             runBlocking {
                 CoroutineScope(IO).launch {
-                    createDayList()
+                    createWeekList()
                     createDailyList()
+                    content = getChartValues()
                     var m = created.value!! + 1
                     created.postValue(m)
                 }

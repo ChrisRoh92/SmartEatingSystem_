@@ -17,6 +17,7 @@ import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogBodyAim
+import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogBodySettingsAim
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogNutrition
 import de.rohnert.smeasy.helper.dialogs.DialogSingleList
 import kotlin.math.roundToInt
@@ -60,6 +61,7 @@ class BodySettingFragment: Fragment() {
     private var tvNutritionList:ArrayList<TextView> = ArrayList()
     private var pbNutritionList:ArrayList<ProgressBar> = ArrayList()
     private lateinit var tvAim:TextView
+    private lateinit var tvAimWeight:TextView
     private var tvBodyAimList:ArrayList<TextView> = ArrayList()
 
     // Buttons:
@@ -120,13 +122,43 @@ class BodySettingFragment: Fragment() {
         {
             tvAim = rootView.findViewById(R.id.bodysettings_aim_tv)
             tvAim.text = prefs.aim
+            tvAimWeight = rootView.findViewById(R.id.bodysettings_aim_tv_weight)
+            tvAimWeight.text = "${helper.getFloatAsFormattedStringWithPattern(prefs.aimWeightLoss,"#.#")} kg pro Woche"
             btnAim = rootView.findViewById(R.id.bodysettings_aim_btn)
             btnAim.setOnClickListener {
-                var dialog = DialogSingleList("Ziel","Wähle dein Zuel aus", arrayListOf("Abnehmen","Gewicht Halten","Aufbauen"),rootView.context)
+                /*var dialog = DialogSingleList("Ziel","Wähle dein Zuel aus", arrayListOf("Abnehmen","Gewicht Halten","Aufbauen"),rootView.context)
                 dialog.onItemClickListener(object : DialogSingleList.OnDialogListListener{
                     override fun onItemClickListener(value: String, pos: Int) {
                         tvAim.text = value
                         prefs.setNewAim(value)
+                    }
+
+                })*/
+                var dialog = DialogBodySettingsAim(rootView.context,prefs)
+                dialog.setOnDialogBodySettingsAimListener(object:DialogBodySettingsAim.OnDialogBodySettingsAimListener{
+                    override fun setOnDialogBodySettingsAimListener(aim: String, value: Float) {
+                        var newValues = false
+                        var oldValue = prefs.aimWeightLoss
+
+                        if(aim != prefs.aim)
+                        {
+                            prefs.setNewAim(aim)
+                            newValues = true
+                            tvAim.text = prefs.aim
+                        }
+                        if(value != prefs.aimWeightLoss)
+                        {
+                            prefs.setNewAimWeightLoss(value)
+                            newValues = true
+                            tvAimWeight.text = "${helper.getFloatAsFormattedStringWithPattern(value,"#.#")} kg pro Woche"
+                            var newKcal = prefs.maxKcal + (1000f*(value-oldValue))
+                            prefs.setNewMaxKcal(newKcal)
+                        }
+                        if(newValues)
+                        {
+                            updateNutritionCard()
+                        }
+
                     }
 
                 })

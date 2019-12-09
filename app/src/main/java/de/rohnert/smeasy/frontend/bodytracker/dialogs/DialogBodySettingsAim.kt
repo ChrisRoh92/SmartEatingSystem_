@@ -1,0 +1,160 @@
+package de.rohnert.smeasy.frontend.bodytracker.dialogs
+
+import android.app.AlertDialog
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.*
+import backend.helper.Helper
+import com.google.android.material.textfield.TextInputLayout
+import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
+import java.lang.Exception
+import java.lang.Math.abs
+import kotlin.math.roundToInt
+
+class DialogBodySettingsAim(var context: Context,prefs:SharedAppPreferences ) :
+    AdapterView.OnItemClickListener {
+
+
+    private lateinit var builder: AlertDialog.Builder
+    private lateinit var alertDialog: AlertDialog
+    private lateinit var view: View
+    private lateinit var inflater: LayoutInflater
+    private var helper = Helper()
+
+    // Content:
+    private lateinit var content:ArrayList<String>
+    private var aim = prefs.aim
+    private var aimWeightLoss = prefs.aimWeightLoss
+
+    // Views:
+    private lateinit var listView:ListView
+    private lateinit var et:TextInputLayout
+    private lateinit var btnSave:Button
+    private lateinit var btnAbort:Button
+
+    // Interface:
+    private lateinit var mListener:OnDialogBodySettingsAimListener
+
+
+    init {
+        initDialog()
+    }
+
+
+    // Dialog initialisieren...
+    private fun initDialog()
+    {
+
+        builder = AlertDialog.Builder(context)
+        inflater = LayoutInflater.from(context)
+        view = inflater.inflate(R.layout.dialog_bodysettings_aim, null)
+        builder.setView(view)
+
+
+        initViews()
+
+
+        alertDialog = builder.create()
+        alertDialog.window!!.setBackgroundDrawableResource(android.R.color.white)
+        alertDialog.show()
+
+    }
+
+    private fun initViews()
+    {
+        // ListView
+        listView = view.findViewById(R.id.dialog_bodysettings_aim_listview)
+        content= arrayListOf("Abnehmen","Gewicht Halten","Aufbauen")
+        // ArrayAdapter:
+        var adapter = ArrayAdapter<String>(context,android.R.layout.simple_list_item_single_choice,content)
+        listView.choiceMode = ListView.CHOICE_MODE_SINGLE
+
+        listView.adapter = adapter
+        listView.setItemChecked(content.indexOf(aim),true)
+
+        // Listener hinzufügen...
+        listView.onItemClickListener = this
+
+
+
+        // EditText:
+        et = view.findViewById(R.id.dialog_bodysettings_aim_et)
+        et.editText!!.setText(helper.getFloatAsFormattedStringWithPattern(aimWeightLoss,"#.##"))
+
+
+        // Buttons:
+        btnSave = view.findViewById(R.id.dialog_bodysettings_aim_btn_save)
+        btnAbort = view.findViewById(R.id.dialog_bodysettings_aim_btn_abort)
+
+        btnAbort.setOnClickListener{alertDialog.dismiss()}
+        btnSave.setOnClickListener{
+            if(et.editText!!.text.isNullOrEmpty())
+            {
+                aimWeightLoss = 0f
+                et.editText!!.setText(helper.getFloatAsFormattedStringWithPattern(aimWeightLoss,"#.##"))
+            }
+            else
+            {
+                // Do Nothing...
+            }
+            if(mListener!=null)
+            {
+                try {
+                    if(et.editText!!.text.toString().contains(','))
+                    {
+                        var newString:String = et.editText!!.text.toString().replace(",",".")
+                        et.editText!!.setText(newString)
+                        aimWeightLoss = et.editText!!.text.toString().toFloat()
+                    }
+                    aimWeightLoss = et.editText!!.text.toString().toFloat()
+                }catch (e:Exception)
+                {
+                    e.printStackTrace()
+                }
+                if(aim == "Gewicht Halten" && aimWeightLoss != 0f)
+                {
+                    Toast.makeText(context,"Beim Ziel 'Gewicht Halten' muss dein Wochenziel 0 kg pro Woche betragen",Toast.LENGTH_SHORT).show()
+                }
+                else if(aim == "Abnehmen" && aimWeightLoss > 0f)
+                {
+                    Toast.makeText(context,"Beim Ziel 'Abnehmen' muss dein Wochenziel kleiner 0 kg pro Woche betragen",Toast.LENGTH_SHORT).show()
+                }
+
+                else if(aim == "Aufbauen" && aimWeightLoss < 0f)
+                {
+                    Toast.makeText(context,"Beim Ziel 'Aufbauen' muss dein Wochenziel größer 0 kg pro Woche betragen",Toast.LENGTH_SHORT).show()
+                }
+                else if(kotlin.math.abs(aimWeightLoss) <= 2)
+                {
+
+                    mListener.setOnDialogBodySettingsAimListener(aim,aimWeightLoss)
+                    alertDialog.dismiss()
+                }
+                else
+                {
+                  Toast.makeText(context,"Das Wochenziel soll nicht mehr wie +2 bzw. -2 kg pro Woche betragen",Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
+    }
+
+
+
+    // Interface:
+    interface OnDialogBodySettingsAimListener
+    {
+        fun setOnDialogBodySettingsAimListener(aim:String,value:Float)
+    }
+
+    fun setOnDialogBodySettingsAimListener(mListener:OnDialogBodySettingsAimListener)
+    {
+        this.mListener = mListener
+    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        aim = content[position]
+    }
+}
