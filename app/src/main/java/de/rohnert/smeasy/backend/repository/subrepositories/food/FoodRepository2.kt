@@ -15,7 +15,7 @@ import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
 class FoodRepository2(var application: Application)
 {
     private var appFoodDao2: AppFoodDao2
-    private var foodProcessor:FoodProcessor = FoodProcessor(application)
+
 
     // userfood stuff:
     private var userFoodDao:UserFoodDao

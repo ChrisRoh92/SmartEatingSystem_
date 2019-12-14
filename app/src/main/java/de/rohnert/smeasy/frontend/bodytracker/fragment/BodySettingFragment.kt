@@ -105,7 +105,7 @@ class BodySettingFragment: Fragment() {
 
             btnNutrition = rootView.findViewById(R.id.bodysettings_btn_nutrition)
             btnNutrition.setOnClickListener{
-                var dialog = DialogNutrition(rootView.context)
+                var dialog = DialogNutrition(rootView.context,bodyViewModel)
                 dialog.setOnDialogNutritionListener(object: DialogNutrition.OnDialogNutritionListener{
                     override fun setOnDialogNutritionListener() {
                         Log.d("Smeasy","BodySettingsFragment - DialogNutritionListener...")

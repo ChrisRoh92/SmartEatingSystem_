@@ -10,4 +10,8 @@
 
     <external-path name="my_images" path="Android/data/de.rohnert.smeasy/files/Pictures" />
 
+    <files-path
+        name="data"
+        path="Android/data/de.rohnert.smeasy/files/"/>
+
 </Paths>

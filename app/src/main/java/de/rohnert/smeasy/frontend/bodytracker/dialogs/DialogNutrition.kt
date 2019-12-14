@@ -11,12 +11,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
+import backend.helper.Helper
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
+import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import kotlin.math.roundToInt
 
-class DialogNutrition(var context: Context) : SeekBar.OnSeekBarChangeListener,
+class DialogNutrition(var context: Context, var bodyViewModel:BodyViewModel) : SeekBar.OnSeekBarChangeListener,
     View.OnClickListener {
 
 
@@ -26,6 +28,7 @@ class DialogNutrition(var context: Context) : SeekBar.OnSeekBarChangeListener,
     private lateinit var view: View
     private lateinit var inflater: LayoutInflater
     private lateinit var share:SharedAppPreferences
+    private var helper = Helper()
 
     // Interface:
     private lateinit var mListener:OnDialogNutritionListener
@@ -277,7 +280,42 @@ class DialogNutrition(var context: Context) : SeekBar.OnSeekBarChangeListener,
     {
         if(btn == btnAuto)
         {
-            // Fehlt noch...
+            var dialog = DialogAutoCalcKcal(context)
+            dialog.setOnDialogAutoCalcKcalListener(object: DialogAutoCalcKcal.OnDialogAutoCalcKcalListener{
+                override fun setOnDialogAutoCalcKcalListener(arg: String, value: Float) {
+                    // Berechnen der Kcal:
+                    if(bodyViewModel.getLocalBody() == null)
+                    {
+                        Toast.makeText(context,"Du musst mindestens einen Bodyeintrag gemacht haben",Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                    {
+                        var weight = bodyViewModel.getLocalBody()!!.weight
+                        var height = share.userHeight
+                        var age = helper.getYearsBetweenDates(helper.getDateFromString(share.bday),helper.getCurrentDate())
+                        var kcal:Float = 0f
+                        if(share.sex == "Mann")
+                        {
+                            kcal = ((10*weight)+ (6.25*height) - (5f*age) + 5).toFloat()
+                            kcal *= value
+                            maxKcal = kcal.roundToInt()
+                            maxKcal += (share.aimWeightLoss * 1000f).roundToInt()
+                            etKcal.editText!!.setText(maxKcal.toString())
+                        }
+                        else if (share.sex == "Frau")
+                        {
+                            kcal = ((10*weight)+ (6.25*height) - (5f*age) -161).toFloat()
+                            kcal *= value
+                            maxKcal = kcal.roundToInt()
+                            maxKcal += (share.aimWeightLoss * 1000f).roundToInt()
+                            etKcal.editText!!.setText(maxKcal.toString())
+                        }
+                    }
+
+                }
+
+            })
+
         }
         else if(btn == btnSave)
         {

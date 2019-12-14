@@ -62,7 +62,8 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentMana
 
     fun updateContent(content: ArrayList<Body>)
     {
-        this.content = content
+        var local = content.asReversed()
+        this.content = ArrayList(local)
         notifyDataSetChanged()
     }
 

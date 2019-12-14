@@ -10,41 +10,75 @@
             android:layout_height="match_parent">
 
         <TextView
-                android:text="Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dialog_singlelist_title" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" android:textSize="24sp"/>
+            android:id="@+id/dialog_singlelist_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Title"
+            android:textColor="@color/textColor1"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
-                android:id="@+id/divider11"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/backgroundLight"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/dialog_singlelist_title"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            android:id="@+id/divider11"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/backgroundLight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_singlelist_subtitle" />
+
         <TextView
-                android:text="Subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dialog_singlelist_subtitle" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/divider11"
-                app:layout_constraintStart_toStartOf="@+id/dialog_singlelist_title"/>
+            android:id="@+id/dialog_singlelist_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subtitle"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@+id/dialog_singlelist_title"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_singlelist_title" />
 
         <ListView
             android:id="@+id/dialog_singlelist_listview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="10dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="80dp"
+            android:minHeight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_singlelist_subtitle" />
+            app:layout_constraintTop_toBottomOf="@+id/divider11" />
+
+        <View
+            android:id="@+id/divider63"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_singlelist_listview" />
+
+        <Button
+            android:id="@+id/dialog_singlelist_btn_back"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="zurück"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider63" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

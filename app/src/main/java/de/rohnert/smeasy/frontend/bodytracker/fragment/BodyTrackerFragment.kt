@@ -45,7 +45,7 @@ class BodyTrackerFragment: Fragment() {
         // Access to Toolbar.
         var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
         toolbar.menu.clear()
-        toolbar.inflateMenu(R.menu.menu_bodytracker)
+        /*toolbar.inflateMenu(R.menu.menu_bodytracker)
         toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener{
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 if(item!!.itemId == R.id.menu_bodytracker_report)
@@ -55,7 +55,7 @@ class BodyTrackerFragment: Fragment() {
                 return true
             }
 
-        })
+        })*/
     }
 
     private fun initViewPager()

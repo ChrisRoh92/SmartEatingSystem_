@@ -37,6 +37,8 @@ class Helper
         return formatted2
     }
 
+
+
     fun getStringFromDateWithPattern(date:Date,pattern: String):String
     {
         val formatter2 = SimpleDateFormat(pattern)
@@ -128,6 +130,64 @@ class Helper
         return export
 
 
+    }
+
+    fun getDateListWithValue(date: Date,value:Long):ArrayList<Date>
+    {
+
+        var cal = Calendar.getInstance()
+        cal.time = date
+        var dates:ArrayList<Date> = ArrayList()
+        dates.add(cal.time)
+        for(i in 0 until value-1 step 1)
+        {
+            cal.add(Calendar.DATE,-1)
+            dates.add(cal.time)
+        }
+
+        return dates
+    }
+
+    fun getDateListBetweenDates(fromDate: Date,toDate:Date):ArrayList<Date>
+    {
+
+        var days = toDate.time - fromDate.time
+        days /= (3600 * 1000 * 24)
+
+        var cal = Calendar.getInstance()
+        cal.time = fromDate
+        var dayList:ArrayList<Date> = ArrayList()
+        dayList.add(cal.time)
+        if(days > 0)
+        {
+
+            for(i in 0 until days step 1)
+            {
+
+                cal.add(Calendar.DATE,1)
+                dayList.add(cal.time)
+            }
+        }
+        else if (days < 0)
+        {
+            dayList.add(cal.time)
+            for(i in 0 until Math.abs(days-1) step 1)
+            {
+                cal.add(Calendar.DATE,-1)
+                dayList.add(cal.time)
+            }
+        }
+        return ArrayList()
+    }
+
+    fun convertDateListToStringList(dateList:ArrayList<Date>):ArrayList<String>
+    {
+        var export:ArrayList<String> = ArrayList()
+        for(i in dateList)
+        {
+            export.add(getStringFromDate(i))
+        }
+        return export
     }
 
 

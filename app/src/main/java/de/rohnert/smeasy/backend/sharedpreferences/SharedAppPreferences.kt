@@ -16,11 +16,12 @@ class SharedAppPreferences(var context: Context)
     private lateinit var editor: SharedPreferences.Editor
     // Werte für App-Erlebnis..
     var appInitalStart:Boolean
-    // Einstellungen für Foodwerte...
+    // Einstellungen für maximale Werte, die aufgenommen werden dürfen
     var maxKcal:Float
     var maxCarb:Float
     var maxProtein:Float
     var maxFett:Float
+    // Nachfolgend sind die genauen Grammengen zu berechnen, die sich aus den Verhältnissen ergeben
     var maxCarbValue:Float = 0f
     var maxProteinValue:Float = 0f
     var maxFettValue:Float = 0f
@@ -60,13 +61,15 @@ class SharedAppPreferences(var context: Context)
 
         aim = sharedPref.getString("aim","Abnehmen")!!
         aimWeightLoss = sharedPref.getFloat("aimWeightLoss",0f)
-        weightAim = sharedPref.getFloat("weightAim",0f)!!
-        bmiAim = sharedPref.getFloat("bmiAim",0f)
-        kfaAim = sharedPref.getFloat("kfaAim",0f)!!
-        bauchAim = sharedPref.getFloat("bauchAim",0f)!!
-        brustAim = sharedPref.getFloat("brustAim",0f)!!
-        halsAim = sharedPref.getFloat("halsAim",0f)!!
-        huefteAim = sharedPref.getFloat("huefteAim",0f)!!
+        weightAim = sharedPref.getFloat("weightAim",80f)!!
+        bmiAim = sharedPref.getFloat("bmiAim",10f)
+        kfaAim = sharedPref.getFloat("kfaAim",10f)!!
+        bauchAim = sharedPref.getFloat("bauchAim",100f)!!
+        brustAim = sharedPref.getFloat("brustAim",100f)!!
+        halsAim = sharedPref.getFloat("halsAim",300f)!!
+        huefteAim = sharedPref.getFloat("huefteAim",200f)!!
+
+        checkIfAppStartsFirst()
 
 
 
@@ -78,6 +81,11 @@ class SharedAppPreferences(var context: Context)
         maxAllowedKcal = sharedPref.getFloat("maxAllowedKcal",0f)
 
         appInitalStart = sharedPref.getBoolean("appInitalStart",false)
+
+    }
+
+    private fun checkIfAppStartsFirst()
+    {
 
     }
 

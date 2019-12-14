@@ -29,7 +29,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private var repository = MainRepository2(application)
     // Prozessoren...
     private var dailyProcess = DailyProcessor(application)
-    private var foodProcessor = FoodProcessor(application)
+    private lateinit var foodProcessor:FoodProcessor
     // Zentraler Zugriff auf Einstellungen...
     private var sharePrefs = SharedAppPreferences(application)
 
@@ -78,6 +78,8 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
                     Log.d("Smeasy","FoodViewModel2 - init - FoodListe aus CSV wurde angelegt....")
                 }
                 setLocalDaily()
+                foodProcessor = FoodProcessor(application, localFoodList)
+
 
             }
 

@@ -15,7 +15,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="60dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/bodyentry_cardview_statusview"
@@ -319,7 +320,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingBottom="8dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/bodyentry_recyclerview"

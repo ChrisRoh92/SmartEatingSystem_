@@ -1,11 +1,9 @@
 package com.example.roomdatabaseexample.backend.repository.subrepositories.food
 
 import android.app.Application
-import android.content.SharedPreferences
 import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
 import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 
 
 // Folgende Methoden müssen noch implementiert werden:
@@ -17,7 +15,7 @@ import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 
 
  */
-class FoodProcessor(var application: Application)
+class FoodProcessor(var application: Application, var foodList:ArrayList<Food>)
 {
 
     //var preferences = SharedAppPreferences()
@@ -75,6 +73,64 @@ class FoodProcessor(var application: Application)
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Helper-Methoden:
+    fun getCalcecFoodValues(entry:MealEntry):ArrayList<Float>
+    {
+        var food = getFoodById(entry.id)
+        var export:ArrayList<Float> = ArrayList()
+        export.add(food.kcal * (entry.menge/100f))
+        export.add(food.carb * (entry.menge/100f))
+        export.add(food.protein * (entry.menge/100f))
+        export.add(food.fett * (entry.menge/100f))
+
+        return export
+    }
+
+    fun getCalcedFood(entry:MealEntry):CalcedFood
+    {
+        var food = getFoodById(entry.id)
+        var values:ArrayList<Float> = ArrayList()
+        values.add(food.kcal * (entry.menge/100f))
+        values.add(food.carb * (entry.menge/100f))
+        values.add(food.protein * (entry.menge/100f))
+        values.add(food.fett * (entry.menge/100f))
+
+        return CalcedFood(entry.mealID,food,entry.menge,values)
+
+    }
+
+    private fun getFoodById(id:String):Food
+    {
+        var food = foodList[0]
+        for(i in foodList)
+        {
+            if(i.id == id)
+            {
+                food = i
+                break
+            }
+        }
+
+        return food
+    }
+
+
+
+
+
 
 
 

@@ -26,7 +26,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     // BodyList:
     private lateinit var localBodyList:ArrayList<Body>
     private var date:String = helper.getStringFromDate(helper.getCurrentDate())
-    private lateinit var localCurrentBody:Body
+    private var localCurrentBody:Body? = null
 
     // LiveData
     private var liveBodyList:MutableLiveData<ArrayList<Body>> = MutableLiveData()
@@ -37,6 +37,23 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         CoroutineScope(IO).launch {
             localBodyList = repository.getBodyList()
             localCurrentBody = repository.getBodyByDate(date)
+            if(repository.getBodyByDate(date) == null)
+            {
+                if(localBodyList.isNullOrEmpty())
+                {
+
+                    localCurrentBody = null
+                }
+                else
+                {
+                    localCurrentBody = localBodyList.last()
+                }
+
+            }
+            else
+            {
+                localCurrentBody = repository.getBodyByDate(date)
+            }
             liveBodyList.postValue(localBodyList)
         }
 
@@ -97,7 +114,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
             {
                 localBodyList[pos] = newBody
                 repository.updateBody(newBody)
-                if(localCurrentBody.date == newBody.date)
+                if(localCurrentBody!!.date == newBody.date)
                 {
                     localCurrentBody = newBody
                 }
@@ -150,5 +167,10 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     fun getProgressValues():ArrayList<Float>
     {
         return arrayListOf(0f,0f,0f,0f)
+    }
+
+    fun getLocalBody():Body?
+    {
+        return localCurrentBody
     }
 }

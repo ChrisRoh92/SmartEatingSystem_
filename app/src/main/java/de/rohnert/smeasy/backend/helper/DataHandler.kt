@@ -50,7 +50,19 @@ class DataHandler(var manager: AssetManager, var mDir:String)
         // InputStream input;
         var input:InputStreamReader = InputStreamReader(manager.open("appfoodlist.txt"))
         var bufferedReader:BufferedReader = BufferedReader(input)
-        for (line in bufferedReader.lines()) {
+        var content:ArrayList<String> = ArrayList()
+        var line:String? = ""
+        while(line != null)
+        {
+
+            line = bufferedReader.readLine()
+            if(line == null)
+            {
+                break
+            }
+            content.add(line)
+        }
+        for (line in content) {
             export.add(line)
         }
         return export

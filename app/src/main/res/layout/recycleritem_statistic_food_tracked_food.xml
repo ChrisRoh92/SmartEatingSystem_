@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/item_statistic_food_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:lines="1"
+        android:text="Lebensmittelname"
+        android:textColor="@color/textColor1"
+        android:textSize="12sp"
+        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/item_statistic_food_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_statistic_food_value" />
+
+    <TextView
+        android:id="@+id/item_statistic_food_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="3571 g"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView175"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Gesamtmenge"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/item_statistic_food_value"
+        app:layout_constraintStart_toStartOf="@+id/item_statistic_food_value"
+        app:layout_constraintTop_toBottomOf="@+id/item_statistic_food_value" />
+
+    <TextView
+        android:id="@+id/item_statistic_food_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lebensmittelgruppe"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/item_statistic_food_title"
+        app:layout_constraintTop_toBottomOf="@+id/item_statistic_food_title" />
+
+    <TextView
+        android:id="@+id/item_statistic_food_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:text="20"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_statistic_food_subtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_statistic_food_title" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
