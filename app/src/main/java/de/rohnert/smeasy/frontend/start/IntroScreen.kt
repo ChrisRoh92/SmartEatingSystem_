@@ -18,30 +18,38 @@ import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogDatePicker
 import de.rohnert.smeasy.helper.dialogs.CustomDatePicker
+import de.rohnert.smeasy.helper.dialogs.DialogSingleChoiceList
 import de.rohnert.smeasy.helper.dialogs.DialogSingleList
 import java.util.*
+import kotlin.collections.ArrayList
 
-class IntroScreen : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class IntroScreen : AppCompatActivity() {
 
 
     private lateinit var sharePrefs: SharedAppPreferences
     private var helper = Helper()
-    private var btnDateClicked = false
-    private var spinnerClicked = false
+
+    // Content:
+    private lateinit var content:ArrayList<String>
+    private var mDate:String = ""
+    private var mName:String = ""
+    private var mSex:String = ""
+    private var mHeight:Float = 0f
+    private var mBday:String = ""
+
     // Views...
     private lateinit var icon:ImageView
-    private lateinit var tvTitle:TextView
     private lateinit var tvBday:TextView
     private lateinit var tvSex:TextView
-    private lateinit var card: CardView
 
     private lateinit var btn:Button
-    private lateinit var btnDate:Button
-    private lateinit var checkBox:CheckBox
-    // ET:
+    private lateinit var btnDate:ImageButton
+    private lateinit var btnSex:ImageButton
+
+    // et:
     private lateinit var etUserName:TextInputLayout
-    // Spinner:
-    private lateinit var spinner:Spinner
+    private lateinit var etUserHeight:TextInputLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +57,7 @@ class IntroScreen : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         sharePrefs = SharedAppPreferences(this)
 
         initViews()
-        initAnimations()
+
     }
 
     private fun initViews()
@@ -57,13 +65,14 @@ class IntroScreen : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         btn = findViewById(R.id.introscreen_btn)
         btn.setOnClickListener {
 
-            if(checkBox.isChecked && etUserName.editText!!.text.toString().isNotEmpty() && btnDateClicked && spinnerClicked && spinner.selectedItemPosition != 0)
+            if(etUserName.editText!!.text.toString().isNotEmpty() && etUserHeight.editText!!.text.toString().isNotEmpty() && mSex != "" && mBday != "")
             {
 
                 // Speichern der Prefs...
                 sharePrefs.setNewUserName(etUserName.editText!!.text.toString().trim())
-                sharePrefs.setNewSex(spinner.selectedItem.toString())
-                sharePrefs.setNewBday(tvBday.text.toString())
+                sharePrefs.setNewUserHeight(etUserHeight.editText!!.text.toString().toFloat())
+                sharePrefs.setNewSex(mSex)
+                sharePrefs.setNewBday(mBday)
                 sharePrefs.setNewAppInitialStart(true)
 
 
@@ -86,36 +95,41 @@ class IntroScreen : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 override fun setOnCustomDatePickerListener(date: Date) {
                     Log.d("Smeasy","IntroScreen - Datepicker date: $date")
                     tvBday.text = helper.getStringFromDate(date)
-                    btnDateClicked = true
+                    mBday = helper.getStringFromDate(date)
                 }
 
             })
 
         }
 
-        checkBox = findViewById(R.id.introscreen_checkbox)
-        checkBox.isChecked = false
+        btnSex = findViewById(R.id.introscreen_btn_sex)
+        btnSex.setOnClickListener {
+            var dialog = DialogSingleChoiceList("Geschlecht wählen","Bitte wähle aus der Liste dein Geschlecht",
+                arrayListOf("Frau","Mann"),this,true,-1)
+            dialog.onItemClickListener(object:DialogSingleChoiceList.OnDialogListListener{
+                override fun onItemClickListener(value: String, pos: Int) {
+                    mSex = value
+                    tvSex.text = value
+                }
+
+            })
+        }
+
 
         etUserName = findViewById(R.id.introscreen_et_username)
+        etUserHeight = findViewById(R.id.introscreen_et_userheight)
 
 
         // Icon:
         icon = findViewById(R.id.introscreen_icon)
 
-        //CardView:
-        card = findViewById(R.id.introscreen_cardview)
+
 
         // TextViews:
-        tvTitle = findViewById(R.id.introscreen_tv_title)
-        tvSex = findViewById(R.id.introscreen_tv_sexTitle)
         tvBday = findViewById(R.id.introscreen_tv_bday)
         tvBday.text = "Eingabe erforderlich"
 
-        // Spinner:
-        spinner = findViewById(R.id.introscreen_spinner)
-        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, arrayListOf("Bitte Geschlecht auswählen...","Frau","Mann"))
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = this
+        tvSex = findViewById(R.id.introscreen_tv_sex)
 
 
 
@@ -125,71 +139,11 @@ class IntroScreen : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
 
-
-    }
-
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-        spinnerClicked = false
-    }
-
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        spinnerClicked = true
-    }
-
-    private fun initAnimations()
-    {
-        var iconAnimator = getObjectAnimation(icon,delay = 150)
-        var titleAnimator = getObjectAnimation(tvTitle, delay = 150)
-
-        var etAnimator = getObjectAnimation(etUserName)
-
-        var cardAnimation = getObjectAnimation(card)
-        var tvSexAnimator = getObjectAnimation(tvSex)
-        var spinnerAnimator = getObjectAnimation(spinner)
-
-        var btnDateAnimator = getObjectAnimation(btnDate)
-        var tvBdayAnimator = getObjectAnimation(tvBday)
-
-        var checkBoxAnimator = getObjectAnimation(checkBox)
-
-        var btnSaveAnimator = getObjectAnimation(btn)
-
-        var set = AnimatorSet()
-        var set1 = AnimatorSet()
-        var set2 = AnimatorSet()
-        var set3 = AnimatorSet()
-        var set4 = AnimatorSet()
-
-        set1.playTogether(iconAnimator,titleAnimator)
-        set2.playTogether(cardAnimation,tvSexAnimator,spinnerAnimator)
-        set3.playTogether(btnDateAnimator,tvBdayAnimator)
-
-        set.playTogether(set1,etAnimator,set2,set3,checkBoxAnimator,btnSaveAnimator)
-        set.startDelay = 350
-
-        //set.playSequentially(iconAnimation,titleAnimation)
-//        set.play(iconAnimator).with(titleAnimator).before(etAnimator).before(tvSexAnimator).with(spinnerAnimator)
-//            .before(btnDateAnimator).with(tvBdayAnimator).before(checkBoxAnimator).before(btnSaveAnimator)
-        set.start()
 
 
 
     }
 
 
-    private fun getObjectAnimation(view:View,delay:Long = 0):ObjectAnimator
-    {
-        var alpha = PropertyValuesHolder.ofFloat(View.ALPHA,0f,1f)
-        var scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X,0f,1.0f)
-        var scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y,0f,1.0f)
 
-        var animator = ObjectAnimator.ofPropertyValuesHolder(view,alpha,scaleX,scaleY).apply {
-            duration = 350
-            startDelay = delay
-            interpolator = FastOutSlowInInterpolator()
-        }
-
-        return animator
-    }
 }

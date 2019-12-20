@@ -1,5 +1,7 @@
 package de.rohnert.smeasy.frontend.statistics.fragment
 
+import android.app.Activity
+import android.app.Activity.RESULT_CANCELED
 import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +28,7 @@ import de.rohnert.smeasy.frontend.statistics.dialogs.DialogStatisticsTimeChooser
 import de.rohnert.smeasy.helper.dialogs.DialogLoading
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import java.io.File
 import androidx.core.content.FileProvider
 
@@ -98,8 +101,9 @@ class StatisticsFragment: Fragment() {
 
         statisticViewModel.getCSVExportFinished().observe(viewLifecycleOwner, Observer {
             //dialog.dismiss()
-            var fileName = statisticViewModel.getCSVExportFileName()
-            startShareIntentProcess(fileName)
+            var file = statisticViewModel.returnNewCSVFile()
+            Log.d("Smeasy","StatisticsFragment startCSVExportProess - filename = $file")
+            startShareIntentProcess(file!!)
 
 
         })
@@ -110,28 +114,76 @@ class StatisticsFragment: Fragment() {
         statisticViewModel.startCSVExport()
     }
 
-    private fun startShareIntentProcess(fileName:String)
+    private fun startShareIntentProcess(file:File)
     {
 
+        /*var privateRootDir = rootView.context.filesDir.absoluteFile
+        // Get the files/images subdirectory;
+        var imagesDir = File(privateRootDir, "data")
+        // Get the files in the images subdirectory
+        var imageFiles:Array<File> = imagesDir.listFiles()*/
 
-        val file = File(fileName)
-        val path =
+        /*val requestFile:File = File(fileName)
+        var resultIntent = Intent("de.rohnert.smeasy.ACTION_RETURN_FILE")
+        activity!!.setResult(RESULT_CANCELED, null)
+
+        val fileUri: Uri? = try {
+            FileProvider.getUriForFile(
+                rootView.context,
+                "de.rohnert.smeasy.fileprovider",
+                requestFile)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+            Log.d("Smeasy",
+                "StatisticsFragment - startShareIntentProcess Exception: The selected file can't be shared: $requestFile")
+            null
+        }
+
+        if (fileUri != null) {
+            // Grant temporary read permission to the content URI
+            resultIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            // Put the Uri and MIME type in the result Intent
+            resultIntent.setDataAndType(fileUri, activity!!.contentResolver.getType(fileUri))
+            // Set the result
+            activity!!.setResult(Activity.RESULT_OK, resultIntent)
+        } else {
+            resultIntent.setDataAndType(null, "")
+            activity!!.setResult(RESULT_CANCELED, resultIntent)
+        }*/
+        Log.d("Smeasy","StatisticsFragment startCSVExportProess - filename = $file")
+        var path = FileProvider.getUriForFile(rootView.context,"de.rohnert.smeasy.fileprovider",file)
+        var shareIntent = Intent()
+        Log.d("Smeasy","StatisticsFragment startCSVExportProess - path = $path")
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(Intent.EXTRA_TEXT,"Das ist mein CSV Export der letzten 7 Tage bei Smeasy")
+        shareIntent.putExtra(Intent.EXTRA_STREAM,path)
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        shareIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+        //shareIntent.type =
+        shareIntent.setDataAndType(path, rootView.context.contentResolver.getType(path))
+        //activity!!.setResult(Activity.RESULT_OK, shareIntent)
+        startActivity(Intent.createChooser(shareIntent,""))
+
+
+
+
+        /*val path =
             FileProvider.getUriForFile(rootView.context, "de.rohnert.smeasy.fileprovider", file)
         val uri = Uri.fromFile(file)
         val emailIntent = Intent(Intent.ACTION_SEND)
 
-        emailIntent.type = "text/csv"
-        /*emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(""))
+        emailIntent.type = "text/plain"
+        *//*emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(""))
         emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "")
         emailIntent.putExtra(Intent.EXTRA_TEXT, "")
-        emailIntent.putExtra(Intent.EXTRA_STREAM, uri)*/
+        emailIntent.putExtra(Intent.EXTRA_STREAM, uri)*//*
 
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "data");
         emailIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
 
         emailIntent.putExtra(Intent.EXTRA_STREAM, path);
-        startActivity(Intent.createChooser(emailIntent, "Email senden"))
+        startActivity(Intent.createChooser(emailIntent, "Email senden"))*/
 
 
     }

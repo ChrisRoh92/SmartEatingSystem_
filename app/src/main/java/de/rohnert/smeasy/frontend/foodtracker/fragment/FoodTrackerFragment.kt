@@ -8,10 +8,7 @@ import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +25,7 @@ import com.example.roomdatabaseexample.backend.databases.daily_database.helper.C
 import com.google.android.material.snackbar.Snackbar
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
+import de.rohnert.smeasy.backend.sharedpreferences.SharedPreferencesSmeasyValues
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smeasy.frontend.foodtracker.adapter.MealCardItemAdapter
@@ -45,6 +43,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private lateinit var rootView:View
     private lateinit var foodViewModel: FoodViewModel2
     private lateinit var sharePrefs:SharedAppPreferences
+    private lateinit var smeasyPrefs:SharedPreferencesSmeasyValues
     private var statusAnim:AnimationStatusView? = null
     private var helper = Helper()
     private var started = false
@@ -103,9 +102,17 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private lateinit var layoutManagerSnacks: LinearLayoutManager
     private lateinit var btnAddSnacks:Button
 
+    // PremiumCard
+    private lateinit var cardPremium:CardView
+    private lateinit var btnPremium:Button
+
     ////////////////////////////////////////
     // Calendar Button:
     private lateinit var btnCalendar: Button
+
+    // View Listen für StatusView
+    private lateinit var pbList:ArrayList<ProgressBar>
+    private lateinit var tvList:ArrayList<TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,6 +129,8 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
 
         sharePrefs = SharedAppPreferences(rootView.context)
+        smeasyPrefs = SharedPreferencesSmeasyValues(rootView.context)
+        initPremiumCardView()
         if(!sharePrefs.appInitalStart)
         {
             // create Snackbar
@@ -139,6 +148,13 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             },1000)
 
         }
+
+
+        /*initCalendar()
+        initMealCards()
+        initStatusViewObjects()
+        initViewModelObserver()*/
+
 
         Handler().postDelayed({
             initCalendar()
@@ -395,6 +411,9 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
         tvAim = rootView.findViewById(R.id.fragment_foodtracker_tv_aim)
         tvAimProgress = rootView.findViewById(R.id.fragment_foodtracker_tv_aim_progress)
+
+        pbList = arrayListOf(pbKcal,pbCarb,pbProtein,pbFett)
+        tvList = arrayListOf(tvKcalAdded,tvKcalRest,tvCarbs,tvProtein,tvFett,tvAimWeight,tvAimKfa,tvAim)
     }
 
     // Toolbar:
@@ -402,7 +421,11 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     {
         // Access to Toolbar.
         var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
-        toolbar.menu.clear()
+        if(started)
+        {
+            toolbar.menu.clear()
+        }
+
         toolbar.inflateMenu(R.menu.menu_foodtracker)
         toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener{
             override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -420,6 +443,46 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         })
     }
 
+    // PremiumCard Function
+    private fun initPremiumCardView()
+    {
+        cardPremium = rootView.findViewById(R.id.foodtracker_card_premium)
+
+
+        fun setCardHeight(state:Boolean)
+        {
+            var params = cardPremium.layoutParams
+
+            if(!state)
+            {
+                //params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                cardPremium.visibility = View.GONE
+            }
+            else
+            {
+                //params.height = 0
+                cardPremium.visibility = View.VISIBLE
+            }
+            //cardPremium.requestLayout()
+        }
+
+        setCardHeight(sharePrefs.premiumStatus)
+        Log.d("Smeasy","FoodTrackerFragmet - initPremiumCardView sharePrefs.premiumStatus = ${sharePrefs.premiumStatus}")
+
+
+
+        btnPremium = rootView.findViewById(R.id.foodtracker_btn_premium)
+        btnPremium.setOnClickListener {
+            /*sharePrefs.setNewPremiumState(true)
+            sharePrefs.setNewPremiumDate(helper.getStringFromDate(helper.getCurrentDate()))
+            setCardHeight(true)*/
+
+        }
+
+
+
+
+    }
 
     // Undo Methoden:
     private fun undoMealEntryDelete(foodID:String,foodMenge:Float,meal:String)
@@ -439,25 +502,6 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         // Click, soll das Löschen wieder rückgängig gemacht werden...
     }
 
-    private fun undoMealChange(entry:MealEntry,oldMeal:String,newMeal:String)
-    {
-        // Sneakbar starten
-        var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Rückgängig machen",Snackbar.LENGTH_LONG)
-
-
-
-        snackbar.setAction("Rückgängig", object: View.OnClickListener{
-            override fun onClick(v: View?) {
-                foodViewModel.changeMealEntry(entry,oldMeal,newMeal)
-                foodViewModel.removeMealEntry(entry,oldMeal)
-            }
-
-        })
-        snackbar.show()
-        // Click, soll das Löschen wieder rückgängig gemacht werden...
-
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Calendar Logik + Objekte initialisieren...
     private fun initCalendar()
@@ -465,6 +509,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         btnCalendar = rootView.findViewById(R.id.foodtracker_btn_calendar)
         btnCalendar.text = foodViewModel.date
         btnCalendar.setOnClickListener {
+            sharePrefs.setNewPremiumState(true)
             var dialog = DialogDatePicker(rootView.context,rootView)
             dialog.setOnDialogClickListener(object: DialogDatePicker.OnDialogClickListener
             {
@@ -553,16 +598,13 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - breakfast-Observer: started = $started")
             if(!started)
             {
-                statusViewAnimation()
-                mealCardAnimation("breakfast")
-                mealCardAnimation("lunch")
-                mealCardAnimation("dinner")
-                mealCardAnimation("snack")
-                started = true
+                initStatusView()
+                //initToolbar()
+
             }
             else
             {
-                statusViewAnimation()
+                updateStatusView()
                 mealCardAnimation("breakfast")
             }
             adapterBreakfast.submitList(foodViewModel.getCalcedFoodsByMeal("breakfast"))
@@ -576,7 +618,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
             if(started)
             {
-                statusViewAnimation()
+                updateStatusView()
                 mealCardAnimation("lunch")
             }
             adapterLunch.submitList(foodViewModel.getCalcedFoodsByMeal("lunch"))
@@ -589,7 +631,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
             if(started)
             {
-                statusViewAnimation()
+                updateStatusView()
                 mealCardAnimation("dinner")
             }
             adapterDinner.submitList(foodViewModel.getCalcedFoodsByMeal("dinner"))
@@ -601,7 +643,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
             if(started)
             {
-                statusViewAnimation()
+                updateStatusView()
                 mealCardAnimation("snack")
             }
             adapterSnacks.submitList(foodViewModel.getCalcedFoodsByMeal("snack"))
@@ -626,8 +668,8 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         }
 
         // Hier muss später der Fortschritt eingefügt werden
-        progressValues.add(0f)
-        progressValues.add(0f)
+        progressValues.add(smeasyPrefs.progressWeight)
+        progressValues.add(smeasyPrefs.progressKfa)
 
 
         if(statusAnim == null)
@@ -672,6 +714,59 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             statusAnim!!.animateNewValues(progressValues)
             // Die Max Werte müssen noch angepasst werden...
         }
+    }
+
+    private fun initStatusView()
+    {
+        var progressValues:ArrayList<Float> = foodViewModel.getDailyValues()
+        progressValues.add(smeasyPrefs.progressWeight)  // Wert für den Fortschritt
+        progressValues.add(smeasyPrefs.progressKfa)     // Wert für den Fortschritt
+
+        // MaxValues:
+        var maxValues = foodViewModel.getDailyMaxValues()
+        maxValues.add(100f)     // 100% für den Fortschritt
+        maxValues.add(100f)     // 100% für den Fortschritt
+
+        // Max-Werte für die Progressbars setzen:
+        for((index,i) in pbList.withIndex())
+        {
+            if(index >0) i.max = 1000
+            else
+            {
+                i.max = 3600
+            }
+        }
+
+        // Statusanim starten...
+        statusAnim = AnimationStatusView(rootView.context,pbList,tvList,progressValues,maxValues)
+        statusAnim!!.setOnAnimationStatusViewListener(object: AnimationStatusView.OnAnimationStatusViewInitListener
+        {
+            override fun setOnAnimationStatusViewListener() {
+                mealCardAnimation("breakfast")
+                mealCardAnimation("lunch")
+                mealCardAnimation("dinner")
+                mealCardAnimation("snack")
+                started = true
+                Log.d("Smeasy","FoodTrackerFragment - statusViewAnimation - after Animation Listener:  started = $started")
+
+            }
+
+        })
+
+
+
+
+
+    }
+
+    private fun updateStatusView()
+    {
+        var progressValues:ArrayList<Float> = foodViewModel.getDailyValues()
+        progressValues.add(smeasyPrefs.progressWeight)  // Wert für den Fortschritt
+        progressValues.add(smeasyPrefs.progressKfa)     // Wert für den Fortschritt
+        var maxValues = foodViewModel.getDailyMaxValues()
+        statusAnim!!.setNewMaxValues(maxValues)
+        statusAnim!!.animateNewValues(progressValues)
     }
     private fun mealCardAnimation(meal:String, delay:Int = 100)
     {
@@ -727,13 +822,13 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     // Teste:
     override fun onPause() {
         super.onPause()
-        started = false
+        //started = statusAnim != null
         Log.d("Smeasy","FoodTrackerFragment - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        started = false
+        //started = statusAnim != null
         Log.d("Smeasy","FoodTrackerFragment - onResume")
     }
 
@@ -742,4 +837,12 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         started = false
         Log.d("Smeasy","FoodTrackerFragment - onDestroyView")
     }
+
+    override fun onStop() {
+        super.onStop()
+        started = true
+        Log.d("Smeasy","FoodTrackerFragment - onStop")
+    }
+
+
 }

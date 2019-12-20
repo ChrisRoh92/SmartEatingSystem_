@@ -1,6 +1,7 @@
 package de.rohnert.smeasy.backend.statistic
 
 import android.content.Context
+import android.os.Environment
 import android.util.Log
 import backend.helper.DataHandler
 import backend.helper.Helper
@@ -16,6 +17,7 @@ import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.io.File
 
 class CsvDataExport(var context: Context, var repository: MainRepository2, var foodProcessor: FoodProcessor)
 {
@@ -189,15 +191,24 @@ class CsvDataExport(var context: Context, var repository: MainRepository2, var f
             export.addAll(i)
         }
 
-        var dir = context.filesDir.toString()+"/"
+        var dir = context.getExternalFilesDir(null)!!.absolutePath
+        var dir2 = context.filesDir.absolutePath+"/"
         var file = "export_${helper.getStringFromDateWithPattern(mDate,"ddMMyyyy")}.csv"
         var fileName = dir+file
 
-        csvDataHandler.writeArrayToFile(export,file)
+        var filePath = File(context.filesDir,"data")
+        filePath.mkdir()
+        var newCSVFile = File(dir,file)
+
+        Log.d("Smeasy","CsvDataExport - writeToFile() - dir: $dir")
+        Log.d("Smeasy","CsvDataExport - writeToFile() - file: $file")
+        Log.d("Smeasy","CsvDataExport - writeToFile() - fileName: $fileName")
+
+        csvDataHandler.writeArrayToFile(export,dir,file,newCSVFile)
 
         if (mListener!=null)
         {
-            mListener.setOnCSVExportFinishListener(fileName)
+            mListener.setOnCSVExportFinishListener(newCSVFile)
         }
 
 
@@ -290,7 +301,7 @@ class CsvDataExport(var context: Context, var repository: MainRepository2, var f
     // Interface
     interface OnCSVExportFinishListener
     {
-        fun setOnCSVExportFinishListener(filename:String)
+        fun setOnCSVExportFinishListener(file:File)
     }
 
     fun setOnCSVExportFinishListener(mListener:OnCSVExportFinishListener)

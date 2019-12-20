@@ -7,7 +7,7 @@
     android:background="@android:color/background_light">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+        android:id="@+id/bodyentry_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="true"
@@ -15,8 +15,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="60dp">
+            android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/bodyentry_cardview_statusview"
@@ -76,19 +75,17 @@
                                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
                             <TextView
-                                android:id="@+id/textView5"
+                                android:id="@+id/bodyentry_tv_weight_start"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="104 kg"
                                 android:textSize="10sp"
                                 app:layout_constraintStart_toStartOf="@+id/bodyentry_pb_weight"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_pb_weight" />
 
                             <TextView
-                                android:id="@+id/textView10"
+                                android:id="@+id/bodyentry_tv_weight_aim"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="85 Kg"
                                 android:textSize="10sp"
                                 app:layout_constraintEnd_toEndOf="@+id/bodyentry_pb_weight"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_pb_weight" />
@@ -104,7 +101,7 @@
                                 android:textSize="14sp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                                app:layout_constraintTop_toBottomOf="@+id/bodyentry_tv_weight_start" />
 
                             <TextView
                                 android:id="@+id/textView17"
@@ -150,19 +147,17 @@
                                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
                             <TextView
-                                android:id="@+id/textView8"
+                                android:id="@+id/bodyentry_tv_kfa_start"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="25 %"
                                 android:textSize="10sp"
                                 app:layout_constraintStart_toStartOf="@+id/bodyentry_pb_kfa"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_pb_kfa" />
 
                             <TextView
-                                android:id="@+id/textView13"
+                                android:id="@+id/bodyentry_tv_kfa_aim"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="17 %"
                                 android:textSize="10sp"
                                 app:layout_constraintEnd_toEndOf="@+id/bodyentry_pb_kfa"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_pb_kfa" />
@@ -175,9 +170,9 @@
                                 android:alpha="0"
                                 android:text="25 %"
                                 android:textColor="@color/textColor1"
-                                app:layout_constraintEnd_toStartOf="@+id/textView13"
-                                app:layout_constraintStart_toEndOf="@+id/textView8"
-                                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                                app:layout_constraintEnd_toStartOf="@+id/bodyentry_tv_kfa_aim"
+                                app:layout_constraintStart_toEndOf="@+id/bodyentry_tv_kfa_start"
+                                app:layout_constraintTop_toBottomOf="@+id/bodyentry_tv_kfa_start" />
 
                             <TextView
                                 android:id="@+id/textView18"
@@ -223,10 +218,9 @@
                                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                             <TextView
-                                android:id="@+id/textView9"
+                                android:id="@+id/bodyentry_tv_bmi_start"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="28"
                                 android:textSize="10sp"
                                 app:layout_constraintStart_toStartOf="@+id/bodyentry_pb_bmi"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_pb_bmi" />
@@ -241,7 +235,7 @@
                                 android:textColor="@color/textColor1"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                                app:layout_constraintTop_toBottomOf="@+id/bodyentry_tv_bmi_start" />
 
                             <TextView
                                 android:id="@+id/textView16"
@@ -256,10 +250,9 @@
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_tv_bmi" />
 
                             <TextView
-                                android:id="@+id/textView20"
+                                android:id="@+id/bodyentry_tv_bmi_aim"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="15"
                                 android:textSize="10sp"
                                 app:layout_constraintEnd_toEndOf="@+id/bodyentry_pb_bmi"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_pb_bmi" />
@@ -388,7 +381,7 @@
         app:cornerRadius="20dp"
         app:icon="@drawable/ic_create_white"
         app:iconSize="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/nestedScrollView"
+        app:layout_constraintBottom_toBottomOf="@+id/bodyentry_scrollview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

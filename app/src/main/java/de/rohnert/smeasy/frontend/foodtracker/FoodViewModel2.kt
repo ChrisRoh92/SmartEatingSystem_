@@ -17,6 +17,7 @@ import com.example.roomdatabaseexample.backend.repository.subrepositories.food.F
 import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
+import de.rohnert.smeasy.backend.sharedpreferences.SharedPreferencesSmeasyValues
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -32,6 +33,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private lateinit var foodProcessor:FoodProcessor
     // Zentraler Zugriff auf Einstellungen...
     private var sharePrefs = SharedAppPreferences(application)
+    private var smeasyValues = SharedPreferencesSmeasyValues(application)
 
 
     var date:String = helper.getStringFromDate(helper.getCurrentDate())
@@ -153,6 +155,8 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
             Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxProtein  - ${localDaily.maxProtein}")
             Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxFett  - ${localDaily.maxFett}")*/
         }
+
+        saveToPrefs()
 
         /*Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - false")*/
     }
@@ -670,6 +674,15 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
 
 
+    // SharedPreferences Saving:
+    private fun saveToPrefs()
+    {
+        var values = getDailyValues()
+        smeasyValues.setNewKcal(values[0])
+        smeasyValues.setNewCarbs(values[1])
+        smeasyValues.setNewProtein(values[2])
+        smeasyValues.setNewFett(values[3])
+    }
 
 
 

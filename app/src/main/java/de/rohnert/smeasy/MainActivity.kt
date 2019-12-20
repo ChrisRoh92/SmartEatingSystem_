@@ -1,5 +1,6 @@
 package de.rohnert.smeasy
 
+import android.app.PendingIntent.getActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,6 +12,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import androidx.activity.addCallback
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.internal.NavigationMenuView
 
@@ -40,9 +42,12 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
 
 
+
+
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        fragments = setOf(R.id.nav_foodtracker,R.id.nav_bodytracker,R.id.nav_statistics,R.id.nav_setting,R.id.nav_share,R.id.nav_help,R.id.nav_premium)
+        fragments = setOf(R.id.nav_foodtracker,R.id.nav_bodytracker,R.id.nav_setting,R.id.nav_share,R.id.nav_help,R.id.nav_premium)
         appBarConfiguration = AppBarConfiguration(fragments,drawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)

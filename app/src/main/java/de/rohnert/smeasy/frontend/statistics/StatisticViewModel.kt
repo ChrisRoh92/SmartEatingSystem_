@@ -16,6 +16,7 @@ import de.rohnert.smeasy.backend.statistic.CsvDataExport
 import de.rohnert.smeasy.backend.statistic.StatisticProcessor
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
+import java.io.File
 import kotlin.math.exp
 
 class StatisticViewModel(application: Application) : AndroidViewModel(application)
@@ -29,6 +30,7 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     private lateinit var statisticProcessor:StatisticProcessor
     private lateinit var csvExport:CsvDataExport
     private var csvExportDir:String = ""
+    private var csvFile:File? = null
 
     // Daten für die Statistics-Stuff:
     private var dateList:ArrayList<String> = ArrayList()
@@ -106,9 +108,10 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     {
         csvExport.startExportProcess()
         csvExport.setOnCSVExportFinishListener(object :CsvDataExport.OnCSVExportFinishListener{
-            override fun setOnCSVExportFinishListener(filename: String) {
+            override fun setOnCSVExportFinishListener(file: File) {
                 exportDataFinish.postValue(exportDataFinish.value?.plus(1))
-                csvExportDir = filename
+                //csvExportDir = filename
+                csvFile = file
             }
 
         })
@@ -213,6 +216,11 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     fun getCSVExportFileName():String
     {
         return csvExportDir
+    }
+
+    fun returnNewCSVFile():File?
+    {
+        return csvFile
     }
 
 

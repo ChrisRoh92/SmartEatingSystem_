@@ -45,6 +45,9 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
     private var foodList:ArrayList<Food> = foodViewModel.getLocalFoodList()
     private var workFoodList:ArrayList<Food> = foodList
     private var extendFilterValues:ArrayList<Float> = arrayListOf(0f,0f,0f,0f,0f,0f,0f,0f)
+    private var favouriteStatus = false
+    private var userFoodStatus = false
+    private var allowedFoodStatus = false
 
 
     // Filter stuff:
@@ -229,18 +232,26 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
             var handler = Handler()
             handler.postDelayed(Runnable {
                 var filterDialog =
-                    DialogFoodListFilter(rootView.context, foodViewModel, categories,extendFilterValues)
+                    DialogFoodListFilter(rootView.context, foodViewModel, categories,extendFilterValues,allowedFoodStatus,favouriteStatus,userFoodStatus)
                 filterDialog.onDialogFilterClickListener(object :
                     DialogFoodListFilter.OnDialogFilterClickListener {
                     override fun onDialogFilterClickListener(category: ArrayList<String>,allowedFood: Boolean,favouriten: Boolean,userFood: Boolean, newExtendFilterValues:ArrayList<Float>)
                     {
                         Log.d("Smeasy","DialogFragmentFoodList - onDialogFilterClickListener() - Categories: $category")
-                        filter.setCategories(category)
+
                         extendFilterValues = newExtendFilterValues
+                        categories = category
+                        favouriteStatus = favouriten
+                        userFoodStatus = userFood
+                        allowedFoodStatus = allowedFood
+
+                        filter.setCategories(category)
                         filter.setNewExtendedFilterValues(extendFilterValues)
                         filter.setFavourites(favouriten)
-                        Log.d("Smeasy","DialogFragmentFoodList - onMenuItemClick - onDialogFilterClickListener was called: Size of categories: ${foodList.size}")
-                        categories = category
+                        filter.setUserFood(userFood)
+                        filter.setAllowedFood(allowedFood)
+//                        Log.d("Smeasy","DialogFragmentFoodList - onMenuItemClick - onDialogFilterClickListener was called: Size of categories: ${foodList.size}")
+
                         //filterFoods()
                         /*categories = category
                         pb.visibility = View.VISIBLE

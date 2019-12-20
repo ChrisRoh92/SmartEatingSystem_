@@ -2,6 +2,7 @@ package de.rohnert.smeasy.frontend.bodytracker.fragment
 
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -33,8 +34,12 @@ class BodyTrackerFragment: Fragment() {
         rootView = inflater.inflate(R.layout.fragment_bodytracker, container, false)
 
         //
-        initViewPager()
         initToolbar()
+        Handler().postDelayed({
+            initViewPager()
+
+        },100)
+
 
         return rootView
     }

@@ -50,7 +50,9 @@
                     android:name="android.intent.category.OPENABLE"/>
                 <data android:mimeType="text/plain"/>
                 <data android:mimeType="image/*"/>
-            </intent-filter>
+                <data android:mimeType="text/*"/>
+                <data android:mimeType="application/*"/>
+                </intent-filter>
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -22,12 +22,13 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         sharePrefs = SharedAppPreferences(this)
-        startAnimation()
+        //startAnimation()
+        startCountdown()
     }
 
     private fun startAnimation()
     {
-        var icon: ImageView = findViewById(R.id.intro_logo)
+        /*var icon: ImageView = findViewById(R.id.intro_logo)
         var title: TextView = findViewById(R.id.intro_tv)
 
 
@@ -75,7 +76,7 @@ class SplashScreen : AppCompatActivity() {
 
             }
 
-        })
+        })*/
 
 
     }
@@ -87,7 +88,7 @@ class SplashScreen : AppCompatActivity() {
         {
             Thread(Runnable {
 
-                Thread.sleep(500)
+                Thread.sleep(1000)
                 var i = Intent(this, IntroScreen::class.java)
                 startActivity(i)
                 finish()
@@ -98,7 +99,7 @@ class SplashScreen : AppCompatActivity() {
         {
             Thread(Runnable {
 
-                Thread.sleep(500)
+                Thread.sleep(1000)
                 var i = Intent(this, MainActivity::class.java)
                 sharePrefs.setNewAppInitialStart(false)
                 startActivity(i)

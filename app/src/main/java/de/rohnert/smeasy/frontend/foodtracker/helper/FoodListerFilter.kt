@@ -22,7 +22,7 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
     private var favourites:Boolean = false
     private var sortingItem:String = ""
     private var up:Boolean = false
-    private var sharePrefs = SharedAppPreferences(context)
+    private var prefs = SharedAppPreferences(context)
 
     // Extend Filter Values:
     private var minKcal = extendFilterValues[0]
@@ -136,7 +136,7 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
         var export:ArrayList<Food> = ArrayList()
         for(i in list)
         {
-            if(i.kcal <= sharePrefs.maxAllowedKcal)
+            if(checkIfFoodIsAllowed(i))
             {
                 export.add(i)
             }
@@ -383,6 +383,120 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
 
 
         return export
+    }
+
+    private fun checkIfFoodIsAllowed(food:Food):Boolean
+    {
+        var status = true
+
+        // Prüfen ob im Kcal Bereich:
+        if(prefs.maxAllowedKcal == -1f)
+        {
+            if(food.kcal >= prefs.minAllowedKcal)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        else
+        {
+            if(food.kcal >= prefs.minAllowedKcal && food.kcal <= prefs.maxAllowedKcal)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+
+        // Prüfen ob im Kcal Bereich:
+        if(prefs.maxAllowedCarbs == -1f)
+        {
+            if(food.carb > prefs.minAllowedCarbs)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        else
+        {
+            if(food.carb > prefs.minAllowedCarbs && food.carb < prefs.maxAllowedCarbs)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+
+        // Prüfen ob im Kcal Bereich:
+        if(prefs.maxAllowedProtein == -1f)
+        {
+            if(food.protein > prefs.minAllowedProtein)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        else
+        {
+            if(food.protein > prefs.minAllowedProtein && food.protein < prefs.maxAllowedProtein)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        // Prüfen ob im Kcal Bereich:
+        if(prefs.maxAllowedFett == -1f)
+        {
+            if(food.fett > prefs.minAllowedFett)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        else
+        {
+            if(food.fett > prefs.minAllowedFett && food.fett < prefs.maxAllowedFett)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+
+
+
+
+
+        return status
     }
 
 

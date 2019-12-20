@@ -1,4 +1,13 @@
 package com.example.roomdatabaseexample.backend.repository.subrepositories.body
 
-class BodyProcessor {
+class BodyProcessor
+{
+
+
+    fun calcBMI(height:Float,weight:Float):Float
+    {
+        var mHeight = height/100f
+        var bmi = weight / (mHeight*mHeight)
+        return bmi
+    }
 }

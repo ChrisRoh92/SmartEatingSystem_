@@ -15,7 +15,7 @@ import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import java.util.*
 
-class CustomDatePicker(): DialogFragment() {
+class CustomDatePicker(var setDate:Date = Date()): DialogFragment() {
 
 
     // Allgemeine Variablen:
@@ -56,6 +56,7 @@ class CustomDatePicker(): DialogFragment() {
     {
         datePicker = rootView.findViewById(R.id.dialog_customdatepicker_datepicker)
         val calendar = Calendar.getInstance()
+        calendar.time = setDate
         val sYear = calendar.get(Calendar.YEAR)
         val sMonth = calendar.get(Calendar.MONTH)
         val sDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
@@ -75,8 +76,16 @@ class CustomDatePicker(): DialogFragment() {
             {
                 if(exportCalendar!=null)
                 {
-                    mListener.setOnCustomDatePickerListener(exportCalendar.time)
-                    dismiss()
+                    if(exportCalendar.time > Date())
+                    {
+                        Toast.makeText(rootView.context,"Datum liegt in der Zukunft - Bitte ein anderes Datum wählen",Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                    {
+                        mListener.setOnCustomDatePickerListener(exportCalendar.time)
+                        dismiss()
+                    }
+
                 }
                 else
                 {

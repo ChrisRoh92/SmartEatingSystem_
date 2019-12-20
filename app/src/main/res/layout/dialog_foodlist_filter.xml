@@ -15,7 +15,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/dialog_filter_btn_allowed_food"
                 android:layout_width="24dp"
                 android:layout_height="32dp"
                 android:background="?android:attr/selectableItemBackground"
@@ -28,7 +28,7 @@
                 app:srcCompat="@drawable/ic_lock_black" />
 
             <TextView
-                android:id="@+id/textView39"
+                android:id="@+id/dialog_filter_tv_allowed_food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -45,12 +45,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:alpha="0"
-                android:checked="true"
-                android:thumbTint="@color/premium_dark"
-                android:trackTint="@color/premium_dark"
+                android:checked="false"
+                android:enabled="false"
                 app:layout_constraintBottom_toBottomOf="@+id/textView112"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView39" />
+                app:layout_constraintTop_toTopOf="@+id/dialog_filter_tv_allowed_food" />
 
             <TextView
                 android:id="@+id/textView43"
@@ -60,7 +59,7 @@
                 android:text="Favouriten anzeigen"
                 android:textColor="@color/textColor1"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/textView39"
+                app:layout_constraintStart_toStartOf="@+id/dialog_filter_tv_allowed_food"
                 app:layout_constraintTop_toBottomOf="@+id/divider46" />
 
             <Switch
@@ -142,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@+id/textView88"
                 app:layout_constraintTop_toBottomOf="@+id/textView88" />
 
@@ -225,7 +224,7 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/textView110"
+                android:id="@+id/dialog_filter_tv_advanced_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -237,13 +236,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider44" />
 
             <TextView
-                android:id="@+id/textView111"
+                android:id="@+id/dialog_filter_tv_advanced_filter_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Keine Filter gesetzt"
                 android:textSize="10sp"
-                app:layout_constraintStart_toStartOf="@+id/textView110"
-                app:layout_constraintTop_toBottomOf="@+id/textView110" />
+                app:layout_constraintStart_toStartOf="@+id/dialog_filter_tv_advanced_filter"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_filter_tv_advanced_filter" />
 
             <View
                 android:id="@+id/divider45"
@@ -255,19 +254,19 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView111" />
+                app:layout_constraintTop_toBottomOf="@+id/dialog_filter_tv_advanced_filter_content" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/dialog_filter_btn_advanced_filter"
                 android:layout_width="24dp"
                 android:layout_height="32dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="@null"
                 android:tint="@color/premium_dark"
-                app:layout_constraintBottom_toBottomOf="@+id/textView111"
+                app:layout_constraintBottom_toBottomOf="@+id/dialog_filter_tv_advanced_filter_content"
                 app:layout_constraintEnd_toEndOf="@+id/dialog_filter_switch_allowedfood"
                 app:layout_constraintStart_toStartOf="@+id/dialog_filter_switch_allowedfood"
-                app:layout_constraintTop_toTopOf="@+id/textView110"
+                app:layout_constraintTop_toTopOf="@+id/dialog_filter_tv_advanced_filter"
                 app:srcCompat="@drawable/ic_lock_black" />
 
             <TextView
@@ -276,8 +275,8 @@
                 android:layout_height="wrap_content"
                 android:text="Zeige nur Lebensmittel an, die als erlaubt eingestuft sind"
                 android:textSize="10sp"
-                app:layout_constraintStart_toStartOf="@+id/textView39"
-                app:layout_constraintTop_toBottomOf="@+id/textView39" />
+                app:layout_constraintStart_toStartOf="@+id/dialog_filter_tv_allowed_food"
+                app:layout_constraintTop_toBottomOf="@+id/dialog_filter_tv_allowed_food" />
 
             <View
                 android:id="@+id/divider46"

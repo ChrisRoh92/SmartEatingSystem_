@@ -516,7 +516,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView55"
+                            android:id="@+id/bodysettings_allowed_food_tv_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -528,7 +528,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <Button
-                            android:id="@+id/button4"
+                            android:id="@+id/bodysettings_allowed_food_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
@@ -539,7 +539,7 @@
                             app:layout_constraintEnd_toEndOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView59"
+                            android:id="@+id/bodysettings_allowed_food_tv_subtitle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -548,7 +548,7 @@
                             android:textColor="@color/backgroundLight"
                             android:textSize="12sp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView55" />
+                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_allowed_food_tv_title" />
 
                         <View
                             android:id="@+id/divider17"
@@ -560,143 +560,33 @@
                             android:background="@color/backgroundLight"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView59" />
-
-                        <TextView
-                            android:id="@+id/textView95"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Kalorien"
-                            android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/divider17" />
-
-                        <TextView
-                            android:id="@+id/textView96"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="ohne Einschränkung"
-                            android:textColor="@color/backgroundLight"
-                            android:textSize="10sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView95" />
-
-                        <TextView
-                            android:id="@+id/textView99"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="Kohlenhydrate"
-                            android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView95"
-                            app:layout_constraintTop_toBottomOf="@+id/textView96" />
-
-                        <TextView
-                            android:id="@+id/textView100"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ohne Einschränkung"
-                            android:textColor="@color/backgroundLight"
-                            android:textSize="10sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView99"
-                            app:layout_constraintTop_toBottomOf="@+id/textView99" />
-
-                        <TextView
-                            android:id="@+id/textView77"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="Protein"
-                            android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView99"
-                            app:layout_constraintTop_toBottomOf="@+id/textView100" />
-
-                        <TextView
-                            android:id="@+id/textView81"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ohne Einschränkung"
-                            android:textColor="@color/backgroundLight"
-                            android:textSize="10sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView77"
-                            app:layout_constraintTop_toBottomOf="@+id/textView77" />
-
-                        <TextView
-                            android:id="@+id/textView85"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="Fett"
-                            android:textColor="@android:color/background_light"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView77"
-                            app:layout_constraintTop_toBottomOf="@+id/textView81" />
-
-                        <TextView
-                            android:id="@+id/textView86"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ohne Einschränkung"
-                            android:textColor="@color/backgroundLight"
-                            android:textSize="10sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView85"
-                            app:layout_constraintTop_toBottomOf="@+id/textView85" />
+                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_allowed_food_tv_subtitle" />
 
                         <View
-                            android:id="@+id/divider12"
+                            android:id="@+id/bodysettings_allowed_food_divider"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
-                            android:background="@color/backgroundDivider"
-                            app:layout_constraintBottom_toTopOf="@+id/textView99"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/backgroundLight"
+                            app:layout_constraintBottom_toTopOf="@+id/bodysettings_allowed_food_btn"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView96" />
+                            app:layout_constraintStart_toStartOf="parent" />
 
-                        <View
-                            android:id="@+id/divider14"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/bodysettings_allowed_food_rv"
                             android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@color/backgroundDivider"
-                            app:layout_constraintBottom_toTopOf="@+id/textView77"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView100" />
-
-                        <View
-                            android:id="@+id/divider15"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@color/backgroundDivider"
-                            app:layout_constraintBottom_toTopOf="@+id/textView85"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView81" />
-
-                        <View
-                            android:id="@+id/divider16"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
-                            android:background="@color/backgroundLight"
-                            app:layout_constraintBottom_toTopOf="@+id/button4"
+                            app:layout_constraintBottom_toTopOf="@+id/bodysettings_allowed_food_divider"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView86" />
+                            app:layout_constraintTop_toBottomOf="@+id/divider17"
+                            tools:listitem="@layout/recycleritem_settings_main" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -709,6 +599,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:paddingBottom="8dp"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -718,34 +609,8 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/bodysettings_bodyaim_tv_brust"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView90"
-                            app:layout_constraintTop_toBottomOf="@+id/textView90" />
-
-                        <TextView
-                            android:id="@+id/bodysettings_bodyaim_tv_kfa"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView75"
-                            app:layout_constraintTop_toBottomOf="@+id/textView75" />
-
-                        <TextView
-                            android:id="@+id/bodysettings_bodyaim_tv_weight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView71"
-                            app:layout_constraintTop_toBottomOf="@+id/textView71" />
+                        android:layout_height="match_parent"
+                        android:paddingBottom="8dp">
 
                         <TextView
                             android:id="@+id/textView48"
@@ -758,18 +623,6 @@
                             android:textSize="20sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
-
-                        <Button
-                            android:id="@+id/bodysettings_bodyaim_btn"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:minHeight="0dp"
-                            android:text="Bearbeiten"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent" />
 
                         <TextView
                             android:id="@+id/textView67"
@@ -794,200 +647,17 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView67" />
 
-                        <View
-                            android:id="@+id/divider19"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/bodysettings_bodyaim_rv"
                             android:layout_width="0dp"
-                            android:layout_height="1dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintBottom_toTopOf="@+id/bodysettings_bodyaim_btn"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_bodyaim_tv_huefte" />
+                            app:layout_constraintTop_toBottomOf="@+id/divider18"
+                            tools:listitem="@layout/recycleritem_settings_main" />
 
-                        <TextView
-                            android:id="@+id/textView71"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Gewicht"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/divider18" />
-
-                        <View
-                            android:id="@+id/divider35"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_bodyaim_tv_weight" />
-
-                        <TextView
-                            android:id="@+id/textView75"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Körperfettanteil (KFA)"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/divider35" />
-
-                        <View
-                            android:id="@+id/divider36"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_bodyaim_tv_kfa" />
-
-                        <TextView
-                            android:id="@+id/textView83"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:text="BodyMassIndex (BMI)"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/divider36" />
-
-                        <TextView
-                            android:id="@+id/bodysettings_bodyaim_tv_bmi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView83"
-                            app:layout_constraintTop_toBottomOf="@+id/textView83" />
-
-                        <TextView
-                            android:id="@+id/textView87"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Bauchumfang"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="@+id/bodysettings_bodyaim_tv_bmi"
-                            app:layout_constraintTop_toBottomOf="@+id/divider37" />
-
-                        <TextView
-                            android:id="@+id/bodysettings_bodyaim_tv_bauch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView87"
-                            app:layout_constraintTop_toBottomOf="@+id/textView87" />
-
-                        <TextView
-                            android:id="@+id/textView90"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Brustumfang"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="@+id/bodysettings_bodyaim_tv_bauch"
-                            app:layout_constraintTop_toBottomOf="@+id/divider38" />
-
-                        <TextView
-                            android:id="@+id/textView92"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Halsumfang"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="@+id/bodysettings_bodyaim_tv_brust"
-                            app:layout_constraintTop_toBottomOf="@+id/divider39" />
-
-                        <TextView
-                            android:id="@+id/bodysettings_bodyaim_tv_hals"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView92"
-                            app:layout_constraintTop_toBottomOf="@+id/textView92" />
-
-                        <TextView
-                            android:id="@+id/textView108"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Hüftumfang"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="@+id/bodysettings_bodyaim_tv_hals"
-                            app:layout_constraintTop_toBottomOf="@+id/divider40" />
-
-                        <TextView
-                            android:id="@+id/bodysettings_bodyaim_tv_huefte"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView108"
-                            app:layout_constraintTop_toBottomOf="@+id/textView108" />
-
-                        <View
-                            android:id="@+id/divider37"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_bodyaim_tv_bmi" />
-
-                        <View
-                            android:id="@+id/divider38"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_bodyaim_tv_bauch" />
-
-                        <View
-                            android:id="@+id/divider39"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_bodyaim_tv_brust" />
-
-                        <View
-                            android:id="@+id/divider40"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="?android:attr/listDivider"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bodysettings_bodyaim_tv_hals" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 

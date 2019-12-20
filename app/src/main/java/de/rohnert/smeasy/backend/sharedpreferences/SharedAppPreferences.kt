@@ -5,6 +5,8 @@ import android.app.Application
 import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
+import backend.helper.Helper
 import kotlin.math.roundToInt
 
 
@@ -14,6 +16,7 @@ class SharedAppPreferences(var context: Context)
 
     private var sharedPref: SharedPreferences = context.getSharedPreferences("pref",Context.MODE_PRIVATE)
     private lateinit var editor: SharedPreferences.Editor
+    private var helper = Helper()
     // Werte für App-Erlebnis..
     var appInitalStart:Boolean
     // Einstellungen für maximale Werte, die aufgenommen werden dürfen
@@ -43,22 +46,49 @@ class SharedAppPreferences(var context: Context)
     var huefteAim:Float
 
     // Werte für FoodListFilter:
-    var maxAllowedKcal:Float
+    var maxAllowedKcal:Float = 0f
     var maxAllowedCarbs:Float = 0f
     var maxAllowedProtein:Float = 0f
     var maxAllowedFett:Float = 0f
+    var minAllowedKcal:Float = 0f
+    var minAllowedCarbs:Float = 0f
+    var minAllowedProtein:Float = 0f
+    var minAllowedFett:Float = 0f
+
+    // Premium-Werte:
+    var premiumStatus:Boolean
+    var premiumDate:String
+    var premiumTime:Int = 30
+    var premiumEndDate:String
+
 
     init {
 
+        // AllowedFood:
+        maxAllowedKcal = sharedPref.getFloat("maxAllowedKcal",-1f)
+        maxAllowedCarbs = sharedPref.getFloat("maxAllowedCarbs",-1f)
+        maxAllowedProtein = sharedPref.getFloat("maxAllowedProtein",-1f)
+        maxAllowedFett = sharedPref.getFloat("maxAllowedFett",-1f)
+
+        minAllowedKcal = sharedPref.getFloat("minAllowedKcal",0f)
+        minAllowedCarbs = sharedPref.getFloat("minAllowedCarbs",0f)
+        minAllowedProtein = sharedPref.getFloat("minAllowedProtein",0f)
+        minAllowedFett = sharedPref.getFloat("minAllowedFett",0f)
+
+        // Premium:
+        premiumStatus = sharedPref.getBoolean("premiumStatus",false)
+        premiumDate = sharedPref.getString("premiumDate","")!!
+        premiumEndDate = sharedPref.getString("premiumEndDate","")!!
 
 
+        // MaxWerte der Nährwerte, die nicht überschritten werden sollten
         maxKcal = sharedPref.getFloat("maxKcal",2500f)
-        maxCarb = sharedPref.getFloat("maxCarb",100f)
-        maxProtein = sharedPref.getFloat("maxProtein",100f)
-        maxFett = sharedPref.getFloat("maxFett",50f)
-
+        maxCarb = sharedPref.getFloat("maxCarb",25f)
+        maxProtein = sharedPref.getFloat("maxProtein",50f)
+        maxFett = sharedPref.getFloat("maxFett",25f)
         initMaxValues()
 
+        // Body Ziele festlegen...
         aim = sharedPref.getString("aim","Abnehmen")!!
         aimWeightLoss = sharedPref.getFloat("aimWeightLoss",0f)
         weightAim = sharedPref.getFloat("weightAim",80f)!!
@@ -69,32 +99,26 @@ class SharedAppPreferences(var context: Context)
         halsAim = sharedPref.getFloat("halsAim",300f)!!
         huefteAim = sharedPref.getFloat("huefteAim",200f)!!
 
-        checkIfAppStartsFirst()
 
-
-
+        // Userdaten speichern...
         userName = sharedPref.getString("userName","")!!
         userHeight = sharedPref.getFloat("userHeight",180f)!!
         sex = sharedPref.getString("sex","")!!
         bday = sharedPref.getString("bday","")!!
 
-        maxAllowedKcal = sharedPref.getFloat("maxAllowedKcal",0f)
 
+        // Prüfen ob App das erste mal gestartet wird...
         appInitalStart = sharedPref.getBoolean("appInitalStart",false)
 
+
+
+
+
     }
 
-    private fun checkIfAppStartsFirst()
-    {
 
-    }
 
-    private fun initMaxValues()
-    {
-        maxCarbValue = (((maxCarb/100f)*maxKcal)/4.1f).roundToInt().toFloat()
-        maxProteinValue = (((maxProtein/100f)*maxKcal)/4.1f).roundToInt().toFloat()
-        maxFettValue = (((maxFett/100f)*maxKcal)/9.2f).roundToInt().toFloat()
-    }
+
 
     fun setNewAppInitialStart(value:Boolean)
     {
@@ -103,6 +127,7 @@ class SharedAppPreferences(var context: Context)
     }
 
 
+    // Maximale Nährtwerte setzen
     fun setNewMaxKcal(value:Float)
     {
         maxKcal = value
@@ -138,14 +163,14 @@ class SharedAppPreferences(var context: Context)
 
 
     }
-
-    fun setNewMaxAllowedKcal(value:Float)
+    private fun initMaxValues()
     {
-        maxAllowedKcal = value
-        saveFloat(value,"maxAllowedKcal")
-
-
+        maxCarbValue = (((maxCarb/100f)*maxKcal)/4.1f).roundToInt().toFloat()
+        maxProteinValue = (((maxProtein/100f)*maxKcal)/4.1f).roundToInt().toFloat()
+        maxFettValue = (((maxFett/100f)*maxKcal)/9.2f).roundToInt().toFloat()
     }
+
+
 
     fun setNewAim(value:String)
     {
@@ -161,7 +186,12 @@ class SharedAppPreferences(var context: Context)
 
     fun setNewBmiAim()
     {
-        bmiAim = weightAim/(userHeight*userHeight)
+        var value = userHeight/100f
+        bmiAim = weightAim/(value*value)
+        /*Log.d("Smeasy","SharedAppPreferences - setNewBmiAim() - userheight = $userHeight")
+        Log.d("Smeasy","SharedAppPreferences - setNewBmiAim() - userheight = $weightAim")
+        Log.d("Smeasy","SharedAppPreferences - setNewBmiAim() - userheight = $bmiAim")*/
+
         saveFloat(bmiAim,"bmiAim")
     }
 
@@ -203,7 +233,7 @@ class SharedAppPreferences(var context: Context)
 
 
 
-
+    // Userdaten ändern...
     fun setNewUserName(value:String)
     {
         userName = value
@@ -229,9 +259,138 @@ class SharedAppPreferences(var context: Context)
     }
 
 
+    // Premium:
+    fun setNewPremiumState(value:Boolean)
+    {
+        premiumStatus = value
+        saveBoolean(value,"premiumStatus")
+    }
+    fun setNewPremiumDate(value:String)
+    {
+        premiumDate = value
+        saveString(value,"premiumDate")
+    }
+    fun activatePremiumPackage()
+    {
+        premiumStatus = true
+        saveBoolean(true,"premiumStatus")
+        premiumDate = helper.getStringFromDate(helper.getCurrentDate())
+        saveString(premiumDate,"premiumDate")
+        premiumEndDate = helper.getStringFromDate(helper.getDateWithAddValue(helper.getCurrentDate(),premiumTime))
+        saveString(helper.getStringFromDate(helper.getDateWithAddValue(helper.getCurrentDate(),premiumTime)),"premiumEndDate")
+
+    }
+    fun deactivedPremiumPackage()
+    {
+        premiumStatus = false
+        saveBoolean(false,"premiumStatus")
+        premiumDate = ""
+        saveString("","premiumDate")
+        premiumEndDate = ""
+        saveString("","premiumEndDate")
+    }
+
+
+    // MaxAllowed & MinAllowed Werte setzen
+    fun setNewMaxAllowedKcal(value:Float)
+    {
+        maxAllowedKcal = value
+        saveFloat(value,"maxAllowedKcal")
+
+
+    }
+    fun setNewMaxAllowedCarbs(value:Float)
+    {
+        maxAllowedCarbs = value
+        saveFloat(value,"maxAllowedCarbs")
+
+
+    }
+    fun setNewMaxAllowedProtein(value:Float)
+    {
+        maxAllowedProtein = value
+        saveFloat(value,"maxAllowedProtein")
+
+
+    }
+    fun setNewMaxAllowedFett(value:Float)
+    {
+        maxAllowedFett = value
+        saveFloat(value,"maxAllowedFett")
+
+
+    }
+    fun setNewMinAllowedKcal(value:Float)
+    {
+        minAllowedKcal = value
+        saveFloat(value,"minAllowedKcal")
+
+
+    }
+    fun setNewMinAllowedCarbs(value:Float)
+    {
+        minAllowedCarbs = value
+        saveFloat(value,"minAllowedCarbs")
+
+
+    }
+    fun setNewMinAllowedProtein(value:Float)
+    {
+        minAllowedProtein = value
+        saveFloat(value,"minAllowedProtein")
+
+
+    }
+    fun setNewMinAllowedFett(value:Float)
+    {
+        minAllowedFett = value
+        saveFloat(value,"minAllowedFett")
+
+
+    }
 
 
 
+    // Getters
+    fun getAllowedFoodValues():ArrayList<Float>
+    {
+        var export:ArrayList<Float> = ArrayList()
+        export.add(maxAllowedKcal)
+        export.add(maxAllowedCarbs)
+        export.add(maxAllowedProtein)
+        export.add(maxAllowedFett)
+        export.add(minAllowedKcal)
+        export.add(minAllowedCarbs)
+        export.add(minAllowedProtein)
+        export.add(minAllowedFett)
+
+        return export
+    }
+    fun getMaxAllowedFoodValues():ArrayList<Float>
+    {
+        var export:ArrayList<Float> = ArrayList()
+        export.add(maxAllowedKcal)
+        export.add(maxAllowedCarbs)
+        export.add(maxAllowedProtein)
+        export.add(maxAllowedFett)
+        return export
+    }
+    fun getMinAllowedFoodValues():ArrayList<Float>
+    {
+        var export:ArrayList<Float> = ArrayList()
+        export.add(minAllowedKcal)
+        export.add(minAllowedCarbs)
+        export.add(minAllowedProtein)
+        export.add(minAllowedFett)
+        return export
+    }
+
+
+
+
+
+
+    // Methoden:
     fun saveFloat(value:Float,key:String)
     {
         editor = sharedPref.edit()

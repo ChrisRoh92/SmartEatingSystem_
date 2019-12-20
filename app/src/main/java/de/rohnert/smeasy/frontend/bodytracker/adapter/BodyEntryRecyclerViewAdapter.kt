@@ -50,12 +50,12 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentMana
             true
         }
 
-        holder.itemView.setOnLongClickListener {
+        holder.itemView.setOnClickListener {
             if(mListener!=null)
             {
                 mListener.setOnBodyEntryClickListener(content[holder.adapterPosition],holder.adapterPosition)
             }
-            true
+
         }
     }
 

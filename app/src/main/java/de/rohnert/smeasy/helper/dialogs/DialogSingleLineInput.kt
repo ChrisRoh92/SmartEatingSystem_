@@ -10,7 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import de.rohnert.smeasy.R
 
-class DialogSingleLineInput(var title:String,var subTitle:String, var context: Context, var inputType: Int)
+class DialogSingleLineInput(var title:String,var subTitle:String, var context: Context, var inputType: Int, var value:String = "")
 {
 
     lateinit var builder: AlertDialog.Builder
@@ -75,6 +75,8 @@ class DialogSingleLineInput(var title:String,var subTitle:String, var context: C
         {
             et.inputType = (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL)
         }
+
+        et.setText(value)
 
         btnAbort.setOnClickListener(View.OnClickListener {
             alertDialog.dismiss()

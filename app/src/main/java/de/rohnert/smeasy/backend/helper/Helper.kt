@@ -75,6 +75,16 @@ class Helper
         return value.toInt()
     }
 
+    // Über diese Methode wird die Anzahl der Jahre zwischen zwei Datums zurückgegeben...
+    fun getDaysBetweenDates(higherDate:Date,lowerDate:Date):Int
+    {
+        var value = abs(higherDate.time - lowerDate.time) /(3600*24)
+        value /= 1000
+
+
+        return value.toInt()
+    }
+
     // Über dise Funktion wird eine DecimalZahl als String zurückgegeben:
     fun getFloatAsFormattedString(input:Float, pattern:String ="#.##"):String
     {
@@ -188,6 +198,16 @@ class Helper
             export.add(getStringFromDate(i))
         }
         return export
+    }
+
+    fun getDateWithAddValue(date:Date,value:Int):Date
+    {
+        var cal = Calendar.getInstance()
+        cal.time = date
+        cal.add(Calendar.DATE,value)
+
+        return cal.time
+
     }
 
 

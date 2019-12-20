@@ -76,7 +76,7 @@ class BodyEntryStatusViewAnimator (var context: Context,
 
     fun animateNewValues(progressValues:ArrayList<Float>)
     {
-
+        this.progressValues = progressValues
         var set = AnimatorSet()
         var pbSet = AnimatorSet()
         var tvSet = AnimatorSet()
@@ -136,20 +136,7 @@ class BodyEntryStatusViewAnimator (var context: Context,
         {
 
             export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(progressValues[index],"#")} %",(progressValues[index]<0)))
-            /*
 
-            if(index == 0)
-            {
-                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(progressValues[0],"#")} %",(progressValues[0] > maxValues[0])))
-            }
-            else if(index == 1)
-            {
-                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(maxValues[0] - progressValues[0],"#")} %",((maxValues[0] - progressValues[0])<0)))
-            }
-            else
-            {
-                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(progressValues[index-1],"#")} % / ${helper.getFloatAsFormattedString(maxValues[index-1],"#")} g",(progressValues[index-1]>maxValues[index-1])))
-            }*/
         }
 
         return export
@@ -158,7 +145,7 @@ class BodyEntryStatusViewAnimator (var context: Context,
 
     private fun createProgressBarAnimatorList(newProgressValues:ArrayList<Float>):List<ValueAnimator>
     {
-        var export:ArrayList<ValueAnimator> = ArrayList()
+        /*var export:ArrayList<ValueAnimator> = ArrayList()
         // Hinzufügen vom Kcal ProgressBar:
         var startValue = ((newProgressValues[0]/maxValues[0])*2700).roundToInt()
         if(startValue <= 2700)
@@ -188,6 +175,41 @@ class BodyEntryStatusViewAnimator (var context: Context,
 
 
 
+        return export*/
+
+        var export:ArrayList<ValueAnimator> = ArrayList()
+        // Hinzufügen vom Kcal ProgressBar:
+        /*var startValue = ((progressValues[0]/maxValues[0])*2700).roundToInt()
+        if(startValue <= 2700)
+        {
+            var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 1000)
+            export.add(value)
+        }
+        else
+        {
+            var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=2701,interpolator = FastOutSlowInInterpolator(),delay = 1000)
+            export.add(value)
+        }*/
+
+        // Hinzufügen von den anderen ProgressAnimationen...
+        for((index,i) in pbList.withIndex())
+        {
+
+            var startValue = ((progressValues[index]/maxValues[index])*100).roundToInt()
+            var value = valueAnimator.animateProgressBar(i,i.progress,startValue,interpolator = FastOutSlowInInterpolator(),delay = 500)
+            export.add(value)
+
+
+            /*if(index == 0) continue
+            else
+            {
+
+            }*/
+        }
+
+
+
+
         return export
     }
 
@@ -196,18 +218,9 @@ class BodyEntryStatusViewAnimator (var context: Context,
         var export:ArrayList<ObjectAnimator> = ArrayList()
         for((index,i) in tvList.withIndex())
         {
-            if(index == 0)
-            {
-                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(newProgressValues[0],"#")} Kcal",(newProgressValues[0] > maxValues[0])))
-            }
-            else if(index == 1)
-            {
-                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(maxValues[0] - newProgressValues[0],"#")} Kcal",((maxValues[0] - newProgressValues[0])<0)))
-            }
-            else
-            {
-                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(newProgressValues[index-1],"#")} g / ${helper.getFloatAsFormattedString(maxValues[index-1],"#")} g",(newProgressValues[index-1]>maxValues[index-1])))
-            }
+
+            export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(newProgressValues[index],"#")} %",(progressValues[index]<0)))
+
         }
 
         return export

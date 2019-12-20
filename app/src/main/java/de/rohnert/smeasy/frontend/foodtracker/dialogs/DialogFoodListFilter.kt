@@ -5,22 +5,26 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 
 import de.rohnert.smeasy.R
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 
-class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewModel2, var categories:ArrayList<String>,var extendFilterValues:ArrayList<Float>) : View.OnClickListener {
+class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewModel2, var categories:ArrayList<String>,var extendFilterValues:ArrayList<Float>,
+var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnClickListener {
 
 
-    lateinit var builder: AlertDialog.Builder
-    lateinit var alertDialog: AlertDialog
-    lateinit var view: View
-    lateinit var inflater: LayoutInflater
+    private lateinit var builder: AlertDialog.Builder
+    private lateinit var alertDialog: AlertDialog
+    private lateinit var view: View
+    private lateinit var inflater: LayoutInflater
 
-    var allCategories:ArrayList<String> = foodViewModel.getFoodCategories()
+    private var allCategories:ArrayList<String> = foodViewModel.getFoodCategories()
+    private var prefs = SharedAppPreferences(context)
     // Interface Stuff:
     lateinit var mListener: OnDialogFilterClickListener
 
@@ -38,12 +42,20 @@ class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewMode
     private lateinit var btnAbort:Button
     private lateinit var btnExtras:Button
     // Switch Buttons:
-    private lateinit var switchAllowed:Switch
+
     private lateinit var switchFavourites:Switch
     private lateinit var switchUserFood:Switch
     // ChipGroup
     private lateinit var chipGroup: ChipGroup
     private lateinit var chips:ArrayList<Chip>
+
+    // Premiumfunktionen:
+    private lateinit var tvAllowedFoodTitle:TextView
+    private lateinit var tvAdvancedFilterTitle:TextView
+    private lateinit var tvAdvancedFilterValue:TextView
+    private lateinit var btnAdvancedFilter:ImageButton
+    private lateinit var btnAllowedFoodTitle:ImageButton
+    private lateinit var switchAllowed:Switch
 
 
 
@@ -64,6 +76,7 @@ class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewMode
 
 
         initViews()
+        initPremiumViews()
         //initChipGroupContent()
 
 
@@ -83,17 +96,19 @@ class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewMode
         /*btnExtras = view.findViewById(R.id.dialog_filter_btn_extra)*/
 
         // InitSwitches:
-        switchAllowed = view.findViewById(R.id.dialog_filter_switch_allowedfood)
         switchFavourites = view.findViewById(R.id.dialog_filter_switch_favourites)
         switchUserFood = view.findViewById(R.id.dialog_filter_switch_userfood)
+        // Aktiv Switches
+        switchUserFood.isChecked = userFood
+        switchFavourites.isChecked = favourite
 
-        // Init Chip Group
-        /*chipGroup = view.findViewById(R.id.dialog_filter_chip_group)*/
+
 
         //FrameLayout as Button
         btnCategory = view.findViewById(R.id.dialog_filter_btn_category)
         btnExtendFilter = view.findViewById(R.id.dialog_filter_btn_extend_filter)
 
+        // TextViews...
         tvCategories = view.findViewById(R.id.dialog_filter_category_elements)
         tvCategories.text = getCategoryElements()
 
@@ -103,9 +118,58 @@ class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewMode
         btnReset.setOnClickListener(this)
         btnAbort.setOnClickListener(this)
         btnCategory.setOnClickListener(this)
-        btnExtendFilter.setOnClickListener(this)
+        //btnExtendFilter.setOnClickListener(this)
         /*btnExtras.setOnClickListener(this)
        */
+
+    }
+
+    fun initPremiumViews()
+    {
+        // TextViews initialisieren:
+        tvAllowedFoodTitle = view.findViewById(R.id.dialog_filter_tv_allowed_food)
+        tvAdvancedFilterTitle = view.findViewById(R.id.dialog_filter_tv_advanced_filter)
+        tvAdvancedFilterValue = view.findViewById(R.id.dialog_filter_tv_advanced_filter_content)
+        var extendFilter = false
+        for(i in extendFilterValues)
+        {
+            if(i > 0)
+            {
+                extendFilter = true
+                break
+
+            }
+        }
+
+        if(extendFilter) tvAdvancedFilterValue.text = "Erweiterte Filter aktiv"
+        else tvAdvancedFilterValue.text = "Keine Filter aktiv"
+        // SwitchView initialisieren:
+        switchAllowed = view.findViewById(R.id.dialog_filter_switch_allowedfood)
+
+        // ImageButton:
+        btnAdvancedFilter = view.findViewById(R.id.dialog_filter_btn_advanced_filter)
+        btnAllowedFoodTitle = view.findViewById(R.id.dialog_filter_btn_allowed_food)
+
+        if(prefs.premiumStatus)
+        {
+            tvAllowedFoodTitle.setTextColor(ContextCompat.getColor(context,R.color.textColor1))
+            tvAdvancedFilterTitle.setTextColor(ContextCompat.getColor(context,R.color.textColor1))
+
+            btnAdvancedFilter.visibility = View.GONE
+            btnAllowedFoodTitle.visibility = View.GONE
+
+            switchAllowed.alpha = 1f
+            switchAllowed.isEnabled = true
+            switchAllowed.isChecked = allowedFood
+
+            btnExtendFilter.setOnClickListener(this)
+
+        }
+        else
+        {
+
+
+        }
 
     }
 
@@ -132,13 +196,14 @@ class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewMode
         when(p0)
         {
             btnSave -> startSaveProcess(true)
-            //btnReset -> startResetProcess()
+            btnReset -> startResetProcess()
             btnExtendFilter ->
             {
                 var dialog = DialogExtendFilter(context, extendFilterValues)
                 dialog.setOnDialogExtendedFilterListener(object: DialogExtendFilter.OnDialogExtendedFilterListener{
                     override fun setOnDialogExtendedFilterListener(values: ArrayList<Float>) {
                         extendFilterValues = values
+                        tvAdvancedFilterValue.text = "Erweiterte Filter aktiv"
                         //
                     }
 
@@ -211,7 +276,7 @@ class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewMode
     // Methode, wenn auf Reset geklickt wird...
     fun startResetProcess()
     {
-        for(i in chips) i.isChecked = true
+        //
         switchAllowed.isChecked = false
         switchFavourites.isChecked = false
         switchUserFood.isChecked = false

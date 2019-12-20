@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import backend.helper.Helper
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.helper.animation.CustomValueAnimator
 import kotlin.math.roundToInt
 
@@ -22,6 +23,7 @@ class AnimationStatusView(var context: Context,
 
     private var valueAnimator = CustomValueAnimator(context)
     private var helper = Helper()
+    private var prefs = SharedAppPreferences(context)
     // Interface:
     private lateinit var mListener:OnAnimationStatusViewInitListener
 
@@ -168,7 +170,7 @@ class AnimationStatusView(var context: Context,
 
             else
             {
-                export.add(createTextViewAnimation(i,"Halten",false))
+                export.add(createTextViewAnimation(i,prefs.aim,false))
 
             }
 
@@ -179,6 +181,8 @@ class AnimationStatusView(var context: Context,
 
     }
 
+
+    // Update...
     private fun createProgressBarAnimatorList(newProgressValues:ArrayList<Float>):List<ValueAnimator>
     {
         var export:ArrayList<ValueAnimator> = ArrayList()
@@ -203,7 +207,7 @@ class AnimationStatusView(var context: Context,
             else
             {
                 var startValue = ((newProgressValues[index]/maxValues[index])*1000).roundToInt()
-                var value = valueAnimator.animateProgressBar(i,i.progress,startValue,interpolator = FastOutSlowInInterpolator(),delay = 500)
+                var value = valueAnimator.animateProgressBar(i,i.progress,startValue,interpolator = FastOutSlowInInterpolator(),delay = 100)
                 export.add(value)
             }
         }
