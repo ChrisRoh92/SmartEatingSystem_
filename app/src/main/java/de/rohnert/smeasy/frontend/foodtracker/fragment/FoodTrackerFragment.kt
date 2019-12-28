@@ -11,35 +11,29 @@ import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.MealEntry
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
 import com.google.android.material.snackbar.Snackbar
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.backend.sharedpreferences.SharedPreferencesSmeasyValues
-import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smeasy.frontend.foodtracker.adapter.MealCardItemAdapter
 import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationStatusView
 import de.rohnert.smeasy.frontend.foodtracker.dialogs.*
 import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
-import de.rohnert.smeasy.frontend.premium.dialogs.DialogPremiumAlert
+import de.rohnert.smeasy.helper.dialogs.DialogAppRating
 import de.rohnert.smeasy.helper.dialogs.DialogLoading
 import de.rohnert.smeasy.helper.others.WrapContentLinearLayoutManager
 import kotlinx.android.synthetic.main.app_bar_main.*
-import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.roundToInt
 
 class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
@@ -72,33 +66,24 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private lateinit var tvAimWeight:TextView
     private lateinit var tvAimKfa:TextView
 
-    // MealCards:
-    // Breakfast
-    private lateinit var cardBreakfast: CardView
     private lateinit var tvTitleBreakfast:TextView
     private lateinit var tvKcalBreakfast:TextView
     private lateinit var rvBreakfast:RecyclerView
     private lateinit var adapterBreakfast:MealCardItemAdapter
     private lateinit var layoutManagerBreakfast: LinearLayoutManager
     private lateinit var btnAddBreakfast:Button
-    // Lunch
-    private lateinit var cardLunch: CardView
     private lateinit var tvTitleLunch:TextView
     private lateinit var tvKcalLunch:TextView
     private lateinit var rvLunch:RecyclerView
     private lateinit var adapterLunch:MealCardItemAdapter
     private lateinit var layoutManagerLunch: LinearLayoutManager
     private lateinit var btnAddLunch:Button
-    // Dinner
-    private lateinit var cardDinner: CardView
     private lateinit var tvTitleDinner:TextView
     private lateinit var tvKcalDinner:TextView
     private lateinit var rvDinner:RecyclerView
     private lateinit var adapterDinner:MealCardItemAdapter
     private lateinit var layoutManagerDinner: LinearLayoutManager
     private lateinit var btnAddDinner:Button
-    // Snacks
-    private lateinit var cardSnacks: CardView
     private lateinit var tvTitleSnacks:TextView
     private lateinit var tvKcalSnacks:TextView
     private lateinit var rvSnacks:RecyclerView
@@ -120,6 +105,11 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
     // Loading Dialog
     private lateinit var dialogLoader:DialogLoading
+
+    // Rating
+    private lateinit var dialogRating:DialogAppRating
+    private var rateCountLimit = 3*60
+    private var dayCountLimit = 60
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -156,6 +146,9 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                 }
                 snackbar.show()
                 sharePrefs.setNewAppInitialStart(true)
+            },1000)
+            Handler().postDelayed({
+                initRatingDialog()
             },1000)
 
         }
@@ -490,6 +483,34 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
     }
 
+    // Rating Dialog Stuff:
+    private fun initRatingDialog()
+    {
+        if(!sharePrefs.rateNeverStatus)
+        {
+            if(sharePrefs.lastRequestDate != "")
+            {
+                var diff = helper.getDaysBetweenDates(helper.getCurrentDate(),helper.getDateFromString(sharePrefs.lastRequestDate))
+                if(diff > dayCountLimit || sharePrefs.rateCountAppStart > rateCountLimit)
+                {
+                    dialogRating = DialogAppRating(rootView.context)
+                    sharePrefs.setNewRateCountAppStart(0)
+                }
+                else
+                {
+                    sharePrefs.setNewRateCountAppStart(sharePrefs.rateCountAppStart +1)
+                }
+
+            }
+            else
+            {
+                sharePrefs.setNewLastRequestDate(helper.getStringFromDate(helper.getCurrentDate()))
+            }
+
+
+        }
+    }
+
     // Undo Methoden:
     private fun undoMealEntryDelete(foodID:String,foodMenge:Float,meal:String)
     {
@@ -607,16 +628,17 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             {
                 Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - breakfast: !started - time: ${System.currentTimeMillis()}")
                 initStatusView()
-                mealCardAnimation("breakfast")
+                /*mealCardAnimation("breakfast")
                 mealCardAnimation("lunch")
                 mealCardAnimation("dinner")
-                mealCardAnimation("snack")
+                mealCardAnimation("snack")*/
                 dialogLoader.dismiss()
 
 
             }
             else
             {
+                Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - breakfast-Observer: started = $started")
                 updateStatusView()
                 mealCardAnimation("breakfast")
                 dialogLoader.dismiss()
@@ -632,6 +654,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
             if(started)
             {
+                Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - lunch-Observer: started = $started")
                 updateStatusView()
                 mealCardAnimation("lunch")
             }
@@ -645,6 +668,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
             if(started)
             {
+                Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - dinner-Observer: started = $started")
                 updateStatusView()
                 mealCardAnimation("dinner")
             }
@@ -657,6 +681,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
             if(started)
             {
+                Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - snacks-Observer: started = $started")
                 updateStatusView()
                 mealCardAnimation("snack")
             }
@@ -670,65 +695,6 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Animationen...
-    private fun statusViewAnimation()
-    {
-        var progressValues:ArrayList<Float> = arrayListOf(0f,0f,0f,0f)
-        try{
-            progressValues = foodViewModel.getDailyValues()
-        }catch(e:Exception)
-        {
-            Log.d("Smeasy","FoodTrackerFragment - statusViewAnimation - foodViewModel.getDailyValues() - $e")
-        }
-
-        // Hier muss später der Fortschritt eingefügt werden
-        progressValues.add(smeasyPrefs.progressWeight)
-        progressValues.add(smeasyPrefs.progressKfa)
-
-
-        if(statusAnim == null)
-        {
-
-            var maxValues = foodViewModel.getDailyMaxValues()
-            maxValues.add(100f)
-            maxValues.add(100f)
-            var pbList:ArrayList<ProgressBar> = arrayListOf(pbKcal,pbCarb,pbProtein,pbFett)
-            var tvList:ArrayList<TextView> = arrayListOf(tvKcalAdded,tvKcalRest,tvCarbs,tvProtein,tvFett,tvAimWeight,tvAimKfa,tvAim)
-            for((index,i) in pbList.withIndex())
-            {
-                if(index >0) i.max = 1000
-                else
-                {
-                    i.max = 3600
-                }
-            }
-
-            Log.d("Smeasy","FoodTrackerFragment - statusViewAnimation -  started = $started")
-            statusAnim = AnimationStatusView(rootView.context,pbList,tvList,progressValues,maxValues)
-            statusAnim!!.setOnAnimationStatusViewListener(object: AnimationStatusView.OnAnimationStatusViewInitListener
-            {
-                override fun setOnAnimationStatusViewListener() {
-                    started = true
-                    Log.d("Smeasy","FoodTrackerFragment - statusViewAnimation - after Animation Listener:  started = $started")
-
-                }
-
-            })
-
-        }
-        else if (!started)
-        {
-
-        }
-        else
-        {
-            // hier werden updates gestartet.
-            var maxValues = foodViewModel.getDailyMaxValues()
-            statusAnim!!.setNewMaxValues(maxValues)
-            statusAnim!!.animateNewValues(progressValues)
-            // Die Max Werte müssen noch angepasst werden...
-        }
-    }
 
     private fun initStatusView()
     {
@@ -782,7 +748,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         statusAnim!!.setNewMaxValues(maxValues)
         statusAnim!!.animateNewValues(progressValues)
     }
-    private fun mealCardAnimation(meal:String, delay:Int = 100)
+    private fun mealCardAnimation(meal:String, delay:Int = 0)
     {
 
         fun animate(tv:TextView, content:String)
@@ -820,7 +786,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
 
         var handler = Handler()
-        handler.postDelayed(Runnable {
+        handler.postDelayed({
             when(p0)
             {
                 btnAddBreakfast -> DialogFragmentFoodList("breakfast",foodViewModel).show(fragmentManager!!,"breakfast")

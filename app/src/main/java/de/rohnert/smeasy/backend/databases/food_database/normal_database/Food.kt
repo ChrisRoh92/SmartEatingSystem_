@@ -1,4 +1,4 @@
-package com.example.roomdatabaseexample.backend.databases.food_database
+package de.rohnert.smeasy.backend.databases.food_database.normal_database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

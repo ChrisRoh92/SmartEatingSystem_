@@ -127,16 +127,6 @@ class StandardBarChart(var id:Int,var view:View,var content:ArrayList<BarEntry>)
     }
 
 
-    private fun getColorList():ArrayList<Int>
-    {
-        var export:ArrayList<Int> = ArrayList()
-        for((index,i) in content.withIndex())
-        {
-            export.add(colors[index])
-        }
-        return export
-    }
-
     fun updateBarData(content:ArrayList<BarEntry>)
     {
         this.content = content

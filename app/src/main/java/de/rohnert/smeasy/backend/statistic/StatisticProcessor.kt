@@ -2,22 +2,20 @@ package de.rohnert.smeasy.backend.statistic
 
 import android.content.Context
 import android.util.Log
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.Daily
+import de.rohnert.smeasy.backend.databases.daily_database.MealEntry
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.Food
+import de.rohnert.smeasy.backend.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 class StatisticProcessor(var context: Context, var repository: MainRepository2, var foodProcessor: FoodProcessor)
 {
 
-    private var helper = Helper()
     private var dailyList:ArrayList<Daily> = ArrayList()
     private var prefs = SharedAppPreferences(context)
     private var maxPrefValues = arrayListOf(prefs.maxCarbValue,prefs.maxProteinValue,prefs.maxFettValue)
@@ -25,11 +23,6 @@ class StatisticProcessor(var context: Context, var repository: MainRepository2, 
     // Content:
     var kcalList:ArrayList<Float> = ArrayList()
     var allKcal:Float = 0f
-    var allFood:Int = 0
-    var nutritionValues:ArrayList<Float> = ArrayList()
-    var nutritionValueList:ArrayList<ArrayList<Float>> = ArrayList()
-    var mealValues:ArrayList<Float> = ArrayList()
-    var top20FoodList:ArrayList<Food> = ArrayList()
 
 
     suspend fun getDailyList(days:ArrayList<String>):ArrayList<Daily>
@@ -67,16 +60,6 @@ class StatisticProcessor(var context: Context, var repository: MainRepository2, 
        kcalList = export
 
         return ArrayList(kcalList.asReversed())
-
-    }
-
-    // Alle Kcal in dem Zeitraum anzeigen
-    fun getKcalSum():Float
-    {
-        allKcal = getAlLKcalValues()[0]
-
-        return allKcal
-
 
     }
 
@@ -210,7 +193,7 @@ class StatisticProcessor(var context: Context, var repository: MainRepository2, 
             export[2].add(values[2])
         }
         export.add(ArrayList()) // gefüllt mit 100%
-        for((index,i) in export[0].withIndex())
+        for(i in export[0])
         {
             export[3].add(100f)
         }
@@ -293,7 +276,7 @@ class StatisticProcessor(var context: Context, var repository: MainRepository2, 
 
     }
 
-    private fun getNutritionCourseValueFromDaily(daily:Daily):ArrayList<Float>
+    private fun getNutritionCourseValueFromDaily(daily: Daily):ArrayList<Float>
     {
         var export:ArrayList<Float> = ArrayList()
         var values = getDailyValues(daily)
@@ -310,7 +293,7 @@ class StatisticProcessor(var context: Context, var repository: MainRepository2, 
             }
 
         }
-        Log.d("Smeasy","StatisticProcessor - getNutritionCourseValueFromDaily maxValues: ${maxValues}")
+        Log.d("Smeasy","StatisticProcessor - getNutritionCourseValueFromDaily maxValues: $maxValues")
         Log.d("Smeasy","StatisticProcessor - getNutritionCourseValueFromDaily daily-Date: ${daily.date}")
         Log.d("Smeasy","StatisticProcessor - getNutritionCourseValueFromDaily export: $export")
 

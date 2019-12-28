@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.Food
 
 @Dao
 interface AppFoodDao2

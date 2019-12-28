@@ -10,8 +10,8 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.Food
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFood
@@ -24,8 +24,8 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
     private var prefs = SharedAppPreferences(context)
 
     // Interface:
-    lateinit var mLongListener: ClassicFoodListAdapter.OnLongClickListener
-    lateinit var mListener: ClassicFoodListAdapter.OnClickListener
+    lateinit var mLongListener: OnLongClickListener
+    lateinit var mListener: OnClickListener
     lateinit var mCheckedListener:OnCheckedChangedListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -80,7 +80,7 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
         }
     }
 
-    fun checkIfFoodIsFavourite(food:ExtendedFood):Boolean
+    private fun checkIfFoodIsFavourite(food:ExtendedFood):Boolean
     {
         var check = false
         for(i in favContent)
@@ -100,7 +100,7 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
         notifyDataSetChanged()
     }
 
-    fun checkIfFoodIsAllowed(food:ExtendedFood):Boolean
+    private fun checkIfFoodIsAllowed(food:ExtendedFood):Boolean
     {
         var status = true
 
@@ -133,7 +133,7 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
         // Prüfen ob im Kcal Bereich:
         if(prefs.maxAllowedCarbs == -1f)
         {
-            if(food.carb > prefs.minAllowedCarbs)
+            if(food.carb >= prefs.minAllowedCarbs)
             {
 
             }
@@ -159,7 +159,7 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
         // Prüfen ob im Kcal Bereich:
         if(prefs.maxAllowedProtein == -1f)
         {
-            if(food.protein > prefs.minAllowedProtein)
+            if(food.protein >= prefs.minAllowedProtein)
             {
 
             }
@@ -184,7 +184,7 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
         // Prüfen ob im Kcal Bereich:
         if(prefs.maxAllowedFett == -1f)
         {
-            if(food.fett > prefs.minAllowedFett)
+            if(food.fett >= prefs.minAllowedFett)
             {
 
             }
@@ -226,14 +226,7 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
     }
 
 
-    interface OnLongClickListener {
-        fun setOnLongClickListener(food: Food, position: Int)
-    }
-
-
-    fun setOnLongClickListener(mLongListener: OnLongClickListener) {
-        this.mLongListener = mLongListener
-    }
+    interface OnLongClickListener
 
 
     interface OnClickListener {

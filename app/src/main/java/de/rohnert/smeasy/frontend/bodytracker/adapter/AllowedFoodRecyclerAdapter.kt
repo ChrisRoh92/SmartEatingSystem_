@@ -6,15 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 
 class AllowedFoodRecyclerAdapter(var content:ArrayList<String>,var premiumState:Boolean):
     RecyclerView.Adapter<AllowedFoodRecyclerAdapter.ViewHolder>()
 {
 
-    // Allgemeine Sachen:
-    private var helper = Helper()
     private var titles:ArrayList<String> = arrayListOf("Kalorien","Kohlenhydrate","Protein","Fett")
 
     // Interface:

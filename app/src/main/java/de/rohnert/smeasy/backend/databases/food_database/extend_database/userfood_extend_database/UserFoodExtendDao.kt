@@ -1,7 +1,6 @@
 package de.rohnert.smeasy.backend.databases.food_database.extend_database.userfood_extend_database
 
 import androidx.room.*
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 
 @Dao

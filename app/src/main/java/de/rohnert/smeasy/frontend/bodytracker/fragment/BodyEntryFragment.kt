@@ -1,14 +1,8 @@
 package de.rohnert.smeasy.frontend.bodytracker.fragment
 
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,13 +13,11 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.body_database.Body
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.body_database.Body
 import com.google.android.material.snackbar.Snackbar
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
@@ -33,7 +25,6 @@ import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import de.rohnert.smeasy.frontend.bodytracker.adapter.BodyEntryRecyclerViewAdapter
 import de.rohnert.smeasy.frontend.bodytracker.animations.BodyEntryStatusViewAnimator
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogFragmentNewBodyEntry
-import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogNewBodyEntry
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogShowBodyEntry
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
 
@@ -82,7 +73,7 @@ class BodyEntryFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bodyViewModel = ViewModelProviders.of(this).get(BodyViewModel::class.java)
+        bodyViewModel = ViewModelProviders.of(requireActivity()).get(BodyViewModel::class.java)
         rootView = inflater.inflate(R.layout.fragment_bodytracker_bodyentries, container, false)
         prefs = SharedAppPreferences(rootView.context)
 
@@ -148,6 +139,12 @@ class BodyEntryFragment: Fragment() {
         adapter.setOnBodyEntryClickListener(object:BodyEntryRecyclerViewAdapter.OnBodyEntryClickListener{
             override fun setOnBodyEntryClickListener(body: Body, pos: Int) {
                 var dialog = DialogShowBodyEntry(rootView.context,body,fragmentManager!!)
+                dialog.setOnDialogClickListener(object:DialogShowBodyEntry.OnDialogClickListener{
+                    override fun setOnDialogClickListener(updatedBody: Body) {
+                        bodyViewModel.updateBody(updatedBody)
+                    }
+
+                })
             }
 
         })
@@ -216,15 +213,43 @@ class BodyEntryFragment: Fragment() {
         var startValues = bodyViewModel.getStartBodyList()
         var aimValues = bodyViewModel.getAimBodyList()
 
-        tvStartList[0].text = "${helper.getFloatAsFormattedStringWithPattern(startValues[0],"#")} kg"
-        tvStartList[1].text = "${helper.getFloatAsFormattedStringWithPattern(startValues[1],"#")}"
-        tvStartList[2].text = "${helper.getFloatAsFormattedStringWithPattern(startValues[2],"#")}"
+        // Gewichtsziel
+        if(startValues[0] == -1f || aimValues[0] == -1f)
+        {
+            tvStartList[0].text = ""
+            tvAimList[0].text = ""
+        }
+        else
+        {
+            tvStartList[0].text = "${helper.getFloatAsFormattedStringWithPattern(startValues[0],"#")} kg"
+            tvAimList[0].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[0],"#")} kg"
+        }
 
-        tvAimList[0].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[0],"#")} kg"
-        tvAimList[1].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[1],"#")}"
-        tvAimList[2].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[2],"#")}"
+        // Kfa Ziel
+        if(startValues[1] == -1f || aimValues[1] == -1f)
+        {
+            tvStartList[1].text = ""
+            tvAimList[1].text = ""
+        }
+        else
+        {
+            tvStartList[1].text = helper.getFloatAsFormattedStringWithPattern(startValues[1],"#")
+            tvAimList[1].text = helper.getFloatAsFormattedStringWithPattern(aimValues[1],"#")
+        }
+
+        // BMI Ziel
+        if(startValues[2] == -1f || aimValues[2] == -1f)
+        {
+            tvStartList[2].text = ""
+            tvAimList[2].text = ""
+        }
+        else
+        {
+            tvStartList[2].text = helper.getFloatAsFormattedStringWithPattern(startValues[2],"#")
+            tvAimList[2].text = helper.getFloatAsFormattedStringWithPattern(aimValues[2],"#")
+        }
+
     }
-
 
     private fun startStatusViewAnimation()
     {
@@ -237,7 +262,7 @@ class BodyEntryFragment: Fragment() {
         var progressList:ArrayList<Float> = bodyViewModel.getProgressList()
         Log.d("Smeasy","BodyEntryFragment - startStatusViewAnimation progressList: $progressList")
 
-        animator = BodyEntryStatusViewAnimator(rootView.context,pbList,tvList,progressList,maxList)
+        animator = BodyEntryStatusViewAnimator(rootView.context,pbList,tvList,checkIfAimWasSet(),progressList,maxList)
         animator.setOnAnimationStatusViewListener(object: BodyEntryStatusViewAnimator.OnAnimationStatusViewInitListener
         {
             override fun setOnAnimationStatusViewListener() {
@@ -251,7 +276,7 @@ class BodyEntryFragment: Fragment() {
     private fun updateStatusViewAnimation()
     {
         var progressList:ArrayList<Float> = bodyViewModel.getProgressList()
-        animator.animateNewValues(progressList)
+        animator.animateNewValues(progressList,checkIfAimWasSet())
     }
 
     private fun updateStatusViewTextView()
@@ -259,18 +284,44 @@ class BodyEntryFragment: Fragment() {
         var startValues = bodyViewModel.getStartBodyList()
         var aimValues = bodyViewModel.getAimBodyList()
 
-        tvStartList[0].text = "${helper.getFloatAsFormattedStringWithPattern(startValues[0],"#")} kg"
-        tvStartList[1].text = "${helper.getFloatAsFormattedStringWithPattern(startValues[1],"#")}"
-        tvStartList[2].text = "${helper.getFloatAsFormattedStringWithPattern(startValues[2],"#")}"
+        // Gewichtsziel
+        if(startValues[0] == -1f || aimValues[0] == -1f)
+        {
+            tvStartList[0].text = ""
+            tvAimList[0].text = ""
+        }
+        else
+        {
+            tvStartList[0].text = "${helper.getFloatAsFormattedStringWithPattern(startValues[0],"#")} kg"
+            tvAimList[0].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[0],"#")} kg"
+        }
 
-        tvAimList[0].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[0],"#")} kg"
-        tvAimList[1].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[1],"#")}"
-        tvAimList[2].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[2],"#")}"
+        // Kfa Ziel
+        if(startValues[1] == -1f || aimValues[1] == -1f)
+        {
+            tvStartList[1].text = ""
+            tvAimList[1].text = ""
+        }
+        else
+        {
+            tvStartList[1].text = helper.getFloatAsFormattedStringWithPattern(startValues[1],"#")
+            tvAimList[1].text = helper.getFloatAsFormattedStringWithPattern(aimValues[1],"#")
+        }
+
+        // BMI Ziel
+        if(startValues[2] == -1f || aimValues[2] == -1f)
+        {
+            tvStartList[2].text = ""
+            tvAimList[2].text = ""
+        }
+        else
+        {
+            tvStartList[2].text = helper.getFloatAsFormattedStringWithPattern(startValues[2],"#")
+            tvAimList[2].text = helper.getFloatAsFormattedStringWithPattern(aimValues[2],"#")
+        }
     }
 
-
-
-    private fun undoBodyDelete(body:Body)
+    private fun undoBodyDelete(body: Body)
     {
         var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Rückgängig machen",Snackbar.LENGTH_LONG)
 
@@ -283,6 +334,45 @@ class BodyEntryFragment: Fragment() {
 
         })
         snackbar.show()
+    }
+
+    private fun checkIfAimWasSet():ArrayList<Boolean>
+    {
+        var export:ArrayList<Boolean> = ArrayList()
+        var startValues = bodyViewModel.getStartBodyList()
+        var aimValues = bodyViewModel.getAimBodyList()
+
+        // Gewichtsziel
+        if(startValues[0] == -1f || aimValues[0] == -1f)
+        {
+            export.add(false)
+        }
+        else
+        {
+            export.add(true)
+        }
+
+        // Kfa Ziel
+        if(startValues[1] == -1f || aimValues[1] == -1f)
+        {
+            export.add(false)
+        }
+        else
+        {
+            export.add(true)
+        }
+
+        // BMI Ziel
+        if(startValues[2] == -1f || aimValues[2] == -1f)
+        {
+            export.add(false)
+        }
+        else
+        {
+            export.add(true)
+        }
+
+        return export
     }
 
 }

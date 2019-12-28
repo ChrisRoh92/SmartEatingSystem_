@@ -38,6 +38,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,6 +57,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="Gewicht"
+                                android:maxLines="1"
+                                app:autoSizeMaxTextSize="14sp"
+                                app:autoSizeTextType="uniform"
                                 android:textColor="@color/textColor1"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -93,13 +97,18 @@
 
                             <TextView
                                 android:id="@+id/bodyentry_tv_weight"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
                                 android:alpha="0"
+                                android:maxLines="1"
                                 android:text="75 %"
+                                android:textAlignment="center"
                                 android:textColor="@color/textColor1"
                                 android:textSize="14sp"
+                                app:autoSizeMaxTextSize="14sp"
+                                app:autoSizeTextType="uniform"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_tv_weight_start" />
@@ -108,6 +117,7 @@
                                 android:id="@+id/textView17"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:layout_marginBottom="8dp"
                                 android:text="Fortschritt"
                                 android:textSize="10sp"
@@ -165,20 +175,26 @@
 
                             <TextView
                                 android:id="@+id/bodyentry_tv_kfa"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
                                 android:alpha="0"
+                                android:maxLines="1"
                                 android:text="25 %"
+                                android:textAlignment="center"
                                 android:textColor="@color/textColor1"
-                                app:layout_constraintEnd_toStartOf="@+id/bodyentry_tv_kfa_aim"
-                                app:layout_constraintStart_toEndOf="@+id/bodyentry_tv_kfa_start"
+                                app:autoSizeMaxTextSize="14sp"
+                                app:autoSizeTextType="uniform"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_tv_kfa_start" />
 
                             <TextView
                                 android:id="@+id/textView18"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:layout_marginBottom="8dp"
                                 android:text="Fortschritt"
                                 android:textSize="10sp"
@@ -228,12 +244,17 @@
 
                             <TextView
                                 android:id="@+id/bodyentry_tv_bmi"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="16dp"
                                 android:alpha="0"
+                                android:maxLines="1"
                                 android:text="75 %"
+                                android:textAlignment="center"
                                 android:textColor="@color/textColor1"
+                                app:autoSizeMaxTextSize="14sp"
+                                app:autoSizeTextType="uniform"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/bodyentry_tv_bmi_start" />
@@ -242,6 +263,7 @@
                                 android:id="@+id/textView16"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:layout_marginBottom="8dp"
                                 android:text="Fortschritt"
                                 android:textSize="10sp"
@@ -294,6 +316,20 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView73" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.33" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.67" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>

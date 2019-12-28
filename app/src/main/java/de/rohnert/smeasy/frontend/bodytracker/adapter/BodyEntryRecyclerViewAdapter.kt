@@ -1,6 +1,5 @@
 package de.rohnert.smeasy.frontend.bodytracker.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,17 +9,15 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.body_database.Body
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.body_database.Body
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
-import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogCapturePhoto
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogShowPicture
 import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
 
 
-class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentManager: FragmentManager, var prefs:SharedAppPreferences):
+class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>, var fragmentManager: FragmentManager, var prefs:SharedAppPreferences):
     RecyclerView.Adapter<BodyEntryRecyclerViewAdapter.ViewHolder>() {
 
     private var helper = Helper()
@@ -113,7 +110,7 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentMana
     // Interface:
     interface OnBodyEntryLongClickListener
     {
-        fun setOnBodyEntryLongClickListener(body:Body,pos:Int)
+        fun setOnBodyEntryLongClickListener(body: Body, pos:Int)
     }
 
     fun setOnBodyEntryLongClickListener(mLongListener:OnBodyEntryLongClickListener)
@@ -123,7 +120,7 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentMana
 
     interface OnBodyEntryClickListener
     {
-        fun setOnBodyEntryClickListener(body:Body,pos:Int)
+        fun setOnBodyEntryClickListener(body: Body, pos:Int)
     }
 
     fun setOnBodyEntryClickListener(mListener:OnBodyEntryClickListener)

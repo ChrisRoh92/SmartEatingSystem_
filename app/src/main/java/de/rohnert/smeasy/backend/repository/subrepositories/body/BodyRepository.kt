@@ -1,16 +1,16 @@
-package com.example.roomdatabaseexample.backend.repository.subrepositories.body
+package de.rohnert.smeasy.backend.repository.subrepositories.body
 
 import android.app.Application
-import com.example.roomdatabaseexample.backend.databases.body_database.Body
-import com.example.roomdatabaseexample.backend.databases.body_database.BodyDao
-import com.example.roomdatabaseexample.backend.databases.body_database.BodyDataBaseProvider
+import de.rohnert.smeasy.backend.databases.body_database.Body
+import de.rohnert.smeasy.backend.databases.body_database.BodyDao
+import de.rohnert.smeasy.backend.databases.body_database.BodyDataBaseProvider
+import de.rohnert.smeasy.backend.repository.subrepositories.body.BodyProcessor
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 
 class BodyRepository(var application: Application)
 {
     private var bodyDao: BodyDao
     private var bodyProcessor: BodyProcessor
-    private var prefs = SharedAppPreferences(application)
 
     init {
         var bodyDB = BodyDataBaseProvider.getDatabase(application)
@@ -25,12 +25,12 @@ class BodyRepository(var application: Application)
         bodyDao.insert(body)
     }
 
-    suspend fun updateBody(body:Body)
+    suspend fun updateBody(body: Body)
     {
         bodyDao.update(body)
     }
 
-    suspend fun deleteBody(body:Body)
+    suspend fun deleteBody(body: Body)
     {
         bodyDao.delete(body)
     }
@@ -40,7 +40,7 @@ class BodyRepository(var application: Application)
         return ArrayList(bodyDao.getBodyList())
     }
 
-    suspend fun getBodyByDate(date:String):Body
+    suspend fun getBodyByDate(date:String): Body
     {
         return bodyDao.getBodyByDate(date)
     }

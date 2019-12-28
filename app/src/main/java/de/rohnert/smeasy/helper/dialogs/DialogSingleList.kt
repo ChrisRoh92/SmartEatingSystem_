@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.helper.Helper
 
 class DialogSingleList(var title:String,var subTitle:String, var content:ArrayList<String>,var context: Context, var listenerActiv:Boolean = true) :
     AdapterView.OnItemClickListener {
 
 
     lateinit var builder: AlertDialog.Builder
-    lateinit var helper:backend.helper.Helper
+    lateinit var helper: Helper
     lateinit var alertDialog: AlertDialog
     lateinit var view: View
     lateinit var inflater: LayoutInflater
@@ -37,7 +38,7 @@ class DialogSingleList(var title:String,var subTitle:String, var content:ArrayLi
         inflater = LayoutInflater.from(context)
         view = inflater.inflate(R.layout.dialog_single_list, null)
         builder.setView(view)
-        helper = backend.helper.Helper()
+        helper = Helper()
 
 
         initDialogView()

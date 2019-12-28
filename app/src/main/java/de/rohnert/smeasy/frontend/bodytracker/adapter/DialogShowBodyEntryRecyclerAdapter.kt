@@ -5,14 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 
 class DialogShowBodyEntryRecyclerAdapter(var content:ArrayList<String>):
     RecyclerView.Adapter<DialogShowBodyEntryRecyclerAdapter.ViewHolder>() {
-
-    // Allgemeiner Stuff:
-    private var helper = Helper()
 
     // Interface
     private lateinit var mListener:OnItemClickListener

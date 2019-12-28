@@ -5,13 +5,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import de.rohnert.smeasy.R
-import android.view.ViewGroup
-
-
+import de.rohnert.smeasy.backend.helper.Helper
 
 
 class DialogSingeListTwoItem(var title:String,var subTitle:String, var content:ArrayList<String>,var context: Context, var listenerActiv:Boolean = true) :
@@ -19,7 +16,7 @@ class DialogSingeListTwoItem(var title:String,var subTitle:String, var content:A
 
 
     lateinit var builder: AlertDialog.Builder
-    lateinit var helper: backend.helper.Helper
+    lateinit var helper: Helper
     lateinit var alertDialog: AlertDialog
     lateinit var view: View
     lateinit var inflater: LayoutInflater
@@ -42,7 +39,7 @@ class DialogSingeListTwoItem(var title:String,var subTitle:String, var content:A
         inflater = LayoutInflater.from(context)
         view = inflater.inflate(R.layout.dialog_single_list, null)
         builder.setView(view)
-        helper = backend.helper.Helper()
+        helper = Helper()
 
 
         initDialogView()

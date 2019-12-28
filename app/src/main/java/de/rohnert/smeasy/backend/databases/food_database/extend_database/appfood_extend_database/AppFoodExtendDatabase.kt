@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 
 @Database(entities = [ExtendedFood::class], version = 1)

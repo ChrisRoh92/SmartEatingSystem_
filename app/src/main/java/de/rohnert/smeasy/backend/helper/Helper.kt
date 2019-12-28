@@ -1,4 +1,4 @@
-package backend.helper
+package de.rohnert.smeasy.backend.helper
 
 import android.util.Log
 import java.text.DecimalFormat
@@ -111,7 +111,7 @@ class Helper
     fun getWeekListFromDate(date:Date):ArrayList<Date>
     {
         var export:ArrayList<Date> = ArrayList()
-        var cal = Calendar.getInstance();
+        var cal = Calendar.getInstance()
         cal.time = date
         //cal.set(mDate.year,mDate.month,mDate.day)
         cal.firstDayOfWeek = Calendar.MONDAY
@@ -156,38 +156,6 @@ class Helper
         }
 
         return dates
-    }
-
-    fun getDateListBetweenDates(fromDate: Date,toDate:Date):ArrayList<Date>
-    {
-
-        var days = toDate.time - fromDate.time
-        days /= (3600 * 1000 * 24)
-
-        var cal = Calendar.getInstance()
-        cal.time = fromDate
-        var dayList:ArrayList<Date> = ArrayList()
-        dayList.add(cal.time)
-        if(days > 0)
-        {
-
-            for(i in 0 until days step 1)
-            {
-
-                cal.add(Calendar.DATE,1)
-                dayList.add(cal.time)
-            }
-        }
-        else if (days < 0)
-        {
-            dayList.add(cal.time)
-            for(i in 0 until Math.abs(days-1) step 1)
-            {
-                cal.add(Calendar.DATE,-1)
-                dayList.add(cal.time)
-            }
-        }
-        return ArrayList()
     }
 
     fun convertDateListToStringList(dateList:ArrayList<Date>):ArrayList<String>

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smeasy.R
 
 class WeekReportRecyclerViewAdapter(var content:ArrayList<CalcedFood>, var context: Context): RecyclerView.Adapter<WeekReportRecyclerViewAdapter.ViewHolder>()
@@ -61,14 +61,6 @@ class WeekReportRecyclerViewAdapter(var content:ArrayList<CalcedFood>, var conte
         }*/
 
 
-    }
-
-
-    // Daten aktualisieren...
-    fun setNewContent(newContent:ArrayList<CalcedFood>)
-    {
-        content = newContent
-        notifyDataSetChanged()
     }
 
 

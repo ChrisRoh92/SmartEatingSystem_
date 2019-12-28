@@ -34,16 +34,14 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.inflateMenu(R.menu.menu_foodtracker)
-        /*val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         var navMenuView: NavigationMenuView = navView.getChildAt(0) as NavigationMenuView
         navMenuView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         val navController = findNavController(R.id.nav_host_fragment)
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            toolbar.title = ""
+        }
 
 
 
@@ -60,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(R.menu.menu_foodtracker, menu)
         return true
     }
 

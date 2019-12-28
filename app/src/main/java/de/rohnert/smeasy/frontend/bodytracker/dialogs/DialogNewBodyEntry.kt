@@ -9,15 +9,11 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.example.roomdatabaseexample.backend.databases.body_database.Body
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
-import de.rohnert.smeasy.frontend.premium.dialogs.DialogPremiumAlert
 
 class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManager, var bodyViewModel: BodyViewModel) :
     View.OnClickListener {
@@ -135,10 +131,7 @@ class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManag
             bodyViewModel.addNewBody(values[0],values[1],values[2],values[3],values[4],values[5],imagePath)
             alertDialog.dismiss()
         }
-        else
-        {
 
-        }
 
     }
 

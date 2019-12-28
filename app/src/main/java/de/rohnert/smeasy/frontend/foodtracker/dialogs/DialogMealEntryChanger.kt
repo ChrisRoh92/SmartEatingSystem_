@@ -10,11 +10,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.MealEntry
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.repository.subrepositories.daily.DailyProcessor
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
@@ -163,7 +162,7 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
         // Listener...
 
 
-        btnSave.setOnClickListener(View.OnClickListener {
+        btnSave.setOnClickListener({
             // Über das Repository muss ein neues MealEntry in das Daily-Objekt gebracht werden, damit das auch direkt
             // gespeichert werden kann..
             //foodViewModel.addNewMealEntry(calcedFood.f.id,menge,meal)
@@ -171,7 +170,7 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
             {
                 if(menge != 0f)
                 {
-                    foodViewModel.updateMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,menge),meal)
+                    foodViewModel.updateMealEntry(MealEntry(calcedFood.id, calcedFood.f.id, menge),meal)
 
                     alertDialog.dismiss()
                 }
@@ -190,7 +189,7 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
         })
 
         // Abbrechen ohne Eingabe
-        btnAbort.setOnClickListener(View.OnClickListener {
+        btnAbort.setOnClickListener({
             alertDialog.dismiss()
         })
 

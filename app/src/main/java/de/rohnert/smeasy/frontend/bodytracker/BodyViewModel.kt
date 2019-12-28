@@ -5,18 +5,16 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.body_database.Body
-import com.example.roomdatabaseexample.backend.repository.subrepositories.body.BodyProcessor
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.body_database.Body
+import de.rohnert.smeasy.backend.repository.subrepositories.body.BodyProcessor
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.backend.sharedpreferences.SharedPreferencesSmeasyValues
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class BodyViewModel(application: Application) : AndroidViewModel(application)
 {
@@ -33,7 +31,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     // BodyList:
     private lateinit var localBodyList:ArrayList<Body>
     private var date:String = helper.getStringFromDate(helper.getCurrentDate())
-    private var localCurrentBody:Body? = null
+    private var localCurrentBody: Body? = null
     private var bodyAimList:ArrayList<Float> = ArrayList()
     private var progressList:ArrayList<Float> = ArrayList()
     private var startBodyValues:ArrayList<Float> = ArrayList()
@@ -94,7 +92,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     }
 }
 
-    fun undoBodyDelete(body:Body)
+    fun undoBodyDelete(body: Body)
     {
         CoroutineScope(IO).launch {
             repository.addNewBody(body)
@@ -107,7 +105,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun deleteBody(body:Body)
+    fun deleteBody(body: Body)
     {
         CoroutineScope(IO).launch {
 
@@ -131,7 +129,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateBody(newBody:Body)
+    fun updateBody(newBody: Body)
     {
         CoroutineScope(IO).launch {
             var pos = -1
@@ -151,7 +149,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
                 {
                     localCurrentBody = newBody
                 }
-                liveBodyList.postValue(localBodyList)
+                updateBodyProgress()
             }
 
 
@@ -270,8 +268,14 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
 
     fun updateBodyProgress()
     {
-        prefs = SharedAppPreferences(context)
-        setBodyProgress()
+        CoroutineScope(IO).launch {
+            prefs = SharedAppPreferences(context)
+            setBodyProgress()
+            saveCurrentBodyToPref()
+            liveBodyList.postValue(localBodyList)
+        }
+
+
     }
 
 
@@ -295,23 +299,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         return liveBodyList
     }
 
-    fun getBodyList():ArrayList<Body>
-    {
-        var export:ArrayList<Body> = ArrayList()
-        for(i in 1..10)
-        {
-            var body = Body("${i*2}.11.2019",100f*((100-2*i)/100f),25f,90f,90f,90f,90f,"")
-            export.add(body)
-        }
-        return ArrayList(export.asReversed())
-    }
-
-    fun getProgressValues():ArrayList<Float>
-    {
-        return arrayListOf(0f,0f,0f,0f)
-    }
-
-    fun getLocalBody():Body?
+    fun getLocalBody(): Body?
     {
         return localCurrentBody
     }

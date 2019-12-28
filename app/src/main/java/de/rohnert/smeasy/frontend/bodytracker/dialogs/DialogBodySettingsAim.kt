@@ -5,14 +5,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.helper.dialogs.DialogSingleChoiceList
-import java.lang.Exception
-import java.lang.Math.abs
-import kotlin.math.roundToInt
 
 class DialogBodySettingsAim(var context: Context,var prefs:SharedAppPreferences ) :
     AdapterView.OnItemClickListener, View.OnClickListener {
@@ -32,7 +29,6 @@ class DialogBodySettingsAim(var context: Context,var prefs:SharedAppPreferences 
 
     // Views:
     private lateinit var listView:ListView
-    private lateinit var et:TextInputLayout
     private lateinit var btnSave:Button
     private lateinit var btnAbort:Button
     private lateinit var btnWochenZiel:ImageButton

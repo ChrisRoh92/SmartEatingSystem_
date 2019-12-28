@@ -1,6 +1,5 @@
 package de.rohnert.smeasy.frontend.foodtracker.adapter
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.Food
 import de.rohnert.smeasy.R
 import kotlin.random.Random
 
@@ -106,7 +104,7 @@ class FoodListAdapter(var meal:String): ListAdapter<Food, FoodListAdapter.FoodLi
     }
 
     interface OnLongClickListener {
-        fun setOnLongClickListener(food: Food, position: Int,meal:String)
+        fun setOnLongClickListener(food: Food, position: Int, meal:String)
     }
 
 
@@ -116,7 +114,7 @@ class FoodListAdapter(var meal:String): ListAdapter<Food, FoodListAdapter.FoodLi
 
 
     interface OnClickListener {
-        fun setOnClickListener(food: Food, position: Int,meal:String)
+        fun setOnClickListener(food: Food, position: Int, meal:String)
     }
 
     fun setOnClickListener(mListener: OnClickListener) {

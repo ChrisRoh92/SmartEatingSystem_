@@ -5,12 +5,12 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
-import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.Daily
+import de.rohnert.smeasy.backend.databases.daily_database.MealEntry
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.repository.subrepositories.daily.DailyProcessor
+import de.rohnert.smeasy.backend.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.repository.MainRepository2
@@ -31,7 +31,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private var repository = MainRepository2(application)
     // Prozessoren...
     private var dailyProcess = DailyProcessor(application)
-    private lateinit var foodProcessor:FoodProcessor
+    private lateinit var foodProcessor: FoodProcessor
 
     // Zentraler Zugriff auf Einstellungen...
     private var sharePrefs = SharedAppPreferences(application)
@@ -50,7 +50,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     // Daily:
     private lateinit var localDailyList:ArrayList<Daily>
-    private lateinit var localDaily:Daily
+    private lateinit var localDaily: Daily
 
     // FavFoodList:
     private lateinit var localFavFoodList:ArrayList<FavFood>
@@ -104,10 +104,10 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Init Private Methoden
-    private suspend fun getDailyFromList(date:String):Daily
+    private suspend fun getDailyFromList(date:String): Daily
     {
         var exist = false
-        var export:Daily? = null
+        var export: Daily? = null
         for(i in localDailyList)
         {
             if(i.date == date)
@@ -175,7 +175,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         repository.insertCSVFoodList()
     }
 
-    private suspend fun createEntryLists()
+    private fun createEntryLists()
     {
 
 
@@ -315,7 +315,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     }
 
-    fun removeMealEntry(entry:MealEntry,meal:String)
+    fun removeMealEntry(entry: MealEntry, meal:String)
     {
           when(meal)
             {
@@ -351,7 +351,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     }
 
     // Aufrufen, wenn ein MealEntry, neu gemacht werden muss...
-    fun updateMealEntry(mealEntry: MealEntry,meal:String)
+    fun updateMealEntry(mealEntry: MealEntry, meal:String)
     {
         fun getMealList():ArrayList<MealEntry>
         {
@@ -416,7 +416,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
             }
 
-    fun changeMealEntry(entry:MealEntry,oldMeal:String,newMeal:String)
+    fun changeMealEntry(entry: MealEntry, oldMeal:String, newMeal:String)
     {
         var localEntry = entry
         Log.d("Smeasy","FoodViewModel2 - changeMealEntry - entry: $entry")
@@ -432,7 +432,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     }
 
-    private fun updateDaily(daily:Daily)
+    private fun updateDaily(daily: Daily)
     {
         CoroutineScope(IO).launch {
             repository.updateDaily(daily)
@@ -601,20 +601,6 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateUserFood(newFood:ExtendedFood)
-    {
-        CoroutineScope(IO).launch {
-            repository.updateUserFood(newFood)
-            withContext(Main)
-            {
-                runBlocking {
-                    setFoodList()
-                    setFoodListUpdater()
-                }
-            }
-        }
-    }
-
     // Methode wird aufgerufen, wenn sich wegen der UserFoods etwas ändert...
     fun setFoodListUpdater()
     {
@@ -679,18 +665,6 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     }
 
 
-
-
-
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // Getters for LiveData....
-    fun getDaily():LiveData<Daily>
-    {
-        return daily
-    }
-
     fun getBreakfastEntries():LiveData<ArrayList<MealEntry>>
     {
         return breakfastList!!
@@ -715,11 +689,6 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     fun getLocalFoodList():ArrayList<ExtendedFood>
     {
         return localAppFoodList
-    }
-
-    fun getLocalUserFoodList():ArrayList<ExtendedFood>
-    {
-        return localUserFoodList
     }
 
     fun getFoodList():ArrayList<ExtendedFood>
@@ -747,9 +716,9 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
 
     // Methoden für WeekReportCreator:
-    fun getDailyByDate(date:String):Daily?
+    fun getDailyByDate(date:String): Daily?
     {
-        var daily:Daily? = null
+        var daily: Daily? = null
         runBlocking {
             daily = repository.getDailyByDate(date)
         }

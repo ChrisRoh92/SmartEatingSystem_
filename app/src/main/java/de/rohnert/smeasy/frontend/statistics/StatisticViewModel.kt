@@ -1,15 +1,13 @@
 package de.rohnert.smeasy.frontend.statistics
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
-import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.repository.subrepositories.daily.DailyProcessor
+import de.rohnert.smeasy.backend.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
@@ -18,16 +16,13 @@ import de.rohnert.smeasy.backend.statistic.StatisticProcessor
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import java.io.File
-import kotlin.math.exp
 
 class StatisticViewModel(application: Application) : AndroidViewModel(application)
 {
     //Allgemeines:
     private var helper = Helper()
     private var repository = MainRepository2(application)
-    // Prozessoren...
-    private var dailyProcess = DailyProcessor(application)
-    private lateinit var foodProcessor:FoodProcessor
+    private lateinit var foodProcessor: FoodProcessor
     private lateinit var statisticProcessor:StatisticProcessor
     private lateinit var csvExport:CsvDataExport
     private var csvExportDir:String = ""
@@ -43,9 +38,6 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     private var mealValues:ArrayList<Float> = ArrayList()
     private var top20FoodList:ArrayList<CalcedFood> = ArrayList()
 
-
-    // Zentraler Zugriff auf Einstellungen...
-    private var sharePrefs = SharedAppPreferences(application)
 
     // Lokale Daten:
     private var foodList:ArrayList<ExtendedFood> = ArrayList()
@@ -125,14 +117,6 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     // Getters:
 
 
-
-    // Live Data
-    // Soll aufgerufen werden, sobald die FoodListe vollständig geladen wurde....
-    fun getFoodListAvailable():LiveData<Int>
-    {
-        return foodListAvailable
-    }
-
     fun getStatisticDataAvailable():LiveData<Int>
     {
         return statisticDataAvailable
@@ -151,16 +135,6 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     fun getKcalValues():ArrayList<Float>
     {
         return kcalList
-    }
-
-    fun getKcalSum():Float
-    {
-        return allKcal
-    }
-
-    fun getNumberOfFoods():Int
-    {
-        return allFood
     }
 
     // Über diese Methode, werden die Daten für den PieChart zur Darstellung für die
@@ -207,16 +181,6 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     fun getFoodList():ArrayList<ExtendedFood>
     {
         return foodList
-    }
-
-    fun getFoodAtPosition(pos:Int):ExtendedFood
-    {
-        return foodList[pos]
-    }
-
-    fun getCSVExportFileName():String
-    {
-        return csvExportDir
     }
 
     fun returnNewCSVFile():File?

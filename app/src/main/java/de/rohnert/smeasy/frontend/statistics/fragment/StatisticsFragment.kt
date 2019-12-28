@@ -67,7 +67,7 @@ class StatisticsFragment: Fragment() {
     private fun initToolbar()
     {
         // Access to Toolbar.
-        toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
+        toolbar = activity!!.findViewById(R.id.toolbar)
         toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.menu_statistic)
         toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener{
@@ -192,9 +192,9 @@ class StatisticsFragment: Fragment() {
     {
         // View initialisieren:
         tabLayout = rootView.findViewById(R.id.statistic_tablayout)
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("FoodTracker"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("BodyTracker"))
-        tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
+        tabLayout.addTab(tabLayout.newTab().setText("FoodTracker"))
+        tabLayout.addTab(tabLayout.newTab().setText("BodyTracker"))
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
 
         pager = rootView.findViewById(R.id.statistic_viewpager)

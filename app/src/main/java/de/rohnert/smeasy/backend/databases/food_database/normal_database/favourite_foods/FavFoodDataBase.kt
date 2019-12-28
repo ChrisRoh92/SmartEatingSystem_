@@ -33,8 +33,4 @@ object FavFoodDataBaseProvider {
         return INSTANCE!!
     }
 
-    private fun buildDataBase(context: Context):RoomDatabase
-    {
-        return Room.databaseBuilder(context, FavFoodDataBase::class.java,"appfood_database").build()
-    }
 }

@@ -1,8 +1,7 @@
-package com.example.roomdatabaseexample.backend.databases.food_database.userfood_database
+package de.rohnert.smeasy.backend.databases.food_database.normal_database.userfood_database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.Food
 
 @Dao
 interface UserFoodDao
@@ -38,7 +37,7 @@ interface UserFoodDao
     suspend fun insertAll(list:List<Food>)
 
     @Update (onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(food:Food)
+    suspend fun update(food: Food)
 
     @Delete
     suspend fun removeFood(food: Food)

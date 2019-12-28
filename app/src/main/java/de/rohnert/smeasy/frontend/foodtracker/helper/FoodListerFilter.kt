@@ -2,7 +2,6 @@ package de.rohnert.smeasy.frontend.foodtracker.helper
 
 import android.content.Context
 import android.util.Log
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
@@ -33,10 +32,6 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
 
     // Interface
     private lateinit var mListener:OnFilterItemsListener
-
-    init {
-
-    }
 
     fun getFilteredFoodList():ArrayList<ExtendedFood>
     {

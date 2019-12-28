@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smeasy.R
 
 
@@ -75,7 +75,7 @@ class MealCardItemAdapter : ListAdapter<CalcedFood, MealCardItemAdapter.MealCard
     }
 
 
-    fun getCalcedFoodAt(pos:Int):CalcedFood
+    fun getCalcedFoodAt(pos:Int): CalcedFood
     {
         return getItem(pos)
     }
@@ -92,7 +92,7 @@ class MealCardItemAdapter : ListAdapter<CalcedFood, MealCardItemAdapter.MealCard
 
     interface OnLongClickListener
     {
-        fun setOnLongClickListener(calcedFood:CalcedFood,position:Int)
+        fun setOnLongClickListener(calcedFood: CalcedFood, position:Int)
     }
 
 
@@ -107,7 +107,7 @@ class MealCardItemAdapter : ListAdapter<CalcedFood, MealCardItemAdapter.MealCard
 
     interface OnClickListener
     {
-        fun setOnClickListener(calcedFood:CalcedFood,position:Int)
+        fun setOnClickListener(calcedFood: CalcedFood, position:Int)
     }
 
     fun setOnClickListener(mListener:OnClickListener)

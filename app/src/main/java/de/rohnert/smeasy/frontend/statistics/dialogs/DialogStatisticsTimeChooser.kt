@@ -8,9 +8,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
-import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogMealList
 
 class DialogStatisticsTimeChooser(var context: Context,var timeValue:String) : View.OnClickListener,
     AdapterView.OnItemClickListener {
@@ -21,7 +20,6 @@ class DialogStatisticsTimeChooser(var context: Context,var timeValue:String) : V
     private lateinit var alertDialog: AlertDialog
     private lateinit var view: View
     private lateinit var inflater: LayoutInflater
-    private var helper = Helper()
     // Interface:
     private lateinit var mListener:OnDialogSaveClickListener
     // Views:
@@ -69,7 +67,7 @@ class DialogStatisticsTimeChooser(var context: Context,var timeValue:String) : V
 
         // ListView:
         list = view.findViewById(R.id.dialog_statistic_time_chooser_listview)
-        adapter = ArrayAdapter<String>(context,android.R.layout.simple_list_item_single_choice,values)
+        adapter = ArrayAdapter(context,android.R.layout.simple_list_item_single_choice,values)
         list.choiceMode = ListView.CHOICE_MODE_SINGLE
 
         list.adapter = adapter

@@ -5,11 +5,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.helper.Helper
 
 class DialogLoading(var context: Context)
 {
     lateinit var builder: AlertDialog.Builder
-    lateinit var helper:backend.helper.Helper
+    lateinit var helper: Helper
     lateinit var alertDialog: AlertDialog
     lateinit var view: View
     lateinit var inflater: LayoutInflater
@@ -24,7 +25,7 @@ class DialogLoading(var context: Context)
         inflater = LayoutInflater.from(context)
         view = inflater.inflate(R.layout.dialog_loading, null)
         builder.setView(view)
-        helper = backend.helper.Helper()
+        helper = Helper()
         alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawableResource(android.R.color.white)
         alertDialog.show()

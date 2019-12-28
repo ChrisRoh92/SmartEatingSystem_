@@ -9,12 +9,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.helper.Helper
 
 class DialogSingleLineInput(var title:String,var subTitle:String, var context: Context, var inputType: Int, var value:String = "")
 {
 
     lateinit var builder: AlertDialog.Builder
-    lateinit var helper:backend.helper.Helper
+    lateinit var helper: Helper
     lateinit var alertDialog: AlertDialog
     lateinit var view: View
     lateinit var inflater: LayoutInflater
@@ -40,7 +41,7 @@ class DialogSingleLineInput(var title:String,var subTitle:String, var context: C
         inflater = LayoutInflater.from(context)
         view = inflater.inflate(R.layout.dialog_single_line_input, null)
         builder.setView(view)
-        helper = backend.helper.Helper()
+        helper = Helper()
 
 
         initDialogView()
@@ -78,12 +79,12 @@ class DialogSingleLineInput(var title:String,var subTitle:String, var context: C
 
         et.setText(value)
 
-        btnAbort.setOnClickListener(View.OnClickListener {
+        btnAbort.setOnClickListener({
             alertDialog.dismiss()
         })
 
         // EingabeWert übergeben...
-        btnSave.setOnClickListener(View.OnClickListener {
+        btnSave.setOnClickListener({
             if(mListener!=null)
             {
                 if(!et.text.isEmpty())

@@ -5,9 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
-import com.example.roomdatabaseexample.backend.databases.daily_database.DailyConverter
-import com.example.roomdatabaseexample.backend.databases.daily_database.DailyDataBase
 
 @Database(entities = [Daily::class], version = 1)
 @TypeConverters(DailyConverter::class)
@@ -39,8 +36,4 @@ abstract class DailyDataBase2:RoomDatabase() {
             return INSTANCE!!
         }
 
-        private fun buildDataBase(context: Context):RoomDatabase
-        {
-            return Room.databaseBuilder(context,DailyDataBase2::class.java,"daily_database").build()
-        }
     }

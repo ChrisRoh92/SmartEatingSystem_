@@ -1,14 +1,11 @@
 package de.rohnert.smeasy.frontend.bodytracker.dialogs
 
-import android.app.Activity.RESULT_OK
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 import java.io.File
 import java.io.IOException

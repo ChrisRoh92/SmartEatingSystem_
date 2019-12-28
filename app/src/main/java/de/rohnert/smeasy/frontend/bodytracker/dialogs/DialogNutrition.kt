@@ -1,17 +1,15 @@
 package de.rohnert.smeasy.frontend.bodytracker.dialogs
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
@@ -141,7 +139,7 @@ class DialogNutrition(var context: Context, var bodyViewModel:BodyViewModel) : S
 
         //EditText
         etKcal = view.findViewById(R.id.dialog_bodysettings_nutrition_et_kcal)
-        etKcal.editText!!.setText("${maxKcal}")
+        etKcal.editText!!.setText("$maxKcal")
         etKcal.editText!!.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
 
@@ -168,9 +166,9 @@ class DialogNutrition(var context: Context, var bodyViewModel:BodyViewModel) : S
 
         })
 
-        tvCarbsPercent.text = "${progressCarb} %"
-        tvProteinPercent.text = "${progressProtein} %"
-        tvFettPercent.text = "${progressFett} %"
+        tvCarbsPercent.text = "$progressCarb %"
+        tvProteinPercent.text = "$progressProtein %"
+        tvFettPercent.text = "$progressFett %"
 
         tvCarbs.text = "${(((progressCarb/100f)*maxKcal)/4.1f).roundToInt()} g"
         tvProtein.text = "${(((progressProtein/100f)*maxKcal)/4.1f).roundToInt()} g"
@@ -247,20 +245,20 @@ class DialogNutrition(var context: Context, var bodyViewModel:BodyViewModel) : S
         if(sk == skCarb)
         {
             progressCarb = p1*5
-            tvCarbsPercent.text = "${progressCarb} %"
+            tvCarbsPercent.text = "$progressCarb %"
             tvCarbs.text = "${(((progressCarb/100f)*maxKcal)/4.1f).roundToInt()} g"
 
         }
         else if (sk == skProtein)
         {
             progressProtein = p1*5
-            tvProteinPercent.text = "${progressProtein} %"
+            tvProteinPercent.text = "$progressProtein %"
             tvProtein.text = "${(((progressProtein/100f)*maxKcal)/4.1f).roundToInt()} g"
         }
         else
         {
             progressFett = p1*5
-            tvFettPercent.text = "${progressFett} %"
+            tvFettPercent.text = "$progressFett %"
             tvFett.text = "${(((progressFett/100f)*maxKcal)/9.2f).roundToInt()} g"
         }
         checkIfToMuch()

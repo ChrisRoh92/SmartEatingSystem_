@@ -2,7 +2,6 @@ package de.rohnert.smeasy.backend.databases.daily_database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
 
 @Dao
 interface DailyDao2

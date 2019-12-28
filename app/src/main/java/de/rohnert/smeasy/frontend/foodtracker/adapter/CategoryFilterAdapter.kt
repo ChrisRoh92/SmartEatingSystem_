@@ -46,11 +46,6 @@ class CategoryFilterAdapter(var content:ArrayList<String>, var activContent:Arra
         }
     }
 
-    fun getActivCategoryContent():ArrayList<Boolean>
-    {
-        return activContent
-    }
-
     fun setAllContentToState(state:Boolean)
     {
         var values:ArrayList<Boolean> = ArrayList()

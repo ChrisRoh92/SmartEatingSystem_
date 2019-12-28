@@ -17,7 +17,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -41,7 +41,6 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
 
     // Allgemeine Variablen:
     private lateinit var rootView: View
-    private lateinit var prefs:SharedAppPreferences
     private var helper = Helper()
     private var mDate:String = foodViewModel.date
     private lateinit var reporter:WeekReportCreator
@@ -505,7 +504,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         {
             // DetailAnsicht von den Charts anzeigen
             //var dialog = DialogPremiumAlert(rootView.context)
-            var dialog = DialogFragmentWeekReportNutrition(foodViewModel,mDate,reporter)
+            var dialog = DialogFragmentWeekReportNutrition(foodViewModel, reporter)
             dialog.show(fragmentManager!!,"nutrition")
         }
         else

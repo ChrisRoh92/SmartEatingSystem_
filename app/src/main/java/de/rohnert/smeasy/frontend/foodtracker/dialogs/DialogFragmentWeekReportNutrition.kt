@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
@@ -25,13 +25,13 @@ import de.rohnert.smeasy.frontend.foodtracker.helper.MyPercentFormatter
 import de.rohnert.smeasy.frontend.foodtracker.helper.MyValueFormatter
 import de.rohnert.smeasy.frontend.foodtracker.helper.WeekReportCreator
 
-class DialogFragmentWeekReportNutrition(var foodViewModel: FoodViewModel2, var mDate:String,var weekReport: WeekReportCreator): DialogFragment()
+class DialogFragmentWeekReportNutrition(
+    var foodViewModel: FoodViewModel2,
+    var weekReport: WeekReportCreator
+): DialogFragment()
 {
     // Allgemeine Variablen:
     private lateinit var rootView: View
-    private lateinit var sharePrefs: SharedAppPreferences
-    private var helper = Helper()
-    private lateinit var reporter: WeekReportCreator
     private lateinit var toolbar:Toolbar
 
     // Charts:
@@ -110,11 +110,7 @@ class DialogFragmentWeekReportNutrition(var foodViewModel: FoodViewModel2, var m
         var dataSetList:ArrayList<LineDataSet> = ArrayList()
         for((index,i) in content.withIndex())
         {
-            if(index == 0)
-            {
-
-            }
-            else
+            if(index != 0)
             {
                 var entries:ArrayList<Entry> = ArrayList()
                 for((indexJ,j) in i.withIndex())
@@ -123,6 +119,10 @@ class DialogFragmentWeekReportNutrition(var foodViewModel: FoodViewModel2, var m
 
                 }
                 dataSetList.add(LineDataSet(entries,""))
+            }
+            else
+            {
+
             }
 
         }
@@ -342,25 +342,4 @@ class DialogFragmentWeekReportNutrition(var foodViewModel: FoodViewModel2, var m
     }
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Update Methoden:
-    private fun updateBarChart()
-    {
-        var entries:ArrayList<BarEntry> = ArrayList()
-        for((index,i) in content[0].withIndex())
-        {
-            entries.add(BarEntry((index+i),i))
-        }
-
-        // BarDataSet:
-        var barDataSet = BarDataSet(entries,"Energie [kcal]")
-        // Set Color:
-        barDataSet.color = ContextCompat.getColor(rootView.context,R.color.colorPrimary)
-        var barData = BarData()
-        barData.addDataSet(barDataSet)
-
-        barChartNutrtition.data = barData
-        barChartNutrtition.invalidate()
-
-    }
 }

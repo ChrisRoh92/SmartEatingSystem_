@@ -9,8 +9,7 @@
     <fragment
         android:id="@+id/nav_foodtracker"
         android:name="de.rohnert.smeasy.frontend.foodtracker.fragment.FoodTrackerFragment"
-        android:label="FoodTracker"
-        tools:layout="@layout/fragment_foodtracker"/>
+        android:label="Tagesübersicht" />
 
     <fragment
         android:id="@+id/nav_bodytracker"

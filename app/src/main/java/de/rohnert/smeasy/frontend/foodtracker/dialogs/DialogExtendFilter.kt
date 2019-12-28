@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
 

@@ -1,17 +1,13 @@
 package de.rohnert.smeasy.frontend.statistics.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smeasy.R
-import de.rohnert.smeasy.backend.statistic.TrackedFood
-import de.rohnert.smeasy.frontend.foodtracker.adapter.ClassicFoodListAdapter
-import kotlinx.android.synthetic.main.recycleritem_statistic_food_tracked_food.view.*
 
 class StatisticFoodTrackedFoodRecyclerAdapter(var content:ArrayList<CalcedFood>):
     RecyclerView.Adapter<StatisticFoodTrackedFoodRecyclerAdapter.ViewHolder>()

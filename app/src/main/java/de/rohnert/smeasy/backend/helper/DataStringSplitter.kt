@@ -1,37 +1,14 @@
-package backend.helper
+package de.rohnert.smeasy.backend.helper
 
-import com.example.roomdatabaseexample.backend.databases.body_database.Body
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.body_database.Body
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.Food
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 
 class DataStringSplitter {
 
     // Globale Variablen...
-    var helper:Helper =Helper()
+    var helper: Helper = Helper()
 
-
-    // Food-Objekte erstellen...
-    // Über diese Methode wird ein String gesplittet und zurückgegeben
-    // Wie genau, muss ich mir noch überlegen....
-    fun createFoodFromString(input: String): Food {
-        var value = input.split(";")
-
-        var export: Food =
-            Food(
-                value[0],
-                value[1],
-                value[2],
-                value[3],
-                value[4].toFloat(),
-                value[5].toFloat(),
-                value[6].toFloat(),
-                value[7].toFloat(),
-                ""
-            )
-        return export
-
-    }
 
     fun getExtendedFoodFromString(input:String): ExtendedFood
     {
@@ -99,25 +76,6 @@ class DataStringSplitter {
         return daily
     }*/
 
-
-
-    // Body-Objekte aus String erstellen
-    fun createBodyFromString(input:String): Body?
-    {
-        var value = input.split(";")
-        // var weight:Float,var bauch:Float,var brust:Float,var hals:Float, var huefte:Float
-        var export: Body? = null
-            /*Body(
-                helper.getDateFromString(value[0]),
-                value[1].toFloat(),
-                value[2].toFloat(),
-                value[3].toFloat(),
-                value[4].toFloat(),
-                value[5].toFloat(),
-                value[6].toFloat()
-            )*/
-        return export!!
-    }
 
     // User-Objekt aus String erstellen
     /*fun createUserFromString(input:String):User

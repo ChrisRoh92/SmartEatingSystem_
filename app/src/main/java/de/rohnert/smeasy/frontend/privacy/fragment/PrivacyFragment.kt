@@ -4,21 +4,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
-import de.rohnert.smeasy.frontend.share.fragment.ShareViewModel
 
 class PrivacyFragment : Fragment()
 {
+
+    // Allgemeine Variablen
+    private lateinit var rootView:View
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val root = inflater.inflate(R.layout.fragment_privacy, container, false)
+        rootView = inflater.inflate(R.layout.fragment_privacy, container, false)
+        initToolBar()
+        return rootView
+    }
 
-        return root
+    private fun initToolBar()
+    {
+
+        // Access to Toolbar.
+        var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.menu.clear()
+        toolbar.title = "Datenschutz"
+
     }
 }

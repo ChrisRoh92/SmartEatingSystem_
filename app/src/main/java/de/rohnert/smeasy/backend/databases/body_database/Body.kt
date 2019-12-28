@@ -1,4 +1,4 @@
-package com.example.roomdatabaseexample.backend.databases.body_database
+package de.rohnert.smeasy.backend.databases.body_database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -12,5 +12,4 @@ data class Body(@PrimaryKey @ColumnInfo(name ="date") var date:String,
                 @ColumnInfo(name = "brust") var brust:Float,
                 @ColumnInfo(name = "hals") var hals:Float,
                 @ColumnInfo(name = "huefte") var huefte:Float,
-                @ColumnInfo(name = "fotoDir") var fotoDir:String) {
-}
+                @ColumnInfo(name = "fotoDir") var fotoDir:String)

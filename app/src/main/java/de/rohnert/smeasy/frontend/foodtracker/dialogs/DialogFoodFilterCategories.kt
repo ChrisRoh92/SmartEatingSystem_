@@ -92,10 +92,10 @@ class DialogFoodFilterCategories(var context: Context,var categories:ArrayList<S
         manager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
         // ActivContent ArrayList erstellen:
         var activ:ArrayList<Boolean> = ArrayList()
-        for((index,i) in categories.withIndex())
+        for(i in categories)
         {
             var vorhanden = false
-            for((indexJ,j) in activCategories.withIndex())
+            for(j in activCategories)
             {
                 if(i == j)
                 {

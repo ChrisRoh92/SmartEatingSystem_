@@ -6,12 +6,11 @@ import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
-import android.view.animation.AnimationSet
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.helper.animation.CustomValueAnimator
 import kotlin.math.roundToInt

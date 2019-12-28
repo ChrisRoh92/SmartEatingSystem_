@@ -1,4 +1,4 @@
-package de.rohnert.smeasy.moduls.foodtracker.dialogs
+package de.rohnert.smeasy.frontend.foodtracker.dialogs
 
 import android.app.AlertDialog
 import android.content.Context
@@ -9,9 +9,8 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import de.rohnert.smeasy.R
-import de.rohnert.smeasy.frontend.foodtracker.helper.FoodListerFilter
 
-class DialogFoodListSorter(var context: Context,var filter:FoodListerFilter) : View.OnClickListener {
+class DialogFoodListSorter(var context: Context) : View.OnClickListener {
 
 
     lateinit var builder: AlertDialog.Builder
@@ -39,7 +38,7 @@ class DialogFoodListSorter(var context: Context,var filter:FoodListerFilter) : V
     private var aufsteigend = true
 
     // Interface
-    private lateinit var mListener:OnDialogClickListener
+    private lateinit var mListener: OnDialogClickListener
 
 
 
@@ -163,7 +162,7 @@ class DialogFoodListSorter(var context: Context,var filter:FoodListerFilter) : V
         fun setOnDialogClickListener(name:String,aufsteigend:Boolean)
     }
 
-    fun setOnDialogClickListener(mListener:OnDialogClickListener)
+    fun setOnDialogClickListener(mListener: OnDialogClickListener)
     {
         this.mListener = mListener
     }

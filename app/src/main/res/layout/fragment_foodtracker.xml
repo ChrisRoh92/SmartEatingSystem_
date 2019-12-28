@@ -307,21 +307,21 @@
 
                         <TextView
                             android:id="@+id/fragment_foodtracker_tv_aim"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="16dp"
                             android:alpha="0"
-                            android:maxLines="1"
                             android:text="Halten"
                             android:textAlignment="center"
                             android:textColor="@color/textColor1"
                             android:textSize="18sp"
+                            android:maxLines="1"
                             app:autoSizeMaxTextSize="18sp"
                             app:autoSizeTextType="uniform"
                             app:layout_constraintBottom_toTopOf="@+id/fragment_foodtracker_tv_kcal_added"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/fragment_foodtracker_pb_kcal"
                             app:layout_constraintTop_toTopOf="@+id/textView52" />
 

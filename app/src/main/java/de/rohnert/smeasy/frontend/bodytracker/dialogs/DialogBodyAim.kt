@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smeasy.frontend.foodtracker.helper.WeekReportCreator
 
-class DialogBodyAim():DialogFragment(), View.OnClickListener {
+class DialogBodyAim :DialogFragment(), View.OnClickListener {
 
 
     // Allgemeine Variablen:
@@ -98,7 +97,7 @@ class DialogBodyAim():DialogFragment(), View.OnClickListener {
         Log.d("Smeasy","DialogBodyAim - etList: $etList")
         for((index,i) in etList.withIndex())
         {
-            i.editText!!.setText("${helper.getFloatAsFormattedString(values[index],"#")}")
+            i.editText!!.setText(helper.getFloatAsFormattedString(values[index],"#"))
         }
 
 

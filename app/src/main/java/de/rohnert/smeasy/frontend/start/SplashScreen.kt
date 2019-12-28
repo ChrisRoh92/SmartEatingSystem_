@@ -26,61 +26,6 @@ class SplashScreen : AppCompatActivity() {
         startCountdown()
     }
 
-    private fun startAnimation()
-    {
-        /*var icon: ImageView = findViewById(R.id.intro_logo)
-        var title: TextView = findViewById(R.id.intro_tv)
-
-
-
-
-
-        var alpha = PropertyValuesHolder.ofFloat(View.ALPHA,0f,1f)
-        var scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X,1f,1.2f)
-        var scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y,1f,1.2f)
-        var transXIcon = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y,0f,-50f)
-        var transXTitle = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y,0f,40f)
-
-        var iconAnimation = ObjectAnimator.ofPropertyValuesHolder(icon,transXIcon).apply {
-            duration = 350
-
-            interpolator = FastOutSlowInInterpolator()
-        }
-
-        var titleAnimation = ObjectAnimator.ofPropertyValuesHolder(title,transXTitle,alpha,scaleX,scaleY).apply {
-            duration = 350
-            interpolator = FastOutSlowInInterpolator()
-        }
-
-        var set = AnimatorSet()
-        //set.playSequentially(iconAnimation,titleAnimation)
-        set.playTogether(iconAnimation,titleAnimation)
-        set.startDelay = 500
-        set.duration = 350
-        set.start()
-        set.addListener(object: Animator.AnimatorListener
-        {
-            override fun onAnimationRepeat(p0: Animator?) {
-
-            }
-
-            override fun onAnimationEnd(p0: Animator?) {
-                startCountdown()
-            }
-
-            override fun onAnimationCancel(p0: Animator?) {
-
-            }
-
-            override fun onAnimationStart(p0: Animator?) {
-
-            }
-
-        })*/
-
-
-    }
-
     fun startCountdown()
     {
 

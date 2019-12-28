@@ -10,14 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.Food
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
@@ -26,7 +25,6 @@ import de.rohnert.smeasy.frontend.foodtracker.adapter.ClassicFoodListAdapter
 import de.rohnert.smeasy.frontend.foodtracker.adapter.FoodListAdapter
 import de.rohnert.smeasy.frontend.foodtracker.helper.FoodListerFilter
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
-import de.rohnert.smeasy.moduls.foodtracker.dialogs.DialogFoodListSorter
 
 
 class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2): DialogFragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
@@ -231,7 +229,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
         if (item!!.itemId == R.id.foodlist_filter) {
 
             var handler = Handler()
-            handler.postDelayed(Runnable {
+            handler.postDelayed({
                 var filterDialog =
                     DialogFoodListFilter(rootView.context, foodViewModel, categories,extendFilterValues,allowedFoodStatus,favouriteStatus,userFoodStatus)
                 filterDialog.onDialogFilterClickListener(object :
@@ -274,8 +272,8 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
         } else if (item.itemId == R.id.foodlist_sort) {
 
             var handler = Handler()
-            handler.postDelayed(Runnable {
-                var sortDialog = DialogFoodListSorter(rootView.context,filter)
+            handler.postDelayed({
+                var sortDialog = DialogFoodListSorter(rootView.context)
                 sortDialog.setOnDialogClickListener(object: DialogFoodListSorter.OnDialogClickListener
                 {
                     override fun setOnDialogClickListener(name: String, aufsteigend: Boolean) {
@@ -343,34 +341,6 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
     }*/
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    private fun filterFoods()
-    {
-        if(categories.size != maxCategory)
-        {
-            var values:ArrayList<ExtendedFood> = ArrayList()
-            for(i in workFoodList)
-            {
-                for(j in categories)
-                {
-                    if(j == i.category)
-                    {
-                        values.add(i)
-                        continue
-                    }
-                }
-            }
-
-            workFoodList = values
-            classicAdapter.updateContent(workFoodList)
-        }
-        else
-        {
-            workFoodList = foodList
-            classicAdapter.updateContent(workFoodList)
-        }
-
-    }
 
     /*private fun getFilteredFoodList():ArrayList<Food>
     {

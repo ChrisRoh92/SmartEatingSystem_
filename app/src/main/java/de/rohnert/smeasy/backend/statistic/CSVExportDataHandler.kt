@@ -34,10 +34,4 @@ class CSVExportDataHandler(var context: Context)
 
     }
 
-    // Prüfen ob File existiert
-    fun checkIfFileExist(dir:String):Boolean
-    {
-        var file: File = File(dir)
-        return file.exists()
-    }
 }

@@ -1,7 +1,7 @@
-package com.example.roomdatabaseexample.backend.databases.daily_database
+package de.rohnert.smeasy.backend.databases.daily_database
 
 import androidx.room.TypeConverter
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,7 +29,7 @@ class DailyConverter
     {
         if(!value.isNullOrEmpty())
         {
-            var content = value!!.split(";")
+            var content = value.split(";")
             var mealList:ArrayList<MealEntry> = ArrayList()
             for(i in content)
             {
@@ -46,38 +46,9 @@ class DailyConverter
     }
 
     @TypeConverter
-    fun fromStringToList(value:String?):ArrayList<String>?
-    {
-        if(value == null) return ArrayList()
-        else return ArrayList(value.split(";"))
-
-
-    }
-
-    @TypeConverter
-    fun fromListToString(list:ArrayList<String>?):String?
-    {
-        if(list.isNullOrEmpty()) return ""
-
-        return list.joinToString(";")
-    }
-
-    @TypeConverter
-    fun fromDateToString(date: Date?):String?
-    {
-        return helper.getStringFromDate(date = date!!)
-    }
-
-    @TypeConverter
-    fun fromStringToDate(value: String?): Date?
-    {
-        return helper.getDateFromString(value!!)
-    }
-
-    @TypeConverter
     fun fromMealEntryToString(entry: MealEntry?):String?
     {
-        return "${entry!!.mealID}_${entry!!.id}_${entry.menge}"
+        return "${entry!!.mealID}_${entry.id}_${entry.menge}"
 
     }
 

@@ -2,10 +2,8 @@ package de.rohnert.smeasy.backend.repository.subrepositories.daily
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
-import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
+import de.rohnert.smeasy.backend.databases.daily_database.Daily
 import de.rohnert.smeasy.backend.databases.daily_database.DailyDao2
-import de.rohnert.smeasy.backend.databases.daily_database.DailyDataBase2
 import de.rohnert.smeasy.backend.databases.daily_database.DailyDataBaseProvider2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 
@@ -21,7 +19,7 @@ class DailyRepository2(var application: Application)
         dailyProcessor = DailyProcessor(application)
     }
 
-    suspend fun getDailyByDate(date:String):Daily
+    suspend fun getDailyByDate(date:String): Daily
     {
 
         if(checkIfDailyExist(date))
@@ -68,17 +66,17 @@ class DailyRepository2(var application: Application)
         return (m != 0)
     }
 
-    suspend fun updateDaily(daily:Daily)
+    suspend fun updateDaily(daily: Daily)
     {
         dailyDao2.update(daily)
     }
 
-    suspend fun deleteDaily(daily:Daily)
+    suspend fun deleteDaily(daily: Daily)
     {
         dailyDao2.delete(daily)
     }
 
-    suspend fun addNewDaily(daily:Daily)
+    suspend fun addNewDaily(daily: Daily)
     {
         dailyDao2.insert(daily)
     }

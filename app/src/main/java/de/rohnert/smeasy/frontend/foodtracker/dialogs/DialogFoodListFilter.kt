@@ -40,7 +40,6 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
     private lateinit var btnReset:Button
     private lateinit var btnSave:Button
     private lateinit var btnAbort:Button
-    private lateinit var btnExtras:Button
     // Switch Buttons:
 
     private lateinit var switchFavourites:Switch
@@ -164,27 +163,6 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
 
             btnExtendFilter.setOnClickListener(this)
 
-        }
-        else
-        {
-
-
-        }
-
-    }
-
-    fun initChipGroupContent()
-    {
-
-        chips = ArrayList()
-        for(i in allCategories)
-        {
-            var chip: Chip = inflater.inflate(R.layout.chip_item,null,false) as Chip
-            chip.text = "$i"
-            chip.id = ViewCompat.generateViewId()
-            chip.isChecked = categories.contains("$i")
-            chips.add(chip)
-            chipGroup.addView(chip)
         }
 
 

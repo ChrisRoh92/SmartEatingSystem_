@@ -1,4 +1,4 @@
-package com.example.roomdatabaseexample.backend.repository.subrepositories.body
+package de.rohnert.smeasy.backend.repository.subrepositories.body
 
 class BodyProcessor
 {

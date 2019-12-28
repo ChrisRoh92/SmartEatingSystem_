@@ -5,12 +5,9 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
-import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.fragment.app.FragmentManager
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 
@@ -20,8 +17,6 @@ class DialogShowPicture(var context: Context, var dir:String)
     private lateinit var alertDialog: AlertDialog
     private lateinit var view: View
     private lateinit var inflater: LayoutInflater
-    private var prefs = SharedAppPreferences(context)
-    private var helper = Helper()
 
     // Views:
     private lateinit var image:ImageView
@@ -75,7 +70,7 @@ class DialogShowPicture(var context: Context, var dir:String)
                 var bitmap2 = BitmapFactory.decodeFile(dir)
                 image.setImageBitmap(bitmap2)
 
-                image.rotation = 90f
+                image.rotation = 0f
             }catch (e:Exception)
             {
                 e.printStackTrace()

@@ -7,11 +7,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.helper.Helper
 
 class DialogSingleMessage(var title:String,var subTitle:String,var message:String,var context:Context)
 {
     lateinit var builder: AlertDialog.Builder
-    lateinit var helper:backend.helper.Helper
+    lateinit var helper: Helper
     lateinit var alertDialog: AlertDialog
     lateinit var view: View
     lateinit var inflater: LayoutInflater
@@ -21,6 +22,9 @@ class DialogSingleMessage(var title:String,var subTitle:String,var message:Strin
     lateinit var tvSubTitle: TextView
     lateinit var tvMessage: TextView
     lateinit var btnOk: Button
+
+    // Interface
+    private lateinit var mListener:OnDialogClickListener
 
 
 
@@ -35,7 +39,7 @@ class DialogSingleMessage(var title:String,var subTitle:String,var message:Strin
         inflater = LayoutInflater.from(context)
         view = inflater.inflate(R.layout.dialog_single_message, null)
         builder.setView(view)
-        helper = backend.helper.Helper()
+        helper = Helper()
 
 
         initDialogView()
@@ -62,8 +66,23 @@ class DialogSingleMessage(var title:String,var subTitle:String,var message:Strin
         tvSubTitle.text = subTitle
         tvMessage.text = message
 
-        btnOk.setOnClickListener(View.OnClickListener {
+        btnOk.setOnClickListener({
+            if(alertDialog!=null)
+            {
+                mListener.setOnDialogClickListener()
+
+            }
             alertDialog.dismiss()
         })
+    }
+
+    interface OnDialogClickListener
+    {
+        fun setOnDialogClickListener()
+    }
+
+    fun setOnDialogClickListener(mListener:OnDialogClickListener)
+    {
+        this.mListener = mListener
     }
 }

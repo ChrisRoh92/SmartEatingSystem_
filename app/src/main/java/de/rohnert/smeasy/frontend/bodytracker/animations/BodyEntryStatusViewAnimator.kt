@@ -8,7 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.helper.animation.CustomValueAnimator
 
@@ -17,6 +17,7 @@ import kotlin.math.roundToInt
 class BodyEntryStatusViewAnimator (var context: Context,
                                    var pbList:ArrayList<ProgressBar>,
                                    var tvList:ArrayList<TextView>,
+                                   var aimSetList:ArrayList<Boolean>,
                                    var progressValues:ArrayList<Float>,
                                    var maxValues:ArrayList<Float>)
 {
@@ -42,8 +43,9 @@ class BodyEntryStatusViewAnimator (var context: Context,
         var tvSet = AnimatorSet()
         pbSet.playTogether(createInitProgessBarAnimatorList())
         tvSet.playTogether(createInitTextViewAnimatorList())
-        set.play(pbSet).before(tvSet)
+        set.playSequentially(pbSet,tvSet)
         //set.playTogether(pbSet,tvSet)
+        set.startDelay = 500
         set.start()
         set.addListener(object: Animator.AnimatorListener
         {
@@ -74,9 +76,10 @@ class BodyEntryStatusViewAnimator (var context: Context,
 
     }
 
-    fun animateNewValues(progressValues:ArrayList<Float>)
+    fun animateNewValues(progressValues:ArrayList<Float>,aimSetList:ArrayList<Boolean>)
     {
         this.progressValues = progressValues
+        this.aimSetList = aimSetList
         var set = AnimatorSet()
         var pbSet = AnimatorSet()
         var tvSet = AnimatorSet()
@@ -94,32 +97,14 @@ class BodyEntryStatusViewAnimator (var context: Context,
     private fun createInitProgessBarAnimatorList():List<ValueAnimator>
     {
         var export:ArrayList<ValueAnimator> = ArrayList()
-        // Hinzufügen vom Kcal ProgressBar:
-        /*var startValue = ((progressValues[0]/maxValues[0])*2700).roundToInt()
-        if(startValue <= 2700)
-        {
-            var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 1000)
-            export.add(value)
-        }
-        else
-        {
-            var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=2701,interpolator = FastOutSlowInInterpolator(),delay = 1000)
-            export.add(value)
-        }*/
-
-        // Hinzufügen von den anderen ProgressAnimationen...
+                // Hinzufügen von den anderen ProgressAnimationen...
         for((index,i) in pbList.withIndex())
         {
 
             var startValue = ((progressValues[index]/maxValues[index])*100).roundToInt()
-            var value = valueAnimator.animateProgressBarInitial(i,0,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 1000)
+            var value = valueAnimator.animateProgressBarInitial(i,0,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 0)
             export.add(value)
 
-            /*if(index == 0) continue
-            else
-            {
-
-            }*/
         }
 
 
@@ -135,7 +120,15 @@ class BodyEntryStatusViewAnimator (var context: Context,
         for((index,i) in tvList.withIndex())
         {
 
-            export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(progressValues[index],"#")} %",(progressValues[index]<0)))
+            if(aimSetList[index])
+            {
+                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(progressValues[index],"#")} %",(progressValues[index]<0)))
+            }
+            else
+            {
+                export.add(createTextViewAnimation(i,"Kein Ziel gesetzt",false))
+            }
+
 
         }
 
@@ -219,7 +212,15 @@ class BodyEntryStatusViewAnimator (var context: Context,
         for((index,i) in tvList.withIndex())
         {
 
-            export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(newProgressValues[index],"#")} %",(progressValues[index]<0)))
+
+            if(aimSetList[index])
+            {
+                export.add(createTextViewAnimation(i,"${helper.getFloatAsFormattedString(newProgressValues[index],"#")} %",(progressValues[index]<0)))
+            }
+            else
+            {
+                export.add(createTextViewAnimation(i,"Kein Ziel gesetzt",false))
+            }
 
         }
 

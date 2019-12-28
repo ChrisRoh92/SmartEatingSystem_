@@ -49,8 +49,4 @@ class MainSettingsAdapter(var content:ArrayList<String>, var subContent:ArrayLis
         fun setOnMainSettingsClickListener(pos:Int)
     }
 
-    fun setOnMainSettingsClickListener(mListener:OnMainSettingsClickListener)
-    {
-        this.mListener = mListener
-    }
 }

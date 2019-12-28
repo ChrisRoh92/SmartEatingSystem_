@@ -18,7 +18,6 @@ class StandardPieChart(var id:Int, var view: View, var content:ArrayList<PieEntr
     private lateinit var chart:PieChart
     private lateinit var dataSet:PieDataSet
     private lateinit var data:PieData
-    private lateinit var legend: Legend
 
     // Farben:
     private  var colors = arrayListOf(

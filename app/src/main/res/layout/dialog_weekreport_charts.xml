@@ -86,7 +86,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView148"></com.github.mikephil.charting.charts.BarChart>
+                            app:layout_constraintTop_toBottomOf="@+id/textView148"/>
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -133,7 +133,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView144"></com.github.mikephil.charting.charts.PieChart>
+                            app:layout_constraintTop_toBottomOf="@+id/textView144"/>
 
                         <TextView
                             android:id="@+id/textView144"
@@ -201,7 +201,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView1480"></com.github.mikephil.charting.charts.LineChart>
+                            app:layout_constraintTop_toBottomOf="@+id/textView1480"/>
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,9 @@
-package com.example.roomdatabaseexample.backend.databases.body_database
+package de.rohnert.smeasy.backend.databases.body_database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-
 
 
 @Database(entities = [Body::class], version = 1)

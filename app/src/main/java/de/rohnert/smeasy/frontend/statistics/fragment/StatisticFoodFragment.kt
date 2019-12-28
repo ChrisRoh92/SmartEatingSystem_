@@ -5,31 +5,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 import de.rohnert.smeasy.R
-import de.rohnert.smeasy.backend.statistic.TrackedFood
 import de.rohnert.smeasy.frontend.statistics.StatisticViewModel
 import de.rohnert.smeasy.frontend.statistics.adapter.StatisticFoodTrackedFoodRecyclerAdapter
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
 import de.rohnert.smeasy.helper.standard_charts.StandardBarChart
 import de.rohnert.smeasy.helper.standard_charts.StandardLineChart
 import de.rohnert.smeasy.helper.standard_charts.StandardPieChart
-import kotlin.math.exp
 
 class StatisticFoodFragment:Fragment()
 {
     // Allgmeine Variablen:
     private lateinit var rootView: View
-    private var helper = Helper()
 
     // Content:
     private lateinit var statisticViewModel: StatisticViewModel
@@ -102,7 +98,7 @@ class StatisticFoodFragment:Fragment()
     {
         var id = R.id.statistic_food_chart_pie_meal
         var pieValues:ArrayList<PieEntry> = ArrayList()
-        var values = arrayListOf<Float>(0f,0f,0f,0f)
+        var values = arrayListOf(0f,0f,0f,0f)
         pieValues.add(PieEntry(values[0],"Frühstück"))
         pieValues.add(PieEntry(values[1],"Mittagessen"))
         pieValues.add(PieEntry(values[2],"Abendessen"))
@@ -116,7 +112,7 @@ class StatisticFoodFragment:Fragment()
     {
         var id = R.id.statistic_food_chart_pie_nutrition
         var pieValues:ArrayList<PieEntry> = ArrayList()
-        var values = arrayListOf<Float>(0f,0f,0f)
+        var values = arrayListOf(0f,0f,0f)
         pieValues.add(PieEntry(values[0],"Kohlenhydrate"))
         pieValues.add(PieEntry(values[1],"Protein"))
         pieValues.add(PieEntry(values[2],"Fett"))

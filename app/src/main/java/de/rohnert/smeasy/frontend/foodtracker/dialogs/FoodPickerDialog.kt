@@ -2,24 +2,18 @@ package de.rohnert.smeasy.frontend.foodtracker.dialogs
 
 import android.content.Context
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.repository.subrepositories.daily.DailyProcessor
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
-import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
-import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationFoodPicker
 import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationFoodPicker2
-import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput
-import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput.OnDialogListener
 import kotlin.math.roundToInt
 
 
@@ -168,7 +162,7 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
         // Listener...
 
 
-        btnSave.setOnClickListener(View.OnClickListener {
+        btnSave.setOnClickListener({
             // Über das Repository muss ein neues MealEntry in das Daily-Objekt gebracht werden, damit das auch direkt
             // gespeichert werden kann..
             if(menge != 0f)
@@ -185,7 +179,7 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, 
         })
 
         // Abbrechen ohne Eingabe
-        btnAbort.setOnClickListener(View.OnClickListener {
+        btnAbort.setOnClickListener({
             alertDialog.dismiss()
         })
 

@@ -17,22 +17,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import backend.helper.Helper
-import com.google.android.material.tabs.TabLayout
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import de.rohnert.smeasy.frontend.bodytracker.adapter.AllowedFoodRecyclerAdapter
 import de.rohnert.smeasy.frontend.bodytracker.adapter.BodyAimRecyclerAdapter
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogAllowedFood
-import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogBodyAim
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogBodySettingsAim
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogNutrition
 import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
-import de.rohnert.smeasy.frontend.premium.dialogs.DialogPremiumAlert
 import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput
-import de.rohnert.smeasy.helper.dialogs.DialogSingleList
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
 import kotlin.math.roundToInt
 
@@ -98,7 +93,7 @@ class BodySettingFragment: Fragment()
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bodyViewModel = ViewModelProviders.of(this).get(BodyViewModel::class.java)
+        bodyViewModel = ViewModelProviders.of(requireActivity()).get(BodyViewModel::class.java)
         rootView = inflater.inflate(R.layout.fragment_bodytracker_bodysettings, container, false)
         prefs = SharedAppPreferences(rootView.context)
 
@@ -294,7 +289,7 @@ class BodySettingFragment: Fragment()
             {
                 if(i != -1f)
                 {
-                    rvContent.add("${helper.getFloatAsFormattedStringWithPattern(i,"#.##")}"+unitList[index])
+                    rvContent.add(helper.getFloatAsFormattedStringWithPattern(i,"#.##") +unitList[index])
                 }
                 else
                 {
@@ -350,14 +345,22 @@ class BodySettingFragment: Fragment()
                         {
                             value = 0f
                         }
-                        var dialog = DialogSingleLineInput(dialogTitles[pos],dialogSubTitles[pos],rootView.context,inputType,helper.getFloatAsFormattedStringWithPattern(bodyAimValue[pos],"#.##"))
+                        var dialog = DialogSingleLineInput(dialogTitles[pos],dialogSubTitles[pos],rootView.context,inputType,helper.getFloatAsFormattedStringWithPattern(value,"#.##"))
                         dialog.onDialogClickListener(object:DialogSingleLineInput.OnDialogListener{
                             override fun onDialogClickListener(export: String) {
 
                             }
 
                             override fun onDialogClickListener(export: Float) {
-                                setNewAimValue(pos,export)
+                                if(export != 0f)
+                                {
+                                    setNewAimValue(pos,export)
+                                }
+                                else
+                                {
+                                    Toast.makeText(rootView.context,"Es wurde kein Wert übernommen",Toast.LENGTH_SHORT).show()
+                                }
+
                             }
 
                         })
@@ -521,8 +524,8 @@ class BodySettingFragment: Fragment()
 
     private fun getAllowedFoodContent():ArrayList<String>
     {
-        var maxValues = arrayListOf<Float>(prefs.maxAllowedKcal,prefs.maxAllowedCarbs,prefs.maxAllowedProtein,prefs.maxAllowedFett)
-        var minValues = arrayListOf<Float>(prefs.minAllowedKcal,prefs.minAllowedCarbs,prefs.minAllowedProtein,prefs.minAllowedFett)
+        var maxValues = arrayListOf(prefs.maxAllowedKcal,prefs.maxAllowedCarbs,prefs.maxAllowedProtein,prefs.maxAllowedFett)
+        var minValues = arrayListOf(prefs.minAllowedKcal,prefs.minAllowedCarbs,prefs.minAllowedProtein,prefs.minAllowedFett)
 
         Log.d("Smeasy","BodySettingFragment - getAllowedFoodContent(): maxValues = $maxValues")
         Log.d("Smeasy","BodySettingFragment - getAllowedFoodContent(): minValues = $minValues")

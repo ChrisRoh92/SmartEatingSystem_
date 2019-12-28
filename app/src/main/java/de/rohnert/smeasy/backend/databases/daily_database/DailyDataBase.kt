@@ -1,11 +1,10 @@
-package com.example.roomdatabaseexample.backend.databases.daily_database
+package de.rohnert.smeasy.backend.databases.daily_database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.Room
-import de.rohnert.smeasy.backend.databases.daily_database.DailyDao
 
 
 @Database(entities = [Daily::class], version = 1)

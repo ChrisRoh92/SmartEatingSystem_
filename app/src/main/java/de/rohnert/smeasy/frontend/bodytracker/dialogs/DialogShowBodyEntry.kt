@@ -10,21 +10,19 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.body_database.Body
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.body_database.Body
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.bodytracker.adapter.DialogShowBodyEntryRecyclerAdapter
 import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
 import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
-import kotlin.math.roundToInt
 
-class DialogShowBodyEntry(var context: Context,var entry: Body,var fragmentManager: FragmentManager) : View.OnClickListener {
+class DialogShowBodyEntry(var context: Context, var entry: Body, var fragmentManager: FragmentManager) : View.OnClickListener {
 
 
     private lateinit var builder: AlertDialog.Builder
@@ -140,11 +138,11 @@ class DialogShowBodyEntry(var context: Context,var entry: Body,var fragmentManag
         // Stuff für den SingleLineInput
         var type = InputType.TYPE_NUMBER_FLAG_DECIMAL
 
-
+        var units:ArrayList<String> = arrayListOf(" kg"," %"," cm"," cm"," cm"," cm")
         adapter.setOnItemClickListener(object:DialogShowBodyEntryRecyclerAdapter.OnItemClickListener{
             override fun setOnItemClickListener(pos: Int)
             {
-                var dialog = DialogSingleLineInput("Daten ändern",titles[pos],context,type,contentString[pos])
+                var dialog = DialogSingleLineInput("Daten ändern",titles[pos],context,type,helper.getFloatAsFormattedStringWithPattern(content[pos],"#.##"))
                 dialog.onDialogClickListener(object:DialogSingleLineInput.OnDialogListener{
                     override fun onDialogClickListener(export: String) {
 
@@ -152,7 +150,7 @@ class DialogShowBodyEntry(var context: Context,var entry: Body,var fragmentManag
 
                     override fun onDialogClickListener(export: Float) {
                         content[pos] = export
-                        contentString[pos] = helper.getFloatAsFormattedStringWithPattern(export,"#.##")
+                        contentString[pos] = helper.getFloatAsFormattedStringWithPattern(export,"#.##")+units[pos]
                         adapter.updateContent(contentString)
                     }
 
@@ -174,6 +172,12 @@ class DialogShowBodyEntry(var context: Context,var entry: Body,var fragmentManag
         else if(v == btnSave)
         {
             // Daten aus dem RecyclerView holen...
+            var newBody = Body(entry.date,content[0],content[1],content[2],content[3],content[4],content[5],entry.fotoDir)
+            if(mListener!=null)
+            {
+                mListener.setOnDialogClickListener(newBody)
+                alertDialog.dismiss()
+            }
         }
         else if(v == btnPhoto)
         {
@@ -203,11 +207,13 @@ class DialogShowBodyEntry(var context: Context,var entry: Body,var fragmentManag
     // Interface
     interface OnDialogClickListener
     {
-        fun setOnDialogClickListener(updatedBody:Body)
+        fun setOnDialogClickListener(updatedBody: Body)
     }
 
     fun setOnDialogClickListener(mListener:OnDialogClickListener)
     {
         this.mListener = mListener
     }
+
+
 }

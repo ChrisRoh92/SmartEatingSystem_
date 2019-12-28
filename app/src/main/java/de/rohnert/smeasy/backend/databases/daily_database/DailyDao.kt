@@ -1,9 +1,7 @@
 package de.rohnert.smeasy.backend.databases.daily_database
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
 
 @Dao
 interface DailyDao
@@ -33,7 +31,7 @@ interface DailyDao
     fun getDailyByDate(date: String): LiveData<Daily>
 
     @Query("SELECT * FROM dailies WHERE date= :date")
-    fun getOffLineDailyByDate(date:String):Daily
+    fun getOffLineDailyByDate(date:String): Daily
 
 
 

@@ -180,17 +180,4 @@ class SharedPreferencesSmeasyValues(var context: Context)
         editor.commit()
     }
 
-    fun saveString(value:String,key:String)
-    {
-        editor = sharedPref.edit()
-        editor.putString(key,value)
-        editor.commit()
-    }
-
-    fun saveBoolean(value:Boolean,key:String)
-    {
-        editor = sharedPref.edit()
-        editor.putBoolean(key,value)
-        editor.commit()
-    }
 }

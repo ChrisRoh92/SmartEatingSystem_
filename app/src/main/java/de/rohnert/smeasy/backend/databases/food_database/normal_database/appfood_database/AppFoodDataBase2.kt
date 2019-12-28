@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.Food
 
 @Database(entities = [Food::class], version = 1)
 abstract class AppFoodDataBase2: RoomDatabase() {
@@ -36,8 +36,4 @@ object AppFoodDataBaseProvider2 {
         return INSTANCE!!
     }
 
-    private fun buildDataBase(context: Context):RoomDatabase
-    {
-        return Room.databaseBuilder(context,AppFoodDataBase2::class.java,"appfood_database").build()
-    }
 }

@@ -2,7 +2,6 @@ package de.rohnert.smeasy.backend.repository.subrepositories.food
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.appfood_extend_database.AppFoodExtendDao
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.appfood_extend_database.AppFoodExtendDataBaseProvider
@@ -42,7 +41,7 @@ class ExtendedFoodRepository(var application: Application)
         return ArrayList(appFoodExtendedDao.getAppFoodData())
     }
 
-    suspend fun getLiveFoodList(): LiveData<List<ExtendedFood>>
+    fun getLiveFoodList(): LiveData<List<ExtendedFood>>
     {
         return appFoodExtendedDao.getAllLiveData()
     }

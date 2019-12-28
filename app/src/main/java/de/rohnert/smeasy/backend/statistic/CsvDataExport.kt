@@ -1,17 +1,14 @@
 package de.rohnert.smeasy.backend.statistic
 
 import android.content.Context
-import android.os.Environment
 import android.util.Log
-import backend.helper.DataHandler
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 
-import com.example.roomdatabaseexample.backend.databases.body_database.Body
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
+import de.rohnert.smeasy.backend.databases.body_database.Body
+import de.rohnert.smeasy.backend.databases.daily_database.Daily
+import de.rohnert.smeasy.backend.databases.daily_database.MealEntry
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
@@ -163,7 +160,7 @@ class CsvDataExport(var context: Context, var repository: MainRepository2, var f
             for((index,i) in mealList.withIndex())
                 if(!i.isNullOrEmpty())
                 {
-                    for((indexJ,j) in i.withIndex())
+                    for(j in i)
                     {
                         var cf = foodProcessor.getCalcedFood(j)
                         var mString = "${meals[index]};${cf.f.name};${cf.menge};${cf.values[0]};${cf.values[1]};${cf.values[2]};${cf.values[3]}"
@@ -284,19 +281,6 @@ class CsvDataExport(var context: Context, var repository: MainRepository2, var f
 
         return export
     }
-
-    private fun getCalcedFoodFromMeal(values:ArrayList<MealEntry>):ArrayList<CalcedFood>
-    {
-        var export:ArrayList<CalcedFood> = ArrayList()
-        for(i in values)
-        {
-            export.add(foodProcessor.getCalcedFood(i))
-        }
-
-        return export
-
-    }
-
 
 
     // Interface

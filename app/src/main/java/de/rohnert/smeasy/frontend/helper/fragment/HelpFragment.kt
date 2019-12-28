@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.helper.adapter.HelperRecyclerAdapter
+import de.rohnert.smeasy.frontend.helper.dialogs.*
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -18,7 +19,6 @@ class HelpFragment: Fragment() {
 
     // Allgemeine Variablen:
     private lateinit var rootView: View
-    private lateinit var prefs:SharedAppPreferences
 
     // View Elemente:
 
@@ -68,7 +68,27 @@ class HelpFragment: Fragment() {
         adapter.setOnItemClickListener(object:
             HelperRecyclerAdapter.OnItemClickListener{
             override fun setOnItemClickListener(pos: Int) {
-                // Hier werden dann verschiedene Dialoge aufgerufen, um dem Nutzer weitere Infos zu geben...
+                when(pos)
+                {
+                    0 -> {
+                        var dialog = DialogHelperFAQ(rootView.context)
+                    }
+                    1-> {
+                        var dialog = DialogAboutUs(rootView.context)
+                    }
+                    2 -> {
+                        var dialog = DialogTroubleshooting(rootView.context)
+                    }
+                    3 -> {
+                        var dialog = DialogImprovement(rootView.context)
+                    }
+                    4 -> {
+                        var dialog = DialogLatestVersion(rootView.context)
+                    }
+                    5 -> {
+                        var dialog = DialogLicenses(rootView.context)
+                    }
+                }
             }
 
         })

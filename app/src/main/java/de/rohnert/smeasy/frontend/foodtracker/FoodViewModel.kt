@@ -1,24 +1,7 @@
 package de.rohnert.smeasy.frontend.foodtracker
 
 import android.app.Application
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import backend.helper.Helper
-
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import com.example.roomdatabaseexample.backend.repository.MainRepository
-import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
-import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FoodViewModel(application: Application) : AndroidViewModel(application)
 {

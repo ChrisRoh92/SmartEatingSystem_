@@ -12,11 +12,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.settings.adapter.MainSettingsAdapter
@@ -51,10 +49,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
     private var notificationSubContent:ArrayList<String> = arrayListOf("09:00","12:00","18:00","15:00")
     private var notificationCheckContent:ArrayList<Boolean> = arrayListOf(true,true,true,true)
 
-    // View Elemente:
-    private lateinit var rvMain:RecyclerView
     private lateinit var layoutManagerMain:LinearLayoutManager
-    private lateinit var adapterMain: MainSettingsAdapter
 
     private lateinit var rvNotification:RecyclerView
     private lateinit var layoutManagerNotification:LinearLayoutManager
@@ -108,7 +103,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
     private fun initMainCard()
     {
         // TextViews initialisieren...
-        for((index,i) in tvIdList.withIndex())
+        for(i in tvIdList)
         {
             tvList.add(rootView.findViewById(i))
         }
@@ -130,45 +125,6 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         }
 
 
-    }
-
-    private fun initNotificationCard()
-    {
-        switchNotification = rootView.findViewById(R.id.fragment_settings_switch_notification)
-        switchNotification.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-
-            }
-
-        })
-
-        rvNotification = rootView.findViewById(R.id.fragment_settings_rv_notification)
-        layoutManagerNotification = LinearLayoutManager(rootView.context,RecyclerView.VERTICAL,false)
-        adapterNotification = NotificationSettingsAdapter(notificationContent,notificationSubContent,notificationCheckContent)
-        rvNotification.layoutManager = layoutManagerNotification
-        rvNotification.adapter = adapterNotification
-        rvNotification.addItemDecoration(DividerItemDecoration(rvNotification.context,layoutManagerMain.orientation))
-        adapterNotification.setOnNotificationSettingsClickListener(object: NotificationSettingsAdapter.OnNotificationSettingsClickListener{
-            override fun setOnNotificationSettingsClickListener(pos: Int) {
-                if(switchNotification.isChecked)
-                {
-
-                }
-                else
-                {
-                    // Im Adapter die Sachen ausgrauen
-                }
-            }
-
-
-        })
-
-        adapterNotification.setOnNotificationCheckBoxListener(object:NotificationSettingsAdapter.OnNotificationCheckBoxListener{
-            override fun setOnNotificationCheckBoxListener(pos: Int) {
-                // In die SharedPreferences eintragen, ob für die jeweilige Mahlzeit eine Notification gesendet werden soll
-            }
-
-        })
     }
 
     private fun initPremiumCard()

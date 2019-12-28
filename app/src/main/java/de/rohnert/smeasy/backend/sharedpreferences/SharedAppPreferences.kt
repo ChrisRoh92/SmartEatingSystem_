@@ -1,12 +1,8 @@
 package de.rohnert.smeasy.backend.sharedpreferences
 
-import android.app.Activity
-import android.app.Application
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import kotlin.math.roundToInt
 
 
@@ -61,6 +57,13 @@ class SharedAppPreferences(var context: Context)
     var premiumTime:Int = 30
     var premiumEndDate:String
 
+    // Rating Stuff:
+    var rateStatus:Boolean = false      // Prüfen ob Nutzer auf Bewerten geklickt hat, dann soll der Dialog nicht mehr angezeigt werden
+    var lastRequestDate:String = ""    // Anzeigen an welchem Datum, das letzte Mal der Nutzer gebeten wurde, die App zu bewerten
+    var rateNeverStatus:Boolean = false // Wert zeigt an, ob Nutzer damit noch genervt werden möchte...
+    var rateCountAppStart:Int = 0   // Anzahl, wie of die App gestartet wurde, ohne dass der Dialog angezeigt wurde
+
+
 
     init {
 
@@ -82,7 +85,7 @@ class SharedAppPreferences(var context: Context)
 
 
         // MaxWerte der Nährwerte, die nicht überschritten werden sollten
-        maxKcal = sharedPref.getFloat("maxKcal",2500f)
+        maxKcal = sharedPref.getFloat("maxKcal",2000f)
         maxCarb = sharedPref.getFloat("maxCarb",25f)
         maxProtein = sharedPref.getFloat("maxProtein",50f)
         maxFett = sharedPref.getFloat("maxFett",25f)
@@ -109,6 +112,12 @@ class SharedAppPreferences(var context: Context)
 
         // Prüfen ob App das erste mal gestartet wird...
         appInitalStart = sharedPref.getBoolean("appInitalStart",false)
+
+        // Rating Stuff:
+        rateStatus = sharedPref.getBoolean("rateStatus",false)
+        lastRequestDate = sharedPref.getString("lastRequestDate","")!!
+        rateNeverStatus = sharedPref.getBoolean("rateNeverStatus",false)
+        rateCountAppStart = sharedPref.getInt("rateCountAppStart",0)
 
 
 
@@ -265,30 +274,6 @@ class SharedAppPreferences(var context: Context)
         premiumStatus = value
         saveBoolean(value,"premiumStatus")
     }
-    fun setNewPremiumDate(value:String)
-    {
-        premiumDate = value
-        saveString(value,"premiumDate")
-    }
-    fun activatePremiumPackage()
-    {
-        premiumStatus = true
-        saveBoolean(true,"premiumStatus")
-        premiumDate = helper.getStringFromDate(helper.getCurrentDate())
-        saveString(premiumDate,"premiumDate")
-        premiumEndDate = helper.getStringFromDate(helper.getDateWithAddValue(helper.getCurrentDate(),premiumTime))
-        saveString(helper.getStringFromDate(helper.getDateWithAddValue(helper.getCurrentDate(),premiumTime)),"premiumEndDate")
-
-    }
-    fun deactivedPremiumPackage()
-    {
-        premiumStatus = false
-        saveBoolean(false,"premiumStatus")
-        premiumDate = ""
-        saveString("","premiumDate")
-        premiumEndDate = ""
-        saveString("","premiumEndDate")
-    }
 
 
     // MaxAllowed & MinAllowed Werte setzen
@@ -350,22 +335,29 @@ class SharedAppPreferences(var context: Context)
     }
 
 
-
-    // Getters
-    fun getAllowedFoodValues():ArrayList<Float>
+    // Rating Methoden:
+    fun setNewRateStatus(value:Boolean)
     {
-        var export:ArrayList<Float> = ArrayList()
-        export.add(maxAllowedKcal)
-        export.add(maxAllowedCarbs)
-        export.add(maxAllowedProtein)
-        export.add(maxAllowedFett)
-        export.add(minAllowedKcal)
-        export.add(minAllowedCarbs)
-        export.add(minAllowedProtein)
-        export.add(minAllowedFett)
-
-        return export
+        rateStatus = value
+        saveBoolean(value,"rateStatus")
     }
+    fun setNewLastRequestDate(value:String)
+    {
+        lastRequestDate = value
+        saveString(value,"lastRequestDate")
+    }
+    fun setNewRateNeverStatus(value:Boolean)
+    {
+        rateNeverStatus = value
+        saveBoolean(value,"rateNeverStatus")
+    }
+    fun setNewRateCountAppStart(value:Int)
+    {
+        rateCountAppStart = value
+        saveInt(value,"rateCountAppStart")
+    }
+
+
     fun getMaxAllowedFoodValues():ArrayList<Float>
     {
         var export:ArrayList<Float> = ArrayList()
@@ -395,6 +387,13 @@ class SharedAppPreferences(var context: Context)
     {
         editor = sharedPref.edit()
         editor.putFloat(key,value)
+        editor.commit()
+    }
+
+    fun saveInt(value:Int,key:String)
+    {
+        editor = sharedPref.edit()
+        editor.putInt(key,value)
         editor.commit()
     }
 

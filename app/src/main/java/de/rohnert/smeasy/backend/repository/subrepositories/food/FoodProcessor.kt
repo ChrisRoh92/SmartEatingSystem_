@@ -1,9 +1,8 @@
-package com.example.roomdatabaseexample.backend.repository.subrepositories.food
+package de.rohnert.smeasy.backend.repository.subrepositories.food
 
 import android.app.Application
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.daily_database.MealEntry
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 
 
@@ -20,28 +19,6 @@ class FoodProcessor(var application: Application, var foodList:ArrayList<Extende
 {
 
     //var preferences = SharedAppPreferences()
-
-    fun getFiltertedFoodList(filterItems:ArrayList<String>, foods:ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
-    {
-        var export:ArrayList<ExtendedFood> = ArrayList()
-        for(i in foods)
-        {
-            if(filterItems.contains(i.category)) export.add(i)
-        }
-
-        return export
-    }
-
-    fun getAllowFoodList(foods: ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
-    {
-        var export:ArrayList<ExtendedFood> = ArrayList()
-        for(i in foods)
-        {
-            if(i.kcal < 250f) export.add(i)
-        }
-
-        return export
-    }
 
     // Über diese Methode, wird eine neue ID, für die UserFoods generiert..
     fun getNextUserFoodList(userfoods:ArrayList<ExtendedFood>):String
@@ -88,7 +65,7 @@ class FoodProcessor(var application: Application, var foodList:ArrayList<Extende
 
 
     // Helper-Methoden:
-    fun getCalcecFoodValues(entry:MealEntry):ArrayList<Float>
+    fun getCalcecFoodValues(entry: MealEntry):ArrayList<Float>
     {
         var food = getFoodById(entry.id)
         var export:ArrayList<Float> = ArrayList()
@@ -100,7 +77,7 @@ class FoodProcessor(var application: Application, var foodList:ArrayList<Extende
         return export
     }
 
-    fun getCalcedFood(entry:MealEntry):CalcedFood
+    fun getCalcedFood(entry: MealEntry): CalcedFood
     {
         var food = getFoodById(entry.id)
         var values:ArrayList<Float> = ArrayList()

@@ -18,7 +18,6 @@ class DialogFragmentPremium :DialogFragment()
 {
     // Allgemeine Variablen:
     private lateinit var rootView: View
-    private lateinit var sharePrefs: SharedAppPreferences
 
     // Views
     lateinit var btnShareOne: ImageButton

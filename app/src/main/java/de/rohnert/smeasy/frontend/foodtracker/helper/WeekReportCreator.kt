@@ -3,22 +3,18 @@ package de.rohnert.smeasy.frontend.foodtracker.helper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import backend.helper.Helper
-import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
-import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
-import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
+import de.rohnert.smeasy.backend.helper.Helper
+import de.rohnert.smeasy.backend.databases.daily_database.Daily
+import de.rohnert.smeasy.backend.databases.daily_database.MealEntry
+import de.rohnert.smeasy.backend.databases.daily_database.helper.CalcedFood
+import de.rohnert.smeasy.backend.repository.subrepositories.daily.DailyProcessor
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smeasy.helper.dialogs.DialogLoading
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.lang.Exception
-import java.util.*
 import kotlin.collections.ArrayList
 
 class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
@@ -72,7 +68,7 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
 
     // Init Funktionen....
 
-    private suspend fun createDailyList()
+    private fun createDailyList()
     {
         dailyList.clear()
         for((index,i) in dayList.withIndex())
@@ -126,7 +122,7 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
         export.add(ArrayList())
         export.add(ArrayList())
         export.add(ArrayList())
-        for((index,i) in dailyList.withIndex())
+        for(i in dailyList)
         {
             var values = getDailyValues(i)
             for(j in 0..3)
@@ -161,7 +157,7 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
         for((index,i) in content.withIndex())
         {
             export.add(0f)
-            for((indexJ,j) in i.withIndex())
+            for(j in i)
             {
                 export[index] += j
             }
@@ -197,14 +193,6 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
 
     // Interface:
     interface OnWeekReportChangeListener
-    {
-        fun setOnWeekReportChangeListener()
-    }
-
-    fun setOnWeekReportChangeListener(mListener:OnWeekReportChangeListener)
-    {
-        this.mListener = mListener
-    }
 
     fun getFirstDay():String
     {
@@ -226,7 +214,7 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
 
 
 
-    private fun getDailyValues(daily:Daily):ArrayList<Float>
+    private fun getDailyValues(daily: Daily):ArrayList<Float>
     {
         // Steht noch aus
         var export:ArrayList<Float> = arrayListOf(0f,0f,0f,0f)
@@ -253,7 +241,7 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
         return export
     }
 
-    private fun getMealValues(daily:Daily,meal:String):ArrayList<Float>
+    private fun getMealValues(daily: Daily, meal:String):ArrayList<Float>
     {
         var export:ArrayList<Float> = arrayListOf(0f,0f,0f,0f)
         if(getCalcedFoodsByMeal(daily,meal).isNotEmpty())
@@ -264,7 +252,7 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
         return export
     }
 
-    private fun getCalcedFoodsByMeal(daily:Daily,meal:String):ArrayList<CalcedFood>
+    private fun getCalcedFoodsByMeal(daily: Daily, meal:String):ArrayList<CalcedFood>
     {
 
 
@@ -343,7 +331,7 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
     }
 
 
-    private fun getCalcedFoodsByDaily(daily:Daily):ArrayList<CalcedFood>
+    private fun getCalcedFoodsByDaily(daily: Daily):ArrayList<CalcedFood>
     {
 
         // CalcedFoodList für die einzelnen meals zurückgeben...

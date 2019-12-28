@@ -1,11 +1,11 @@
-package com.example.roomdatabaseexample.backend.databases.daily_database
+package de.rohnert.smeasy.backend.databases.daily_database
 
 
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
+import de.rohnert.smeasy.backend.databases.daily_database.MealEntry
 import kotlin.collections.ArrayList
 
 

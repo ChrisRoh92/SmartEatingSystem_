@@ -10,6 +10,7 @@ import android.widget.*
 import de.rohnert.smeasy.R
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput
 
 class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context) : AdapterView.OnItemSelectedListener {
 
@@ -96,11 +97,11 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
 
 
         // Button Listener:
-        btn_abort.setOnClickListener(View.OnClickListener {
+        btn_abort.setOnClickListener({
             alertDialog.dismiss()
         })
 
-        btn_save.setOnClickListener(View.OnClickListener {
+        btn_save.setOnClickListener({
             createNewFood()
         })
     }
@@ -176,7 +177,22 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
     // Dialog zum erstellen einer neuen Lebensmittelgruppe...
     fun initAlertDialog()
     {
-        var builder: androidx.appcompat.app.AlertDialog.Builder = androidx.appcompat.app.AlertDialog.Builder(context)
+        var dialog = DialogSingleLineInput("Name der Lebensmittelgruppe","Neue Lebensmittelgruppe eintragen",context,InputType.TYPE_CLASS_TEXT,"")
+        dialog.onDialogClickListener(object :DialogSingleLineInput.OnDialogListener{
+            override fun onDialogClickListener(export: String)
+            {
+                addNewGroupToList(export)
+
+            }
+
+            override fun onDialogClickListener(export: Float)
+            {
+
+            }
+
+        })
+
+        /*var builder: androidx.appcompat.app.AlertDialog.Builder = androidx.appcompat.app.AlertDialog.Builder(context)
         var dialog: androidx.appcompat.app.AlertDialog
         var et = EditText(context)
         builder.setMessage("Name der neuen Lebensmittelgruppe")
@@ -207,7 +223,7 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
         })
 
         dialog = builder.create()
-        dialog.show()
+        dialog.show()*/
     }
 
     // Über diese Methode wird eine neue Gruppe in das Dialog eingearbeitet

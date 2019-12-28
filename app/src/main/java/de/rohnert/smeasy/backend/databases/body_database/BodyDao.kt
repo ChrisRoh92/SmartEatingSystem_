@@ -1,23 +1,23 @@
-package com.example.roomdatabaseexample.backend.databases.body_database
+package de.rohnert.smeasy.backend.databases.body_database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import de.rohnert.smeasy.backend.databases.body_database.Body
 
 @Dao
 interface BodyDao
 {
     @Insert
-    suspend fun insert(body:Body)
+    suspend fun insert(body: Body)
 
     @Update
-    suspend fun update(body:Body)
+    suspend fun update(body: Body)
 
     @Delete
-    suspend fun delete(body:Body)
+    suspend fun delete(body: Body)
 
     @Query("Select * FROM bodies")
     suspend fun getBodyList():List<Body>
 
     @Query("SELECT * FROM bodies WHERE date= :date")
-    suspend fun getBodyByDate(date:String):Body
+    suspend fun getBodyByDate(date:String): Body
 }

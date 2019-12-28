@@ -1,25 +1,18 @@
 package de.rohnert.smeasy.frontend.start
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
-import androidx.cardview.widget.CardView
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.MainActivity
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogDatePicker
 import de.rohnert.smeasy.helper.dialogs.CustomDatePicker
 import de.rohnert.smeasy.helper.dialogs.DialogSingleChoiceList
-import de.rohnert.smeasy.helper.dialogs.DialogSingleList
+import de.rohnert.smeasy.helper.dialogs.DialogSingleMessage
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,9 +22,6 @@ class IntroScreen : AppCompatActivity() {
     private lateinit var sharePrefs: SharedAppPreferences
     private var helper = Helper()
 
-    // Content:
-    private lateinit var content:ArrayList<String>
-    private var mDate:String = ""
     private var mName:String = ""
     private var mSex:String = ""
     private var mHeight:Float = 0f
@@ -49,6 +39,9 @@ class IntroScreen : AppCompatActivity() {
     // et:
     private lateinit var etUserName:TextInputLayout
     private lateinit var etUserHeight:TextInputLayout
+
+    // Skip Button:
+    private lateinit var btnSkip:Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -130,6 +123,38 @@ class IntroScreen : AppCompatActivity() {
         tvBday.text = "Eingabe erforderlich"
 
         tvSex = findViewById(R.id.introscreen_tv_sex)
+
+        // Skippen:
+        btnSkip = findViewById(R.id.introscreen_btn_skip)
+        btnSkip.setOnClickListener{
+            var dialog = DialogSingleMessage("Überspringen","Es werden Standartwerte eingetragen","Du hast jederzeit die Möglichkeit in den Einstellungen " +
+                    "deine Daten nachträglich zu ändern. Die Daten dienen lediglich der Funktionalität von SmartEatingSystem",this)
+            dialog.setOnDialogClickListener(object:DialogSingleMessage.OnDialogClickListener{
+                override fun setOnDialogClickListener()
+                {
+                    mName = "Max Mustermann"
+                    mSex = "Mann"
+                    mHeight = 180f
+                    mBday = "01.01.2000"
+
+                    // Speichern der Prefs...
+                    sharePrefs.setNewUserName(mName)
+                    sharePrefs.setNewUserHeight(mHeight)
+                    sharePrefs.setNewSex(mSex)
+                    sharePrefs.setNewBday(mBday)
+                    sharePrefs.setNewAppInitialStart(true)
+
+
+                    var i = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(i)
+                    finish()
+                }
+
+            })
+
+
+
+        }
 
 
 

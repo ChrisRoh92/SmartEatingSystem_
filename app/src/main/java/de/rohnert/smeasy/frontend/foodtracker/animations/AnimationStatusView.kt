@@ -8,7 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import backend.helper.Helper
+import de.rohnert.smeasy.backend.helper.Helper
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.helper.animation.CustomValueAnimator
@@ -45,6 +45,7 @@ class AnimationStatusView(var context: Context,
         tvSet.playTogether(createInitTextViewAnimatorList())
         set.play(pbSet)
         //set.playTogether(pbSet,tvSet)
+        set.startDelay = 500
         set.start()
         set.addListener(object: Animator.AnimatorListener
         {
@@ -118,12 +119,12 @@ class AnimationStatusView(var context: Context,
        // var startValue = ((progressValues[0]/maxValues[0])*2700).roundToInt()
         if(startValue <= 2700)
         {
-            var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 1000)
+            var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 0)
             export.add(value)
         }
         else
         {
-            var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=2701,interpolator = FastOutSlowInInterpolator(),delay = 1000)
+            var value = valueAnimator.animateProgressBarInitial(pbList[0],0,2700,startValue=2701,interpolator = FastOutSlowInInterpolator(),delay = 0)
             export.add(value)
         }
 
@@ -134,7 +135,7 @@ class AnimationStatusView(var context: Context,
             else
             {
                 var startValue = ((progressValues[index]/maxValues[index])*1000).roundToInt()
-                var value = valueAnimator.animateProgressBarInitial(i,0,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 1000)
+                var value = valueAnimator.animateProgressBarInitial(i,0,startValue=startValue,interpolator = FastOutSlowInInterpolator(),delay = 0)
                 export.add(value)
             }
         }
@@ -190,12 +191,12 @@ class AnimationStatusView(var context: Context,
         var startValue = ((newProgressValues[0]/maxValues[0])*2700).roundToInt()
         if(startValue <= 2700)
         {
-            var value = valueAnimator.animateProgressBar(pbList[0],pbList[0].progress,startValue,maxValue = 2700,interpolator = FastOutSlowInInterpolator(),delay = 500)
+            var value = valueAnimator.animateProgressBar(pbList[0],pbList[0].progress,startValue,maxValue = 2700,interpolator = FastOutSlowInInterpolator(),delay = 0)
             export.add(value)
         }
         else
         {
-            var value = valueAnimator.animateProgressBar(pbList[0],pbList[0].progress,2701,maxValue = 2700,interpolator = FastOutSlowInInterpolator(),delay = 500)
+            var value = valueAnimator.animateProgressBar(pbList[0],pbList[0].progress,2701,maxValue = 2700,interpolator = FastOutSlowInInterpolator(),delay = 0)
             export.add(value)
         }
 
@@ -207,7 +208,7 @@ class AnimationStatusView(var context: Context,
             else
             {
                 var startValue = ((newProgressValues[index]/maxValues[index])*1000).roundToInt()
-                var value = valueAnimator.animateProgressBar(i,i.progress,startValue,interpolator = FastOutSlowInInterpolator(),delay = 100)
+                var value = valueAnimator.animateProgressBar(i,i.progress,startValue,interpolator = FastOutSlowInInterpolator(),delay = 0)
                 export.add(value)
             }
         }
