@@ -122,15 +122,15 @@ class DialogNutrition(var context: Context, var bodyViewModel:BodyViewModel) : S
         skFett = view.findViewById(R.id.dialog_bodysettings_nutrition_sk_fett)
 
         skCarb.max = 20
-        skCarb.min = 0
+        //skCarb.min = 0
         skCarb.progress = progressCarb/5
 
         skProtein.max = 20
-        skProtein.min = 0
+        //skProtein.min = 0
         skProtein.progress = progressProtein/5
 
         skFett.max = 20
-        skFett.min = 0
+        //skFett.min = 0
         skFett.progress = progressFett/5
 
         // Listener SeekBar

@@ -10,6 +10,7 @@ import com.example.roomdatabaseexample.backend.databases.daily_database.helper.C
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
 import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.backend.statistic.CsvDataExport
@@ -47,7 +48,7 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     private var sharePrefs = SharedAppPreferences(application)
 
     // Lokale Daten:
-    private var foodList:ArrayList<Food> = ArrayList()
+    private var foodList:ArrayList<ExtendedFood> = ArrayList()
 
     // LiveDaten:
     private var foodListAvailable:MutableLiveData<Int> = MutableLiveData()
@@ -203,12 +204,12 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Other Stuff
-    fun getFoodList():ArrayList<Food>
+    fun getFoodList():ArrayList<ExtendedFood>
     {
         return foodList
     }
 
-    fun getFoodAtPosition(pos:Int):Food
+    fun getFoodAtPosition(pos:Int):ExtendedFood
     {
         return foodList[pos]
     }

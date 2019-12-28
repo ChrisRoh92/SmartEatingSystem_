@@ -8,6 +8,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import backend.helper.Helper
@@ -15,18 +19,19 @@ import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import de.rohnert.smeasy.R
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.bodytracker.adapter.DialogShowBodyEntryRecyclerAdapter
+import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
 import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
 import kotlin.math.roundToInt
 
-class DialogShowBodyEntry(var context: Context,var entry: Body) : View.OnClickListener {
+class DialogShowBodyEntry(var context: Context,var entry: Body,var fragmentManager: FragmentManager) : View.OnClickListener {
 
 
     private lateinit var builder: AlertDialog.Builder
     private lateinit var alertDialog: AlertDialog
     private lateinit var view: View
     private lateinit var inflater: LayoutInflater
-    private lateinit var share: SharedAppPreferences
+    private var prefs = SharedAppPreferences(context)
     private var helper = Helper()
 
     // Interface:
@@ -62,6 +67,8 @@ class DialogShowBodyEntry(var context: Context,var entry: Body) : View.OnClickLi
         view = inflater.inflate(R.layout.dialog_show_body_entry, null)
         builder.setView(view)
 
+
+
         initViews()
         initRecyclerView()
 
@@ -78,14 +85,25 @@ class DialogShowBodyEntry(var context: Context,var entry: Body) : View.OnClickLi
         tvSubTitle = view.findViewById(R.id.dialog_show_body_tv_subtitle)
 
         // Button
-        btnPhoto = view.findViewById(R.id.dialog_show_body_btn_photo)
         btnSave = view.findViewById(R.id.dialog_show_body_btn_save)
         btnAbort = view.findViewById(R.id.dialog_show_body_btn_abort)
 
         // Listener aktivieren:
-        btnPhoto.setOnClickListener(this)
         btnSave.setOnClickListener(this)
         btnAbort.setOnClickListener(this)
+
+        // ImageButton
+        btnPhoto = view.findViewById(R.id.dialog_show_body_btn_photo)
+        btnPhoto.setOnClickListener(this)
+
+        if(!prefs.premiumStatus)
+        {
+            btnPhoto.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_lock_black))
+            btnPhoto.setColorFilter(ContextCompat.getColor(context,R.color.premium_dark))
+
+        }
+
+
 
     }
 
@@ -94,12 +112,12 @@ class DialogShowBodyEntry(var context: Context,var entry: Body) : View.OnClickLi
 
         fun createContent()
         {
-            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.weight,"#.##"))
-            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.kfa,"#.##"))
-            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.bauch,"#.##"))
-            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.brust,"#.##"))
-            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.hals,"#.##"))
-            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.huefte,"#.##"))
+            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.weight,"#.##") + " kg")
+            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.kfa,"#.##")+ " %")
+            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.bauch,"#.##")+ " cm")
+            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.brust,"#.##")+ " cm")
+            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.hals,"#.##")+ " cm")
+            contentString.add(helper.getFloatAsFormattedStringWithPattern(entry.huefte,"#.##")+ " cm")
 
             content.add(entry.weight)
             content.add(entry.kfa)
@@ -159,7 +177,25 @@ class DialogShowBodyEntry(var context: Context,var entry: Body) : View.OnClickLi
         }
         else if(v == btnPhoto)
         {
-            var dialog = DialogShowPicture(context,entry.fotoDir)
+            if(prefs.premiumStatus)
+            {
+                if(entry.fotoDir != "")
+                {
+                    var dialog = DialogShowPicture(context,entry.fotoDir)
+                }
+                else
+                {
+                    Toast.makeText(context,"Kein Foto vorhanden...",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            else
+            {
+                var dialog = DialogFragmentPremium()
+                dialog.show(fragmentManager,"Premium")
+            }
+
+
         }
     }
 

@@ -39,6 +39,11 @@ class DailyRepository2(var application: Application)
 
     }
 
+    suspend fun getDailyList():ArrayList<Daily>
+    {
+        return ArrayList(dailyDao2.getAll())
+    }
+
     suspend fun getLiveDailyByDate(date:String):LiveData<Daily>
     {
         if(checkIfDailyExist(date))

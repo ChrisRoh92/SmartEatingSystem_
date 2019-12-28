@@ -2,25 +2,26 @@ package de.rohnert.smeasy.frontend.foodtracker
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import backend.helper.Helper
 import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
 import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
 import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
 import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
-import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.backend.sharedpreferences.SharedPreferencesSmeasyValues
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class FoodViewModel2(application: Application) : AndroidViewModel(application)
 {
@@ -31,6 +32,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     // Prozessoren...
     private var dailyProcess = DailyProcessor(application)
     private lateinit var foodProcessor:FoodProcessor
+
     // Zentraler Zugriff auf Einstellungen...
     private var sharePrefs = SharedAppPreferences(application)
     private var smeasyValues = SharedPreferencesSmeasyValues(application)
@@ -41,13 +43,13 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
 
     // FoodLists:
-    //private lateinit  var appFoodList:LiveData<List<Food>>
-    private lateinit var localAppFoodList:ArrayList<Food>
-    private lateinit var localUserFoodList:ArrayList<Food>
-    private lateinit var localFoodList:ArrayList<Food>
+    private lateinit var localAppFoodList:ArrayList<ExtendedFood>
+    private lateinit var localUserFoodList:ArrayList<ExtendedFood>
+    private lateinit var localFoodList:ArrayList<ExtendedFood>
     private lateinit var localFoodCategories:ArrayList<String>
 
     // Daily:
+    private lateinit var localDailyList:ArrayList<Daily>
     private lateinit var localDaily:Daily
 
     // FavFoodList:
@@ -102,32 +104,35 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Init Private Methoden
-    private suspend fun getDaily(date:String)
+    private suspend fun getDailyFromList(date:String):Daily
     {
-        daily = repository.getLiveDailyByDate(date)
-
-        /*if(daily.value == null)
+        var exist = false
+        var export:Daily? = null
+        for(i in localDailyList)
         {
-            CoroutineScope(IO).launch {
-                var newDaily = Daily(date, ArrayList(), ArrayList(),ArrayList(),ArrayList(),sharePrefs.maxKcal,sharePrefs.maxCarb,sharePrefs.maxProtein,sharePrefs.maxFett)
-                repository.addNewDaily(newDaily)
-                daily = repository.getLiveDailyByDate(date)
-
+            if(i.date == date)
+            {
+                exist = true
+                export = i
+                break
             }
-        }*/
+        }
+        if(!exist)
+        {
+            export = repository.getDailyByDate(date)
+            localDailyList.add(export)
+        }
+
+        return export!!
     }
 
     private suspend fun setLocalDaily()
     {
-        localDaily = repository.getDailyByDate(date)
+        localDailyList = repository.getDailyList()
+
+        localDaily = getDailyFromList(date)
         if(helper.isDateInFuture(helper.getDateFromString(date)))
         {
-            /*Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - true")
-
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - davor localDaily.maxKcal - ${localDaily.maxKcal}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - davor localDaily.maxCarb - ${localDaily.maxCarb}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - davor localDaily.maxProtein - ${localDaily.maxProtein}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - davor localDaily.maxFett - ${localDaily.maxFett}")*/
             if(localDaily.maxKcal != sharePrefs.maxKcal)
             {
                 localDaily.maxKcal = sharePrefs.maxKcal
@@ -144,21 +149,10 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
             {
                 localDaily.maxFett = sharePrefs.maxFettValue
             }
-            /*Log.d("Smeasy","FoodViewModel2 - setLocalDaily - sharePrefs.maxKcal  - ${sharePrefs.maxKcal}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - sharePrefs.maxCarbValue  - ${sharePrefs.maxCarbValue}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - sharePrefs.maxProteinValue  - ${sharePrefs.maxProteinValue}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - sharePrefs.maxFettValue  - ${sharePrefs.maxFettValue}")
-
-            updateDaily(localDaily)
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxKcal  - ${localDaily.maxKcal}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxCarb  - ${localDaily.maxCarb}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxProtein  - ${localDaily.maxProtein}")
-            Log.d("Smeasy","FoodViewModel2 - setLocalDaily - danach localDaily.maxFett  - ${localDaily.maxFett}")*/
         }
 
         saveToPrefs()
 
-        /*Log.d("Smeasy","FoodViewModel2 - setLocalDaily - helper.isDateInFuture - false")*/
     }
 
     private suspend fun setFoodList()
@@ -228,9 +222,9 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // FoodList Operations..
-    suspend fun getAppFoodById(id:String):Food?
+    suspend fun getAppFoodById(id:String):ExtendedFood?
     {
-        var food:Food? = null
+        var food:ExtendedFood? = null
         withContext(IO)
         {
             if(id.contains("a"))
@@ -591,11 +585,11 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // FoodList Operations.
-    fun addNewFood(category:String,name:String,unit:String,kcal:Float,carb:Float,protein:Float,fett:Float,ean:String = "")
+    fun addNewFood(category:String,name:String,marke:String = "",menge:String ="",unit:String,kcal:Float,carb:Float,protein:Float,fett:Float,ean:String = "")
     {
         CoroutineScope(IO).launch {
             var newID = foodProcessor.getNextUserFoodList(repository.getUserFoodList())
-            var food = Food(newID,category,name,unit,kcal,carb,protein,fett,ean)
+            var food = ExtendedFood(newID,category,name,marke,menge,unit,ean,kcal,carb,protein,fett)
             repository.addNewUserFood(food)
             withContext(Main)
             {
@@ -607,7 +601,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateUserFood(newFood:Food)
+    fun updateUserFood(newFood:ExtendedFood)
     {
         CoroutineScope(IO).launch {
             repository.updateUserFood(newFood)
@@ -718,17 +712,17 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     }
 
     // Getters for FoodLists...
-    fun getLocalFoodList():ArrayList<Food>
+    fun getLocalFoodList():ArrayList<ExtendedFood>
     {
         return localAppFoodList
     }
 
-    fun getLocalUserFoodList():ArrayList<Food>
+    fun getLocalUserFoodList():ArrayList<ExtendedFood>
     {
         return localUserFoodList
     }
 
-    fun getFoodList():ArrayList<Food>
+    fun getFoodList():ArrayList<ExtendedFood>
     {
         return localFoodList
     }
@@ -764,9 +758,9 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     }
 
-    fun getFoodById(id:String):Food
+    fun getFoodById(id:String):ExtendedFood
     {
-        var food:Food? = null
+        var food:ExtendedFood? = null
         runBlocking {
             food = getAppFoodById(id)
         }

@@ -12,6 +12,7 @@ import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntr
 import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.repository.MainRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +37,7 @@ class CsvDataExport(var context: Context, var repository: MainRepository2, var f
 
     // Daten aus der Datenbank
     private lateinit var latestBody: Body
-    private lateinit var foodList:ArrayList<Food>
+    private lateinit var foodList:ArrayList<ExtendedFood>
     private var dailyList:ArrayList<Daily> = ArrayList()
 
     //

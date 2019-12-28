@@ -1,4 +1,4 @@
-package de.rohnert.smeasy.backend.databases.food_database.appfood_database
+package de.rohnert.smeasy.backend.databases.food_database.normal_database.appfood_database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

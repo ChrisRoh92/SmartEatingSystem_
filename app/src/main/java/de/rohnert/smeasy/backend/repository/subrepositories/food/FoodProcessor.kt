@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
 import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 
 
 // Folgende Methoden müssen noch implementiert werden:
@@ -15,14 +16,14 @@ import com.example.roomdatabaseexample.backend.databases.food_database.Food
 
 
  */
-class FoodProcessor(var application: Application, var foodList:ArrayList<Food>)
+class FoodProcessor(var application: Application, var foodList:ArrayList<ExtendedFood>)
 {
 
     //var preferences = SharedAppPreferences()
 
-    fun getFiltertedFoodList(filterItems:ArrayList<String>, foods:ArrayList<Food>):ArrayList<Food>
+    fun getFiltertedFoodList(filterItems:ArrayList<String>, foods:ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
     {
-        var export:ArrayList<Food> = ArrayList()
+        var export:ArrayList<ExtendedFood> = ArrayList()
         for(i in foods)
         {
             if(filterItems.contains(i.category)) export.add(i)
@@ -31,9 +32,9 @@ class FoodProcessor(var application: Application, var foodList:ArrayList<Food>)
         return export
     }
 
-    fun getAllowFoodList(foods: ArrayList<Food>):ArrayList<Food>
+    fun getAllowFoodList(foods: ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
     {
-        var export:ArrayList<Food> = ArrayList()
+        var export:ArrayList<ExtendedFood> = ArrayList()
         for(i in foods)
         {
             if(i.kcal < 250f) export.add(i)
@@ -43,7 +44,7 @@ class FoodProcessor(var application: Application, var foodList:ArrayList<Food>)
     }
 
     // Über diese Methode, wird eine neue ID, für die UserFoods generiert..
-    fun getNextUserFoodList(userfoods:ArrayList<Food>):String
+    fun getNextUserFoodList(userfoods:ArrayList<ExtendedFood>):String
     {
         var ids:ArrayList<String> = ArrayList()
         if(userfoods.isNullOrEmpty())
@@ -112,7 +113,7 @@ class FoodProcessor(var application: Application, var foodList:ArrayList<Food>)
 
     }
 
-    private fun getFoodById(id:String):Food
+    private fun getFoodById(id:String):ExtendedFood
     {
         var food = foodList[0]
         for(i in foodList)

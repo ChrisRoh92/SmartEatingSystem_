@@ -3,18 +3,15 @@ package de.rohnert.smeasy.frontend.foodtracker.helper
 import android.content.Context
 import android.util.Log
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, var extendFilterValues:ArrayList<Float>)
 {
     // Default Operators.
-    private var foodlist:ArrayList<Food> = foodViewModel.getFoodList()
+    private var foodlist:ArrayList<ExtendedFood> = foodViewModel.getFoodList()
     private var categories:ArrayList<String> = foodViewModel.getFoodCategories()
     private var favFoodList:ArrayList<FavFood> = foodViewModel.getFavFoodList()
     private var allowedFood:Boolean = false
@@ -41,9 +38,9 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
 
     }
 
-    fun getFilteredFoodList():ArrayList<Food>
+    fun getFilteredFoodList():ArrayList<ExtendedFood>
     {
-        var export:ArrayList<Food> = filterListByCategories(foodlist)
+        var export:ArrayList<ExtendedFood> = filterListByCategories(foodlist)
 
         if(allowedFood) export = filterByAllowedFood(export)
         if(userFood) export = filterByUserFood(export)
@@ -51,7 +48,7 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
         if(sortingItem!="")
         {
             Log.d("Smeasy","FoodListFilter - sortingItem ist aktiv: $sortingItem")
-            var sortList:ArrayList<Food> = ArrayList()
+            var sortList:ArrayList<ExtendedFood> = ArrayList()
             sortList = sortList(export)
             export = sortList
         }
@@ -61,12 +58,12 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
 
     }
 
-    fun filterByItemSearch(item:String):ArrayList<Food>
+    fun filterByItemSearch(item:String):ArrayList<ExtendedFood>
     {
         if(item != "")
         {
 
-            var export:ArrayList<Food> = ArrayList()
+            var export:ArrayList<ExtendedFood> = ArrayList()
             for(i in getFilteredFoodList())
             {
                 if(i.name.toLowerCase().contains(item.toLowerCase()) || i.category.toLowerCase().contains(item.toLowerCase()) )
@@ -91,9 +88,9 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
 
     }
 
-    private fun sortList(list:ArrayList<Food>):ArrayList<Food>
+    private fun sortList(list:ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
     {
-        var export:List<Food>? = null
+        var export:List<ExtendedFood>? = null
         when(sortingItem)
         {
             //"name" -> export = ArrayList(list.sortedWith(compareBy { it.name }))
@@ -110,17 +107,17 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
         Log.d("Smeasy","FoodListFilter - sortList first element...: ${export!![0]}")
         if(!up)
         {
-            return ArrayList(export!!.asReversed())
+            return ArrayList(export.asReversed())
         }
         else
         {
-            return ArrayList(export!!)
+            return ArrayList(export)
         }
     }
 
-    private fun filterListByCategories(list:ArrayList<Food>):ArrayList<Food>
+    private fun filterListByCategories(list:ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
     {
-      var export:ArrayList<Food> = ArrayList()
+      var export:ArrayList<ExtendedFood> = ArrayList()
         for(i in list)
             for(j in categories)
             {
@@ -131,9 +128,9 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
         return export
     }
 
-    private fun filterByAllowedFood(list:ArrayList<Food>):ArrayList<Food>
+    private fun filterByAllowedFood(list:ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
     {
-        var export:ArrayList<Food> = ArrayList()
+        var export:ArrayList<ExtendedFood> = ArrayList()
         for(i in list)
         {
             if(checkIfFoodIsAllowed(i))
@@ -146,9 +143,9 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
 
     }
 
-    private fun filterByUserFood(list:ArrayList<Food>):ArrayList<Food>
+    private fun filterByUserFood(list:ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
     {
-        var export:ArrayList<Food> = ArrayList()
+        var export:ArrayList<ExtendedFood> = ArrayList()
         for(i in list)
         {
             if(i.id.contains("u"))
@@ -160,9 +157,9 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
         return export
     }
 
-    private fun filterByFavourites(list:ArrayList<Food>):ArrayList<Food>
+    private fun filterByFavourites(list:ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
     {
-        var export:ArrayList<Food> = ArrayList()
+        var export:ArrayList<ExtendedFood> = ArrayList()
         //Log.d("Smeasy","FoodListFilter - filterByFavourites list.size before = ${list.size}")
         for(i in list)
         {
@@ -176,10 +173,10 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
     }
 
 
-    private fun filterByExtendValues(list:ArrayList<Food>):ArrayList<Food>
+    private fun filterByExtendValues(list:ArrayList<ExtendedFood>):ArrayList<ExtendedFood>
     {
         var export = list
-        var workList:ArrayList<Food> = ArrayList()
+        var workList:ArrayList<ExtendedFood> = ArrayList()
 
 
 
@@ -385,7 +382,7 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
         return export
     }
 
-    private fun checkIfFoodIsAllowed(food:Food):Boolean
+    private fun checkIfFoodIsAllowed(food:ExtendedFood):Boolean
     {
         var status = true
 
@@ -501,7 +498,7 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
 
 
 
-    private fun checkIfFoodIsFavourite(food:Food):Boolean
+    private fun checkIfFoodIsFavourite(food:ExtendedFood):Boolean
     {
         var check = false
         for(i in favFoodList)
@@ -596,7 +593,7 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
 
     interface OnFilterItemsListener
     {
-        fun setOnFilterItemsListener(foodList:ArrayList<Food>)
+        fun setOnFilterItemsListener(foodList:ArrayList<ExtendedFood>)
     }
 
     fun setOnFilterItemsListener(mListener:OnFilterItemsListener)

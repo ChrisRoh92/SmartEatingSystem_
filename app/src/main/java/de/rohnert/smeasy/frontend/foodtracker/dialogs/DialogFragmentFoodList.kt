@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smeasy.frontend.foodtracker.adapter.ClassicFoodListAdapter
@@ -42,8 +43,8 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
     // Content:
     private lateinit var filter:FoodListerFilter
     private var favFoodList = foodViewModel.getFavFoodList()
-    private var foodList:ArrayList<Food> = foodViewModel.getLocalFoodList()
-    private var workFoodList:ArrayList<Food> = foodList
+    private var foodList:ArrayList<ExtendedFood> = foodViewModel.getLocalFoodList()
+    private var workFoodList:ArrayList<ExtendedFood> = foodList
     private var extendFilterValues:ArrayList<Float> = arrayListOf(0f,0f,0f,0f,0f,0f,0f,0f)
     private var favouriteStatus = false
     private var userFoodStatus = false
@@ -123,7 +124,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
 
         filter = FoodListerFilter(rootView.context,foodViewModel,extendFilterValues)
         filter.setOnFilterItemsListener(object:FoodListerFilter.OnFilterItemsListener{
-            override fun setOnFilterItemsListener(foodList: ArrayList<Food>) {
+            override fun setOnFilterItemsListener(foodList: ArrayList<ExtendedFood>) {
                 classicAdapter.updateContent(foodList)
 
                 Log.d("Smeasy","DialogFragmentFoodList - initRecyclerView - setOnFilterItemsListener was called: Size of foodList: ${foodList.size}")
@@ -148,7 +149,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
         )
 
         classicAdapter.setOnClickListener(object : ClassicFoodListAdapter.OnClickListener {
-            override fun setOnClickListener(food: Food, position: Int) {
+            override fun setOnClickListener(food: ExtendedFood, position: Int) {
                 var dialog = FoodPickerDialog(foodViewModel, rootView.context, food, sMeal)
             }
 
@@ -163,7 +164,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
 
         // Favouriten setzen bzw. entfernen...
         classicAdapter.setOnCheckedChangeListener(object: ClassicFoodListAdapter.OnCheckedChangedListener{
-            override fun setOnCheckedChangeListener(food: Food, buttonState:Boolean) {
+            override fun setOnCheckedChangeListener(food: ExtendedFood, buttonState:Boolean) {
                 Log.d("Smeasy","DialogFragmentFoodList - initRecyclerView onCheckedChangeListener - buttonState = $buttonState")
                 if(buttonState)
                {
@@ -270,7 +271,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
             }, 50)
 
 
-        } else if (item!!.itemId == R.id.foodlist_sort) {
+        } else if (item.itemId == R.id.foodlist_sort) {
 
             var handler = Handler()
             handler.postDelayed(Runnable {
@@ -306,7 +307,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
         handler.post {
             foodViewModel.searchInAppFoodList(sItem, categories)
         }*/
-        searchInFoodList(query!!)
+        searchInFoodList(query)
 
 
 
@@ -343,17 +344,11 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    override fun onPause() {
-        super.onPause()
-        //foodViewModel.createFoodList()
-    }
-
-
     private fun filterFoods()
     {
         if(categories.size != maxCategory)
         {
-            var values:ArrayList<Food> = ArrayList()
+            var values:ArrayList<ExtendedFood> = ArrayList()
             for(i in workFoodList)
             {
                 for(j in categories)

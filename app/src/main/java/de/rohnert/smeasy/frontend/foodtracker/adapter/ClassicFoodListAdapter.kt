@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import backend.helper.Helper
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import de.rohnert.smeasy.R
-import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
-import kotlin.random.Random
 
-class ClassicFoodListAdapter(var content:ArrayList<Food>,var favContent:ArrayList<FavFood>, var context: Context): RecyclerView.Adapter<ClassicFoodListAdapter.ViewHolder>() {
+class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent:ArrayList<FavFood>, var context: Context): RecyclerView.Adapter<ClassicFoodListAdapter.ViewHolder>() {
 
 
     private var helper = Helper()
@@ -80,7 +80,7 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>,var favContent:ArrayLis
         }
     }
 
-    fun checkIfFoodIsFavourite(food:Food):Boolean
+    fun checkIfFoodIsFavourite(food:ExtendedFood):Boolean
     {
         var check = false
         for(i in favContent)
@@ -94,13 +94,13 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>,var favContent:ArrayLis
         return check
     }
 
-    fun updateContent(content:ArrayList<Food>)
+    fun updateContent(content:ArrayList<ExtendedFood>)
     {
         this.content = content
         notifyDataSetChanged()
     }
 
-    fun checkIfFoodIsAllowed(food:Food):Boolean
+    fun checkIfFoodIsAllowed(food:ExtendedFood):Boolean
     {
         var status = true
 
@@ -237,7 +237,7 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>,var favContent:ArrayLis
 
 
     interface OnClickListener {
-        fun setOnClickListener(food: Food, position: Int)
+        fun setOnClickListener(food: ExtendedFood, position: Int)
     }
 
     fun setOnClickListener(mListener: OnClickListener) {
@@ -246,7 +246,7 @@ class ClassicFoodListAdapter(var content:ArrayList<Food>,var favContent:ArrayLis
 
     interface OnCheckedChangedListener
     {
-        fun setOnCheckedChangeListener(food:Food,buttonState:Boolean)
+        fun setOnCheckedChangeListener(food:ExtendedFood,buttonState:Boolean)
     }
 
     fun setOnCheckedChangeListener(mCheckedListener:OnCheckedChangedListener)

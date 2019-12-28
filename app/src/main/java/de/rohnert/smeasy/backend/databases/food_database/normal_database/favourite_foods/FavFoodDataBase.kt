@@ -1,10 +1,7 @@
-package de.rohnert.smeasy.backend.databases.food_database.favourite_foods
+package de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
-import de.rohnert.smeasy.backend.databases.food_database.appfood_database.AppFoodDataBase2
 
 @Database(entities = [FavFood::class], version = 1)
 abstract class FavFoodDataBase : RoomDatabase()

@@ -13,6 +13,7 @@ import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.repository.subrepositories.daily.DailyProcessor
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel
 import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationFoodPicker
@@ -22,7 +23,7 @@ import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput.OnDialogListener
 import kotlin.math.roundToInt
 
 
-class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, var food: Food, var meal:String)
+class FoodPickerDialog(var foodViewModel: FoodViewModel2, var context: Context, var food: ExtendedFood, var meal:String)
      {
 
 

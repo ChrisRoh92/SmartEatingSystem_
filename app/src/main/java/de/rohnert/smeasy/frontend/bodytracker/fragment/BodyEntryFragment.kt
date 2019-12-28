@@ -28,9 +28,11 @@ import backend.helper.Helper
 import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import com.google.android.material.snackbar.Snackbar
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import de.rohnert.smeasy.frontend.bodytracker.adapter.BodyEntryRecyclerViewAdapter
 import de.rohnert.smeasy.frontend.bodytracker.animations.BodyEntryStatusViewAnimator
+import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogFragmentNewBodyEntry
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogNewBodyEntry
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogShowBodyEntry
 import de.rohnert.smeasy.helper.others.CustomDividerItemDecoration
@@ -41,6 +43,7 @@ class BodyEntryFragment: Fragment() {
     private lateinit var rootView: View
     private lateinit var bodyViewModel: BodyViewModel
     private var helper = Helper()
+    private lateinit var prefs:SharedAppPreferences
 
     // Animation
     private lateinit var animator:BodyEntryStatusViewAnimator
@@ -81,26 +84,16 @@ class BodyEntryFragment: Fragment() {
     ): View? {
         bodyViewModel = ViewModelProviders.of(this).get(BodyViewModel::class.java)
         rootView = inflater.inflate(R.layout.fragment_bodytracker_bodyentries, container, false)
+        prefs = SharedAppPreferences(rootView.context)
 
 
+        scrollView = rootView.findViewById(R.id.bodyentry_scrollview)
+        initStatusView()
+        initRecyclerView()
         /*initRecyclerView()*/
         Handler().postDelayed({
-            scrollView = rootView.findViewById(R.id.bodyentry_scrollview)
-            initStatusView()
-            initRecyclerView()
+
             initObserver()
-
-
-            /*var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Funktion befindet sich zum Teil noch im Aufbau...",
-                Snackbar.LENGTH_LONG)
-            var snackView = snackbar.view
-            var snackTv:TextView = snackView!!.findViewById(com.google.android.material.R.id.snackbar_text)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                snackTv.textAlignment = View.TEXT_ALIGNMENT_CENTER
-            } else {
-                snackTv.gravity = Gravity.CENTER_HORIZONTAL
-            }
-            snackbar.show()*/
 
         },500)
 
@@ -138,7 +131,7 @@ class BodyEntryFragment: Fragment() {
     private fun initRecyclerView()
     {
         recyclerView = rootView.findViewById(R.id.bodyentry_recyclerview)
-        adapter = BodyEntryRecyclerViewAdapter(ArrayList(),fragmentManager!!)
+        adapter = BodyEntryRecyclerViewAdapter(ArrayList(),fragmentManager!!,prefs)
         manager = LinearLayoutManager(rootView.context, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
@@ -146,6 +139,7 @@ class BodyEntryFragment: Fragment() {
 
         adapter.setOnBodyEntryLongClickListener(object:BodyEntryRecyclerViewAdapter.OnBodyEntryLongClickListener{
             override fun setOnBodyEntryLongClickListener(body: Body, pos: Int) {
+                undoBodyDelete(body)
                 bodyViewModel.deleteBody(body)
             }
 
@@ -153,7 +147,7 @@ class BodyEntryFragment: Fragment() {
 
         adapter.setOnBodyEntryClickListener(object:BodyEntryRecyclerViewAdapter.OnBodyEntryClickListener{
             override fun setOnBodyEntryClickListener(body: Body, pos: Int) {
-                var dialog = DialogShowBodyEntry(rootView.context,body)
+                var dialog = DialogShowBodyEntry(rootView.context,body,fragmentManager!!)
             }
 
         })
@@ -176,7 +170,9 @@ class BodyEntryFragment: Fragment() {
         btnAdd.setOnClickListener {
             if(!bodyViewModel.checkIfBodyExist())
             {
-                var dialog = DialogNewBodyEntry(rootView.context,fragmentManager!!,bodyViewModel)
+                //var dialog = DialogNewBodyEntry(rootView.context,fragmentManager!!,bodyViewModel)
+                var dialog = DialogFragmentNewBodyEntry(bodyViewModel)
+                dialog.show(fragmentManager!!,"NewBodyDialog")
 
             }
             else
@@ -229,61 +225,6 @@ class BodyEntryFragment: Fragment() {
         tvAimList[2].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[2],"#")}"
     }
 
-    private fun startCardViewAnimation()
-    {
-        // Animate CardViews
-        var alpha = PropertyValuesHolder.ofFloat(View.ALPHA,0f,1f)
-        var transY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y,200f,0f)
-        //var scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y,0f,1f)
-
-
-        var statusCardAnimation = ObjectAnimator.ofPropertyValuesHolder(statusCardView,alpha,transY).apply {
-            startDelay = 500
-            duration = 250
-            interpolator = FastOutSlowInInterpolator()
-
-        }
-
-        var rvCardAnimation = ObjectAnimator.ofPropertyValuesHolder(recyclerViewCardView,alpha,transY).apply {
-            startDelay = 0
-            duration = 250
-            interpolator = FastOutSlowInInterpolator()
-
-        }
-
-
-
-        var btnAnimation = ObjectAnimator.ofPropertyValuesHolder(btnAdd,alpha,transY).apply {
-            startDelay = 0
-            duration = 250
-            interpolator = FastOutSlowInInterpolator()
-
-        }
-
-        var cardViewSet = AnimatorSet()
-        cardViewSet.playSequentially(statusCardAnimation,rvCardAnimation,btnAnimation)
-        cardViewSet.start()
-        cardViewSet.addListener(object: Animator.AnimatorListener
-        {
-            override fun onAnimationRepeat(p0: Animator?) {
-
-            }
-
-            override fun onAnimationEnd(p0: Animator?) {
-                initRecyclerView()
-                startStatusViewAnimation()
-            }
-
-            override fun onAnimationCancel(p0: Animator?) {
-
-            }
-
-            override fun onAnimationStart(p0: Animator?) {
-
-            }
-
-        })
-    }
 
     private fun startStatusViewAnimation()
     {
@@ -327,5 +268,21 @@ class BodyEntryFragment: Fragment() {
         tvAimList[2].text = "${helper.getFloatAsFormattedStringWithPattern(aimValues[2],"#")}"
     }
 
+
+
+    private fun undoBodyDelete(body:Body)
+    {
+        var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Rückgängig machen",Snackbar.LENGTH_LONG)
+
+
+
+        snackbar.setAction("Rückgängig", object: View.OnClickListener{
+            override fun onClick(v: View?) {
+                bodyViewModel.undoBodyDelete(body)
+            }
+
+        })
+        snackbar.show()
+    }
 
 }

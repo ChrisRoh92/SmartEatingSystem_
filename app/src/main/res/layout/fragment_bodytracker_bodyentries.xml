@@ -15,7 +15,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="64dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/bodyentry_cardview_statusview"
@@ -326,6 +327,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/divider2"
+                        tools:itemCount="2"
                         tools:listitem="@layout/recycleritem_bodyentry" />
 
                     <TextView

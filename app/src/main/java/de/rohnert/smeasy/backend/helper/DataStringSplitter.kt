@@ -3,6 +3,7 @@ package backend.helper
 import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 
 class DataStringSplitter {
 
@@ -31,6 +32,26 @@ class DataStringSplitter {
         return export
 
     }
+
+    fun getExtendedFoodFromString(input:String): ExtendedFood
+    {
+        var values = input.split(";")
+        var extendedFood = ExtendedFood(
+            values[0],
+            values[1],
+            values[2],
+            values[3],
+            values[4],
+            values[5],
+            values[6],
+            values[7].toFloat(),
+            values[8].toFloat(),
+            values[9].toFloat(),
+            values[10].toFloat()
+        )
+        return extendedFood
+    }
+
 
 
     // Daily-Objekt erstellen....

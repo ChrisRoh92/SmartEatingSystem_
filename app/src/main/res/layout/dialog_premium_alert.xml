@@ -1,211 +1,476 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="0dp"
     app:cardElevation="0dp">
 
-    <androidx.core.widget.NestedScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/dialog_premium_toolbar"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_premium">
+            android:background="@android:color/background_light"
+            android:elevation="0dp"
+            android:minHeight="?attr/actionBarSize"
+            android:splitMotionEvents="false"
+            android:theme="@style/AppTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:subtitle="Erhalte mit Premium Zusatzfunktionen"
+            app:title="Hole dir Premium" />
 
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:shadowDx="5"
-                android:shadowDy="5"
-                android:text="Premiumfunktionen"
-                android:textColor="@android:color/background_light"
-                android:textSize="36sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_premium_toolbar"
+            app:srcCompat="@drawable/hintergrund_3" />
 
-            <TextView
-                android:id="@+id/textView27"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="Erhalte vollen Zugriff auf folgende Funktionen"
-                android:textAlignment="center"
-                android:textColor="@color/backgroundLight2"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView4">
 
-            <TextView
-                android:id="@+id/textView32"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:text="Auswertungstools"
-                android:textColor="@color/premium_dark"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView27" />
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView33"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Erhalte vollen Zugriff auf alle Tools zum auswerten deiner getrackten Lebensmittel. Wie viele Kalorien und Nährwerte nimmst du durchschnittlich pro Woche auf. Wie ist die Verteilung deiner Werte in einer Woche. Es gibt viel zu entdecken!"
-                android:textAlignment="textStart"
-                android:textColor="@color/backgroundLight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView32" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textView34"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="Erweiterterte Filterfunktionen"
-                android:textColor="@color/premium_dark"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView33" />
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:shadowDx="5"
+                        android:shadowDy="5"
+                        android:text="Premiumfunktionen"
+                        android:textColor="@color/textColor1"
+                        android:textSize="30sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView35"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Erhalte vollen Zugriff auf die erweiterten Filterfunktionen. Entdecke hier die Möglichkeit deine Lebensmittel noch besser zu finden und auszusuchen. "
-                android:textAlignment="textStart"
-                android:textColor="@color/backgroundLight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Erhalte vollen Zugriff auf folgende Funktionen"
+                        android:textAlignment="center"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
-            <TextView
-                android:id="@+id/textView36"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="CSV - Daten Export"
-                android:textColor="@color/premium_dark"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+                    <TextView
+                        android:id="@+id/textView32"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="84dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Erweiterte Filterfunktionen"
+                        android:textColor="@color/premium_dark"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider76" />
 
-            <TextView
-                android:id="@+id/textView37"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Erhalte jederzeit die Möglichkeit, deine Daten auch per CSV Datei zu exportieren und diese beispielsweise am Computer auszuwerten. "
-                android:textAlignment="textStart"
-                android:textColor="@color/backgroundLight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView36" />
+                    <TextView
+                        android:id="@+id/textView33"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="Erhalte vollen Zugriff auf die erweiterten Filterfunktionen. Entdecke hier die Möglichkeit deine Lebensmittel noch besser zu finden und auszusuchen. "
+                        android:textAlignment="textStart"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView32"
+                        app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
-            <TextView
-                android:id="@+id/textView40"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Was kostet dieses Paket?"
-                android:textColor="@android:color/background_light"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView37" />
+                    <TextView
+                        android:id="@+id/textView34"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Wochenberichte anzeigen lassen"
+                        android:textColor="@color/premium_dark"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView32"
+                        app:layout_constraintTop_toBottomOf="@+id/divider77" />
 
-            <TextView
-                android:id="@+id/textView41"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="Du hast Glück. Aktuell erhälst du dieses Paket für"
-                android:textAlignment="center"
-                android:textColor="@color/backgroundLight"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView40" />
+                    <TextView
+                        android:id="@+id/textView35"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="Erhalte vollen Zugriff auf dein Wochenbericht, sowie Berichte der vergangen Wochen. So bekommst du einen guten Eindruck, wie dein Essverhalten der Woche war"
+                        android:textAlignment="textStart"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView34"
+                        app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
-            <TextView
-                android:id="@+id/textView42"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="0€*"
-                android:textColor="@android:color/background_light"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView41" />
+                    <TextView
+                        android:id="@+id/textView36"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Erlaubte Lebensmittel festlegen"
+                        android:textColor="@color/premium_dark"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView34"
+                        app:layout_constraintTop_toBottomOf="@+id/divider78" />
 
-            <TextView
-                android:id="@+id/textView44"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:text=' 0€ und ein Sternchen, da muss doch ein Haken sein. Aber nein, ich möchte den Menschen mit Smeasy die Möglichkeit geben, werbefrei einen tollen Service zu bieten. Einzige Bedingung für die Nutzung ist, dass du uns ein wenig hilfst, Smeasy bekannt zu machen. Wie du das machst? Klicke einfach auf den Button "Werben" um über dein Facebook-Account deinen Freunden zu zeigen, wie begeisterst du von Smeasy bist.'
-                android:textAlignment="center"
-                android:textColor="@color/backgroundLight"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView42" />
+                    <TextView
+                        android:id="@+id/textView37"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="Mit erlaubten Lebensmittel kannst du genau festlegen, welche Lebensmittel für dich geeignet ist, und welche nicht. Erhalte schnell und einfach einen Überblick bei der Auswahl der Lebensmittel. So siehst du direkt, ob du diese essen darfst, oder nicht."
+                        android:textAlignment="textStart"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/textView36"
+                        app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
-            <Button
-                android:id="@+id/dialog_premium_btn_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/premium_dark"
-                android:text="Werben"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView44" />
+                    <TextView
+                        android:id="@+id/textView40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Hole dir jetzt Premium"
+                        android:textColor="@color/textColor1"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider80" />
 
-            <Button
-                android:id="@+id/dialog_premium_btn_abort"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Abbrechen"
-                android:textColor="@color/premium_dark"
-                app:layout_constraintBottom_toBottomOf="@+id/dialog_premium_btn_share"
-                app:layout_constraintEnd_toStartOf="@+id/dialog_premium_btn_share"
-                app:layout_constraintTop_toTopOf="@+id/dialog_premium_btn_share"
-                app:rippleColor="?android:attr/colorControlNormal" />
+                    <View
+                        android:id="@+id/divider76"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                    <View
+                        android:id="@+id/divider77"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+                    <View
+                        android:id="@+id/divider78"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+                    <View
+                        android:id="@+id/divider79"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+                    <TextView
+                        android:id="@+id/textView83"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Speichere Körperfotos"
+                        android:textColor="@color/premium_dark"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView36"
+                        app:layout_constraintTop_toBottomOf="@+id/divider79" />
+
+                    <TextView
+                        android:id="@+id/textView86"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="Du möchtest deine Fortschritte und Erfolge von deinem Körper nicht nur mit Zahlenwerten festhalten? Mit der Kamerafunktion kannst für jeden Körpereintrag ein Foto machen, welches auch diesem zugeordnet wird."
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView83"
+                        app:layout_constraintTop_toBottomOf="@+id/textView83" />
+
+                    <View
+                        android:id="@+id/divider80"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView86" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider83">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/textView42"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:text="Social Media Paket"
+                                android:textColor="@color/textColor1"
+                                android:textSize="18sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textView90"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:text="Erhalte die Premiumfunktion, in dem du über dein Facebook Account einen Beitrag über SmartEatingSystem teilst"
+                                android:textSize="10sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/textView42"
+                                app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+                            <View
+                                android:id="@+id/divider81"
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:background="?android:attr/listDivider"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView90" />
+
+                            <ImageButton
+                                android:id="@+id/dialog_premium_btn_fb_image"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="?android:selectableItemBackground"
+                                android:padding="16dp"
+                                android:scaleType="fitCenter"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/divider81"
+                                app:srcCompat="@drawable/facebook_logo_250" />
+
+                            <Button
+                                android:id="@+id/dialog_premium_btn_fb"
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Teile Jetzt auf Facebook"
+                                android:textColor="@color/facebook"
+                                app:layout_constraintBottom_toBottomOf="@+id/dialog_premium_btn_fb_image"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/dialog_premium_btn_fb_image"
+                                app:layout_constraintTop_toTopOf="@+id/dialog_premium_btn_fb_image" />
+
+                            <View
+                                android:id="@+id/divider82"
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:background="?android:attr/listDivider"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/dialog_premium_btn_fb_image" />
+
+                            <TextView
+                                android:id="@+id/textView92"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:text="Hinweis"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/divider82" />
+
+                            <TextView
+                                android:id="@+id/textView95"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:text="Das Paket hat eine Laufzeit von 30 Tagen. In den Einstellungen kannst du jederzeit sehen, wie lange das Premium Paket noch aktiv ist. Solange das Premium Paket aktiv ist, kannst du alle Funktionen, welche oben beschrieben wurden, nutzen. Sobald das Paket abgelaufen ist, musst du erneut einen Beitrag auf Facebook teilen, um die Premium funktionen weiter nutzen zu können."
+                                android:textSize="8sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/textView92" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="18dp"
+                        android:tint="@color/textColor1"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView35"
+                        app:layout_constraintEnd_toStartOf="@+id/textView34"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView34"
+                        app:srcCompat="@drawable/ic_statistic" />
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="18dp"
+                        android:tint="@color/textColor1"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView37"
+                        app:layout_constraintEnd_toStartOf="@+id/textView36"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView36"
+                        app:srcCompat="@drawable/ic_check_dark" />
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="18dp"
+                        android:tint="@color/textColor1"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView86"
+                        app:layout_constraintEnd_toStartOf="@+id/textView86"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView83"
+                        app:srcCompat="@drawable/ic_camera_dark" />
+
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="9dp"
+                        android:tint="@color/textColor1"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView33"
+                        app:layout_constraintEnd_toStartOf="@+id/textView32"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView32"
+                        app:srcCompat="@drawable/ic_settings" />
+
+                    <TextView
+                        android:id="@+id/textView41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hole dir jetzt das Premium Paket für erweiterte Funktionalitäten"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView40" />
+
+                    <View
+                        android:id="@+id/divider83"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

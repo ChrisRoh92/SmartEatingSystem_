@@ -41,7 +41,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
 
     // Allgemeine Variablen:
     private lateinit var rootView: View
-    private lateinit var sharePrefs:SharedAppPreferences
+    private lateinit var prefs:SharedAppPreferences
     private var helper = Helper()
     private var mDate:String = foodViewModel.date
     private lateinit var reporter:WeekReportCreator
@@ -124,16 +124,6 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
             }
 
         })
-        /*reporter.setOnWeekReportChangeListener(object: WeekReportCreator.OnWeekReportChangeListener{
-            override fun setOnWeekReportChangeListener() {
-
-
-            }
-
-        })*/
-
-
-
 
 
 
@@ -301,7 +291,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
                 initContent()
                 initRecyclerView()
                 updateChartContent()
-                initAnimation(200)
+                initAnimation(0)
                 dialogLoader.dismiss()
             }
 
@@ -508,87 +498,6 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
         chart.invalidate()
 
     }
-
-
-    /*private fun initBarChars()
-    {
-        var dataSetList:ArrayList<BarDataSet> = ArrayList()
-        for((index,i) in reporter.getChartValues().withIndex())
-        {
-            var entries:ArrayList<BarEntry> = ArrayList()
-            for(j in 0..6)
-            {
-                entries.add(BarEntry(j.toFloat(),i[j]))
-
-            }
-            dataSetList.add(BarDataSet(entries,""))
-        }
-
-        var colors = arrayListOf(
-            ContextCompat.getColor(rootView.context,R.color.colorPrimary),
-            ContextCompat.getColor(rootView.context,R.color.bar_color_1),
-            ContextCompat.getColor(rootView.context,R.color.bar_color_2),
-            ContextCompat.getColor(rootView.context,R.color.textColor1))
-        var labels = arrayListOf("Kalorien","Kohlenhydrate","Protein","Fett")
-        // Settings für die Entries
-        for((index,i) in dataSetList.withIndex())
-        {
-            i.label = labels[index]
-            i.color = colors[index]
-            i.valueFormatter = MyValueFormatter()
-            //i.mode = LineDataSet.Mode.CUBIC_BEZIER
-            if(index == 0) i.axisDependency = YAxis.AxisDependency.LEFT
-            else i.axisDependency = YAxis.AxisDependency.RIGHT
-
-        }
-        var dataSets:ArrayList<IBarDataSet> = ArrayList()
-        for(i in dataSetList) dataSets.add(i)
-
-        var data = BarData(dataSets)
-        data.setValueFormatter(MyValueFormatter())
-        data.setDrawValues(false)
-
-
-        var chart2 = rootView.findViewById<BarChart>(R.id.chart2)
-        chart2.data = data
-        //chart.legend.isEnabled = true
-        chart2.description.isEnabled = false
-
-        var legend = chart.legend
-        legend.direction = Legend.LegendDirection.LEFT_TO_RIGHT
-        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-
-
-
-
-
-        var xAxis = chart2.xAxis
-        xAxis.setDrawAxisLine(true)
-        xAxis.setDrawGridLines(false)
-        xAxis.setDrawLabels(true)
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.valueFormatter = MyValueFormatter()
-
-
-
-        var yAxisLeft = chart2.axisLeft
-        var yAxisRight = chart2.axisRight
-        yAxisLeft.setDrawLabels(true)
-        yAxisLeft.setDrawGridLines(false)
-        yAxisRight.setDrawGridLines(false)
-        yAxisLeft.isEnabled = true
-        yAxisRight.isEnabled = true
-
-        yAxisLeft.axisMinimum = 0f
-        yAxisRight.axisMinimum = 0f
-
-
-        data.barWidth = 0.1f
-        chart2.groupBars(0f,0.1f,0.05f)
-
-        chart2.invalidate()
-    }*/
-
 
     // Implementierte Methoden:
     override fun onClick(view: View?) {

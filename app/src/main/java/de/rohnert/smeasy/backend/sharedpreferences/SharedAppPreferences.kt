@@ -14,7 +14,7 @@ class SharedAppPreferences(var context: Context)
 {
 
 
-    private var sharedPref: SharedPreferences = context.getSharedPreferences("pref",Context.MODE_PRIVATE)
+    private var sharedPref: SharedPreferences = context.getSharedPreferences("pref3",Context.MODE_PRIVATE)
     private lateinit var editor: SharedPreferences.Editor
     private var helper = Helper()
     // Werte für App-Erlebnis..
@@ -76,7 +76,7 @@ class SharedAppPreferences(var context: Context)
         minAllowedFett = sharedPref.getFloat("minAllowedFett",0f)
 
         // Premium:
-        premiumStatus = sharedPref.getBoolean("premiumStatus",false)
+        premiumStatus = sharedPref.getBoolean("premiumStatus",true)
         premiumDate = sharedPref.getString("premiumDate","")!!
         premiumEndDate = sharedPref.getString("premiumEndDate","")!!
 
@@ -90,19 +90,19 @@ class SharedAppPreferences(var context: Context)
 
         // Body Ziele festlegen...
         aim = sharedPref.getString("aim","Abnehmen")!!
-        aimWeightLoss = sharedPref.getFloat("aimWeightLoss",0f)
-        weightAim = sharedPref.getFloat("weightAim",80f)!!
-        bmiAim = sharedPref.getFloat("bmiAim",10f)
-        kfaAim = sharedPref.getFloat("kfaAim",10f)!!
-        bauchAim = sharedPref.getFloat("bauchAim",100f)!!
-        brustAim = sharedPref.getFloat("brustAim",100f)!!
-        halsAim = sharedPref.getFloat("halsAim",300f)!!
-        huefteAim = sharedPref.getFloat("huefteAim",200f)!!
+        aimWeightLoss = sharedPref.getFloat("aimWeightLoss",-1f)
+        weightAim = sharedPref.getFloat("weightAim", -1f)
+        bmiAim = sharedPref.getFloat("bmiAim",-1f)
+        kfaAim = sharedPref.getFloat("kfaAim", -1f)
+        bauchAim = sharedPref.getFloat("bauchAim", -1f)
+        brustAim = sharedPref.getFloat("brustAim", -1f)
+        halsAim = sharedPref.getFloat("halsAim", -1f)
+        huefteAim = sharedPref.getFloat("huefteAim", -1f)
 
 
         // Userdaten speichern...
         userName = sharedPref.getString("userName","")!!
-        userHeight = sharedPref.getFloat("userHeight",180f)!!
+        userHeight = sharedPref.getFloat("userHeight", 180f)
         sex = sharedPref.getString("sex","")!!
         bday = sharedPref.getString("bday","")!!
 

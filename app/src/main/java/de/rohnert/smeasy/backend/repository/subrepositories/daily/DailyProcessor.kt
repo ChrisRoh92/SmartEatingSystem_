@@ -5,11 +5,12 @@ import android.content.Context
 import com.example.roomdatabaseexample.backend.databases.daily_database.MealEntry
 import com.example.roomdatabaseexample.backend.databases.daily_database.helper.CalcedFood
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
 
 class DailyProcessor(var context: Context)
 {
 
-    fun getCalcedFood(id:Int, food: Food,menge:Float ):CalcedFood
+    fun getCalcedFood(id:Int, food: ExtendedFood, menge:Float ):CalcedFood
     {
         var values:ArrayList<Float> = ArrayList()
         values.add(food.kcal * (menge/100f))

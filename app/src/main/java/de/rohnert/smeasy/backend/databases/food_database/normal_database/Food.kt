@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "food")
-data class Food(@PrimaryKey @ColumnInfo(name ="id") var id: String,
+data class Food(
+    @PrimaryKey @ColumnInfo(name ="id") var id: String,
 @ColumnInfo(name = "category") var category:String,
 @ColumnInfo(name = "name") var name:String,
 @ColumnInfo(name = "unit") var unit:String,

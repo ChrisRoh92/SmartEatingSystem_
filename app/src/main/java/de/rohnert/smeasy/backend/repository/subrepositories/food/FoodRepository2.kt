@@ -5,12 +5,11 @@ import androidx.lifecycle.LiveData
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.databases.food_database.userfood_database.UserFoodDao
 import com.example.roomdatabaseexample.backend.databases.food_database.userfood_database.UserFoodDataBaseProvider
-import com.example.roomdatabaseexample.backend.repository.subrepositories.food.FoodProcessor
-import de.rohnert.smeasy.backend.databases.food_database.appfood_database.AppFoodDao2
-import de.rohnert.smeasy.backend.databases.food_database.appfood_database.AppFoodDataBaseProvider2
-import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
-import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFoodDao
-import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFoodDataBaseProvider
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.appfood_database.AppFoodDao2
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.appfood_database.AppFoodDataBaseProvider2
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFood
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFoodDao
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFoodDataBaseProvider
 
 class FoodRepository2(var application: Application)
 {

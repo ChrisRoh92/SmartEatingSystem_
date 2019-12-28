@@ -8,18 +8,17 @@ import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import com.example.roomdatabaseexample.backend.databases.daily_database.Daily
 import com.example.roomdatabaseexample.backend.databases.food_database.Food
 import com.example.roomdatabaseexample.backend.repository.subrepositories.body.BodyRepository
-import de.rohnert.smeasy.backend.databases.food_database.favourite_foods.FavFood
+import de.rohnert.smeasy.backend.databases.food_database.extend_database.ExtendedFood
+import de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods.FavFood
 import de.rohnert.smeasy.backend.repository.subrepositories.daily.DailyRepository2
+import de.rohnert.smeasy.backend.repository.subrepositories.food.ExtendedFoodRepository
 import de.rohnert.smeasy.backend.repository.subrepositories.food.FoodRepository2
 import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 
 class MainRepository2(var application: Application)
 {
     private var dailyRepository2:DailyRepository2 = DailyRepository2(application)
-    private var foodRepository:FoodRepository2 = FoodRepository2(application)
+    private var foodRepository:ExtendedFoodRepository = ExtendedFoodRepository(application)
     private var bodyRepository = BodyRepository(application)
     private var sharePrefs = SharedAppPreferences(application)
 
@@ -27,9 +26,9 @@ class MainRepository2(var application: Application)
 
     // Methods from Food Repository2
     // Allgemeine Methoden:
-    suspend fun getFoodList():ArrayList<Food>
+    suspend fun getFoodList():ArrayList<ExtendedFood>
     {
-        var export:ArrayList<Food> = getAppFoodList()
+        var export:ArrayList<ExtendedFood> = getAppFoodList()
         if(!getUserFoodList().isNullOrEmpty())
         {
             export.addAll(getUserFoodList())
@@ -39,11 +38,11 @@ class MainRepository2(var application: Application)
 
     ////////////////////////////////////////////////////////////////
     // AppFood Stuff
-    suspend fun getAppFoodList():ArrayList<Food>
+    suspend fun getAppFoodList():ArrayList<ExtendedFood>
     {
         return foodRepository.getAppFoodList()
     }
-    suspend fun getLiveAppFoodList():LiveData<List<Food>>
+    suspend fun getLiveAppFoodList():LiveData<List<ExtendedFood>>
     {
         return foodRepository.getLiveFoodList()
     }
@@ -62,7 +61,7 @@ class MainRepository2(var application: Application)
         return export
 
     }
-    suspend fun getAppFoodById(id:String):Food
+    suspend fun getAppFoodById(id:String):ExtendedFood
     {
         return foodRepository.getAppFoodByID(id)
     }
@@ -71,30 +70,30 @@ class MainRepository2(var application: Application)
         var handler = DataHandler(application.assets,application.filesDir.toString())
         var splitter = DataStringSplitter()
         var importList:ArrayList<String> = handler.getAppFoodList()
-        var csvList:ArrayList<Food> = ArrayList()
-        for(i in importList)csvList.add(splitter.createFoodFromString(i))
+        var csvList:ArrayList<ExtendedFood> = ArrayList()
+        for(i in importList)csvList.add(splitter.getExtendedFoodFromString(i))
         foodRepository.insertCSVFoodList(csvList)
     }
 
     ////////////////////////////////////////////////////////////////
     // UserFood Stuff
-    suspend fun getUserFoodList():ArrayList<Food>
+    suspend fun getUserFoodList():ArrayList<ExtendedFood>
     {
         return foodRepository.getUserFoodList()
     }
-    suspend fun addNewUserFood(newFood:Food)
+    suspend fun addNewUserFood(newFood:ExtendedFood)
     {
         foodRepository.addNewUserFood(newFood)
     }
-    suspend fun updateUserFood(updatedFood:Food)
+    suspend fun updateUserFood(updatedFood:ExtendedFood)
     {
         foodRepository.updateUserFood(updatedFood)
     }
-    suspend fun deleteUserFood(food:Food)
+    suspend fun deleteUserFood(food:ExtendedFood)
     {
         foodRepository.deleteUserFood(food)
     }
-    suspend fun getUserFoodById(id:String):Food
+    suspend fun getUserFoodById(id:String):ExtendedFood
     {
         return foodRepository.getUserFoodByID(id)
     }
@@ -117,7 +116,7 @@ class MainRepository2(var application: Application)
     {
         foodRepository.deleteFavFood(removedFavFood)
     }
-    suspend fun getFavFoodByID(id:String):Food
+    suspend fun getFavFoodByID(id:String):ExtendedFood
     {
         return foodRepository.getFavFoodByID(id)
     }
@@ -126,6 +125,11 @@ class MainRepository2(var application: Application)
     suspend fun getDailyByDate(date:String):Daily
     {
         return dailyRepository2.getDailyByDate(date)
+    }
+
+    suspend fun getDailyList():ArrayList<Daily>
+    {
+        return dailyRepository2.getDailyList()
     }
 
     suspend fun getLiveDailyByDate(date:String):LiveData<Daily>

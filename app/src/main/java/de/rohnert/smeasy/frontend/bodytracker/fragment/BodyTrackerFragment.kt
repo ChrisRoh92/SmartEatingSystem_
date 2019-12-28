@@ -16,6 +16,7 @@ import de.rohnert.smeasy.R
 import de.rohnert.smeasy.frontend.bodytracker.adapter.BodyTrackerPagerAdapter
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import de.rohnert.smeasy.frontend.foodtracker.dialogs.DialogFragmentWeekReport
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 class BodyTrackerFragment: Fragment() {
 
@@ -48,8 +49,9 @@ class BodyTrackerFragment: Fragment() {
     private fun initToolbar()
     {
         // Access to Toolbar.
-        var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
+        var toolbar = activity!!.toolbar
         toolbar.menu.clear()
+        toolbar.title = "Körpertracking"
         /*toolbar.inflateMenu(R.menu.menu_bodytracker)
         toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener{
             override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -67,9 +69,9 @@ class BodyTrackerFragment: Fragment() {
     {
         // View initialisieren:
         tabLayout = rootView.findViewById(R.id.bodytracker_tablayout)
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Body Einträge"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Body Einstellungen"))
-        tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
+        tabLayout.addTab(tabLayout.newTab().setText("Body Einträge"))
+        tabLayout.addTab(tabLayout.newTab().setText("Body Einstellungen"))
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
 
         pager = rootView.findViewById(R.id.bodytracker_viewpager)

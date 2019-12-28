@@ -44,6 +44,10 @@
         android:name="de.rohnert.smeasy.frontend.premium.fragment.PremiumFragment"
         android:label="Premium"
         tools:layout="@layout/fragment_premium"/>
+    <fragment
+        android:id="@+id/nav_privacy"
+        android:name="de.rohnert.smeasy.frontend.privacy.fragment.PrivacyFragment"
+        android:label="PrivacyFragment" />
 
 
 </navigation>

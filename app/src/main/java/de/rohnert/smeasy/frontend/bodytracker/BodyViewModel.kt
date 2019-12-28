@@ -28,6 +28,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     private var prefs = SharedAppPreferences(application)
     private var smeasyPrefs = SharedPreferencesSmeasyValues(application)
     private var bodyProcessor = BodyProcessor()
+    private var context = application
 
     // BodyList:
     private lateinit var localBodyList:ArrayList<Body>
@@ -46,6 +47,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     {
         CoroutineScope(IO).launch {
             localBodyList = repository.getBodyList()
+            sortLocalBodyList()
             localCurrentBody = repository.getBodyByDate(date)
             if(repository.getBodyByDate(date) == null)
             {
@@ -91,6 +93,19 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 }
+
+    fun undoBodyDelete(body:Body)
+    {
+        CoroutineScope(IO).launch {
+            repository.addNewBody(body)
+            localBodyList.add(body)
+            sortLocalBodyList()
+            localCurrentBody = localBodyList.last()
+            liveBodyList.postValue(localBodyList)
+            setBodyProgress()
+            saveCurrentBodyToPref()
+        }
+    }
 
     fun deleteBody(body:Body)
     {
@@ -162,13 +177,13 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     fun setBodyProgress()
     {
 
-        if(localCurrentBody!=null) {
+        if(localCurrentBody!=null && !localBodyList.isNullOrEmpty()) {
 
             bodyAimList = ArrayList()
             progressList = ArrayList()
             startBodyValues = ArrayList()
 
-
+            // Dieses Liste enthält die Werte von den ersten eingetragenen Körperwerten
             startBodyValues.add(localBodyList[0].weight)
             startBodyValues.add(localBodyList[0].kfa)
             startBodyValues.add(bodyProcessor.calcBMI(prefs.userHeight, localBodyList[0].weight))
@@ -177,7 +192,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
             startBodyValues.add(localBodyList[0].hals)
             startBodyValues.add(localBodyList[0].huefte)
 
-
+            // Liste enthält die aktuellen Ziele vom User
             bodyAimList.add(prefs.weightAim)
             bodyAimList.add(prefs.kfaAim)
             bodyAimList.add(prefs.bmiAim)
@@ -186,6 +201,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
             bodyAimList.add(prefs.halsAim)
             bodyAimList.add(prefs.huefteAim)
 
+            // Liste enthält die aktuellen Körperwerte vom User (bzw. die vom letzten Eintrag)
             var currentBodyValues: ArrayList<Float> = ArrayList()
             currentBodyValues.add(localCurrentBody!!.weight)
             currentBodyValues.add(localCurrentBody!!.kfa)
@@ -200,16 +216,10 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
             currentBodyValues.add(localCurrentBody!!.hals)
             currentBodyValues.add(localCurrentBody!!.huefte)
 
-            Log.d("Smeasy","BodyViewModel - setBodyProgress startBodyValues: $startBodyValues")
-            Log.d("Smeasy","BodyViewModel - setBodyProgress bodyAimList: $bodyAimList")
-            Log.d("Smeasy","BodyViewModel - setBodyProgress localCurrentBody: $localCurrentBody")
-            Log.d("Smeasy","BodyViewModel - setBodyProgress currentBodyValues: $currentBodyValues")
-
-
+            // Hier werden die Progress eingestellt...
             for ((index, i) in bodyAimList.withIndex()) {
-                if (i != 0f && startBodyValues[index] != i && startBodyValues[index] > 0) {
-                    var value =
-                        (startBodyValues[index] - currentBodyValues[index]) / (startBodyValues[index] - i)*100f
+                if (i > 0f && startBodyValues[index] != i && startBodyValues[index] > 0) {
+                    var value = (startBodyValues[index] - currentBodyValues[index]) / (startBodyValues[index] - i)*100f
                     progressList.add(value)
                 } else if (startBodyValues[index] != i) {
                     progressList.add(0f)
@@ -258,8 +268,22 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         smeasyPrefs.setNewHuefteProgress(progressList[6])
     }
 
+    fun updateBodyProgress()
+    {
+        prefs = SharedAppPreferences(context)
+        setBodyProgress()
+    }
 
 
+
+
+    // LocalBodyListe sortieren:
+    private fun sortLocalBodyList()
+    {
+        var values:ArrayList<Body> = ArrayList()
+        values = ArrayList(localBodyList.sortedWith(compareBy { it.date }))
+        localBodyList = values
+    }
 
 
 
@@ -311,4 +335,6 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     {
         return bodyAimList
     }
+
+
 }

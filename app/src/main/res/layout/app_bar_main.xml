@@ -16,11 +16,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppTheme"
+            android:background="@android:color/background_light"
 
-            app:elevation="2dp"
             android:elevation="2dp"
-            android:background="@android:color/background_light"/>
+            android:theme="@style/AppTheme"
+            app:elevation="2dp"
+            app:menu="@menu/menu_foodtracker" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

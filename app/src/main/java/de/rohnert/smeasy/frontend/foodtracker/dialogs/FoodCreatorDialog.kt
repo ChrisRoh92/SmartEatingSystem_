@@ -117,9 +117,9 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
         // Set layout to use when the list of choices appear
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         // Set Adapter to Spinner
-        spinner!!.adapter = aa
+        spinner.adapter = aa
 
-        spinner!!.onItemSelectedListener = this
+        spinner.onItemSelectedListener = this
 
 
 
@@ -132,11 +132,12 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
     fun createNewFood()
     {
         if(!spinner.selectedItem.toString().equals("Neue Lebensmittel Gruppe erstellen...")
-            and !et_name.editText!!.text.toString().isEmpty()
-            and !et_kcal.editText!!.text.toString().isEmpty()
-            and !et_carbs.editText!!.text.toString().isEmpty()
-            and !et_protein.editText!!.text.toString().isEmpty()
-            and !et_fett.editText!!.text.toString().isEmpty())
+            and et_name.editText!!.text.toString().isNotEmpty()
+            and et_kcal.editText!!.text.toString().isNotEmpty()
+            and et_carbs.editText!!.text.toString().isNotEmpty()
+            and et_protein.editText!!.text.toString().isNotEmpty()
+            and et_fett.editText!!.text.toString().isNotEmpty()
+        )
         {
             var einheit = ""
             if(rbtn_group.checkedRadioButtonId == R.id.foodcreator_rbtn_100g)
@@ -153,7 +154,7 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
 
             foodViewModel.addNewFood(spinner.selectedItem.toString(),
                                         et_name.editText!!.text.toString(),
-                                        einheit,
+                                        einheit,"","",
                                         et_kcal.editText!!.text.toString().toFloat(),
                                         et_carbs.editText!!.text.toString().toFloat(),
                                         et_protein.editText!!.text.toString().toFloat(),
@@ -221,9 +222,9 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
         // Set layout to use when the list of choices appear
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         // Set Adapter to Spinner
-        spinner!!.adapter = aa
+        spinner.adapter = aa
 
-        spinner!!.onItemSelectedListener = this
+        spinner.onItemSelectedListener = this
         spinner.setSelection(groupList.lastIndex - 1)
     }
 

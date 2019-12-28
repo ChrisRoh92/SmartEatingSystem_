@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -278,7 +279,13 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
 
                     for(i in list)
                     {
-                        calcedFoodList.add(dailyProcess.getCalcedFood(i.mealID,foodViewModel.getAppFoodById(i.id)!!,i.menge))
+                        try {
+                            calcedFoodList.add(dailyProcess.getCalcedFood(i.mealID,foodViewModel.getAppFoodById(i.id)!!,i.menge))
+                        }catch (e:Exception)
+                        {
+                            e.printStackTrace()
+                        }
+
                     }
 
                 }
@@ -349,7 +356,14 @@ class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
 
                 for(i in list)
                 {
-                    internalExport.add(dailyProcess.getCalcedFood(i.mealID,foodViewModel.getFoodById(i.id)!!,i.menge))
+                    try {
+                        internalExport.add(dailyProcess.getCalcedFood(i.mealID,
+                            foodViewModel.getFoodById(i.id),i.menge))
+                    }catch (e:Exception)
+                    {
+                        e.printStackTrace()
+                    }
+
                 }
 
             }

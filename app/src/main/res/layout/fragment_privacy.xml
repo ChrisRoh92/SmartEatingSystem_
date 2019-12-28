@@ -1,0 +1,1097 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView261"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Die Datenschutzerklärung ist aktuell gültig und datiert vom 27.12.2019. Durch die Weiterentwicklung unserer App kann es notwendig werden, diese Datenschutzerklärung zu ändern. Wir behalten uns vor, die Datenschutzerklärung jederzeit mit Wirkung für die Zukunft zu ändern. "
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView260" />
+
+                <TextView
+                    android:id="@+id/textView258"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sie haben ferner das Recht auf Beschwerde bei einer Aufsichtsbehörde (Art. 77 DSGVO)."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView259" />
+
+                <TextView
+                    android:id="@+id/textView259"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5.8) Beschwerderecht"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView240"
+                    app:layout_constraintTop_toBottomOf="@+id/textView257" />
+
+                <TextView
+                    android:id="@+id/textView254"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5.6) Recht auf Datenübertragbarkeit "
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView240"
+                    app:layout_constraintTop_toBottomOf="@+id/textView253" />
+
+                <TextView
+                    android:id="@+id/textView256"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5.7) Widerspruchsrecht"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView240"
+                    app:layout_constraintTop_toBottomOf="@+id/textView255" />
+
+                <TextView
+                    android:id="@+id/textView257"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sie haben jederzeitiges Widerspruchsrecht gegen die Erstellung von Nutzerprofilen und gegen die Verarbeitung Ihrer betreffenden personenbezogenen Daten, sofern die Verarbeitung aufgrund von Art. 6 Abs. 1 lit. e oder f DSGVO erfolgt. Die Verarbeitung Ihrer personenbezogenen Daten erfolgt nicht mehr, sofern keine zwingenden schutzwürdigen Gründe Ihre Interessen, Rechte und Freiheiten überwiegen. Werden Ihre personenbezogenen Daten zum Zwecke der Direktwerbung genutzt, haben Sie selbstverständlich ein jederzeitiges Widerspruchsrecht gegen derartige Verarbeitungen (Art. 21 DSGVO)."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView256" />
+
+                <TextView
+                    android:id="@+id/textView255"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sie haben das Recht, Ihre personenbezogenen Daten, die sie uns bereitgestellt haben, in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten oder einem anderen Verantwortlichen zu übermitteln, sofern die Verarbeitung auf einer Einwilligung beruht und die Verarbeitung mittels automatisierter Verfahren erfolgt (Art. 20 DSGVO)."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView254" />
+
+                <TextView
+                    android:id="@+id/textView253"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Eine Einschränkung erfolgt ebenfalls, wenn die Verarbeitung zwar unrechtmäßig ist, Sie aber die Löschung ihrer personenbezogenen Daten ablehnen und statt einer Löschung eine Einschränkung der Nutzung verlangen, wir ihre personenbezogenen Daten für die Zwecke nicht mehr benötigen, Sie jedoch zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen benötigen oder Sie Widerspruch gegen die Verarbeitung eingelegt hatten, aber noch nicht feststeht, ob berechtigte Gründe zur Datenspeicherung bei SmartEatingSystem vorliegen, die Ihr Interesse überwiegen (Art. 18 DSGVO)."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView252" />
+
+                <TextView
+                    android:id="@+id/textView251"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5.5) Recht auf Einschränkung der Verarbeitung"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView240"
+                    app:layout_constraintTop_toBottomOf="@+id/textView247" />
+
+                <TextView
+                    android:id="@+id/textView252"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sie haben das Recht die Verarbeitung ihrer personenbezogenen Daten einschränken zu lassen, sofern Sie die Richtigkeit Ihrer personenbezogenen Daten bestreiten und zwar für eine Dauer, die es uns ermöglicht, die Richtigkeit zu überprüfen."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView251" />
+
+                <TextView
+                    android:id="@+id/textView250"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5.3) Recht auf Widerruf der Einwilligung"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView240"
+                    app:layout_constraintTop_toBottomOf="@+id/textView244" />
+
+                <TextView
+                    android:id="@+id/textView247"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sie haben das Recht, Ihre personenbezogenen Daten unverzüglich löschen zu lassen, wenn sie für die Zwecke, für die sie erhoben oder auf sonstige Weise verarbeitet wurden, nicht mehr notwendig sind oder Sie ihre Einwilligung zur rechtmäßigen Verarbeitung widerrufen und keine anderweitigen Rechtsgrundlagen zur Speicherung vorliegen. Wenn Sie der Verarbeitung widersprechen und keine vorrangigen Interessen für die Verarbeitung vorliegen, werden Ihre Daten ebenfalls gelöscht. Schließlich werden die Daten gelöscht, wenn die Verarbeitung aus sonstigen gesetzlichen Gründen unzulässig ist (Art. 17 DSGVO)."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView248" />
+
+                <TextView
+                    android:id="@+id/textView248"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5.4) Recht auf Löschung"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView240"
+                    app:layout_constraintTop_toBottomOf="@+id/textView249" />
+
+                <TextView
+                    android:id="@+id/textView249"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sie haben das Recht, Ihre Einwilligung zur Datenverarbeitung jederzeit und mit Wirkung für die Zukunft, ohne dass ein Widerrufsgrund vorliegen muss, zu widerrufen (Art. 7 Abs. 3 DSGVO)."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView250" />
+
+                <TextView
+                    android:id="@+id/textView244"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Außerdem haben Sie jederzeit das Recht, unrichtige personenbezogenen Daten unverzüglich berichtigen bzw. unvollständige personenbezogene Daten vervollständigen zu lassen (Art. 16 DSGVO). "
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView243" />
+
+                <TextView
+                    android:id="@+id/textView243"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5.2) Recht auf Berichtigung"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView240"
+                    app:layout_constraintTop_toBottomOf="@+id/textView242" />
+
+                <TextView
+                    android:id="@+id/textView240"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Ihnen stehen folgende Rechte zu:"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView239" />
+
+                <TextView
+                    android:id="@+id/textView238"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="5) Ihre Rechte"
+                    android:textColor="@color/textColor1"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider89" />
+
+                <View
+                    android:id="@+id/divider89"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView237" />
+
+                <TextView
+                    android:id="@+id/textView239"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Zu Ihren Rechten und weiteren Fragen zum Thema personenbezogene Daten können Sie sich jederzeit unter den oben unter Ziffer 1 genannten Kontaktdaten an uns wenden."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView238" />
+
+                <TextView
+                    android:id="@+id/textView237"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="SmartEatingSystem speichert personenbezogenen Daten des Nutzers über den Zeitraum der Nutzung der App. Wird der Nutzeraccount gelöscht, werden der Name, die Körpergröße, das Geschlecht und das Geburtsdatum gelöscht."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView236" />
+
+                <TextView
+                    android:id="@+id/textView233"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Innerhalb unseres Onlineangebotes können Funktionen und Inhalte des Dienstes Instagram eingebunden sein. Anbieter ist die Instagram Inc., 1601 Willow Road, Menlo Park, CA, 94025, USA. Hierzu können z.B. Inhalte wie Bilder, Videos oder Texte und Schaltflächen gehören, mit denen Nutzer ihr Gefallen betreffend die Inhalte kundtun, den Verfassern der Inhalte oder unsere Beiträge abonnieren können."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView232" />
+
+                <TextView
+                    android:id="@+id/textView235"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Datenschutzerklärung von Instagram: http://instagram.com/about/legal/privacy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView234" />
+
+                <TextView
+                    android:id="@+id/textView234"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sofern die Nutzer Mitglieder der Plattform Instagram sind, kann Instagram den Aufruf der o.g. Inhalte und Funktionen den dortigen Profilen der Nutzer zuordnen."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView233" />
+
+                <TextView
+                    android:id="@+id/textView232"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="3.3) Instagram"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView223"
+                    app:layout_constraintTop_toBottomOf="@+id/textView231" />
+
+                <TextView
+                    android:id="@+id/textView231"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Opt-Out: https://twitter.com/personalization"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView230" />
+
+                <TextView
+                    android:id="@+id/textView230"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Twitter ist unter dem Privacy-Shield-Abkommen zertifiziert und bietet hierdurch eine Garantie, das europäische Datenschutzrecht einzuhalten: https://www.privacyshield.gov/participant?id=a2zt0000000TORzAAO "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView229" />
+
+                <TextView
+                    android:id="@+id/textView229"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Datenschutzerklärung von Twitter: https://twitter.com/de/privacy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView227" />
+
+                <TextView
+                    android:id="@+id/textView227"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Hierzu können z.B. Inhalte wie Bilder, Videos oder Texte und Schaltflächen gehören, mit denen Nutzer Ihr Gefallen betreffend die Inhalte kundtun, den Verfassern der Inhalte oder unsere Beiträge abonnieren können. Sofern die Nutzer Mitglieder der Plattform Twitter sind, kann Twitter den Aufruf der o.g. Inhalte und Funktionen den dortigen Profilen der Nutzer zuordnen."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView226" />
+
+                <TextView
+                    android:id="@+id/textView226"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Innerhalb unseres Onlineangebotes können Funktionen und Inhalte des Dienstes Twitter eingebunden, angeboten durch die Twitter Inc., 1355 Market Street, Suite 900, San Francisco, CA 94103, USA sein."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView224" />
+
+                <TextView
+                    android:id="@+id/textView223"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Die Einstellungen erfolgen plattformunabhängig, d.h. sie werden für alle Geräte, wie Desktopcomputer oder mobile Geräte übernommen. Facebook ist unter dem Privacy-Shield-Abkommen zertifiziert und bietet hierdurch eine Garantie, das europäische Datenschutzrecht einzuhalten: https://www.privacyshield.gov/participant?id=a2zt0000000GnywAAC "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView222" />
+
+                <TextView
+                    android:id="@+id/textView222"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Wenn ein Nutzer Facebook-Mitglied ist und nicht möchte, dass Facebook über dieses Onlineangebot Daten über ihn sammelt und mit seinen bei Facebook gespeicherten Mitgliedsdaten verknüpft, muss er sich vor der Nutzung unseres Onlineangebotes bei Facebook ausloggen und seine Cookies löschen. Weitere Einstellungen und Widersprüche zur Nutzung von Daten für Werbezwecke, sind innerhalb der Facebook-Profileinstellungen möglich:https://www.facebook.com/settings?tab=ads oder über die US-amerikanische Seite http://www.aboutads.info/choices oder die EU-Seite http://www.youronlinechoices.com."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView220" />
+
+                <TextView
+                    android:id="@+id/textView220"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Zweck und Umfang der Datenerhebung und die weitere Verarbeitung und Nutzung der Daten durch Facebook sowie die diesbezüglichen Rechte und Einstellungsmöglichkeiten zum Schutz der Privatsphäre der Nutzer, können den Datenschutzhinweisen von Facebook entnehmen: https://www.facebook.com/about/privacy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView219" />
+
+                <TextView
+                    android:id="@+id/textView219"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Durch die Einbindung der Plugins erhält Facebook die Information, dass ein Nutzer die entsprechende Seite des Onlineangebotes aufgerufen hat. Ist der Nutzer bei Facebook eingeloggt, kann Facebook den Besuch seinem Facebook-Konto zuordnen. Wenn Nutzer mit den Plugins interagieren, zum Beispiel den Like Button betätigen oder einen Kommentar abgeben, wird die entsprechende Information von Ihrem Gerät direkt an Facebook übermittelt und dort gespeichert. Falls ein Nutzer kein Mitglied von Facebook ist, besteht trotzdem die Möglichkeit, dass Facebook seine IP-Adresse in Erfahrung bringt und speichert. Laut Facebook wird in Deutschland nur eine anonymisierte IP-Adresse gespeichert."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView218" />
+
+                <TextView
+                    android:id="@+id/textView218"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Wenn ein Nutzer eine Funktion dieses Onlineangebotes aufruft, die ein solches Plugin enthält, wird eine direkte Verbindung mit den Servern von Facebook aufgebaut. Der Inhalt des Plugins wird von Facebook direkt an das Gerät des Nutzers übermittelt und von diesem in das Onlineangebot eingebunden. Dabei können aus den verarbeiteten Daten Nutzungsprofile der Nutzer erstellt werden. Wir haben daher keinen Einfluss auf den Umfang der Daten, die Facebook mit Hilfe dieses Plugins erhebt und informiert die Nutzer daher entsprechend unserem Kenntnisstand."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView216" />
+
+                <TextView
+                    android:id="@+id/textView191"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="2.2.2) Vom Nutzer bereitgestellte Daten"
+                    app:layout_constraintStart_toStartOf="@+id/textView188"
+                    app:layout_constraintTop_toBottomOf="@+id/textView190" />
+
+                <TextView
+                    android:id="@+id/textView192"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="SmartEatingSystem erfasst darüber hinaus vom Nutzer bereitgestellte Daten, die bei Nutzung der App eingegeben werden können. Dies umfasst ein Benutzerprofil bestehend ausfolgenden Körperdaten:"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView189"
+                    app:layout_constraintTop_toBottomOf="@+id/textView191" />
+
+                <TextView
+                    android:id="@+id/textView179"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Christoph Rohnert"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView100"
+                    app:layout_constraintTop_toBottomOf="@+id/textView178" />
+
+                <TextView
+                    android:id="@+id/textView181"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="70435 Stuttgart"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView110"
+                    app:layout_constraintTop_toBottomOf="@+id/textView180" />
+
+                <TextView
+                    android:id="@+id/textView182"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deutschland"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView111"
+                    app:layout_constraintTop_toBottomOf="@+id/textView181" />
+
+                <TextView
+                    android:id="@+id/textView180"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Langobardenstraße 31"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView108"
+                    app:layout_constraintTop_toBottomOf="@+id/textView179" />
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Datenschutzerklärung"
+                    android:textColor="@color/textColor1"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/divider85"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+                <TextView
+                    android:id="@+id/textView99"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="1) Verantwortliche Stelle"
+                    android:textColor="@color/textColor1"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider85" />
+
+                <TextView
+                    android:id="@+id/textView100"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Verantwortliche Stelle für die Erhebung, Verarbeitung und Nutzung Ihrer personenbezogenen Daten im Sinne der Datenschutzgrundverordnung (DSGVO) ist "
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView99"
+                    app:layout_constraintTop_toBottomOf="@+id/textView99" />
+
+                <TextView
+                    android:id="@+id/textView108"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Christoph Rohnert"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView100"
+                    app:layout_constraintTop_toBottomOf="@+id/textView100" />
+
+                <TextView
+                    android:id="@+id/textView110"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Langobardenstraße 31"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView108"
+                    app:layout_constraintTop_toBottomOf="@+id/textView108" />
+
+                <TextView
+                    android:id="@+id/textView111"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="70435 Stuttgart"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView110"
+                    app:layout_constraintTop_toBottomOf="@+id/textView110" />
+
+                <TextView
+                    android:id="@+id/textView177"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deutschland"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView111"
+                    app:layout_constraintTop_toBottomOf="@+id/textView111" />
+
+                <TextView
+                    android:id="@+id/textView178"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Datenschutzbeauftragter:"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView177"
+                    app:layout_constraintTop_toBottomOf="@+id/textView177" />
+
+                <TextView
+                    android:id="@+id/textView183"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Bei Rückfragen zu Ihren Daten oder zu dieser Datenschutzrichtlinie oder der Geltendmachung Ihrer Betroffenenrechte kontaktieren Sie bitte die verantwortliche Stelle oder unseren Datenschutzbeauftragten."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView182" />
+
+                <View
+                    android:id="@+id/divider86"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView183" />
+
+                <TextView
+                    android:id="@+id/textView184"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="2) Erhebung, Verarbeitung und Nutzung personenbezogener Daten"
+                    android:textColor="@color/textColor1"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider86" />
+
+                <TextView
+                    android:id="@+id/textView185"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="2.1) Personenbezogene Daten"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView184"
+                    app:layout_constraintTop_toBottomOf="@+id/textView184" />
+
+                <TextView
+                    android:id="@+id/textView186"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="„Personenbezogene Daten“ im Sinne der DSGVO sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen; als identifizierbar wird eine natürliche Person angesehen, sie direkt oder indirekt, insbesondere mittels Zuordnung zu einer Kennung wie einem Namen, zu einer Kennnummer, zu Standortdaten, zu einer Online-Kennung oder zu einem oder mehreren besonderen Merkmalen identifiziert werden kann, die Ausdruck der physischen, physiologischen, genetischen, psychischen, wirtschaftlichen, kulturellen oder sozialen Identität dieser natürlichen Person sind."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView185" />
+
+                <TextView
+                    android:id="@+id/textView187"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Ihre personenbezogenen Daten (Ernährungsdaten in der App) werden vom Anbieter nur gemäß den Bestimmungen des geltenden Datenschutzrechtes verarbeitet. Die nachfolgenden Vorschriften informieren Sie über Art, Umfang und Zweck der Erhebung, Verarbeitung und Nutzung personenbezogener Daten. Diese Datenschutzerklärung bezieht sich nur auf das genannte Angebot. Falls Sie über Links auf andere Angebote weitergeleitet werden, informieren Sie sich bitte dort über den jeweiligen Umgang mit Ihren Daten."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView186"
+                    app:layout_constraintTop_toBottomOf="@+id/textView186" />
+
+                <TextView
+                    android:id="@+id/textView188"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="2.2) Personenbezogene Daten bei Nutzung von SmartEatingSystem"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView187" />
+
+                <TextView
+                    android:id="@+id/textView189"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="2.2.1) Pflichtangaben"
+                    app:layout_constraintStart_toStartOf="@+id/textView188"
+                    app:layout_constraintTop_toBottomOf="@+id/textView188" />
+
+                <TextView
+                    android:id="@+id/textView190"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text='Um die App nutzen zu können, muss der Nutzer als Pflichtangaben eine "Name", seine „Körpergröße“, sowie sein „Geschlecht“ und sein Geburtstag. Diese dienen der Sicherstellung der Grundfunktionen der App. Die Speicherung der Daten erfolgt auf Grundlage Ihrer Einwilligung nach Art. 6 Abs. 1 lit.a) DSGVO.'
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView189"
+                    app:layout_constraintTop_toBottomOf="@+id/textView189" />
+
+                <TextView
+                    android:id="@+id/textView193"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Geschlecht"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView192"
+                    app:layout_constraintTop_toBottomOf="@+id/textView192" />
+
+                <TextView
+                    android:id="@+id/textView194"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Geburtsdatum"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView193"
+                    app:layout_constraintTop_toBottomOf="@+id/textView193" />
+
+                <TextView
+                    android:id="@+id/textView195"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Körpergröße"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView194"
+                    app:layout_constraintTop_toBottomOf="@+id/textView194" />
+
+                <TextView
+                    android:id="@+id/textView196"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Art der Aktivität (sitzend, stehend usw.)"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView195"
+                    app:layout_constraintTop_toBottomOf="@+id/textView195" />
+
+                <TextView
+                    android:id="@+id/textView197"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Gewichtsziel (Abnehmen, Gewicht halten, Aufbauen)"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView196"
+                    app:layout_constraintTop_toBottomOf="@+id/textView196" />
+
+                <TextView
+                    android:id="@+id/textView198"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Startgewicht"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView197"
+                    app:layout_constraintTop_toBottomOf="@+id/textView197" />
+
+                <TextView
+                    android:id="@+id/textView199"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Start Körperdaten (Bauchumfang, Brustumfang usw.)"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView198"
+                    app:layout_constraintTop_toBottomOf="@+id/textView198" />
+
+                <TextView
+                    android:id="@+id/textView200"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Zielgewicht"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView199"
+                    app:layout_constraintTop_toBottomOf="@+id/textView199" />
+
+                <TextView
+                    android:id="@+id/textView203"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Ziel Körperdaten (Bauchumfang, Brustumfang usw.)"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView200"
+                    app:layout_constraintTop_toBottomOf="@+id/textView200" />
+
+                <TextView
+                    android:id="@+id/textView204"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Die Erfassung der Körperdaten erfolgt auf Grundlage Ihrer Einwilligung nach Art. 6 Abs.1 lit. a) DSGVO und werden ausschließlich zur Berechnung des persönlichen Kalorienziels verwendet. Die Bereitstellung der Körperdaten ist erforderlich, um die Funktionen der App nutzen zu können. Insbesondere die Angabe von Startgewicht, Zielgewicht, Geschlecht, Geburtsdatum, Körpergröße und Art der beruflichen Aktivität ist erforderlich, damit SmartEatingSystem das persönliche Kalorienziel des Nutzers berechnen kann. Diese Daten sind für Dritte nicht einsehbar."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView192"
+                    app:layout_constraintTop_toBottomOf="@+id/textView203" />
+
+                <TextView
+                    android:id="@+id/textView205"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="2.2.3) Von SmartEatingSystem automatisch erfasste Daten "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView204"
+                    app:layout_constraintTop_toBottomOf="@+id/textView204" />
+
+                <TextView
+                    android:id="@+id/textView206"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Bei der Registrierung werden einmalig erfasst:"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView205"
+                    app:layout_constraintTop_toBottomOf="@+id/textView205" />
+
+                <TextView
+                    android:id="@+id/textView207"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Name des Nutzers"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView206"
+                    app:layout_constraintTop_toBottomOf="@+id/textView206" />
+
+                <TextView
+                    android:id="@+id/textView208"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Körpergröße des Nutzers"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView207"
+                    app:layout_constraintTop_toBottomOf="@+id/textView207" />
+
+                <TextView
+                    android:id="@+id/textView209"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Geschlecht des Nutzers"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView208"
+                    app:layout_constraintTop_toBottomOf="@+id/textView208" />
+
+                <TextView
+                    android:id="@+id/textView210"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="- Geburtstag des Nutzers"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView209"
+                    app:layout_constraintTop_toBottomOf="@+id/textView209" />
+
+                <TextView
+                    android:id="@+id/textView211"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text='- das Land und die Sprache (anhand Locale: Die "Locale" ist ein Einstellungssatz, der die Gebietsschemaparameter (Standortparameter) für Computerprogramme enthält. Dazu gehören in erster Linie die Sprache der Benutzeroberfläche, das Land und Einstellungen zu Zeichensatz, Tastaturlayout, Zahlen- Währungs-, Datums- und Zeitformaten.) '
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView210"
+                    app:layout_constraintTop_toBottomOf="@+id/textView210" />
+
+                <TextView
+                    android:id="@+id/textView212"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Die Erfassung dieser Daten dient der Verbesserung und Personalisierung unserer Dienste und erfolgt auf Grundlage unserer berechtigten Interessen gemäß Art. 6 Abs. 1 lit. f) DSGVO."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView206"
+                    app:layout_constraintTop_toBottomOf="@+id/textView211" />
+
+                <View
+                    android:id="@+id/divider87"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView212" />
+
+                <TextView
+                    android:id="@+id/textView213"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="3) Social Media Plugins"
+                    android:textColor="@color/textColor1"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider87" />
+
+                <TextView
+                    android:id="@+id/textView214"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Auf Grundlage unserer berechtigten Interessen im Sinne des Art. 6 Abs. 1 lit. f) DSGVO setzen wir zur Optimierung unseres Online-Auftrittes und um für Sie gezieltere Angebote zusammenstellen zu können, verschiedene Social Media Plugins zur Webanalyse, Remarketing und Retargeting ein."
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView213"
+                    app:layout_constraintTop_toBottomOf="@+id/textView213" />
+
+                <TextView
+                    android:id="@+id/textView215"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="3.1) Facebook"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView214" />
+
+                <TextView
+                    android:id="@+id/textView216"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Wir nutzen das Social Plugin des sozialen Netzwerkes facebook.com. Dieses wird von der Facebook Ireland Ltd., 4 Grand Canal Square, Grand Canal Harbour, Dublin 2, Irland betrieben („Facebook“). Die Plugins können Interaktionselemente oder Inhalte (z.B. Videos, Grafiken oder Textbeiträge) darstellen und sind an einem der Facebook Logos erkennbar (weißes „f“ auf blauer Kachel, den Begriffen „Like“, „Gefällt mir“ oder einem „Daumen hoch“-Zeichen) oder sind mit dem Zusatz „Facebook Social Plugin“ gekennzeichnet. Die Liste und das Aussehen der Facebook Social Plugins kann hier eingesehen werden: https://developers.facebook.com/docs/plugins"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView215" />
+
+                <TextView
+                    android:id="@+id/textView224"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="3.2) Twitter"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView223"
+                    app:layout_constraintTop_toBottomOf="@+id/textView223" />
+
+                <View
+                    android:id="@+id/divider88"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView235" />
+
+                <TextView
+                    android:id="@+id/textView236"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="4) Löschung Ihrer Daten"
+                    android:textColor="@color/textColor1"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider88" />
+
+                <TextView
+                    android:id="@+id/textView241"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5.1) Auskunftsrecht"
+                    android:textColor="@color/textColor1"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView240"
+                    app:layout_constraintTop_toBottomOf="@+id/textView240" />
+
+                <TextView
+                    android:id="@+id/textView242"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Sie haben jederzeit das Recht unentgeltliche Auskunft über Ihre bei SmartEatingSystem gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger, den Zweck der Datenverarbeitung, die geplante Dauer der Datenspeicherung inkl. einer Kopie der personenbezogenen Daten, die Gegenstand der Verarbeitung sind, zu verlangen (Art. 15 DSGVO). "
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView241"
+                    app:layout_constraintTop_toBottomOf="@+id/textView241" />
+
+                <View
+                    android:id="@+id/divider90"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView258" />
+
+                <TextView
+                    android:id="@+id/textView260"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="6) Gültigkeit und Aktualität"
+                    android:textColor="@color/textColor1"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider90" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

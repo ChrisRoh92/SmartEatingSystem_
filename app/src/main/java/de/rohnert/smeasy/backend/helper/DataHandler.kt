@@ -48,7 +48,7 @@ class DataHandler(var manager: AssetManager, var mDir:String)
 
         // Hier noch den Stuff für das Laden aus dem Asset in Android...
         // InputStream input;
-        var input:InputStreamReader = InputStreamReader(manager.open("appfoodlist.txt"))
+        var input:InputStreamReader = InputStreamReader(manager.open("appfoodlist_clean.txt"))
         var bufferedReader:BufferedReader = BufferedReader(input)
         var content:ArrayList<String> = ArrayList()
         var line:String? = ""

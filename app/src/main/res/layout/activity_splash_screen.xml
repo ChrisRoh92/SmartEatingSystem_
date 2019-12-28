@@ -8,39 +8,58 @@
     android:background="@android:color/background_light"
     tools:context=".frontend.start.SplashScreen" >
 
-    <ImageView
-        android:id="@+id/intro_logo"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+    <TextView
+        android:id="@+id/textView55"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Intelligenter Nährstoff- und Körperdaten Tracker"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/icon_248_271" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/intro_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:text="SmartEatingSystem"
         android:textAlignment="center"
         android:textColor="@color/textColor1"
-        android:textSize="28sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/textView55"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView55"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="Kalorien- und Körpertracker"
-        android:textSize="12sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/intro_logo"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_248_271" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

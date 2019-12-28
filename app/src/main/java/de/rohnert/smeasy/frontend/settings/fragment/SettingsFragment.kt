@@ -66,7 +66,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
     private lateinit var tvPremiumStatus:TextView
     private lateinit var tvPremiumTime:TextView
     private lateinit var tvPremiumDate:TextView
-    private lateinit var swtich:Switch
+
 
 
 
@@ -91,6 +91,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             // Access to Toolbar.
             var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
             toolbar.menu.clear()
+            toolbar.title = "Einstellungen"
 
     }
 
@@ -193,24 +194,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
         tvPremiumTime = rootView.findViewById(R.id.settings_tv_premium_timerange)
         tvPremiumDate = rootView.findViewById(R.id.settings_tv_premium_enddate)
 
-        // Switch
-        swtich = rootView.findViewById(R.id.settings_switch)
-        swtich.isChecked = prefs.premiumStatus
-        swtich.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                if(isChecked)
-                {
-                    prefs.activatePremiumPackage()
 
-                }
-                else
-                {
-                    prefs.deactivedPremiumPackage()
-
-                }
-            }
-
-        })
 
         if(status)
         {
@@ -218,7 +202,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             var restTage = 0
             if(endDate != "")
             {
-                restTage = helper.getDaysBetweenDates(helper.getDateFromString(endDate),helper.getCurrentDate())
+                restTage = helper.getDaysBetweenDates(helper.getDateFromString(endDate),helper.getCurrentDate()) +1
             }
             else
             {

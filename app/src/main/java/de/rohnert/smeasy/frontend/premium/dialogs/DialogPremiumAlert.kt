@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import de.rohnert.smeasy.R
 
@@ -17,8 +18,8 @@ class DialogPremiumAlert(var context: Context)
     lateinit var inflater: LayoutInflater
 
     // Views
-    lateinit var btnAbort:Button
-    lateinit var btnShare:Button
+    lateinit var btnShareOne:ImageButton
+    lateinit var btnShareTwo:Button
 
     init {
         initDialog()
@@ -48,15 +49,16 @@ class DialogPremiumAlert(var context: Context)
 
     private fun initButtons()
     {
-        btnAbort = view.findViewById(R.id.dialog_premium_btn_abort)
-        btnShare = view.findViewById(R.id.dialog_premium_btn_share)
+        btnShareOne = view.findViewById(R.id.dialog_premium_btn_fb_image)
+        btnShareTwo = view.findViewById(R.id.dialog_premium_btn_fb)
 
-        btnAbort.setOnClickListener {
+        btnShareOne.setOnClickListener {
+            Toast.makeText(context,"Vielen Dank, dass du für SmartEatingSystem geworben hast",Toast.LENGTH_SHORT).show()
             alertDialog.dismiss()
         }
 
-        btnShare.setOnClickListener {
-            Toast.makeText(context,"Vielen Dank, dass du für Smeasy geworben hast",Toast.LENGTH_SHORT).show()
+        btnShareOne.setOnClickListener {
+            Toast.makeText(context,"Vielen Dank, dass du für SmartEatingSystem geworben hast",Toast.LENGTH_SHORT).show()
             alertDialog.dismiss()
         }
     }

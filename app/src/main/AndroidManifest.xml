@@ -7,6 +7,7 @@
         android:required="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 
     <dist:module dist:instant="true" />
@@ -19,6 +20,10 @@
         android:supportsRtl="true"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:resource="@string/facebook_app_id"/>
+
         <activity
             android:name=".frontend.start.IntroScreen"
             android:theme="@style/AppTheme.NoActionBar">

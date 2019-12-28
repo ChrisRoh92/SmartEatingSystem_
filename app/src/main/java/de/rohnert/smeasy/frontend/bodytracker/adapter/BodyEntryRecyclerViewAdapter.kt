@@ -6,16 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import backend.helper.Helper
 import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogCapturePhoto
+import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogShowPicture
+import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
 
 
-class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentManager: FragmentManager):
+class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentManager: FragmentManager, var prefs:SharedAppPreferences):
     RecyclerView.Adapter<BodyEntryRecyclerViewAdapter.ViewHolder>() {
 
     private var helper = Helper()
@@ -36,10 +41,37 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentMana
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvDate.text = "vom ${content[position].date}"
         holder.tvWeight.text = "${helper.getFloatAsFormattedString(content[position].weight,"#.#")} kg"
+
+
+        if(!prefs.premiumStatus)
+        {
+            holder.imageBtn.setImageDrawable(ContextCompat.getDrawable(holder.imageBtn.context,R.drawable.ic_lock_black))
+            holder.imageBtn.setColorFilter(ContextCompat.getColor(holder.imageBtn.context,R.color.premium_dark))
+
+        }
+
         holder.imageBtn.setOnClickListener {
-            Log.d("Smeasy","BodyEntryRecyclerViewAdapter imageButton Click Listener")
-            var captureDialog = DialogCapturePhoto(content[position].fotoDir)
-            captureDialog.show(fragmentManager,"capture")
+            if(prefs.premiumStatus)
+            {
+                /*Log.d("Smeasy","BodyEntryRecyclerViewAdapter imageButton Click Listener")
+                var captureDialog = DialogCapturePhoto(content[position].fotoDir)
+                captureDialog.show(fragmentManager,"capture")*/
+                if(content[position].fotoDir != "")
+                {
+                    var dialog = DialogShowPicture(holder.imageBtn.context,content[position].fotoDir)
+                }
+                else
+                {
+                    Toast.makeText(holder.imageBtn.context,"Kein Foto vorhanden...", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+            else
+            {
+                var dialog = DialogFragmentPremium()
+                dialog.show(fragmentManager,"Premium")
+            }
+
         }
 
         holder.itemView.setOnLongClickListener {
@@ -57,6 +89,8 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>,var fragmentMana
             }
 
         }
+
+
     }
 
 

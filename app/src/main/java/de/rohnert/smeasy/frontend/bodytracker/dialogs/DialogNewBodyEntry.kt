@@ -7,13 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.roomdatabaseexample.backend.databases.body_database.Body
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smeasy.R
+import de.rohnert.smeasy.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smeasy.frontend.bodytracker.BodyViewModel
+import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
 import de.rohnert.smeasy.frontend.premium.dialogs.DialogPremiumAlert
 
 class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManager, var bodyViewModel: BodyViewModel) :
@@ -24,6 +27,7 @@ class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManag
     private lateinit var alertDialog: AlertDialog
     private lateinit var view: View
     private lateinit var inflater: LayoutInflater
+    private var prefs = SharedAppPreferences(context)
 
     // Content:
     private var imagePath = ""
@@ -87,9 +91,21 @@ class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManag
         btnAbort = view.findViewById(R.id.dialog_bodyentry_btn_abort)
 
         // Listener hinzufügen....
-        btnPhoto.setOnClickListener(this)
+
         btnSave.setOnClickListener(this)
         btnAbort.setOnClickListener(this)
+
+        if(!prefs.premiumStatus)
+        {
+
+
+            btnPhoto.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_lock_black))
+            btnPhoto.setColorFilter(ContextCompat.getColor(context,R.color.premium_dark))
+        }
+
+        btnPhoto.setOnClickListener(this)
+
+
 
     }
 
@@ -131,16 +147,24 @@ class DialogNewBodyEntry(var context: Context,var fragmentManager: FragmentManag
     override fun onClick(view: View?) {
         if(view == btnPhoto)
         {
-//            var dialog = DialogPremiumAlert(view.context)
-            var captureDialog = DialogCapturePhoto(imagePath)
-            captureDialog.show(fragmentManager,"capture")
-            captureDialog.setOnDialogCapturePhotoListener(object: DialogCapturePhoto.OnDialogCapturePhotoListener{
-                override fun setOnDialogCapturePhotoListener(dir: String) {
-                    imagePath = dir
-                    Log.d("Smeasy","DialogNewBodyEntry - captureDialog.listener : dir = $dir")
-                }
+            if(prefs.premiumStatus)
+            {
+                var captureDialog = DialogCapturePhoto(imagePath)
+                captureDialog.show(fragmentManager,"capture")
+                captureDialog.setOnDialogCapturePhotoListener(object: DialogCapturePhoto.OnDialogCapturePhotoListener{
+                    override fun setOnDialogCapturePhotoListener(dir: String) {
+                        imagePath = dir
+                        Log.d("Smeasy","DialogNewBodyEntry - captureDialog.listener : dir = $dir")
+                    }
 
-            })
+                })
+            }
+            else
+            {
+             var dialog = DialogFragmentPremium()
+                dialog.show(fragmentManager,"Premium")
+            }
+//
         }
         else if(view == btnSave)
         {

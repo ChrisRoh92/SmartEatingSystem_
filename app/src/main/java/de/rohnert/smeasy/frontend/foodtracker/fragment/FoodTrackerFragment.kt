@@ -31,7 +31,11 @@ import de.rohnert.smeasy.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smeasy.frontend.foodtracker.adapter.MealCardItemAdapter
 import de.rohnert.smeasy.frontend.foodtracker.animations.AnimationStatusView
 import de.rohnert.smeasy.frontend.foodtracker.dialogs.*
+import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
+import de.rohnert.smeasy.frontend.premium.dialogs.DialogPremiumAlert
+import de.rohnert.smeasy.helper.dialogs.DialogLoading
 import de.rohnert.smeasy.helper.others.WrapContentLinearLayoutManager
+import kotlinx.android.synthetic.main.app_bar_main.*
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
@@ -114,15 +118,22 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private lateinit var pbList:ArrayList<ProgressBar>
     private lateinit var tvList:ArrayList<TextView>
 
+    // Loading Dialog
+    private lateinit var dialogLoader:DialogLoading
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         started = false
-        Log.d("Smeasy","FoodTrackerFragment - onCreate")
+        Log.d("Smeasy","FoodTrackerFragment - onCreate - time: ${System.currentTimeMillis()}")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         foodViewModel = ViewModelProviders.of(this).get(FoodViewModel2::class.java)
         rootView = inflater.inflate(R.layout.fragment_foodtracker, container, false)
+
+        dialogLoader = DialogLoading(rootView.context)
+
+
 
 
 
@@ -137,7 +148,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             Handler().postDelayed({
                 var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Willkommen zurück ${sharePrefs.userName}",Snackbar.LENGTH_LONG)
                 var snackView = snackbar.view
-                var snackTv:TextView = snackView!!.findViewById(com.google.android.material.R.id.snackbar_text)
+                var snackTv:TextView = snackView.findViewById(com.google.android.material.R.id.snackbar_text)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                     snackTv.textAlignment = View.TEXT_ALIGNMENT_CENTER
                 } else {
@@ -150,11 +161,6 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         }
 
 
-        /*initCalendar()
-        initMealCards()
-        initStatusViewObjects()
-        initViewModelObserver()*/
-
 
         Handler().postDelayed({
             initCalendar()
@@ -164,7 +170,8 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             initToolbar()
 
 
-        },150)
+
+        },0)
 
 
         return rootView
@@ -420,11 +427,10 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private fun initToolbar()
     {
         // Access to Toolbar.
-        var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
-        if(started)
-        {
-            toolbar.menu.clear()
-        }
+        var toolbar = activity!!.toolbar
+        toolbar.title = "Tagesübersicht"
+        Log.d("Smeasy","FoodTrackerFragment - initToolbar - toolbarstatus = ${toolbar.menu}")
+        toolbar.menu.clear()
 
         toolbar.inflateMenu(R.menu.menu_foodtracker)
         toolbar.setOnMenuItemClickListener(object: Toolbar.OnMenuItemClickListener{
@@ -441,6 +447,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             }
 
         })
+        Log.d("Smeasy","FoodTrackerFragment - initToolbar - toolbarstatus = ${toolbar.menu}")
     }
 
     // PremiumCard Function
@@ -453,7 +460,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         {
             var params = cardPremium.layoutParams
 
-            if(!state)
+            if(state)
             {
                 //params.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 cardPremium.visibility = View.GONE
@@ -473,9 +480,8 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
         btnPremium = rootView.findViewById(R.id.foodtracker_btn_premium)
         btnPremium.setOnClickListener {
-            /*sharePrefs.setNewPremiumState(true)
-            sharePrefs.setNewPremiumDate(helper.getStringFromDate(helper.getCurrentDate()))
-            setCardHeight(true)*/
+           var dialog = DialogFragmentPremium()
+            dialog.show(fragmentManager!!,"premium")
 
         }
 
@@ -516,6 +522,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                 override fun setOnDialogClickListener(date: Date) {
                     if(foodViewModel.date != helper.getStringFromDate(date))
                     {
+                        dialogLoader = DialogLoading(rootView.context)
                         foodViewModel.setNewDate(helper.getStringFromDate(date))
                         btnCalendar.text = helper.getStringFromDate(date)
                     }
@@ -598,14 +605,21 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
             Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - breakfast-Observer: started = $started")
             if(!started)
             {
+                Log.d("Smeasy","FoodTrackerFragment - initViewModelObserver - breakfast: !started - time: ${System.currentTimeMillis()}")
                 initStatusView()
-                //initToolbar()
+                mealCardAnimation("breakfast")
+                mealCardAnimation("lunch")
+                mealCardAnimation("dinner")
+                mealCardAnimation("snack")
+                dialogLoader.dismiss()
+
 
             }
             else
             {
                 updateStatusView()
                 mealCardAnimation("breakfast")
+                dialogLoader.dismiss()
             }
             adapterBreakfast.submitList(foodViewModel.getCalcedFoodsByMeal("breakfast"))
 

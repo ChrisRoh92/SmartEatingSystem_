@@ -1,7 +1,10 @@
 package de.rohnert.smeasy
 
 import android.app.PendingIntent.getActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -15,6 +18,7 @@ import android.view.Menu
 import androidx.activity.addCallback
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.internal.NavigationMenuView
+import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,9 +31,9 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        toolbar.inflateMenu(R.menu.menu_foodtracker)
         /*val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -47,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        fragments = setOf(R.id.nav_foodtracker,R.id.nav_bodytracker,R.id.nav_setting,R.id.nav_share,R.id.nav_help,R.id.nav_premium)
+        fragments = setOf(R.id.nav_foodtracker,R.id.nav_bodytracker,R.id.nav_setting,R.id.nav_share,R.id.nav_help,R.id.nav_privacy)
         appBarConfiguration = AppBarConfiguration(fragments,drawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -64,4 +68,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 }

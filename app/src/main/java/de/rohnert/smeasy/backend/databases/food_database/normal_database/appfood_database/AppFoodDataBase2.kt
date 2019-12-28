@@ -1,4 +1,4 @@
-package de.rohnert.smeasy.backend.databases.food_database.appfood_database
+package de.rohnert.smeasy.backend.databases.food_database.normal_database.appfood_database
 
 import android.content.Context
 import androidx.room.Database

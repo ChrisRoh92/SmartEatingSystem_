@@ -1,8 +1,6 @@
-package de.rohnert.smeasy.backend.databases.food_database.favourite_foods
+package de.rohnert.smeasy.backend.databases.food_database.normal_database.favourite_foods
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.roomdatabaseexample.backend.databases.food_database.Food
 
 
 @Dao

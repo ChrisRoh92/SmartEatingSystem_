@@ -29,6 +29,7 @@ import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogAllowedFood
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogBodyAim
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogBodySettingsAim
 import de.rohnert.smeasy.frontend.bodytracker.dialogs.DialogNutrition
+import de.rohnert.smeasy.frontend.premium.dialogs.DialogFragmentPremium
 import de.rohnert.smeasy.frontend.premium.dialogs.DialogPremiumAlert
 import de.rohnert.smeasy.helper.dialogs.DialogSingleLineInput
 import de.rohnert.smeasy.helper.dialogs.DialogSingleList
@@ -229,7 +230,8 @@ class BodySettingFragment: Fragment()
             else
             {
                 cardAllowedFood.setCardBackgroundColor(ContextCompat.getColor(rootView.context,R.color.background))
-                btnAllowedFood.setOnClickListener {var dialog = DialogPremiumAlert(rootView.context)}
+                btnAllowedFood.setOnClickListener {startPremiumDialog()
+                }
 
             }
 
@@ -252,7 +254,7 @@ class BodySettingFragment: Fragment()
                     }
                     else
                     {
-                        var dialog = DialogPremiumAlert(rootView.context)
+                        startPremiumDialog()
                     }
 
                 }
@@ -266,6 +268,7 @@ class BodySettingFragment: Fragment()
 
         }
 
+
         fun initBodyAimCard()
         {
 
@@ -273,16 +276,34 @@ class BodySettingFragment: Fragment()
             layoutManager = LinearLayoutManager(rootView.context,RecyclerView.VERTICAL,false)
             rvBodyAim.layoutManager = layoutManager
 
+            var bodyAimList:ArrayList<Float> = ArrayList()
+            bodyAimList.add(prefs.weightAim)
+            bodyAimList.add(prefs.kfaAim)
+            bodyAimList.add(prefs.bmiAim)
+
+            bodyAimList.add(prefs.bauchAim)
+            bodyAimList.add(prefs.brustAim)
+            bodyAimList.add(prefs.halsAim)
+            bodyAimList.add(prefs.huefteAim)
+
+            var unitList:ArrayList<String> = arrayListOf(" kg"," %",""," cm"," cm"," cm"," cm")
+
             // Daten für RecyclerView abholen:
             rvContent= ArrayList()
-            rvContent.add("${helper.getFloatAsFormattedStringWithPattern(prefs.weightAim,"#.##")} kg")
-            rvContent.add("${helper.getFloatAsFormattedStringWithPattern(prefs.kfaAim,"#.##")} %")
-            rvContent.add("${helper.getFloatAsFormattedStringWithPattern(prefs.bmiAim,"#.##")} ")
+            for((index,i) in bodyAimList.withIndex())
+            {
+                if(i != -1f)
+                {
+                    rvContent.add("${helper.getFloatAsFormattedStringWithPattern(i,"#.##")}"+unitList[index])
+                }
+                else
+                {
+                    rvContent.add("Keine Angabe gemacht")
+                }
 
-            rvContent.add("${helper.getFloatAsFormattedStringWithPattern(prefs.bauchAim,"#.##")} cm")
-            rvContent.add("${helper.getFloatAsFormattedStringWithPattern(prefs.brustAim,"#.##")} cm")
-            rvContent.add("${helper.getFloatAsFormattedStringWithPattern(prefs.halsAim,"#.##")} cm")
-            rvContent.add("${helper.getFloatAsFormattedStringWithPattern(prefs.huefteAim,"#.##")} cm")
+            }
+
+
 
             bodyAimAdapter = BodyAimRecyclerAdapter(rvContent)
             rvBodyAim.adapter = bodyAimAdapter
@@ -324,6 +345,11 @@ class BodySettingFragment: Fragment()
                     if(pos != 2)
                     {
                         var inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+                        var value = bodyAimValue[pos]
+                        if(value == -1f)
+                        {
+                            value = 0f
+                        }
                         var dialog = DialogSingleLineInput(dialogTitles[pos],dialogSubTitles[pos],rootView.context,inputType,helper.getFloatAsFormattedStringWithPattern(bodyAimValue[pos],"#.##"))
                         dialog.onDialogClickListener(object:DialogSingleLineInput.OnDialogListener{
                             override fun onDialogClickListener(export: String) {
@@ -404,6 +430,14 @@ class BodySettingFragment: Fragment()
 
     }
 
+
+    // PremiumDialog Starten:
+    private fun startPremiumDialog()
+{
+    var dialog = DialogFragmentPremium()
+    dialog.show(fragmentManager!!,"Premium")
+}
+
     // BodyAim Setter Methoden
     private fun setNewAimValue(pos:Int,value:Float)
     {
@@ -444,6 +478,7 @@ class BodySettingFragment: Fragment()
             }
         }
         bodyAimAdapter.updateData(rvContent)
+        bodyViewModel.updateBodyProgress()
     }
 
 
