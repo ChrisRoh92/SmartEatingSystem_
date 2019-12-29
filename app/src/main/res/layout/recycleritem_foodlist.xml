@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:background="?android:attr/selectableItemBackground"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left"
+        app:constraint_referenced_ids="mealcard_item_group,mealcard_item_name,mealcard_item_kcal,mealcard_item_marke"
+        tools:layout_editor_absoluteX="411dp" />
+
+    <TextView
+        android:id="@+id/mealcard_item_kcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="325 g/ml"
+        android:textColor="@color/backgroundLight"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/mealcard_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/mealcard_item_group" />
 
     <TextView
         android:id="@+id/mealcard_item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
+        android:maxLines="2"
         android:text="Lebensmittel"
         android:textColor="@color/textColor1"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/mealcard_item_group"
         app:layout_constraintEnd_toStartOf="@+id/button_favorite"
         app:layout_constraintStart_toEndOf="@+id/mealcard_item_fab"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:id="@+id/mealcard_item_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lebensmittelgruppe"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@+id/mealcard_item_kcal"
-            app:layout_constraintStart_toStartOf="@+id/mealcard_item_name"
-            app:layout_constraintTop_toBottomOf="@+id/mealcard_item_name" />
+        android:id="@+id/mealcard_item_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Lebensmittelgruppe"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/mealcard_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/mealcard_item_marke" />
+
     <androidx.constraintlayout.widget.Barrier
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/barrier"
-            app:barrierDirection="left"
-            app:constraint_referenced_ids="mealcard_item_group,mealcard_item_name,mealcard_item_kcal"
-            tools:layout_editor_absoluteX="411dp"/>
-    <TextView
-            android:text="325 g/ml"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mealcard_item_kcal"
-            app:layout_constraintTop_toBottomOf="@+id/mealcard_item_group" android:textColor="@color/backgroundLight"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-            app:layout_constraintStart_toStartOf="@+id/mealcard_item_name"/>
-    <androidx.constraintlayout.widget.Barrier android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                              android:id="@+id/barrier4" app:barrierDirection="right"
-                                              android:layout_marginEnd="75dp"
-                                              app:layout_constraintEnd_toEndOf="parent"/>
+        android:id="@+id/barrier4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="75dp"
+        app:barrierDirection="right"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/mealcard_item_fab"
@@ -89,4 +97,25 @@
         app:layout_constraintStart_toStartOf="@+id/mealcard_item_fab"
         app:layout_constraintTop_toTopOf="@+id/mealcard_item_fab"
         app:srcCompat="@drawable/ic_check_dark" />
+
+    <TextView
+        android:id="@+id/mealcard_item_marke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Marke"
+        android:textColor="@color/textColor1"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/mealcard_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/mealcard_item_name" />
+
+    <View
+        android:id="@+id/divider95"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/mealcard_item_group"
+        app:layout_constraintEnd_toEndOf="@+id/mealcard_item_group"
+        app:layout_constraintStart_toStartOf="@+id/mealcard_item_marke"
+        app:layout_constraintTop_toBottomOf="@+id/mealcard_item_marke" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
