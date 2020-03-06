@@ -52,6 +52,9 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private lateinit var localDailyList:ArrayList<Daily>
     private lateinit var localDaily: Daily
 
+    // Get All CalcedFoodsList()
+    private lateinit var allCalcedFoods:ArrayList<ArrayList<ArrayList<CalcedFood>>>
+
     // FavFoodList:
     private lateinit var localFavFoodList:ArrayList<FavFood>
 
@@ -64,6 +67,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private var lunchList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
     private var dinnerList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
     private var snackList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
+    private var allCalcedFood: MutableLiveData<Int> = MutableLiveData()
 
 
 
@@ -315,6 +319,67 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     }
 
+    fun addNewMealEntries(cfs:ArrayList<CalcedFood>,meal:String)
+    {
+        fun getNewMealEntryID(iMeal:String):Int
+        {
+            return when(iMeal) {
+                "breakfast" -> dailyProcess.getNewMealEntryId(localDaily.breakfastEntry!!)
+                "lunch" -> dailyProcess.getNewMealEntryId(localDaily.lunchEntry!!)
+                "dinner" -> dailyProcess.getNewMealEntryId(localDaily.dinnerEntry!!)
+                else -> dailyProcess.getNewMealEntryId(localDaily.snackEntry!!)
+
+                // "breakfast" -> dailyProcess.getNewMealEntryId(breakfastList!!.value!!)
+                //                "lunch" -> dailyProcess.getNewMealEntryId(lunchList!!.value!!)
+                //                "dinner" -> dailyProcess.getNewMealEntryId(dinnerList!!.value!!)
+                //                else -> dailyProcess.getNewMealEntryId(snackList!!.value!!)
+            }
+        }
+        var entries:ArrayList<MealEntry> = ArrayList()
+        for(i in cfs)
+        {
+            entries.add(MealEntry(getNewMealEntryID(meal),i.f.id,i.menge))
+        }
+
+        when(meal)
+        {
+            "breakfast" ->
+            {
+
+                localDaily.breakfastEntry!!.addAll(entries)
+                breakfastList!!.value = localDaily.breakfastEntry
+
+            }
+            "lunch" ->
+            {
+
+                /*localDaily.lunchEntry = lunchList!!.value!!
+                lunchList!!.value!!.add(newEntry)*/
+                localDaily.lunchEntry!!.addAll(entries)
+                lunchList!!.value = localDaily.lunchEntry
+            }
+            "dinner" -> {
+                /*dinnerList!!.value!!.add(newEntry)
+                localDaily.dinnerEntry = dinnerList!!.value!!*/
+                localDaily.dinnerEntry!!.addAll(entries)
+                dinnerList!!.value = localDaily.dinnerEntry
+            }
+            "snack" ->
+            {
+                /*snackList!!.value!!.add(newEntry)
+                localDaily.snackEntry = snackList!!.value!!*/
+                localDaily.snackEntry!!.addAll(entries)
+                snackList!!.value = localDaily.snackEntry
+            }
+        }
+
+        // Neue Entrylisten erstellen.
+        CoroutineScope(Main).launch {
+            //createEntryLists()
+            updateDaily(daily = localDaily)
+        }
+    }
+
     fun removeMealEntry(entry: MealEntry, meal:String)
     {
           when(meal)
@@ -545,6 +610,78 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     }
 
+    fun getCalcedFoodsByMeal(entries:ArrayList<MealEntry>):ArrayList<CalcedFood>
+    {
+        var calcedFoodList:ArrayList<CalcedFood> = ArrayList()
+        runBlocking {
+            suspend fun createCalcedFoodList(list:ArrayList<MealEntry>)
+            {
+                if(!list.isNullOrEmpty())
+                {
+                    //Log.d("Smeas")
+
+                    for(i in list)
+                    {
+                        calcedFoodList.add(dailyProcess.getCalcedFood(i.mealID,getAppFoodById(i.id)!!,i.menge))
+                    }
+
+                }
+
+
+
+
+            }
+
+            createCalcedFoodList(entries)
+        }
+        return calcedFoodList
+    }
+
+
+
+    fun getCalcedFoodsofDaily(daily:Daily):ArrayList<ArrayList<CalcedFood>>
+    {
+        // Abchecken ob Datum überhaupt enthalten ist...
+        var export:ArrayList<ArrayList<CalcedFood>> = ArrayList()
+
+        export.add(getCalcedFoodsByMeal(daily.breakfastEntry!!))
+        export.add(getCalcedFoodsByMeal(daily.lunchEntry!!))
+        export.add(getCalcedFoodsByMeal(daily.dinnerEntry!!))
+        export.add(getCalcedFoodsByMeal(daily.snackEntry!!))
+
+        return export
+
+
+
+
+
+
+    }
+
+    fun getAllCalcedFoods()
+    {
+        allCalcedFoods = ArrayList()
+        if(localDailyList.isNotEmpty())
+        {
+            for(i in localDailyList)
+            {
+                if(!helper.isDateInFuture(helper.getDateFromString(i.date)))
+                allCalcedFoods.add(getCalcedFoodsofDaily(i))
+            }
+
+        }
+        if(allCalcedFood.value != 0)
+        {
+            allCalcedFood.value = 0
+        }
+        else
+        {
+
+        }
+        allCalcedFood.value = allCalcedFood.value?.plus(1)
+
+    }
+
     fun getDailyMaxValues():ArrayList<Float>
     {
         sharePrefs = SharedAppPreferences(getApplication())
@@ -734,6 +871,23 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
             food = getAppFoodById(id)
         }
         return food!!
+    }
+
+
+    // CalcedFoodStuffs
+    fun getAllCalcedFood():LiveData<Int>
+    {
+        return allCalcedFood
+    }
+
+    fun getLocalDailyList():ArrayList<Daily>
+    {
+        return localDailyList
+    }
+
+    fun getAllCalcedFoodList():ArrayList<ArrayList<ArrayList<CalcedFood>>>
+    {
+        return allCalcedFoods
     }
 
 

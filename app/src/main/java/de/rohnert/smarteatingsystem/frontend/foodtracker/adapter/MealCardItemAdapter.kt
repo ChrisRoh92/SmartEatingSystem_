@@ -3,6 +3,7 @@ package de.rohnert.smarteatingsystem.frontend.foodtracker.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -29,6 +30,9 @@ class MealCardItemAdapter : ListAdapter<CalcedFood, MealCardItemAdapter.MealCard
 
     override fun onBindViewHolder(holder: MealCardHolder, position: Int) {
         val currentCalcedFood = getItem(position)
+
+
+
         holder.tvName.text = currentCalcedFood.f.name
         holder.tvGroup.text = currentCalcedFood.f.category
         if(currentCalcedFood.f.unit.contains("g"))

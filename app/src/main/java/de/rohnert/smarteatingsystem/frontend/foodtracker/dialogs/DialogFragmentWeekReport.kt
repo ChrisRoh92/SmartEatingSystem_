@@ -54,7 +54,7 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
     private lateinit var toolbar:Toolbar
     // Buttons
     private lateinit var btnNutrition:Button
-    private lateinit var btnEntries:Button
+
     // TestView:
     private var titleTextList:ArrayList<TextView> = ArrayList()
     private var subTitleTextList:ArrayList<TextView> = ArrayList()
@@ -152,10 +152,10 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
     {
         // Buttons initialisieren:
         btnNutrition = rootView.findViewById(R.id.weekreport_btn_nutrition)
-        btnEntries = rootView.findViewById(R.id.weekreport_btn_entries)
+
         // Listener:
         btnNutrition.setOnClickListener(this)
-        btnEntries.setOnClickListener(this)
+
 
         // TextViews initialisieren:
         for(i in titleIDs)
@@ -499,18 +499,9 @@ class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment
 
     // Implementierte Methoden:
     override fun onClick(view: View?) {
-        if(view == btnNutrition)
-        {
-            // DetailAnsicht von den Charts anzeigen
-            //var dialog = DialogPremiumAlert(rootView.context)
-            var dialog = DialogFragmentWeekReportNutrition(foodViewModel, reporter)
-            dialog.show(fragmentManager!!,"nutrition")
-        }
-        else
-        {
-            // DetailAnsicht von den Charts anzeigen
-            var dialog = DialogPremiumAlert(rootView.context)
-        }
+        var dialog = DialogFragmentWeekReportNutrition(foodViewModel, reporter)
+        dialog.show(fragmentManager!!,"nutrition")
+
     }
 
 

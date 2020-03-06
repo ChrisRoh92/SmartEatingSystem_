@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import de.rohnert.smarteatingsystem.R
+import java.util.*
 
 class DialogMealList(var context: Context) : AdapterView.OnItemClickListener {
 
@@ -19,7 +20,7 @@ class DialogMealList(var context: Context) : AdapterView.OnItemClickListener {
 
     // Views:
     lateinit var list: ListView
-    var export:ArrayList<String> = arrayListOf("breakfast","lunch","dinner","snack")
+    var export: ArrayList<String> = arrayListOf("breakfast","lunch","dinner","snack")
 
     // Interface:
     private lateinit var mListener: OnDialogMealListClick

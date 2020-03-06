@@ -61,7 +61,7 @@ class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, v
             var export:ArrayList<ExtendedFood> = ArrayList()
             for(i in getFilteredFoodList())
             {
-                if(i.name.toLowerCase().contains(item.toLowerCase()) || i.category.toLowerCase().contains(item.toLowerCase()) )
+                if(i.name.toLowerCase().contains(item.toLowerCase()) || i.category.toLowerCase().contains(item.toLowerCase()) || i.marken.toLowerCase().contains(item.toLowerCase()) )
                 {
                     export.add(i)
                 }

@@ -246,13 +246,17 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     // To Smeasy_Preferences save
     private fun saveCurrentBodyToPref()
     {
-        smeasyPrefs.setNewWeight(localCurrentBody!!.weight)
-        smeasyPrefs.setNewKfa(localCurrentBody!!.kfa)
-        smeasyPrefs.setNewBmi(bodyProcessor.calcBMI(prefs.userHeight,localCurrentBody!!.weight))
-        smeasyPrefs.setNewBauch(localCurrentBody!!.bauch)
-        smeasyPrefs.setNewBrust(localCurrentBody!!.brust)
-        smeasyPrefs.setNewHals(localCurrentBody!!.hals)
-        smeasyPrefs.setNewHuefte(localCurrentBody!!.huefte)
+        if(localCurrentBody!= null)
+        {
+            smeasyPrefs.setNewWeight(localCurrentBody!!.weight)
+            smeasyPrefs.setNewKfa(localCurrentBody!!.kfa)
+            smeasyPrefs.setNewBmi(bodyProcessor.calcBMI(prefs.userHeight,localCurrentBody!!.weight))
+            smeasyPrefs.setNewBauch(localCurrentBody!!.bauch)
+            smeasyPrefs.setNewBrust(localCurrentBody!!.brust)
+            smeasyPrefs.setNewHals(localCurrentBody!!.hals)
+            smeasyPrefs.setNewHuefte(localCurrentBody!!.huefte)
+        }
+
     }
 
     private fun saveProgressToPref()

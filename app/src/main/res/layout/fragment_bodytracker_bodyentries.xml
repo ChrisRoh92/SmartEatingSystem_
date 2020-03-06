@@ -18,6 +18,15 @@
             android:layout_height="wrap_content"
             android:paddingBottom="64dp">
 
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="bodyentry_cardview_recyclerview"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/bodyentry_cardview_statusview"
                 android:layout_width="0dp"
@@ -56,11 +65,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="Gewicht"
                                 android:maxLines="1"
+                                android:text="Gewicht"
+                                android:textColor="@color/textColor1"
                                 app:autoSizeMaxTextSize="14sp"
                                 app:autoSizeTextType="uniform"
-                                android:textColor="@color/textColor1"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />

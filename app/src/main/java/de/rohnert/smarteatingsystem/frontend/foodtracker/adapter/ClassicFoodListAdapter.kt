@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -77,6 +78,9 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
             }
 
         })
+
+        // Animation:
+        holder.itemView.animation = AnimationUtils.loadAnimation(holder.itemView.context,R.anim.anim_foodlist_item)
 
 
 
@@ -231,6 +235,7 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
         var tvKcal: TextView = itemView.findViewById(R.id.mealcard_item_kcal)
         var icon: ImageView = itemView.findViewById(R.id.mealcard_item_icon)
         var favButton:ToggleButton = itemView.findViewById(R.id.button_favorite)
+
     }
 
 

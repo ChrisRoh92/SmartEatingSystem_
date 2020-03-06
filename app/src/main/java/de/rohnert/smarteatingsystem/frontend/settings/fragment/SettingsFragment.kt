@@ -189,7 +189,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
                     bday = date
                     mainContent[0] = helper.getStringFromDate(bday)
                     prefs.setNewBday(mainContent[0])
-                    tvList[1].text = helper.getStringFromDate(bday)
+                    tvList[0].text = helper.getStringFromDate(bday)
                 }
 
             })

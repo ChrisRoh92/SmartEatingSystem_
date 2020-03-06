@@ -27,9 +27,11 @@ import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
 import de.rohnert.smarteatingsystem.frontend.foodtracker.adapter.MealCardItemAdapter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.animations.AnimationStatusView
 import de.rohnert.smarteatingsystem.frontend.foodtracker.dialogs.*
+import de.rohnert.smarteatingsystem.frontend.foodtracker.foodchooser.DialogFragmentChooseHistoryMeals
 import de.rohnert.smarteatingsystem.frontend.premium.dialogs.DialogFragmentPremium
 import de.rohnert.smarteatingsystem.helper.dialogs.DialogAppRating
 import de.rohnert.smarteatingsystem.helper.dialogs.DialogLoading
+import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleChoiceList
 import de.rohnert.smarteatingsystem.helper.others.WrapContentLinearLayoutManager
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.util.*
@@ -108,7 +110,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
     // Rating
     private lateinit var dialogRating:DialogAppRating
-    private var rateCountLimit = 3*60
+    private var rateCountLimit = 60
     private var dayCountLimit = 60
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -434,6 +436,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                         var dialog = DialogFragmentWeekReport(foodViewModel)
                         dialog.show(fragmentManager!!,"WeekReport")
                     },100)
+
 
                 }
                 return true
@@ -778,6 +781,32 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         }
     }
 
+    // Dialog aufrufen:
+    private fun startTrackDialog(meal:String)
+    {
+        DialogFragmentFoodList(meal,foodViewModel).show(fragmentManager!!,meal)
+
+        /*var dialog = DialogSingleChoiceList("Bitte Wählen","Wähle wie du dein Essen Tracken möchtest",
+            arrayListOf("Aus Lebensmittel Liste","aus vorherigen Einträgen"),rootView.context,true,-1)
+
+        dialog.onItemClickListener(object:DialogSingleChoiceList.OnDialogListListener{
+            override fun onItemClickListener(value: String, pos: Int) {
+                if(pos == 0)
+                {
+                    DialogFragmentFoodList(meal,foodViewModel).show(fragmentManager!!,meal)
+                }
+                else
+                {
+                    var historicDialog = DialogFragmentChooseHistoryMeals(foodViewModel,meal)
+                    historicDialog.show(fragmentManager!!,"historicMeals")
+                }
+            }
+
+        })*/
+
+
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Implementierte Methoden:
     override fun onClick(p0: View?) {
@@ -789,10 +818,10 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         handler.postDelayed({
             when(p0)
             {
-                btnAddBreakfast -> DialogFragmentFoodList("breakfast",foodViewModel).show(fragmentManager!!,"breakfast")
-                btnAddLunch ->  DialogFragmentFoodList("lunch",foodViewModel).show(fragmentManager!!,"lunch")
-                btnAddDinner -> DialogFragmentFoodList("dinner",foodViewModel).show(fragmentManager!!,"dinner")
-                btnAddSnacks -> DialogFragmentFoodList("snack",foodViewModel).show(fragmentManager!!,"snack")
+                btnAddBreakfast -> startTrackDialog("breakfast")
+                btnAddLunch ->  startTrackDialog("lunch")
+                btnAddDinner -> startTrackDialog("dinner")
+                btnAddSnacks -> startTrackDialog("snack")
             }
         },125)
 

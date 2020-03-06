@@ -191,38 +191,7 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
 
         })
 
-        /*var builder: androidx.appcompat.app.AlertDialog.Builder = androidx.appcompat.app.AlertDialog.Builder(context)
-        var dialog: androidx.appcompat.app.AlertDialog
-        var et = EditText(context)
-        builder.setMessage("Name der neuen Lebensmittelgruppe")
-        builder.setTitle("Lebensmittel erstellen")
-        et.inputType = (InputType.TYPE_CLASS_TEXT)
-        builder.setView(et)
-        // Positiver Button:
-        builder.setPositiveButton("OK", DialogInterface.OnClickListener {
-                dialogInterface, i ->  if(!et.text.toString().isEmpty())
-        {
-            addNewGroupToList(et.text.toString())
 
-
-
-
-        }
-        else
-        {
-            Toast.makeText(context,"Bitte einen Wert eintragen",Toast.LENGTH_SHORT).show()
-        }
-
-        })
-
-        builder.setNegativeButton("Abbrechen", DialogInterface.OnClickListener {
-                dialogInterface, i ->
-
-
-        })
-
-        dialog = builder.create()
-        dialog.show()*/
     }
 
     // Über diese Methode wird eine neue Gruppe in das Dialog eingearbeitet

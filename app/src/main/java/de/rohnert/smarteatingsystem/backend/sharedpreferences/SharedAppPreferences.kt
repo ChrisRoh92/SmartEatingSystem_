@@ -92,8 +92,8 @@ class SharedAppPreferences(var context: Context)
         initMaxValues()
 
         // Body Ziele festlegen...
-        aim = sharedPref.getString("aim","Abnehmen")!!
-        aimWeightLoss = sharedPref.getFloat("aimWeightLoss",-1f)
+        aim = sharedPref.getString("aim","Gewicht Halten")!!
+        aimWeightLoss = sharedPref.getFloat("aimWeightLoss",0f)
         weightAim = sharedPref.getFloat("weightAim", -1f)
         bmiAim = sharedPref.getFloat("bmiAim",-1f)
         kfaAim = sharedPref.getFloat("kfaAim", -1f)

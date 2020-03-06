@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/item_tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Lebensmittel"
+        android:textColor="@color/textColor1"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/mealcard_item_kcal"
+        app:layout_constraintStart_toEndOf="@+id/item_rbtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_tv_gruppe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lebensmittelgruppe"
+        android:textColor="@color/colorAccent"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/item_tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_name" />
+
+    <TextView
+        android:id="@+id/item_tv_menge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="325 g/ml"
+        android:textColor="@color/backgroundLight"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_tv_gruppe"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_gruppe" />
+
+    <TextView
+        android:id="@+id/item_tv_kcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="275 kcal"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <androidx.constraintlayout.widget.Barrier android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/barrier10" app:barrierDirection="left"
+        app:constraint_referenced_ids="item_tv_menge"
+        tools:layout_editor_absoluteX="411dp"/>
+
+    <RadioButton
+        android:id="@+id/item_rbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light">
@@ -27,8 +28,10 @@
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_weekreport_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/dialog_weekreport_toolbar"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +39,7 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/cv_chart"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_marginStart="8dp"
@@ -122,336 +125,328 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/linearLayout3"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_kcal"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline11"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
+                app:layout_constraintTop_toBottomOf="@+id/cv_chart">
 
-                <androidx.cardview.widget.CardView
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="8dp">
+                    android:layout_height="match_parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Kalorien"
+                        android:textColor="@color/textColor1"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/textView26"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Kalorien"
-                            android:textColor="@color/textColor1"
-                            android:textSize="18sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/weekreport_tv_title_kcal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0"
+                        android:scaleX="0"
+                        android:scaleY="0"
+                        android:text="5760 Kcal"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView26"
+                        app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
-                        <TextView
-                            android:id="@+id/weekreport_tv_title_kcal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:alpha="0"
-                            android:scaleX="0"
-                            android:scaleY="0"
-                            android:text="5760 Kcal"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView26"
-                            app:layout_constraintTop_toBottomOf="@+id/textView26" />
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ingesamt Aufgenommen"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_kcal"
+                        app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_title_kcal" />
 
-                        <TextView
-                            android:id="@+id/textView25"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ingesamt Aufgenommen"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_kcal"
-                            app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_title_kcal" />
+                    <TextView
+                        android:id="@+id/weekreport_tv_subtitle_kcal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0"
+                        android:scaleX="0"
+                        android:scaleY="0"
+                        android:text="Ø 860 Kcal"
+                        android:textColor="@color/textColor1"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_kcal"
+                        app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
-                        <TextView
-                            android:id="@+id/weekreport_tv_subtitle_kcal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:alpha="0"
-                            android:scaleX="0"
-                            android:scaleY="0"
-                            android:text="Ø 860 Kcal"
-                            android:textColor="@color/textColor1"
-                            android:textSize="14sp"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_kcal"
-                            app:layout_constraintTop_toBottomOf="@+id/textView25" />
-
-                        <TextView
-                            android:id="@+id/textView28"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:text="Tagesdurchschnitt"
-                            android:textSize="10sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_subtitle_kcal"
-                            app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_subtitle_kcal" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="8dp">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView49"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Kohlenhydrate"
-                            android:textColor="@color/textColor1"
-                            android:textSize="18sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/weekreport_tv_title_carb"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:alpha="0"
-                            android:scaleX="0"
-                            android:scaleY="0"
-                            android:text="1414 g"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView49"
-                            app:layout_constraintTop_toBottomOf="@+id/textView49" />
-
-                        <TextView
-                            android:id="@+id/textView45"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Insgesamt Aufgenommen"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_carb"
-                            app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_title_carb" />
-
-                        <TextView
-                            android:id="@+id/weekreport_tv_subtitle_carb"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:alpha="0"
-                            android:scaleX="0"
-                            android:scaleY="0"
-                            android:text="Ø 202 g"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="@+id/textView45"
-                            app:layout_constraintTop_toBottomOf="@+id/textView45" />
-
-                        <TextView
-                            android:id="@+id/textView47"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:text="Tagesdurchschnitt"
-                            android:textSize="10sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_subtitle_carb"
-                            app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_subtitle_carb" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayout3">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="8dp">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Protein"
-                            android:textColor="@color/textColor1"
-                            android:textSize="18sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/weekreport_tv_title_protein"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:alpha="0"
-                            android:scaleX="0"
-                            android:scaleY="0"
-                            android:text="1474 g"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView15"
-                            app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
-                        <TextView
-                            android:id="@+id/textView51"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Insgesamt Aufgenommen"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_protein"
-                            app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_title_protein" />
-
-                        <TextView
-                            android:id="@+id/weekreport_tv_subtitle_protein"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:alpha="0"
-                            android:scaleX="0"
-                            android:scaleY="0"
-                            android:text="Ø 200 g"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="@+id/textView51"
-                            app:layout_constraintTop_toBottomOf="@+id/textView51" />
-
-                        <TextView
-                            android:id="@+id/textView57"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:text="Tagesdurchschnitt"
-                            android:textSize="10sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_subtitle_protein"
-                            app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_subtitle_protein" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="2dp"
-                    app:cardElevation="8dp">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView22"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:text="Fett"
-                            android:textColor="@color/textColor1"
-                            android:textSize="18sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/weekreport_tv_title_fett"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:alpha="0"
-                            android:scaleX="0"
-                            android:scaleY="0"
-                            android:text="507 g"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="20sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView22"
-                            app:layout_constraintTop_toBottomOf="@+id/textView22" />
-
-                        <TextView
-                            android:id="@+id/textView60"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Insgesamt Aufgenommen"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_fett"
-                            app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_title_fett" />
-
-                        <TextView
-                            android:id="@+id/weekreport_tv_subtitle_fett"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:alpha="0"
-                            android:scaleX="0"
-                            android:scaleY="0"
-                            android:text="Ø 137 g"
-                            android:textColor="@color/textColor1"
-                            app:layout_constraintStart_toStartOf="@+id/textView60"
-                            app:layout_constraintTop_toBottomOf="@+id/textView60" />
-
-                        <TextView
-                            android:id="@+id/textView62"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:text="Tagesdurchschnitt"
-                            android:textSize="10sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/weekreport_tv_subtitle_fett"
-                            app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_subtitle_fett" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Tagesdurchschnitt"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_subtitle_kcal"
+                        app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_subtitle_kcal" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cv_carbs"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline11"
+                app:layout_constraintTop_toTopOf="@+id/cv_kcal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView49"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Kohlenhydrate"
+                        android:textColor="@color/textColor1"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/weekreport_tv_title_carb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0"
+                        android:scaleX="0"
+                        android:scaleY="0"
+                        android:text="1414 g"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView49"
+                        app:layout_constraintTop_toBottomOf="@+id/textView49" />
+
+                    <TextView
+                        android:id="@+id/textView45"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Insgesamt Aufgenommen"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_carb"
+                        app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_title_carb" />
+
+                    <TextView
+                        android:id="@+id/weekreport_tv_subtitle_carb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0"
+                        android:scaleX="0"
+                        android:scaleY="0"
+                        android:text="Ø 202 g"
+                        android:textColor="@color/textColor1"
+                        app:layout_constraintStart_toStartOf="@+id/textView45"
+                        app:layout_constraintTop_toBottomOf="@+id/textView45" />
+
+                    <TextView
+                        android:id="@+id/textView47"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Tagesdurchschnitt"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_subtitle_carb"
+                        app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_subtitle_carb" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_protein"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline11"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_kcal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Protein"
+                        android:textColor="@color/textColor1"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/weekreport_tv_title_protein"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0"
+                        android:scaleX="0"
+                        android:scaleY="0"
+                        android:text="1474 g"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView15"
+                        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+                    <TextView
+                        android:id="@+id/textView51"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Insgesamt Aufgenommen"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_protein"
+                        app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_title_protein" />
+
+                    <TextView
+                        android:id="@+id/weekreport_tv_subtitle_protein"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0"
+                        android:scaleX="0"
+                        android:scaleY="0"
+                        android:text="Ø 200 g"
+                        android:textColor="@color/textColor1"
+                        app:layout_constraintStart_toStartOf="@+id/textView51"
+                        app:layout_constraintTop_toBottomOf="@+id/textView51" />
+
+                    <TextView
+                        android:id="@+id/textView57"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Tagesdurchschnitt"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_subtitle_protein"
+                        app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_subtitle_protein" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_fett"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline11"
+                app:layout_constraintTop_toBottomOf="@+id/cv_carbs">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Fett"
+                        android:textColor="@color/textColor1"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/weekreport_tv_title_fett"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0"
+                        android:scaleX="0"
+                        android:scaleY="0"
+                        android:text="507 g"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView22"
+                        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+                    <TextView
+                        android:id="@+id/textView60"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Insgesamt Aufgenommen"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_title_fett"
+                        app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_title_fett" />
+
+                    <TextView
+                        android:id="@+id/weekreport_tv_subtitle_fett"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0"
+                        android:scaleX="0"
+                        android:scaleY="0"
+                        android:text="Ø 137 g"
+                        android:textColor="@color/textColor1"
+                        app:layout_constraintStart_toStartOf="@+id/textView60"
+                        app:layout_constraintTop_toBottomOf="@+id/textView60" />
+
+                    <TextView
+                        android:id="@+id/textView62"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Tagesdurchschnitt"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/weekreport_tv_subtitle_fett"
+                        app:layout_constraintTop_toBottomOf="@+id/weekreport_tv_subtitle_fett" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_recyclerview"
                 android:layout_width="0dp"
                 android:layout_height="400dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="2dp"
@@ -459,7 +454,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+                app:layout_constraintTop_toBottomOf="@+id/cv_protein">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -477,28 +472,14 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
-                        android:id="@+id/weekreport_btn_entries"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:text="Details anzeigen"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
                     <View
                         android:id="@+id/divider10"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="4dp"
                         android:background="?android:attr/listDivider"
-                        app:layout_constraintBottom_toTopOf="@+id/weekreport_btn_entries"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteY="352dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/weekreport_rv"
@@ -515,6 +496,13 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView63" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

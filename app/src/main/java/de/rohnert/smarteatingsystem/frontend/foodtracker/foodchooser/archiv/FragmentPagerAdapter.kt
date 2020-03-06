@@ -1,0 +1,3 @@
+package de.rohnert.smarteatingsystem.frontend.foodtracker.foodchooser.archiv
+
+class FragmentPagerAdapter
