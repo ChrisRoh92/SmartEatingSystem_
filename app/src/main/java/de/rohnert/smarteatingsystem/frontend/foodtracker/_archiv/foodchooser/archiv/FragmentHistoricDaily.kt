@@ -1,4 +1,4 @@
-package de.rohnert.smarteatingsystem.frontend.foodtracker.foodchooser.archiv
+package de.rohnert.smarteatingsystem.frontend.foodtracker._archiv.foodchooser.archiv
 
 
 class FragmentHistoricDaily

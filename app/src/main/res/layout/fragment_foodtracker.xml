@@ -5,7 +5,7 @@
     android:id="@+id/fragment_foodtracker_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="@color/backgroundLight2"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/foodtracker_linearlayout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -28,6 +29,144 @@
                 android:layout_height="match_parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/foodtracker_card_tablayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/foodtracker_tv_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="15.09.2020"
+                            android:textAlignment="center"
+                            android:textColor="@color/textColor1"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/divider97"
+                            app:layout_constraintStart_toStartOf="@+id/divider97"
+                            app:layout_constraintTop_toTopOf="@+id/foodtracker_btn_left" />
+
+                        <ImageButton
+                            android:id="@+id/foodtracker_btn_left"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:scaleType="@null"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_arrow_left" />
+
+                        <ImageButton
+                            android:id="@+id/foodtracker_btn_right"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:scaleType="@null"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodtracker_tv_week"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_arrow_right" />
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/foodtracker_tablayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/divider98">
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mo" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Di" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mi" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Do" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Fr" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sa" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="So" />
+
+                        </com.google.android.material.tabs.TabLayout>
+
+                        <View
+                            android:id="@+id/divider97"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:background="?android:attr/listDivider"
+                            app:layout_constraintEnd_toStartOf="@+id/foodtracker_btn_right"
+                            app:layout_constraintStart_toEndOf="@+id/foodtracker_btn_left"
+                            app:layout_constraintTop_toBottomOf="@+id/foodtracker_tv_date" />
+
+                        <TextView
+                            android:id="@+id/foodtracker_tv_week"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14.09.2020 - 20.09.2020 (KW 24)"
+                            android:textSize="10sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/foodtracker_btn_left"
+                            app:layout_constraintEnd_toEndOf="@+id/divider97"
+                            app:layout_constraintStart_toStartOf="@+id/divider97"
+                            app:layout_constraintTop_toBottomOf="@+id/divider97"
+                            app:layout_constraintVertical_bias="1.0" />
+
+                        <View
+                            android:id="@+id/divider98"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:background="?android:attr/listDivider"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/foodtracker_tv_week" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
                     android:id="@+id/foodtracker_card_statusview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -35,10 +174,12 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="4dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/foodtracker_card_tablayout">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -61,7 +202,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ProgressBar
+                        <de.rohnert.smarteatingsystem.helper.views.CustomProgressBar
                             android:id="@+id/fragment_foodtracker_pb_kcal"
                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                             android:layout_width="150dp"
@@ -306,17 +447,18 @@
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
-                            android:id="@+id/fragment_foodtracker_tv_aim"
+                            android:id="@+id/fragment_foodtracker_tv_rest"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="16dp"
                             android:alpha="0"
+                            android:autoText="false"
+                            android:maxLines="1"
                             android:text="Halten"
                             android:textAlignment="center"
                             android:textColor="@color/textColor1"
-                            android:textSize="18sp"
-                            android:maxLines="1"
+                            android:textSize="16sp"
                             app:autoSizeMaxTextSize="18sp"
                             app:autoSizeTextType="uniform"
                             app:layout_constraintBottom_toTopOf="@+id/fragment_foodtracker_tv_kcal_added"
@@ -329,12 +471,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:text="Aktuelles Ziel"
+                            android:text="Rest"
                             android:textSize="10sp"
                             app:layout_constraintBottom_toBottomOf="@+id/textView52"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/background_progress_test2"
-                            app:layout_constraintTop_toBottomOf="@+id/fragment_foodtracker_tv_aim" />
+                            app:layout_constraintTop_toBottomOf="@+id/fragment_foodtracker_tv_rest" />
 
                         <TextView
                             android:id="@+id/fragment_foodtracker_tv_aim_weight"
@@ -347,8 +489,8 @@
                             android:textColor="@color/textColor1"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toTopOf="@+id/fragment_foodtracker_tv_kcal_active"
-                            app:layout_constraintEnd_toEndOf="@+id/fragment_foodtracker_tv_aim"
-                            app:layout_constraintStart_toStartOf="@+id/fragment_foodtracker_tv_aim"
+                            app:layout_constraintEnd_toEndOf="@+id/fragment_foodtracker_tv_rest"
+                            app:layout_constraintStart_toStartOf="@+id/fragment_foodtracker_tv_rest"
                             app:layout_constraintTop_toTopOf="@+id/fragment_foodtracker_tv_aim_kfa" />
 
                         <TextView
@@ -370,11 +512,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="8dp"
-                    android:alpha="1"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="4dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/foodtracker_card_premium">
@@ -412,12 +554,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="12dp"
                             android:layout_marginEnd="8dp"
-                            android:minHeight="50dp"
+                            android:minHeight="60dp"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/divider13"
+                            tools:itemCount="1"
                             tools:listitem="@layout/recycleritem_mealcard_foodtracker" />
 
                         <View
@@ -458,6 +602,8 @@
                             app:layout_constraintBottom_toBottomOf="@id/foodtracker_mealcard_breakfast_tv_title"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/foodtracker_mealcard_breakfast_tv_title" />
+
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -466,11 +612,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:alpha="1"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="4dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/foodtracker_mealcard_breakfast">
@@ -510,10 +658,11 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:minHeight="50dp"
+                            android:minHeight="60dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/divider1333"
+                            tools:itemCount="1"
                             tools:listitem="@layout/recycleritem_mealcard_foodtracker" />
 
                         <View
@@ -562,11 +711,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:alpha="1"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="4dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/foodtracker_mealcard_lunch">
@@ -606,10 +757,11 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:minHeight="50dp"
+                            android:minHeight="60dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/divider1321"
+                            tools:itemCount="1"
                             tools:listitem="@layout/recycleritem_mealcard_foodtracker" />
 
                         <View
@@ -660,10 +812,12 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="100dp"
+                    android:layout_marginBottom="16dp"
                     android:alpha="1"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="4dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -704,10 +858,11 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:minHeight="50dp"
+                            android:minHeight="60dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/divider13333"
+                            tools:itemCount="1"
                             tools:listitem="@layout/recycleritem_mealcard_foodtracker" />
 
                         <View
@@ -754,7 +909,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/foodtracker_card_premium"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="8dp"
@@ -866,30 +1021,16 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="left" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <Button
-        android:id="@+id/foodtracker_btn_calendar"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/colorAccent"
-        android:padding="8dp"
-        android:text="28.10.2019"
-        android:textColor="@android:color/background_light"
-        app:chipIcon="@drawable/ic_calendar_white"
-        app:closeIconEndPadding="6dp"
-        app:closeIconStartPadding="6dp"
-        app:cornerRadius="20dp"
-        app:icon="@drawable/ic_calendar_white"
-        app:iconSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

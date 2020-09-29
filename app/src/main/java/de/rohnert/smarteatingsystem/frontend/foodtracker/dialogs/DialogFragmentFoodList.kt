@@ -20,14 +20,14 @@ import de.rohnert.smarteatingsystem.backend.databases.food_database.normal_datab
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.adapter.ClassicFoodListAdapter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.adapter.FoodListAdapter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.FoodListerFilter
 import de.rohnert.smarteatingsystem.helper.others.CustomDividerItemDecoration
 
 
-class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2): DialogFragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
+class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel): DialogFragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
 
 
     // ,
@@ -123,7 +123,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
         filter = FoodListerFilter(rootView.context,foodViewModel,extendFilterValues)
         filter.setOnFilterItemsListener(object:FoodListerFilter.OnFilterItemsListener{
             override fun setOnFilterItemsListener(foodList: ArrayList<ExtendedFood>) {
-                classicAdapter.updateContent(foodList)
+                //classicAdapter.updateContent(foodList)
 
                 Log.d("Smeasy","DialogFragmentFoodList - initRecyclerView - setOnFilterItemsListener was called: Size of foodList: ${foodList.size}")
             }
@@ -228,45 +228,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
         Log.d("Smeasy", "DialogFragmentFoodList - onOptionsItemSelected(item: MenuItem):Boolean")
         if (item!!.itemId == R.id.foodlist_filter) {
 
-            var handler = Handler()
-            handler.postDelayed({
-                var filterDialog =
-                    DialogFoodListFilter(rootView.context, foodViewModel, categories,extendFilterValues,allowedFoodStatus,favouriteStatus,userFoodStatus)
-                filterDialog.onDialogFilterClickListener(object :
-                    DialogFoodListFilter.OnDialogFilterClickListener {
-                    override fun onDialogFilterClickListener(category: ArrayList<String>,allowedFood: Boolean,favouriten: Boolean,userFood: Boolean, newExtendFilterValues:ArrayList<Float>)
-                    {
-                        Log.d("Smeasy","DialogFragmentFoodList - onDialogFilterClickListener() - Categories: $category")
 
-                        extendFilterValues = newExtendFilterValues
-                        categories = category
-                        favouriteStatus = favouriten
-                        userFoodStatus = userFood
-                        allowedFoodStatus = allowedFood
-
-                        filter.setCategories(category)
-                        filter.setNewExtendedFilterValues(extendFilterValues)
-                        filter.setFavourites(favouriten)
-                        filter.setUserFood(userFood)
-                        filter.setAllowedFood(allowedFood)
-//                        Log.d("Smeasy","DialogFragmentFoodList - onMenuItemClick - onDialogFilterClickListener was called: Size of categories: ${foodList.size}")
-
-                        //filterFoods()
-                        /*categories = category
-                        pb.visibility = View.VISIBLE
-                        rv.visibility = View.GONE
-                        var handler = Handler()
-                        handler.post {
-                            classicAdapter.updateContent(foodViewModel.getFoodListFiltered(categories))
-                            pb.visibility = View.GONE
-                            rv.visibility = View.VISIBLE
-                            //adapter.submitList(foodViewModel.getFoodList().value!!)
-                            //adapter.submitList(foodViewModel.searchInAppFoodList(sItem, categories))
-                        }*/
-                    }
-
-                })
-            }, 50)
 
 
         } else if (item.itemId == R.id.foodlist_sort) {
@@ -388,7 +350,7 @@ class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel2)
             workFoodList = getFilteredFoodList()
             classicAdapter.updateContent(workFoodList)
         }*/
-        classicAdapter.updateContent(filter.filterByItemSearch(item))
+        //classicAdapter.updateContent(filter.filterByItemSearch(item))
 
     }
 

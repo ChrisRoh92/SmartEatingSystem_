@@ -5,7 +5,7 @@ import de.rohnert.smarteatingsystem.backend.databases.daily_database.MealEntry
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smarteatingsystem.backend.databases.food_database.extend_database.ExtendedFood
 
-class DailyProcessor(var context: Context)
+class DailyProcessor()
 {
 
     fun getCalcedFood(id:Int, food: ExtendedFood, menge:Float ): CalcedFood

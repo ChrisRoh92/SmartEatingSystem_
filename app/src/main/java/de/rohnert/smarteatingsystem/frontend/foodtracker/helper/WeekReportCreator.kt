@@ -8,7 +8,7 @@ import de.rohnert.smarteatingsystem.backend.databases.daily_database.Daily
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.MealEntry
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smarteatingsystem.backend.repository.subrepositories.daily.DailyProcessor
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.helper.dialogs.DialogLoading
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -17,14 +17,14 @@ import kotlinx.coroutines.runBlocking
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
-class WeekReportCreator(date:String, var foodViewModel:FoodViewModel2)
+class WeekReportCreator(date:String, var foodViewModel: FoodViewModel)
 {
     // Allgemeiner Stuff
     private var helper = Helper()
     private var mDate:String = date
     private var dayList:ArrayList<String> = ArrayList()
     private var dailyList:ArrayList<Daily> = ArrayList()
-    private var dailyProcess = DailyProcessor(foodViewModel.getApplication())
+    private var dailyProcess = DailyProcessor()
     private var created:MutableLiveData<Int> = MutableLiveData()
     var content:ArrayList<ArrayList<Float>> = ArrayList()
     // Interface:

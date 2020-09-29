@@ -35,17 +35,7 @@ class FoodListAdapter(var meal:String): ListAdapter<Food, FoodListAdapter.FoodLi
         holder.tvGroup.text = food.category
         holder.tvKcal.text = "${helper.getFloatAsFormattedString(food.kcal,"#.#")} kcal"
 
-        if(Random.nextBoolean())
-        {
-            holder.icon.setImageDrawable(ContextCompat.getDrawable((holder.icon.context),R.drawable.ic_check_dark))
 
-
-        }
-        else
-        {
-            holder.icon.setImageDrawable(ContextCompat.getDrawable((holder.icon.context),R.drawable.ic_false_dark))
-
-        }
 
 
 
@@ -98,7 +88,7 @@ class FoodListAdapter(var meal:String): ListAdapter<Food, FoodListAdapter.FoodLi
         var tvName: TextView = itemView.findViewById(R.id.mealcard_item_name)
         var tvGroup: TextView = itemView.findViewById(R.id.mealcard_item_group)
         var tvKcal: TextView = itemView.findViewById(R.id.mealcard_item_kcal)
-        var icon: ImageView = itemView.findViewById(R.id.mealcard_item_icon)
+        //var icon: ImageView = itemView.findViewById(R.id.mealcard_item_icon)
 
 
     }

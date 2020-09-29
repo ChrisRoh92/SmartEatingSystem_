@@ -8,10 +8,10 @@ import android.view.View
 import android.widget.*
 import de.rohnert.smarteatingsystem.R
 import com.google.android.material.textfield.TextInputLayout
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleLineInput
 
-class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context) : AdapterView.OnItemSelectedListener {
+class FoodCreatorDialog(var foodViewModel: FoodViewModel, var context: Context) : AdapterView.OnItemSelectedListener {
 
 
     lateinit var builder: AlertDialog.Builder
@@ -96,13 +96,13 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel2, var context: Context)
 
 
         // Button Listener:
-        btn_abort.setOnClickListener({
+        btn_abort.setOnClickListener {
             alertDialog.dismiss()
-        })
+        }
 
-        btn_save.setOnClickListener({
+        btn_save.setOnClickListener {
             createNewFood()
-        })
+        }
     }
 
     // Content initialisieren:

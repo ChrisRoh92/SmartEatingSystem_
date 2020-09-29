@@ -27,16 +27,11 @@ class AnimationStatusView(var context: Context,
     // Interface:
     private lateinit var mListener:OnAnimationStatusViewInitListener
 
-    init {
-        startInitAnimation()
-    }
 
-    private fun startInitAnimation()
+
+    fun startInitAnimation(callback:()->Unit)
     {
-        /*var set = AnimatorSet()
-        //var animatorList:ArrayList<ValueAnimator> = createInitAnimatorList()
-        set.playTogether(createInitAnimatorList())
-        set.start()*/
+
 
         var set = AnimatorSet()
         var pbSet = AnimatorSet()
@@ -55,10 +50,7 @@ class AnimationStatusView(var context: Context,
 
             override fun onAnimationEnd(p0: Animator?) {
                 tvSet.start()
-                if(mListener!=null)
-                {
-                    mListener.setOnAnimationStatusViewListener()
-                }
+                callback()
             }
 
             override fun onAnimationCancel(p0: Animator?) {
@@ -80,15 +72,16 @@ class AnimationStatusView(var context: Context,
     fun animateNewValues(progressValues:ArrayList<Float>)
     {
 
-            var set = AnimatorSet()
-            var pbSet = AnimatorSet()
-            var tvSet = AnimatorSet()
-            pbSet.playTogether(createProgressBarAnimatorList(progressValues))
-            tvSet.playTogether(createTextViewAnimatorList(progressValues))
-            set.play(pbSet).before(tvSet)
-            set.start()
-
-
+            var pbSet = AnimatorSet().apply {
+                playTogether(createProgressBarAnimatorList(progressValues))
+            }
+            var tvSet = AnimatorSet().apply {
+                playTogether(createTextViewAnimatorList(progressValues))
+            }
+            var set = AnimatorSet().apply {
+                play(pbSet).before(tvSet)
+                start()
+            }
 
     }
 
@@ -105,9 +98,9 @@ class AnimationStatusView(var context: Context,
         // Hinzufügen vom Kcal ProgressBar:
         var startValue = 0
         var start = ((progressValues[0]/maxValues[0])*2700)
-        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList progressValues[0] = ${progressValues[0]}")
-        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList maxValues[0] = ${maxValues[0]}")
-        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList start = $start")
+//        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList progressValues[0] = ${progressValues[0]}")
+//        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList maxValues[0] = ${maxValues[0]}")
+//        Log.d("Smeasy","AnimationStatusView - createInitProgressBarAnimatorList start = $start")
         if(start == 0f)
         {
 

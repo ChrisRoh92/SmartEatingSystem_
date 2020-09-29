@@ -1,6 +1,5 @@
-package de.rohnert.smarteatingsystem.frontend.foodtracker.foodchooser
+package de.rohnert.smarteatingsystem.frontend.foodtracker._archiv.foodchooser
 
-import android.icu.text.Transliterator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smarteatingsystem.backend.helper.Helper
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
-import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.WeekReportCreator
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogLoading
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 
-class DialogFragmentChooseHistoryMeals(var foodViewModel: FoodViewModel2,var meal:String): DialogFragment()
+class DialogFragmentChooseHistoryMeals(var foodViewModel: FoodViewModel, var meal:String): DialogFragment()
 {
     // Allgemeine Variablen:
     private lateinit var rootView: View

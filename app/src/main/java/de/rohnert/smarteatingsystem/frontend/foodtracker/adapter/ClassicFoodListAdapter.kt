@@ -1,6 +1,7 @@
 package de.rohnert.smarteatingsystem.frontend.foodtracker.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +25,12 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
     private var prefs = SharedAppPreferences(context)
 
     // Interface:
-    lateinit var mLongListener: OnLongClickListener
     lateinit var mListener: OnClickListener
     lateinit var mCheckedListener:OnCheckedChangedListener
+    lateinit var mSimpleListener: OnSimpleClickListener
 
+    /////////////////////////////////////
+    // Override Methods:
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.recycleritem_foodlist, parent, false)
@@ -43,56 +46,49 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
         holder.tvName.text = food.name
         holder.tvGroup.text = food.category
         holder.tvKcal.text = "${helper.getFloatAsFormattedString(food.kcal,"#.#")} kcal"
-        if(food.marken!="")
-        {
-            holder.tvMarke.text = "von ${food.marken}"
-        }
-        else
-        {
-            holder.tvMarke.text = " - "
-        }
+        holder.tvMarke.text = if(food.marken!="") "von ${food.marken}" else " - "
 
-        // Hüer muss geprüft werden, ob das Lebensmittel ok ist oder nicht...
+
+        // Hier muss geprüft werden, ob das Lebensmittel ok ist oder nicht...
         if(checkIfFoodIsAllowed(food))
         {
-            holder.icon.setImageDrawable(ContextCompat.getDrawable((holder.icon.context),R.drawable.ic_check_dark))
+            //holder.icon.setImageDrawable(ContextCompat.getDrawable((holder.icon.context),R.drawable.ic_check_dark))
+            holder.tvName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_dark, 0, 0, 0);
 
 
         }
         else
         {
-            holder.icon.setImageDrawable(ContextCompat.getDrawable((holder.icon.context),R.drawable.ic_false_dark))
-
+            //holder.icon.setImageDrawable(ContextCompat.getDrawable((holder.icon.context),R.drawable.ic_false_dark))
+            holder.tvName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_false_dark, 0, 0, 0);
         }
 
         // ToggleButton
         holder.favButton.isChecked = checkIfFoodIsFavourite(food)
-        holder.favButton.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener
-        {
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                if(mCheckedListener!=null)
-                {
-                    mCheckedListener.setOnCheckedChangeListener(content[holder.adapterPosition],isChecked)
-                }
-
+        holder.favButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(mCheckedListener!=null) {
+                mCheckedListener.setOnCheckedChangeListener(content[holder.adapterPosition],isChecked)
             }
+        }
 
-        })
+        // SimpleAddButton:
+        holder.btnSimpleAdd.setOnClickListener {
+            mSimpleListener?.setOnSimpleClickListener(content[holder.adapterPosition],holder.adapterPosition)
+        }
 
-        // Animation:
-        holder.itemView.animation = AnimationUtils.loadAnimation(holder.itemView.context,R.anim.anim_foodlist_item)
+
 
 
 
         holder.itemView.setOnClickListener {
-            if (mListener != null) {
-                mListener.setOnClickListener(content[holder.adapterPosition],holder.adapterPosition)
-            }
+            mListener?.setOnClickListener(content[holder.adapterPosition],holder.adapterPosition)
         }
     }
 
-    private fun checkIfFoodIsFavourite(food:ExtendedFood):Boolean
-    {
+
+    /////////////////////////////////////
+    // Internal Methods:
+    private fun checkIfFoodIsFavourite(food:ExtendedFood):Boolean{
         var check = false
         for(i in favContent)
         {
@@ -105,14 +101,7 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
         return check
     }
 
-    fun updateContent(content:ArrayList<ExtendedFood>)
-    {
-        this.content = content
-        notifyDataSetChanged()
-    }
-
-    private fun checkIfFoodIsAllowed(food:ExtendedFood):Boolean
-    {
+    private fun checkIfFoodIsAllowed(food:ExtendedFood):Boolean{
         var status = true
 
         // Prüfen ob im Kcal Bereich:
@@ -226,37 +215,56 @@ class ClassicFoodListAdapter(var content:ArrayList<ExtendedFood>, var favContent
     }
 
 
+    /////////////////////////////////////
+    // External Methods:
+    fun updateContent(content:ArrayList<ExtendedFood>,favContent: ArrayList<FavFood>)
+    {
+        this.content = content
+        this.favContent = favContent
+        notifyDataSetChanged()
+    }
 
 
+
+    /////////////////////////////////////
+    // ViewHolder:
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvName: TextView = itemView.findViewById(R.id.mealcard_item_name)
         var tvGroup: TextView = itemView.findViewById(R.id.mealcard_item_group)
         var tvMarke:TextView = itemView.findViewById(R.id.mealcard_item_marke)
         var tvKcal: TextView = itemView.findViewById(R.id.mealcard_item_kcal)
-        var icon: ImageView = itemView.findViewById(R.id.mealcard_item_icon)
+        var btnSimpleAdd: ImageView = itemView.findViewById(R.id.mealcard_item_btn_simple)
         var favButton:ToggleButton = itemView.findViewById(R.id.button_favorite)
+
 
     }
 
 
-    interface OnLongClickListener
-
-
+    /////////////////////////////////////
+    // Interfaces:
     interface OnClickListener {
         fun setOnClickListener(food: ExtendedFood, position: Int)
     }
-
     fun setOnClickListener(mListener: OnClickListener) {
         this.mListener = mListener
     }
 
-    interface OnCheckedChangedListener
-    {
+
+    interface OnCheckedChangedListener{
         fun setOnCheckedChangeListener(food:ExtendedFood,buttonState:Boolean)
     }
-
-    fun setOnCheckedChangeListener(mCheckedListener:OnCheckedChangedListener)
-    {
+    fun setOnCheckedChangeListener(mCheckedListener:OnCheckedChangedListener){
         this.mCheckedListener = mCheckedListener
     }
+
+    // Interfaces:
+    interface OnSimpleClickListener {
+        fun setOnSimpleClickListener(food: ExtendedFood, position: Int)
+    }
+    fun setOnSimpleClickListener(mSimpleListener: OnSimpleClickListener) {
+        this.mSimpleListener = mSimpleListener
+    }
+
+
+
 }

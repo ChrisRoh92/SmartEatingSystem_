@@ -5,7 +5,8 @@
     android:id="@+id/item_foodlist"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground"
+    android:backgroundTint="@color/design_default_color_on_primary">
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -34,12 +35,15 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:maxLines="2"
-        android:text="Lebensmittel"
+        android:drawableStart="@drawable/ic_check_dark"
+        android:drawablePadding="4dp"
+        android:maxLines="1"
+        android:text="Lebensmittelname"
         android:textColor="@color/textColor1"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/button_favorite"
-        app:layout_constraintStart_toEndOf="@+id/mealcard_item_fab"
+        app:drawableTint="#000000"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayout"
+        app:layout_constraintStart_toEndOf="@+id/button_favorite"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -60,44 +64,19 @@
         app:barrierDirection="right"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/mealcard_item_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:clickable="true"
-        android:visibility="invisible"
-        app:fabCustomSize="24dp"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_false_dark" />
-
     <ToggleButton
         android:id="@+id/button_favorite"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/button_favourite"
         android:checked="false"
         android:text=""
         android:textOff=""
         android:textOn=""
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/mealcard_item_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:tint="@color/background"
-        app:layout_constraintBottom_toBottomOf="@+id/mealcard_item_fab"
-        app:layout_constraintEnd_toEndOf="@+id/mealcard_item_fab"
-        app:layout_constraintStart_toStartOf="@+id/mealcard_item_fab"
-        app:layout_constraintTop_toTopOf="@+id/mealcard_item_fab"
-        app:srcCompat="@drawable/ic_check_dark" />
 
     <TextView
         android:id="@+id/mealcard_item_marke"
@@ -118,5 +97,26 @@
         app:layout_constraintEnd_toEndOf="@+id/mealcard_item_group"
         app:layout_constraintStart_toStartOf="@+id/mealcard_item_marke"
         app:layout_constraintTop_toBottomOf="@+id/mealcard_item_marke" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/mealcard_item_btn_simple"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

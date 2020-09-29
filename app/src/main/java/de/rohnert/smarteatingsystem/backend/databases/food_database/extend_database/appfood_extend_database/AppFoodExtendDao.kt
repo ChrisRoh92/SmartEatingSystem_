@@ -25,6 +25,9 @@ interface AppFoodExtendDao
     @Query("SELECT COUNT(*) FROM extend_food WHERE id= 'a1'")
     suspend fun getNumberOfEntries():Int
 
+    @Query("SELECT * FROM extend_food WHERE name LIKE :argument OR marken = :argument")
+    suspend fun getFilteredData(argument:String):List<ExtendedFood>
+
     @Insert
     suspend fun insert(food: ExtendedFood)
 

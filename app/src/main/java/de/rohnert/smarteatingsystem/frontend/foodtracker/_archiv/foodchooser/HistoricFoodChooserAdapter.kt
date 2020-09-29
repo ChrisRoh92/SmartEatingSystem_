@@ -1,4 +1,4 @@
-package de.rohnert.smarteatingsystem.frontend.foodtracker.foodchooser
+package de.rohnert.smarteatingsystem.frontend.foodtracker._archiv.foodchooser
 
 import android.view.LayoutInflater
 import android.view.View

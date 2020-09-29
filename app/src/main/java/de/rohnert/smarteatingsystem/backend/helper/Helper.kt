@@ -37,6 +37,35 @@ class Helper
         return formatted2
     }
 
+    fun getWeekNumberFromDate(date:Date):Int
+    {
+        val cal = Calendar.getInstance()
+        cal.time = date
+
+
+        return cal.get(Calendar.WEEK_OF_YEAR)
+    }
+
+    fun getDayOfWeekFromDate(date:Date):Int
+    {
+        var cal = Calendar.getInstance(Locale.GERMANY)
+        cal.time = date
+        var dayOfWeek = cal.get(Calendar.DAY_OF_WEEK)-2
+        if(dayOfWeek<0)
+            dayOfWeek += 7
+
+        return dayOfWeek
+    }
+
+    fun getDateWithOffsetDays(date:Date,offset:Int):Date
+    {
+        val cal = Calendar.getInstance()
+        cal.time = date
+        cal.add(Calendar.DATE,offset)
+
+        return cal.time
+    }
+
 
 
     fun getStringFromDateWithPattern(date:Date,pattern: String):String
@@ -168,15 +197,7 @@ class Helper
         return export
     }
 
-    fun getDateWithAddValue(date:Date,value:Int):Date
-    {
-        var cal = Calendar.getInstance()
-        cal.time = date
-        cal.add(Calendar.DATE,value)
 
-        return cal.time
-
-    }
 
 
 
@@ -194,9 +215,7 @@ class Helper
     // Heutiges Datum abholen...
     fun getCurrentDate():Date
     {
-
-        var mDate: Date = Date()
-        return mDate
+        return Date()
     }
 
 

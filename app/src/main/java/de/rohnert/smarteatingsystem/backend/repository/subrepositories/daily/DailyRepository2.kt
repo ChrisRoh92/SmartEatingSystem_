@@ -16,7 +16,7 @@ class DailyRepository2(var application: Application)
     init {
         var db = DailyDataBaseProvider2.getDatabase(application)
         dailyDao2 = db.dailyDao2()
-        dailyProcessor = DailyProcessor(application)
+        dailyProcessor = DailyProcessor()
     }
 
     suspend fun getDailyByDate(date:String): Daily

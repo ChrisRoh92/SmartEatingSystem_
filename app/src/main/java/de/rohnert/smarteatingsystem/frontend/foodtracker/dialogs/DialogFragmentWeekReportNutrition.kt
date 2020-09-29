@@ -18,13 +18,13 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.MyPercentFormatter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.MyValueFormatter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.WeekReportCreator
 
 class DialogFragmentWeekReportNutrition(
-    var foodViewModel: FoodViewModel2,
+    var foodViewModel: FoodViewModel,
     var weekReport: WeekReportCreator
 ): DialogFragment()
 {

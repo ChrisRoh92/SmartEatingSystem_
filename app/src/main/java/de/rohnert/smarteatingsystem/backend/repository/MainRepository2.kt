@@ -105,6 +105,7 @@ class MainRepository2(var application: Application)
     // Methods from DailyRepository2
     suspend fun getDailyByDate(date:String): Daily
     {
+
         return dailyRepository2.getDailyByDate(date)
     }
 

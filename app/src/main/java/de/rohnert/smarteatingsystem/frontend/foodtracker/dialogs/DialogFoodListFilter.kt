@@ -11,10 +11,9 @@ import de.rohnert.smarteatingsystem.R
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 
-class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewModel2, var categories:ArrayList<String>,var extendFilterValues:ArrayList<Float>,
-var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnClickListener {
+class DialogFoodListFilter(var context: Context, var foodViewModel: FoodViewModel) : View.OnClickListener {
 
 
     private lateinit var builder: AlertDialog.Builder
@@ -27,6 +26,12 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
     // Interface Stuff:
     lateinit var mListener: OnDialogFilterClickListener
 
+    // Status Stuff:
+    private var categories:ArrayList<String> = foodViewModel.filterCategory
+    private var allowedFood:Boolean = foodViewModel.onlyAllowedFoodFilter
+    private var favourite:Boolean = foodViewModel.onlyFavouriteFood
+    private var userFood:Boolean = foodViewModel.onlyUserFoodFilter
+
     // Extended Filter:
     //private var extendFilterValues:ArrayList<Float> = arrayListOf(0f,0f,0f,0f,0f,0f,0f,0f)
 
@@ -35,7 +40,6 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
     private lateinit var tvCategories: TextView
     // Buttons:
     private lateinit var btnCategory:FrameLayout
-    private lateinit var btnExtendFilter:FrameLayout
     private lateinit var btnReset:Button
     private lateinit var btnSave:Button
     private lateinit var btnAbort:Button
@@ -74,7 +78,7 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
 
 
         initViews()
-        initPremiumViews()
+
         //initChipGroupContent()
 
 
@@ -96,15 +100,17 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
         // InitSwitches:
         switchFavourites = view.findViewById(R.id.dialog_filter_switch_favourites)
         switchUserFood = view.findViewById(R.id.dialog_filter_switch_userfood)
+        switchAllowed = view.findViewById(R.id.dialog_filter_switch_allowedfood)
         // Aktiv Switches
         switchUserFood.isChecked = userFood
         switchFavourites.isChecked = favourite
+        switchAllowed.isChecked = allowedFood
 
 
 
         //FrameLayout as Button
         btnCategory = view.findViewById(R.id.dialog_filter_btn_category)
-        btnExtendFilter = view.findViewById(R.id.dialog_filter_btn_extend_filter)
+
 
         // TextViews...
         tvCategories = view.findViewById(R.id.dialog_filter_category_elements)
@@ -122,50 +128,7 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
 
     }
 
-    fun initPremiumViews()
-    {
-        // TextViews initialisieren:
-        tvAllowedFoodTitle = view.findViewById(R.id.dialog_filter_tv_allowed_food)
-        tvAdvancedFilterTitle = view.findViewById(R.id.dialog_filter_tv_advanced_filter)
-        tvAdvancedFilterValue = view.findViewById(R.id.dialog_filter_tv_advanced_filter_content)
-        var extendFilter = false
-        for(i in extendFilterValues)
-        {
-            if(i > 0)
-            {
-                extendFilter = true
-                break
 
-            }
-        }
-
-        if(extendFilter) tvAdvancedFilterValue.text = "Erweiterte Filter aktiv"
-        else tvAdvancedFilterValue.text = "Keine Filter aktiv"
-        // SwitchView initialisieren:
-        switchAllowed = view.findViewById(R.id.dialog_filter_switch_allowedfood)
-
-        // ImageButton:
-        btnAdvancedFilter = view.findViewById(R.id.dialog_filter_btn_advanced_filter)
-        btnAllowedFoodTitle = view.findViewById(R.id.dialog_filter_btn_allowed_food)
-
-        if(prefs.premiumStatus)
-        {
-            tvAllowedFoodTitle.setTextColor(ContextCompat.getColor(context,R.color.textColor1))
-            tvAdvancedFilterTitle.setTextColor(ContextCompat.getColor(context,R.color.textColor1))
-
-            btnAdvancedFilter.visibility = View.GONE
-            btnAllowedFoodTitle.visibility = View.GONE
-
-            switchAllowed.alpha = 1f
-            switchAllowed.isEnabled = true
-            switchAllowed.isChecked = allowedFood
-
-            btnExtendFilter.setOnClickListener(this)
-
-        }
-
-
-    }
 
 
     // ClickListener....
@@ -174,18 +137,6 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
         {
             btnSave -> startSaveProcess(true)
             btnReset -> startResetProcess()
-            btnExtendFilter ->
-            {
-                var dialog = DialogExtendFilter(context, extendFilterValues)
-                dialog.setOnDialogExtendedFilterListener(object: DialogExtendFilter.OnDialogExtendedFilterListener{
-                    override fun setOnDialogExtendedFilterListener(values: ArrayList<Float>) {
-                        extendFilterValues = values
-                        tvAdvancedFilterValue.text = "Erweiterte Filter aktiv"
-                        //
-                    }
-
-                })
-            }
             btnAbort -> alertDialog.dismiss()
             btnCategory ->
             {
@@ -198,8 +149,7 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
 
                 })
             }
-            /*btnExtras -> Toast.makeText(view.context,"Das ist eine Premium Funktion",Toast.LENGTH_SHORT).show()
-            btnCategory -> Toast.makeText(view.context,"Dialog starten um Kateogrien auszuwählen...",Toast.LENGTH_SHORT).show()*/
+
         }
     }
 
@@ -231,32 +181,30 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
     }
 
     // Methode, wenn Speicher Button angeklickt wird
-    fun startSaveProcess(exit:Boolean) {
-        /*var export: ArrayList<String> = ArrayList()
-        for (i in chips) {
-            if (i.isChecked) export.add(i.text.toString())
-        }*/
-        if(mListener!=null)
-        {
-            mListener.onDialogFilterClickListener(
-                categories,
-                switchAllowed.isChecked,
-                switchFavourites.isChecked,
-                switchUserFood.isChecked,
-                extendFilterValues
-            )
-        }
+    private fun startSaveProcess(exit:Boolean) {
+
+
+
+        foodViewModel.onlyAllowedFoodFilter = switchAllowed.isChecked
+        foodViewModel.onlyFavouriteFood = switchFavourites.isChecked
+        foodViewModel.onlyUserFoodFilter = switchUserFood.isChecked
+        foodViewModel.filterCategory = categories
+        mListener?.onDialogFilterClickListener()
+
+
 
         if(exit)alertDialog.dismiss()
     }
 
     // Methode, wenn auf Reset geklickt wird...
-    fun startResetProcess()
+    private fun startResetProcess()
     {
         //
         switchAllowed.isChecked = false
         switchFavourites.isChecked = false
         switchUserFood.isChecked = false
+        categories = foodViewModel.getFoodCategories()
+        tvCategories.text = getCategoryElements()
         startSaveProcess(false)
 
     }
@@ -266,7 +214,7 @@ var allowedFood:Boolean,var favourite:Boolean,var userFood:Boolean) : View.OnCli
 
     interface OnDialogFilterClickListener
     {
-        fun onDialogFilterClickListener(category:ArrayList<String>, allowedFood:Boolean, favouriten:Boolean,userFood:Boolean, newExtendFilterValues:ArrayList<Float>)
+        fun onDialogFilterClickListener()
     }
 
     fun onDialogFilterClickListener(mListener: OnDialogFilterClickListener)

@@ -1,4 +1,4 @@
-package de.rohnert.smarteatingsystem.frontend.foodtracker
+package de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel
 
 import android.app.Application
 import android.util.Log
@@ -12,6 +12,7 @@ import de.rohnert.smarteatingsystem.backend.databases.daily_database.helper.Calc
 import de.rohnert.smarteatingsystem.backend.repository.subrepositories.daily.DailyProcessor
 import de.rohnert.smarteatingsystem.backend.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smarteatingsystem.backend.databases.food_database.extend_database.ExtendedFood
+import de.rohnert.smarteatingsystem.backend.databases.food_database.normal_database.Food
 import de.rohnert.smarteatingsystem.backend.databases.food_database.normal_database.favourite_foods.FavFood
 import de.rohnert.smarteatingsystem.backend.repository.MainRepository2
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
@@ -22,15 +23,18 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.util.*
+import kotlin.collections.ArrayList
 
-class FoodViewModel2(application: Application) : AndroidViewModel(application)
+class FoodViewModel(application: Application) : AndroidViewModel(application)
 {
 
     //Allgemeines:
     private var helper = Helper()
     private var repository = MainRepository2(application)
+
     // Prozessoren...
-    private var dailyProcess = DailyProcessor(application)
+    private var dailyProcess = DailyProcessor()
     private lateinit var foodProcessor: FoodProcessor
 
     // Zentraler Zugriff auf Einstellungen...
@@ -38,19 +42,39 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     private var smeasyValues = SharedPreferencesSmeasyValues(application)
 
 
+    /////////////////////////////////////////////////////////////////
+    // Datum etc.
     var date:String = helper.getStringFromDate(helper.getCurrentDate())
+    var mDate = helper.getCurrentDate()
+    // LiveData - Date:
+    private var liveDate:MutableLiveData<Date> = MutableLiveData()
+
+    /////////////////////////////////////////////////////////////////
+    // FoodChooser Variablen:
+    var sMeal = ""
+
+    ////////////////////////////////////////////////////////////////
+    // Daten für FoodChooser (FoodListFragment + MealListFragment)
+    var onlyFavouriteFood = false // Wird gesetzt, wenn nur Favouriten gezeigt werden sollen!
+    var onlyAllowedFoodFilter = false
+    var onlyUserFoodFilter = false
+    var filterCategory:ArrayList<String> = ArrayList()
 
 
 
-    // FoodLists:
+
+
+    // Offline FoodLists:
     private lateinit var localAppFoodList:ArrayList<ExtendedFood>
     private lateinit var localUserFoodList:ArrayList<ExtendedFood>
     private lateinit var localFoodList:ArrayList<ExtendedFood>
+    private lateinit var filteredFoodList:ArrayList<ExtendedFood>
     private lateinit var localFoodCategories:ArrayList<String>
+    private var foodListLoaded:MutableLiveData<Int> = MutableLiveData()
 
     // Daily:
     private lateinit var localDailyList:ArrayList<Daily>
-    private lateinit var localDaily: Daily
+    lateinit var localDaily: Daily
 
     // Get All CalcedFoodsList()
     private lateinit var allCalcedFoods:ArrayList<ArrayList<ArrayList<CalcedFood>>>
@@ -62,7 +86,7 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     // LiveDate, wenn ein neues UserFood eingetragen/verändert/gelöscht wird...
     private var updatedFoodList:MutableLiveData<Int> = MutableLiveData()
     // Daily-Stuff
-    private lateinit var daily:LiveData<Daily>
+    private var allMeallistsReady:MutableLiveData<Int> = MutableLiveData()
     private var breakfastList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
     private var lunchList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
     private var dinnerList: MutableLiveData<ArrayList<MealEntry>>? = MutableLiveData()
@@ -73,28 +97,28 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
 
     init {
-
+        Log.d(TAG,"FoodViewModel - init {}")
+        liveDate.value = helper.getCurrentDate()
         CoroutineScope(IO).launch {
 
-            runBlocking {
+            setFoodList()
+            // Am Anfang ist diese Liste leer
+            // Sollte das der Fall sein, wird aus einer CSV Datei, die Datenbank
+            // initial gefüllt:
+            if(localAppFoodList.isNullOrEmpty())
+            {
+                setCSVFoodList()
                 setFoodList()
-                if(localAppFoodList.isNullOrEmpty())
-                {
-                    setCSVFoodList()
-                    setFoodList()
-                    //Toast.makeText(application,"Food Liste wurde angelegt...",Toast.LENGTH_SHORT).show()
-                    Log.d("Smeasy","FoodViewModel2 - init - FoodListe aus CSV wurde angelegt....")
-                }
-                setLocalDaily()
-                foodProcessor = FoodProcessor(application, localFoodList)
-
 
             }
 
+            setLocalDaily()
+            foodProcessor = FoodProcessor(application, localFoodList)
+
+            // Hier so komisch, damit direkt mit livedata.value = ... gearbeitet werden kann
             withContext(Main)
             {
-                setFavFoodList()
-
+                //setFavFoodList()
                 createEntryLists()
             }
 
@@ -108,33 +132,38 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Init Private Methoden
-    private suspend fun getDailyFromList(date:String): Daily
-    {
-        var exist = false
-        var export: Daily? = null
-        for(i in localDailyList)
-        {
-            if(i.date == date)
-            {
-                exist = true
-                export = i
-                break
-            }
-        }
-        if(!exist)
-        {
-            export = repository.getDailyByDate(date)
-            localDailyList.add(export)
-        }
 
-        return export!!
-    }
 
     private suspend fun setLocalDaily()
     {
-        localDailyList = repository.getDailyList()
 
-        localDaily = getDailyFromList(date)
+        suspend fun getDailyWithDate(date:String):Daily
+        {
+            var exist = false
+            var export: Daily? = null
+            for(i in localDailyList)
+            {
+                if(i.date == date)
+                {
+                    exist = true
+                    export = i
+                    break
+                }
+            }
+            if(!exist)
+            {
+                export = repository.getDailyByDate(date)
+                localDailyList.add(export)
+            }
+
+            return export!!
+        }
+
+        // Alle vorhandenen
+        localDailyList = repository.getDailyList()
+        localDaily = getDailyWithDate(date)
+
+        //localDaily = getDailyFromList(date)
         if(helper.isDateInFuture(helper.getDateFromString(date)))
         {
             if(localDaily.maxKcal != sharePrefs.maxKcal)
@@ -165,7 +194,11 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         localUserFoodList = repository.getUserFoodList()
         localFoodList = localAppFoodList
         localFoodList.addAll(localUserFoodList)
+        filteredFoodList = localFoodList
         localFoodCategories = repository.getFoodCategories()
+        filterCategory = localFoodCategories
+        setFavFoodList()
+        foodListLoaded.postValue(if(foodListLoaded.value == null) 1 else foodListLoaded.value!! + 1)
         // UserFood einbinden...
     }
 
@@ -183,45 +216,31 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     {
 
 
-        //breakfastList!!.postValue(localDaily.breakfastEntry)
-
-
         lunchList!!.value = localDaily.lunchEntry
         dinnerList!!.value = localDaily.dinnerEntry
         snackList!!.value = localDaily.snackEntry
         breakfastList!!.value = localDaily.breakfastEntry
+        allMeallistsReady.value = if(allMeallistsReady.value == null) 1 else allMeallistsReady.value!!+1
 
-        /*lunchList!!.postValue(localDaily.lunchEntry)
-        dinnerList!!.postValue(localDaily.dinnerEntry)
-        snackList!!.postValue(localDaily.snackEntry)*/
-
-        /*Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.breakfastEntry: ${localDaily.breakfastEntry}")
-        Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.lunchEntry: ${localDaily.lunchEntry}")
-        Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.dinnerEntry: ${localDaily.dinnerEntry}")
-        Log.d("Smeasy","FoodViewModel2 createEntryList: localDaily.snackEntry: ${localDaily.snackEntry}")
-
-        Log.d("Smeasy","FoodViewModel2 createEntryList: breakfastList: ${breakfastList!!.value}")
-        Log.d("Smeasy","FoodViewModel2 createEntryList: lunchList: ${lunchList!!.value}")
-        Log.d("Smeasy","FoodViewModel2 createEntryList: dinnerList: ${dinnerList!!.value}")
-        Log.d("Smeasy","FoodViewModel2 createEntryList: snackList: ${snackList!!.value}")*/
 
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////////////////////
-    // Set New Date...
+    // Date Stuff
     fun setNewDate(newDate:String)
     {
+        liveDate.value = helper.getDateFromString(newDate)
+        mDate = helper.getDateFromString(newDate)
         date = newDate
-        CoroutineScope(IO).launch {
+        CoroutineScope(Main).launch {
 
-            withContext(Main)
-            {
-                setLocalDaily()
-                createEntryLists()
-            }
+            setLocalDaily()
+            createEntryLists()
         }
     }
+
+    fun getLiveDate():LiveData<Date> {return liveDate}
     ///////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -251,24 +270,22 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     fun addNewMealEntry(foodId:String,menge:Float,meal:String)
     {
         // Interne Methode für neue ID des MealEntries...
-        fun getNewMealEntry(iMeal:String):Int
+        fun getNewMealEntryId(iMeal:String):Int
         {
             return when(iMeal) {
-                "breakfast" -> dailyProcess.getNewMealEntryId(localDaily.breakfastEntry!!)
-                "lunch" -> dailyProcess.getNewMealEntryId(localDaily.lunchEntry!!)
-                "dinner" -> dailyProcess.getNewMealEntryId(localDaily.dinnerEntry!!)
-                else -> dailyProcess.getNewMealEntryId(localDaily.snackEntry!!)
+                "breakfast" -> getNewMealEntryId(localDaily.breakfastEntry!!)
+                "lunch" -> getNewMealEntryId(localDaily.lunchEntry!!)
+                "dinner" -> getNewMealEntryId(localDaily.dinnerEntry!!)
+                else -> getNewMealEntryId(localDaily.snackEntry!!)
 
-                // "breakfast" -> dailyProcess.getNewMealEntryId(breakfastList!!.value!!)
-                //                "lunch" -> dailyProcess.getNewMealEntryId(lunchList!!.value!!)
-                //                "dinner" -> dailyProcess.getNewMealEntryId(dinnerList!!.value!!)
-                //                else -> dailyProcess.getNewMealEntryId(snackList!!.value!!)
+
             }
         }
 
-        var newEntry = MealEntry(getNewMealEntry(meal),foodId,menge)
+        // Neues MealEntry Objekt erstellen:
+        val newEntry = MealEntry(getNewMealEntryId(meal),foodId,menge)
 
-
+        // newEntry in die jeweilige Liste der heutigen localDaily eintragen....
         when(meal)
         {
             "breakfast" ->
@@ -276,6 +293,8 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
                 localDaily.breakfastEntry!!.add(newEntry)
                 breakfastList!!.value = localDaily.breakfastEntry
+                Log.d(TAG,"addNewMealEntry - breakfast :breakfastList!!.value = ${breakfastList!!.value}")
+                Log.d(TAG,"addNewMealEntry - breakfast localDaily = ${localDaily}")
 
             }
             "lunch" ->
@@ -303,14 +322,11 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
         // Neue Entrylisten erstellen.
         CoroutineScope(Main).launch {
-            //createEntryLists()
+            createEntryLists()
             updateDaily(daily = localDaily)
         }
 
 
-
-
-        // Daily Updaten...
 
 
 
@@ -504,57 +520,91 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun getDailyValues():ArrayList<Float>
+    fun getDailyValues(callback: (values: ArrayList<Float>) -> Unit)
     {
         // Steht noch aus
-        var export:ArrayList<Float> = arrayListOf(0f,0f,0f,0f)
-        runBlocking {
+        Log.d(TAG,"FoodViewModel - getDailyValues - current daily = $localDaily")
+        CoroutineScope(IO).launch {
+            var export:ArrayList<Float> = arrayListOf(0f,0f,0f,0f)
             var values:ArrayList<ArrayList<Float>> = ArrayList()
-            var breakfast:ArrayList<Float> = getMealValues("breakfast")
-            var lunch:ArrayList<Float> = getMealValues("lunch")
-            var dinner:ArrayList<Float> = getMealValues("dinner")
-            var snack:ArrayList<Float> = getMealValues("snack")
-            values.add(breakfast)
-            values.add(lunch)
-            values.add(dinner)
-            values.add(snack)
-            for(i in values)
+            for((index,i) in lunchNames.withIndex())
             {
-                export[0] += i[0]
-                export[1] += i[1]
-                export[2] += i[2]
-                export[3] += i[3]
+                getMealValues(i) {
+                    values.add(it)
+                    Log.d(TAG,"FoodViewModel - getDailyValues - values from different lunches($i) with these values = $it")
+                    if(index == lunchNames.lastIndex)
+                    {
+                        for(j  in values)
+                        {
+                            export[0] += j[0]
+                            export[1] += j[1]
+                            export[2] += j[2]
+                            export[3] += j[3]
+                            Log.d(TAG,"FoodViewModel - getDailyValues - values = $i")
+                        }
+                        Log.d(TAG,"FoodViewModel - getDailyValues - export = $export")
+                        callback(export)
+                    }
+                }
+
             }
+
+
         }
 
-
-        return export
     }
 
-    fun getMealValues(meal:String):ArrayList<Float>
+    fun getMealValues(meal:String,callback: (values: ArrayList<Float>) -> Unit)
     {
-        var export:ArrayList<Float> = arrayListOf(0f,0f,0f,0f)
-        if(getCalcedFoodsByMeal(meal).isNotEmpty())
-        {
-            export = dailyProcess.getMealValues(getCalcedFoodsByMeal(meal))
+        var export:ArrayList<Float>
+        getCalcedFoodsByMeal(meal) {
+            export = dailyProcess.getMealValues(it)
+            callback(export)
+
         }
-        //Log.d("Smeasy","FoodViewModel - getMealValues - export: $export")
-        return export
+
+
     }
 
-    fun getCalcedFoodsByMeal(meal:String):ArrayList<CalcedFood>
+    fun getCalcedFoodOfDay(callback: (values: ArrayList<Float>) -> Unit)
+    {
+        CoroutineScope(IO).launch {
+            var calcedFoodList:ArrayList<Float> = arrayListOf(0f,0f,0f,0f)
+            var foodList:ArrayList<ExtendedFood> = ArrayList()
+            var allEntries:ArrayList<MealEntry> = ArrayList()
+            allEntries.addAll(localDaily.breakfastEntry!!)
+            allEntries.addAll(localDaily.lunchEntry!!)
+            allEntries.addAll(localDaily.dinnerEntry!!)
+            allEntries.addAll(localDaily.snackEntry!!)
+            for(i in allEntries)
+            {
+                foodList.add(getFoodById(i.id))
+            }
+            // Calc for all Foods:
+            for((index,i) in foodList.withIndex())
+            {
+                val localValues = getCalcedFoodValues(i,allEntries[index].menge)
+                calcedFoodList[0] += localValues[0]
+                calcedFoodList[1] += localValues[1]
+                calcedFoodList[2] += localValues[2]
+                calcedFoodList[3] += localValues[3]
+            }
+            callback(calcedFoodList)
+        }
+    }
+
+    fun getCalcedFoodsByMeal(meal:String,callback:(values:ArrayList<CalcedFood>) -> Unit)
     {
         var calcedFoodList:ArrayList<CalcedFood> = ArrayList()
-        runBlocking {
+
+        CoroutineScope(IO).launch {
             suspend fun createCalcedFoodList(list:ArrayList<MealEntry>)
             {
                 if(!list.isNullOrEmpty())
                 {
-                    //Log.d("Smeas")
-
                     for(i in list)
                     {
-                        calcedFoodList.add(dailyProcess.getCalcedFood(i.mealID,getAppFoodById(i.id)!!,i.menge))
+                        calcedFoodList.add(getCalcedFood(i.mealID,getAppFoodById(i.id)!!,i.menge))
                     }
 
                 }
@@ -571,42 +621,14 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
                 "dinner" -> createCalcedFoodList(localDaily.dinnerEntry!!)
                 "snack" -> createCalcedFoodList(localDaily.snackEntry!!)
             }
+            withContext(Main)
+            {
+                callback(calcedFoodList)
+            }
+
         }
 
 
-
-        /*CoroutineScope(Main).launch {
-
-            fun createCalcedFoodList(list:ArrayList<MealEntry>)
-            {
-                if(!list.isNullOrEmpty())
-                {
-                    //Log.d("Smeas")
-                    for(i in list)
-                    {
-                        calcedFoodList.add(dailyProcess.getCalcedFood(i.mealID,getAppFoodById(i.id)!!,i.menge))
-                    }
-
-                }
-
-
-
-
-            }
-
-            when(meal)
-            {
-                "breakfast" -> createCalcedFoodList(breakfastList!!.value!!)
-                "lunch" -> createCalcedFoodList(lunchList!!.value!!)
-                "dinner" -> createCalcedFoodList(dinnerList!!.value!!)
-                "snack" -> createCalcedFoodList(snackList!!.value!!)
-            }
-
-
-            // Steht noch aus..
-
-        }*/
-        return calcedFoodList
 
     }
 
@@ -636,8 +658,6 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
         }
         return calcedFoodList
     }
-
-
 
     fun getCalcedFoodsofDaily(daily:Daily):ArrayList<ArrayList<CalcedFood>>
     {
@@ -682,41 +702,46 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
 
     }
 
-    fun getDailyMaxValues():ArrayList<Float>
+    fun getDailyMaxValues(callback: (values: ArrayList<Float>) -> Unit)
     {
         sharePrefs = SharedAppPreferences(getApplication())
-        var export:ArrayList<Float> = ArrayList()
-        if(localDaily.date == date)
-        {
-            export.add(localDaily.maxKcal)
-            export.add(localDaily.maxCarb)
-            export.add(localDaily.maxProtein)
-            export.add(localDaily.maxFett)
-        }
-        else
-        {
-            runBlocking {
+        CoroutineScope(IO).launch {
+            var export:ArrayList<Float> = ArrayList()
+            if(localDaily.date == date)
+            {
                 export.add(localDaily.maxKcal)
                 export.add(localDaily.maxCarb)
                 export.add(localDaily.maxProtein)
                 export.add(localDaily.maxFett)
             }
-        }
-        var values:ArrayList<Float> = ArrayList()
-        for(i in export)
-        {
-            if(i == 0f)
-            {
-                values.add(25f)
-            }
             else
             {
-                values.add(i)
+                runBlocking {
+                    export.add(localDaily.maxKcal)
+                    export.add(localDaily.maxCarb)
+                    export.add(localDaily.maxProtein)
+                    export.add(localDaily.maxFett)
+                }
+            }
+            var values:ArrayList<Float> = ArrayList()
+            for(i in export)
+            {
+                if(i == 0f)
+                {
+                    values.add(25f)
+                }
+                else
+                {
+                    values.add(i)
+                }
+            }
+            withContext(Main)
+            {
+                callback(values)
             }
         }
 
 
-        return values
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -794,11 +819,14 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     // SharedPreferences Saving:
     private fun saveToPrefs()
     {
-        var values = getDailyValues()
-        smeasyValues.setNewKcal(values[0])
-        smeasyValues.setNewCarbs(values[1])
-        smeasyValues.setNewProtein(values[2])
-        smeasyValues.setNewFett(values[3])
+
+        getDailyValues{values ->
+            smeasyValues.setNewKcal(values[0])
+            smeasyValues.setNewCarbs(values[1])
+            smeasyValues.setNewProtein(values[2])
+            smeasyValues.setNewFett(values[3])
+        }
+
     }
 
 
@@ -821,6 +849,8 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     {
         return snackList!!
     }
+
+    fun getMeallistReady():LiveData<Int> = allMeallistsReady
 
     // Getters for FoodLists...
     fun getLocalFoodList():ArrayList<ExtendedFood>
@@ -847,6 +877,12 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     {
         return localFavFoodList
     }
+
+    ///////////////////////////////////////////
+    // Get LiveData Objects:
+    fun getFoodListLoaded():LiveData<Int>{return foodListLoaded}
+
+
 
 
 
@@ -889,6 +925,258 @@ class FoodViewModel2(application: Application) : AndroidViewModel(application)
     {
         return allCalcedFoods
     }
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Methoden für FoodListFragment...
+
+
+    // Get LiveData Stuff:
+
+
+    // TODO("Das folgende evtl. als SQL Query ausführen!")
+    fun searchInFoodList(query:String,simpleSearch:Boolean = true)
+    {
+        val maxItems = 50
+        CoroutineScope(IO).launch {
+            var filterItems:ArrayList<ExtendedFood> = ArrayList()
+            Log.d(TAG,"FoodViewModel - searchInFoodList() was called!")
+            Log.d(TAG,"FoodViewModel - onlyFavouriteFood = $onlyFavouriteFood")
+            Log.d(TAG,"FoodViewModel - onlyAllowedFoodFilter = $onlyAllowedFoodFilter")
+            Log.d(TAG,"FoodViewModel - onlyUserFoodFilter = $onlyUserFoodFilter")
+            fun checkForFilterSettings(food:ExtendedFood):Boolean
+            {
+                var status = true
+                if(onlyFavouriteFood)
+                {
+                    Log.d(TAG,"FoodViewModel - checkForFilterSettings with onlyFavouriteFood = $onlyFavouriteFood")
+                    if(!localFavFoodList.contains(FavFood(food.id,food.name)))
+                        return false
+                }
+
+
+                if(onlyAllowedFoodFilter)
+                {
+
+                    if(!checkIfFoodIsAllowed(food))
+                        return false
+                }
+
+
+                if(onlyUserFoodFilter)
+                {
+
+                    if(!localUserFoodList.contains(food))
+                        return false
+                }
+
+
+                if(!filterCategory.contains(food.category))
+                {
+                    return false
+                }
+
+
+                return status
+            }
+
+            if(query.isBlank() || query.isEmpty())
+            {
+                for(i in localFoodList)
+                {
+                    if(checkForFilterSettings(i))
+                        filterItems.add(i)
+                }
+
+            }
+            else
+            {
+
+
+
+                for(i in localFoodList)
+                {
+                    if(i.name.startsWith(query,true) && checkForFilterSettings(i))
+                        if(!filterItems.contains(i))
+                            filterItems.add(i)
+
+                    //if(simpleSearch && filterItems.size > maxItems) break
+                }
+
+                // Filtern
+
+                for(i in localFoodList)
+                {
+                    //if(simpleSearch && filterItems.size > maxItems) break
+                    if((i.name.contains(query,true) || i.marken.contains(query,true) || i.category.contains(query,true))
+                        && checkForFilterSettings(i))
+                        if(!filterItems.contains(i))
+                            filterItems.add(i)
+
+
+                }
+            }
+
+
+
+
+            filteredFoodList = filterItems
+            foodListLoaded.postValue(if(foodListLoaded.value == null) 1 else foodListLoaded.value!! + 2)
+
+        }
+
+    }
+
+    fun sortFoodList(name:String,up:Boolean)
+    {
+        CoroutineScope(IO).launch{
+            var export:List<ExtendedFood>? = null
+            when(name)
+            {
+                //"name" -> export = ArrayList(list.sortedWith(compareBy { it.name }))
+                "name" ->
+                {
+                    export = filteredFoodList.sortedWith(compareBy { it.name })
+                }
+                "category" -> export = filteredFoodList.sortedWith(compareBy { it.category })
+                "kcal" -> export = filteredFoodList.sortedWith(compareBy { it.kcal })
+                "carb" -> export = filteredFoodList.sortedWith(compareBy { it.carb })
+                "protein" -> export = filteredFoodList.sortedWith(compareBy { it.protein })
+                "fett" -> export = filteredFoodList.sortedWith(compareBy { it.fett })
+            }
+            Log.d("Smeasy","FoodListFilter - sortList first element...: ${export!![0]}")
+            if(!up)
+            {
+               filteredFoodList = ArrayList(export.asReversed())
+            }
+            else
+            {
+                filteredFoodList =  ArrayList(export)
+            }
+            foodListLoaded.postValue(if(foodListLoaded.value == null) 1 else foodListLoaded.value!! + 2)
+
+        }
+
+    }
+
+
+    // Interne Methoden:
+    private fun checkIfFoodIsAllowed(food:ExtendedFood):Boolean{
+        var status = true
+
+        // Prüfen ob im Kcal Bereich:
+        if(sharePrefs.maxAllowedKcal == -1f)
+        {
+            if(food.kcal >= sharePrefs.minAllowedKcal)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        else
+        {
+            if(food.kcal >= sharePrefs.minAllowedKcal && food.kcal <= sharePrefs.maxAllowedKcal)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+
+        // Prüfen ob im Kcal Bereich:
+        if(sharePrefs.maxAllowedCarbs == -1f)
+        {
+            if(food.carb >= sharePrefs.minAllowedCarbs)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        else
+        {
+            if(food.carb > sharePrefs.minAllowedCarbs && food.carb < sharePrefs.maxAllowedCarbs)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+
+        // Prüfen ob im Kcal Bereich:
+        if(sharePrefs.maxAllowedProtein == -1f)
+        {
+            if(food.protein >= sharePrefs.minAllowedProtein)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        else
+        {
+            if(food.protein > sharePrefs.minAllowedProtein && food.protein < sharePrefs.maxAllowedProtein)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        // Prüfen ob im Kcal Bereich:
+        if(sharePrefs.maxAllowedFett == -1f)
+        {
+            if(food.fett >= sharePrefs.minAllowedFett)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+        else
+        {
+            if(food.fett > sharePrefs.minAllowedFett && food.fett < sharePrefs.maxAllowedFett)
+            {
+
+            }
+            else
+            {
+                status = false
+                return status
+            }
+        }
+
+
+
+
+
+        return status
+    }
+
+
+    fun getFilterFoodList():ArrayList<ExtendedFood>{return filteredFoodList}
 
 
 

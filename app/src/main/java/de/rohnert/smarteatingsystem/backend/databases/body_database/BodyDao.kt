@@ -19,4 +19,6 @@ interface BodyDao
 
     @Query("SELECT * FROM bodies WHERE date= :date")
     suspend fun getBodyByDate(date:String): Body
+
+
 }

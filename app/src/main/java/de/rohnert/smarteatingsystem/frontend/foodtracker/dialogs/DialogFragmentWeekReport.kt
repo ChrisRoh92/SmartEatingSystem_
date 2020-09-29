@@ -25,16 +25,15 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.adapter.WeekReportRecyclerViewAdapter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.MyValueFormatter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.WeekReportCreator
-import de.rohnert.smarteatingsystem.frontend.premium.dialogs.DialogPremiumAlert
 import de.rohnert.smarteatingsystem.helper.dialogs.DialogLoading
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DialogFragmentWeekReport(var foodViewModel:FoodViewModel2): DialogFragment(),
+class DialogFragmentWeekReport(var foodViewModel: FoodViewModel): DialogFragment(),
     View.OnClickListener {
 
 

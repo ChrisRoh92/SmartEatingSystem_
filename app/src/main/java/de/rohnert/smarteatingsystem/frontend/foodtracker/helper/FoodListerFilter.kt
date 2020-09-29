@@ -5,9 +5,9 @@ import android.util.Log
 import de.rohnert.smarteatingsystem.backend.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smarteatingsystem.backend.databases.food_database.normal_database.favourite_foods.FavFood
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 
-class FoodListerFilter(var context: Context, var foodViewModel:FoodViewModel2, var extendFilterValues:ArrayList<Float>)
+class FoodListerFilter(var context: Context, var foodViewModel: FoodViewModel, var extendFilterValues:ArrayList<Float>)
 {
     // Default Operators.
     private var foodlist:ArrayList<ExtendedFood> = foodViewModel.getFoodList()

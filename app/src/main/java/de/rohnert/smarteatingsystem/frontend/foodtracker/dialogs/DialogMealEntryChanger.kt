@@ -3,6 +3,7 @@ package de.rohnert.smarteatingsystem.frontend.foodtracker.dialogs
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -10,17 +11,20 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.button.MaterialButtonToggleGroup
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.MealEntry
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smarteatingsystem.backend.repository.subrepositories.daily.DailyProcessor
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.frontend.foodtracker.FoodViewModel2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.animations.AnimationFoodPicker2
+import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.TAG
+import java.lang.ArithmeticException
 import kotlin.math.roundToInt
 
-class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Context, var calcedFood: CalcedFood, var meal:String)
+class DialogMealEntryChanger(var foodViewModel: FoodViewModel, var context: Context, var calcedFood: CalcedFood, var meal:String)
 {
     private lateinit var builder: AlertDialog.Builder
     private lateinit var alertDialog: AlertDialog
@@ -29,7 +33,7 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
     private lateinit var animator: AnimationFoodPicker2
 
     private var helper: Helper = Helper()
-    private var dailyProcessor = DailyProcessor(context)
+    private var dailyProcessor = DailyProcessor()
 
     // Content
     var started = false
@@ -59,6 +63,9 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
     lateinit var btnSave: Button
     lateinit var btnAbort: Button
 
+    // ToggleButtonGroup
+    private lateinit var toggleGroup: MaterialButtonToggleGroup
+
 
     init {
         initDialog()
@@ -76,7 +83,7 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
 
         setRestNutritionValues()
         initViews()
-        initContent()
+
 
 
 
@@ -89,10 +96,22 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
     // Werte abrufen:
     private fun setRestNutritionValues()
     {
-        restKcal = foodViewModel.getDailyMaxValues()[0].roundToInt() - foodViewModel.getDailyValues()[0].roundToInt() + calcedFood.values[0].roundToInt()
-        restCarbs = foodViewModel.getDailyMaxValues()[1].roundToInt() - foodViewModel.getDailyValues()[1].roundToInt() + calcedFood.values[1].roundToInt()
-        restProtein = foodViewModel.getDailyMaxValues()[2].roundToInt() - foodViewModel.getDailyValues()[2].roundToInt() + calcedFood.values[2].roundToInt()
-        restFett = foodViewModel.getDailyMaxValues()[3].roundToInt() - foodViewModel.getDailyValues()[3].roundToInt() + calcedFood.values[3].roundToInt()
+
+        foodViewModel.getCalcedFoodOfDay {dailyValues ->
+            foodViewModel.getDailyMaxValues{maxValues->
+                Log.d(TAG,"DialogMealEntryChanger - maxValues = $maxValues")
+                Log.d(TAG,"DialogMealEntryChanger - dailyValues = $dailyValues")
+                Log.d(TAG,"DialogMealEntryChanger - calcedFood.values = ${calcedFood.values}")
+
+                restKcal = (maxValues[0].roundToInt() - dailyValues[0].roundToInt())+ calcedFood.values[0].roundToInt()
+                restCarbs = maxValues[1].roundToInt() - dailyValues[1].roundToInt() + calcedFood.values[1].roundToInt()
+                restProtein = maxValues[2].roundToInt() - dailyValues[2].roundToInt() + calcedFood.values[2].roundToInt()
+                restFett = maxValues[3].roundToInt() - dailyValues[3].roundToInt() + calcedFood.values[3].roundToInt()
+                initContent()
+            }
+
+        }
+
 
     }
 
@@ -159,42 +178,58 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
         btnAbort = view.findViewById(R.id.foodpicker_btn_abort)
 
 
-        // Listener...
+        // ToggleGroup:
+        toggleGroup = view.findViewById(R.id.foodpicker_toggle_group)
+        val toggleIDs = arrayOf(R.id.toggle1,R.id.toggle2,R.id.toggle3,R.id.toggle4)
+        val values = arrayOf("100","250","500","1000")
+        toggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            Log.d(TAG,"DialogMealEntryChanger - toggleIDs = $toggleIDs")
+            Log.d(TAG,"DialogMealEntryChanger - toggleGroup checkedID = $checkedId")
+            if(isChecked)
+            {
+                val pos = toggleIDs.indexOf(checkedId)
+                if(pos == toggleIDs.lastIndex)
+                {
+                    if(restKcal > 0)
+                        etMenge.editText!!.setText(calcRestKcal())
+                    else
+                        Toast.makeText(context,"Keine Kalorien mehr übrig!",Toast.LENGTH_SHORT).show()
+                }
+                else
+                {
+                    etMenge.editText!!.setText(values[pos])
+                }
+
+            }
 
 
-        btnSave.setOnClickListener({
+        }
+
+
+
+        btnSave.setOnClickListener {
             // Über das Repository muss ein neues MealEntry in das Daily-Objekt gebracht werden, damit das auch direkt
             // gespeichert werden kann..
             //foodViewModel.addNewMealEntry(calcedFood.f.id,menge,meal)
-            if(menge != calcedFood.menge)
-            {
-                if(menge != 0f)
-                {
+            if(menge != calcedFood.menge) {
+                if(menge != 0f) {
                     foodViewModel.updateMealEntry(MealEntry(calcedFood.id, calcedFood.f.id, menge),meal)
 
                     alertDialog.dismiss()
-                }
-
-                else
-                {
+                } else {
                     Toast.makeText(context,"Bitte eine Menge größer 0 angeben...",Toast.LENGTH_SHORT).show()
                 }
 
-            }
-            else
-            {
+            } else {
                 Toast.makeText(context,"Bitte die Menge verändern...",Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }
 
         // Abbrechen ohne Eingabe
-        btnAbort.setOnClickListener({
+        btnAbort.setOnClickListener {
             alertDialog.dismiss()
-        })
-
-
-
+        }
 
 
     }
@@ -253,6 +288,18 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel2, var context: Con
     {
         var values:ArrayList<Float> = dailyProcessor.getCalcedFood(0,calcedFood.f,value).values
         if(animator!=null) animator.updateAnimation(values)
+    }
+
+    // Utils:
+    private fun calcRestKcal():String
+    {
+        Log.d(TAG,"DialogMealEntryChanger calcRestKcal(): restKcal = $restKcal")
+        Log.d(TAG,"DialogMealEntryChanger calcRestKcal(): calcedFood.values[0] = ${calcedFood.values[0]}")
+        return if(restKcal <= 0)
+            "0"
+        else
+            ((((restKcal.toFloat()*100f)/calcedFood.f.kcal)).roundToInt()).toString()
+
     }
 
 
