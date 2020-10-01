@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.backend.databases.body_database.Body
 import de.rohnert.smarteatingsystem.backend.repository.subrepositories.body.BodyProcessor
@@ -43,7 +44,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
 
     init
     {
-        CoroutineScope(IO).launch {
+        viewModelScope.launch(IO) {
             localBodyList = repository.getBodyList()
             sortLocalBodyList()
             localCurrentBody = repository.getBodyByDate(date)
@@ -76,12 +77,12 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
 
 
     // Methoden mit Zugriff:
-    fun addNewBody(weight:Float,kfa:Float,bauch:Float,brust:Float,hals:Float, huefte:Float, dir:String)
+    fun addNewBody(weight:Float,kfa:Float,bauch:Float,brust:Float,hals:Float, huefte:Float, dir:String,entryDate:String = date)
 {
     CoroutineScope(IO).launch {
-        if(repository.getBodyByDate(date) == null)
+        if(repository.getBodyByDate(entryDate) == null)
         {
-            var export = Body(date,weight,kfa,bauch,brust,hals,huefte,dir)
+            var export = Body(entryDate,weight,kfa,bauch,brust,hals,huefte,dir)
             repository.addNewBody(export)
             localCurrentBody = export
             localBodyList.add(export)

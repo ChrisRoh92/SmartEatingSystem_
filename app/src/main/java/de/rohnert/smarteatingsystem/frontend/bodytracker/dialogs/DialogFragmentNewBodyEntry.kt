@@ -1,5 +1,6 @@
 package de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,15 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smarteatingsystem.R
+import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smarteatingsystem.frontend.bodytracker.BodyViewModel
 import de.rohnert.smarteatingsystem.frontend.premium.dialogs.DialogFragmentPremium
+import java.util.*
+import kotlin.collections.ArrayList
 
-class DialogFragmentNewBodyEntry(var bodyViewModel:BodyViewModel): DialogFragment(), View.OnClickListener {
+class DialogFragmentNewBodyEntry(var bodyViewModel:BodyViewModel,var date: Date = Helper().getCurrentDate()): DialogFragment(), View.OnClickListener {
 
     // Allgemeine Variablen:
     private lateinit var rootView: View
@@ -130,7 +135,13 @@ class DialogFragmentNewBodyEntry(var bodyViewModel:BodyViewModel): DialogFragmen
         if(!bodyViewModel.checkIfBodyExist())
         {
             var values = getDataFromTextInputs()
-            bodyViewModel.addNewBody(values[0],values[1],values[2],values[3],values[4],values[5],imagePath)
+            bodyViewModel.addNewBody(values[0],values[1],values[2],values[3],values[4],values[5],imagePath,Helper().getStringFromDate(date))
+            dismiss()
+        }
+        else
+        {
+            var values = getDataFromTextInputs()
+            bodyViewModel.addNewBody(values[0],values[1],values[2],values[3],values[4],values[5],imagePath,Helper().getStringFromDate(date))
             dismiss()
         }
 
@@ -142,23 +153,39 @@ class DialogFragmentNewBodyEntry(var bodyViewModel:BodyViewModel): DialogFragmen
     override fun onClick(view: View?) {
         if(view == btnPhoto)
         {
-            if(prefs.premiumStatus)
-            {
-                var captureDialog = DialogCapturePhoto(imagePath)
-                captureDialog.show(fragmentManager!!,"capture")
-                captureDialog.setOnDialogCapturePhotoListener(object: DialogCapturePhoto.OnDialogCapturePhotoListener{
-                    override fun setOnDialogCapturePhotoListener(dir: String) {
-                        imagePath = dir
-                        Log.d("Smeasy","DialogNewBodyEntry - captureDialog.listener : dir = $dir")
-                    }
 
-                })
-            }
-            else
-            {
-                var dialog = DialogFragmentPremium()
-                dialog.show(fragmentManager!!,"Premium")
-            }
+                if(imagePath.isNullOrEmpty())
+                {
+                    val captureDialog = DialogFragmentBodyPhoto(Helper().getStringFromDate(date))
+                    captureDialog.show(parentFragmentManager,"Photo Capture")
+                    captureDialog.setOnCapturePhoto(object:DialogFragmentBodyPhoto.OnCapturePhoto{
+                        override fun setOnCapturePhoto(uri: Uri?) {
+                            imagePath = uri?.path ?: ""
+                        }
+
+                    })
+                }
+                else
+                {
+                    val dialog = DialogFragmentPhotoPreview(imagePath,false)
+                    dialog.show(parentFragmentManager,"PhotoPreview")
+                    dialog.setOnRetryClickListener(object:DialogFragmentPhotoPreview.OnRetryClickListener{
+                        override fun setOnRetryClickListener() {
+                            val captureDialog = DialogFragmentBodyPhoto(Helper().getStringFromDate(date))
+                            captureDialog.show(parentFragmentManager,"Photo Capture")
+                            captureDialog.setOnCapturePhoto(object:DialogFragmentBodyPhoto.OnCapturePhoto{
+                                override fun setOnCapturePhoto(uri: Uri?) {
+                                    imagePath = uri?.path ?: ""
+                                }
+
+                            })
+                        }
+
+                    })
+                }
+
+
+
 //
         }
         else if(view == btnSave)

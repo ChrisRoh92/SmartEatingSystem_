@@ -13,9 +13,12 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.backend.databases.body_database.Body
 import com.google.android.material.snackbar.Snackbar
@@ -41,7 +44,6 @@ class BodyEntryFragment: Fragment() {
     private var firstStart = false
 
     // View Elemente:
-    private lateinit var recyclerViewCardView:CardView
     private lateinit var statusCardView:CardView
     private lateinit var pbWeight:ProgressBar
     private lateinit var pbKfa:ProgressBar
@@ -51,15 +53,13 @@ class BodyEntryFragment: Fragment() {
     private var idStartList:ArrayList<Int> = arrayListOf(R.id.bodyentry_tv_weight_start,R.id.bodyentry_tv_kfa_start,R.id.bodyentry_tv_bmi_start)
     private var idAimList:ArrayList<Int> = arrayListOf(R.id.bodyentry_tv_weight_aim,R.id.bodyentry_tv_kfa_aim,R.id.bodyentry_tv_bmi_aim)
 
-    // ScrollView:
-    private lateinit var scrollView:NestedScrollView
 
     private lateinit var tvWeight:TextView
     private lateinit var tvKfa:TextView
     private lateinit var tvBMI:TextView
 
-    // Button:
-    private lateinit var btnAdd:Button
+    // FloatingActionButton - Add New BodyEntry:
+    private lateinit var btnAdd:FloatingActionButton
 
 
     // RecyclerView:
@@ -73,20 +73,16 @@ class BodyEntryFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bodyViewModel = ViewModelProviders.of(requireActivity()).get(BodyViewModel::class.java)
+        bodyViewModel = ViewModelProvider(requireParentFragment()).get(BodyViewModel::class.java)
         rootView = inflater.inflate(R.layout.fragment_bodytracker_bodyentries, container, false)
         prefs = SharedAppPreferences(rootView.context)
 
 
-        scrollView = rootView.findViewById(R.id.bodyentry_scrollview)
+        initButton()
         initStatusView()
         initRecyclerView()
-        /*initRecyclerView()*/
-        Handler().postDelayed({
-
-            initObserver()
-
-        },500)
+        initRecyclerView()
+        initObserver()
 
 
         return rootView
@@ -94,6 +90,28 @@ class BodyEntryFragment: Fragment() {
 
 
 
+    private fun initButton()
+    {
+        btnAdd = rootView.findViewById(R.id.bodyentry_btn_add)
+        btnAdd.setOnClickListener {
+            if(!bodyViewModel.checkIfBodyExist())
+            {
+                //var dialog = DialogNewBodyEntry(rootView.context,fragmentManager!!,bodyViewModel)
+                var dialog = DialogFragmentNewBodyEntry(bodyViewModel)
+                dialog.show(childFragmentManager,"NewBodyDialog")
+
+            }
+            else
+            {
+                val lastBodyDate = adapter.content.first().date
+                val newDate = Helper().getDateWithOffsetDays(helper.getDateFromString(lastBodyDate),1)
+                var dialog = DialogFragmentNewBodyEntry(bodyViewModel,newDate)
+                dialog.show(childFragmentManager,"NewBodyDialog")
+                //Toast.makeText(rootView.context,"Du hast heute bereits ein Eintrag erstellt...",Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
 
     private fun initObserver()
     {
@@ -110,7 +128,7 @@ class BodyEntryFragment: Fragment() {
             }
             else
             {
-                scrollView.scrollTo(0,0)
+
                 updateStatusViewAnimation()
                 updateStatusViewTextView()
 
@@ -122,11 +140,12 @@ class BodyEntryFragment: Fragment() {
     private fun initRecyclerView()
     {
         recyclerView = rootView.findViewById(R.id.bodyentry_recyclerview)
-        adapter = BodyEntryRecyclerViewAdapter(ArrayList(),fragmentManager!!,prefs)
+        adapter = BodyEntryRecyclerViewAdapter(ArrayList(),parentFragmentManager,prefs)
         manager = LinearLayoutManager(rootView.context, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(CustomDividerItemDecoration(RecyclerView.VERTICAL, rootView.context, 68))
+        //recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context,manager.orientation))
+        //recyclerView.addItemDecoration(CustomDividerItemDecoration(RecyclerView.VERTICAL, rootView.context, 68))
 
         adapter.setOnBodyEntryLongClickListener(object:BodyEntryRecyclerViewAdapter.OnBodyEntryLongClickListener{
             override fun setOnBodyEntryLongClickListener(body: Body, pos: Int) {
@@ -136,6 +155,7 @@ class BodyEntryFragment: Fragment() {
 
         })
 
+        // Normal Klick to show and update BodyData
         adapter.setOnBodyEntryClickListener(object:BodyEntryRecyclerViewAdapter.OnBodyEntryClickListener{
             override fun setOnBodyEntryClickListener(body: Body, pos: Int) {
                 var dialog = DialogShowBodyEntry(rootView.context,body,fragmentManager!!)
@@ -152,32 +172,12 @@ class BodyEntryFragment: Fragment() {
 
 
 
-        //
-
-
     }
 
     private fun initStatusView()
     {
-        recyclerViewCardView = rootView.findViewById(R.id.bodyentry_cardview_recyclerview)
+
         statusCardView = rootView.findViewById(R.id.bodyentry_cardview_statusview)
-
-
-        btnAdd = rootView.findViewById(R.id.bodyentry_btn_add)
-        btnAdd.setOnClickListener {
-            if(!bodyViewModel.checkIfBodyExist())
-            {
-                //var dialog = DialogNewBodyEntry(rootView.context,fragmentManager!!,bodyViewModel)
-                var dialog = DialogFragmentNewBodyEntry(bodyViewModel)
-                dialog.show(fragmentManager!!,"NewBodyDialog")
-
-            }
-            else
-            {
-                Toast.makeText(rootView.context,"Du hast heute bereits ein Eintrag erstellt...",Toast.LENGTH_SHORT).show()
-            }
-
-        }
 
 
         // ProgressBars...

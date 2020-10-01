@@ -14,7 +14,7 @@ interface BodyDao
     @Delete
     suspend fun delete(body: Body)
 
-    @Query("Select * FROM bodies")
+    @Query("Select * FROM bodies ORDER BY date desc ")
     suspend fun getBodyList():List<Body>
 
     @Query("SELECT * FROM bodies WHERE date= :date")

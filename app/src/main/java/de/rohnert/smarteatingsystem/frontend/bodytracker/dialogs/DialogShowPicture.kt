@@ -2,12 +2,15 @@ package de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import de.rohnert.smarteatingsystem.R
+
 
 class DialogShowPicture(var context: Context, var dir:String)
 {
@@ -30,7 +33,7 @@ class DialogShowPicture(var context: Context, var dir:String)
     private fun initDialog()
     {
 
-        builder = AlertDialog.Builder(context)
+        builder = AlertDialog.Builder(context,R.style.FullScreenDialog)
         inflater = LayoutInflater.from(context)
         view = inflater.inflate(R.layout.dialog_show_picture, null)
         builder.setView(view)
@@ -62,11 +65,13 @@ class DialogShowPicture(var context: Context, var dir:String)
 
     private fun loadImage()
     {
-        if(dir != "")
+        if(dir.isNotEmpty())
         {
             try {
-                var bitmap2 = BitmapFactory.decodeFile(dir)
+                var bitmap2 = BitmapFactory.decodeFile(dir).rotateImage(90f)
                 image.setImageBitmap(bitmap2)
+
+
 
                 image.rotation = 0f
             }catch (e:Exception)
@@ -77,5 +82,14 @@ class DialogShowPicture(var context: Context, var dir:String)
         }
 
 
+    }
+
+    private fun Bitmap.rotateImage(angle: Float): Bitmap? {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(
+            this, 0, 0, this.width, this.height,
+            matrix, true
+        )
     }
 }

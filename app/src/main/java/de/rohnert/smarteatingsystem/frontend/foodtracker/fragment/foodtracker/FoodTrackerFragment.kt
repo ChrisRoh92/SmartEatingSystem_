@@ -41,6 +41,7 @@ import de.rohnert.smarteatingsystem.helper.dialogs.DialogAppRating
 import de.rohnert.smarteatingsystem.helper.others.WrapContentLinearLayoutManager
 import de.rohnert.smarteatingsystem.helper.views.CustomProgressBar
 import kotlinx.android.synthetic.main.app_bar_main.*
+import java.lang.Exception
 import kotlin.math.roundToInt
 
 
@@ -771,7 +772,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                 statusTextContent.add("${helper.getFloatAsFormattedString(newProgress[3])} g / ${maxValues[3]} g")
                 statusTextContent.add("${helper.getFloatAsFormattedString(newProgress[4])} %")
                 statusTextContent.add("${helper.getFloatAsFormattedString(newProgress[5])} %")
-                statusTextContent.add("Halten")
+                statusTextContent.add("${helper.getFloatAsFormattedString(maxValues[0])} Kcal")
 
 
 
@@ -892,7 +893,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                     statusTextContent.add("${helper.getFloatAsFormattedString(newProgress[3])} g / ${maxValues[3]} g")
                     statusTextContent.add("${helper.getFloatAsFormattedString(newProgress[4])} %")
                     statusTextContent.add("${helper.getFloatAsFormattedString(newProgress[5])} %")
-                    statusTextContent.add("Halten")
+                    statusTextContent.add("${helper.getFloatAsFormattedString(maxValues[0])} Kcal")
 
                     tabLayout.disable()
                     Log.d(TAG,"FoodTracker - newProgress = $newProgress")
@@ -972,12 +973,18 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private fun TabLayout.enable()
     {
 
-        val tabStrip = this.getChildAt(0) as LinearLayout
-        tabStrip.isEnabled = false
-        this.background = ContextCompat.getDrawable(requireContext(),R.color.white)
-        for (i in 0 until tabStrip.childCount) {
-            tabStrip.getChildAt(i).isClickable = true
+        try {
+            val tabStrip = this.getChildAt(0) as LinearLayout
+            tabStrip.isEnabled = false
+            this.background = ContextCompat.getDrawable(requireContext(),R.color.white)
+            for (i in 0 until tabStrip.childCount) {
+                tabStrip.getChildAt(i).isClickable = true
+            }
+        }catch (e:Exception)
+        {
+            Log.e(TAG,"FoodTrackerFragment - ${e.message}",e)
         }
+
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
