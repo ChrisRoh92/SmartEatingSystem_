@@ -41,6 +41,8 @@ android {
 
 dependencies {
 
+    compileOnly 'com.github.pengrad:jdk9-deps:1.0'
+
     // ViewModel + LiveData
     def lifecycle_version = "2.2.0"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
