@@ -152,10 +152,9 @@ class MainRepository2(var application: Application)
 
     suspend fun getNumberOfBodyEntries():Int = bodyRepository.getNumberOfBodyEntries()
 
-
-
-
-
+    suspend fun updateFood(newFood: ExtendedFood) {
+        foodRepository.updateFood(newFood)
+    }
 
 
 }

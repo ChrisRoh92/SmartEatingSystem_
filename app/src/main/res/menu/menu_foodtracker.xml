@@ -6,9 +6,4 @@
         android:id="@+id/menu_foodtracker_today"
         android:title="Heute"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/menu_foodtracker_weekreport"
-        android:icon="@drawable/ic_report"
-        android:title="Bericht"
-        app:showAsAction="always|withText" />
 </menu>

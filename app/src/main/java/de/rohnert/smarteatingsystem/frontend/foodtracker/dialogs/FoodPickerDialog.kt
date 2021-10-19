@@ -2,14 +2,12 @@ package de.rohnert.smarteatingsystem.frontend.foodtracker.dialogs
 
 import android.content.Context
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.TextInputLayout
@@ -20,6 +18,8 @@ import de.rohnert.smarteatingsystem.frontend.foodtracker.animations.AnimationFoo
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.TAG
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.getCalcedFood
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleLineInput
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogTwoLineInput
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -60,6 +60,15 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel, var context: Context, v
     private lateinit var btnSave:Button
     private lateinit var btnAbort:Button
 
+    // ImageButton:
+    private lateinit var btnEdit:ImageButton
+
+    // Portionsangaben
+    private lateinit var btnNewPortion:ImageButton
+    private lateinit var etSpinnerPortion:TextInputLayout
+    private var portionName = arrayListOf("Klein","Mittel","Groß")
+    private var portionValue = arrayListOf(100.0,250.0,500.0)
+
     // Content
     private var started = false
     private var menge:Float = 100f
@@ -91,11 +100,6 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel, var context: Context, v
 
         setRestNutritionValues()
         initViews()
-
-
-
-
-
 
         alertDialog = builder.create()
         alertDialog.window!!.setBackgroundDrawableResource(android.R.color.white)
@@ -202,6 +206,39 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel, var context: Context, v
         }
 
 
+        // Ändern Eintrag:
+        btnEdit = view.findViewById(R.id.foodpicker_btn_edit)
+        btnEdit.setOnClickListener {
+        // TODO: Dialog zum Ändern des Eintrags erstellen
+             }
+
+        // Portionsangaben:
+        btnNewPortion = view.findViewById(R.id.foodpicker_btn_portion)
+        btnNewPortion.setOnClickListener {
+            val dialog = DialogTwoLineInput("Neue Portion","Bitte Name und Wert eintragen",context, InputType.TYPE_CLASS_TEXT,InputType.TYPE_CLASS_NUMBER,"","")
+            dialog.setOnDialogClickListener(object:DialogTwoLineInput.OnDialogListener{
+                override fun setOnDialogClickListener(export1: String, export2: String) {
+                    portionName.add(export1)
+                    portionValue.add(export2.toDouble())
+                }
+
+            })
+        }
+
+        etSpinnerPortion = view.findViewById(R.id.foodpicker_spinner)
+
+
+        var spinner = etSpinnerPortion.editText as AutoCompleteTextView
+
+        spinner.setAdapter( ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line,portionName))
+
+        spinner.setOnItemClickListener { parent, view, position, id ->
+            etMenge!!.editText!!.setText(portionValue[position].toString())
+        }
+
+
+
+        // Eintrag speichern
         btnSave.setOnClickListener(this)
 
         // Abbrechen ohne Eingabe

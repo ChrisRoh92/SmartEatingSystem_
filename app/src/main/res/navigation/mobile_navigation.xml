@@ -18,13 +18,6 @@
             app:exitAnim="@anim/nav_slide_exit"
             app:popEnterAnim="@anim/nav_slide_back_enter"
             app:popExitAnim="@anim/nav_slide_back_exit" />
-        <action
-            android:id="@+id/action_foodtracker_foodreport"
-            app:destination="@id/foodReportFragment"
-            app:enterAnim="@anim/nav_slide_enter"
-            app:exitAnim="@anim/nav_slide_exit"
-            app:popEnterAnim="@anim/nav_slide_back_enter"
-            app:popExitAnim="@anim/nav_slide_back_exit" />
     </fragment>
 
     <fragment
@@ -45,7 +38,7 @@
         android:label="@string/menu_share"
         tools:layout="@layout/fragment_share" />
     <fragment
-        android:id="@+id/nav_statistics"
+        android:id="@+id/nav_analyse"
         android:name="de.rohnert.smarteatingsystem.frontend.statistics.fragment.StatisticsFragment"
         android:label="Statistics"
         tools:layout="@layout/fragment_statistics"/>
@@ -54,11 +47,6 @@
         android:name="de.rohnert.smarteatingsystem.frontend.helper.fragment.HelpFragment"
         android:label="Help"
         tools:layout="@layout/fragment_help"/>
-    <fragment
-        android:id="@+id/nav_premium"
-        android:name="de.rohnert.smarteatingsystem.frontend.premium.fragment.PremiumFragment"
-        android:label="Premium"
-        tools:layout="@layout/fragment_premium"/>
     <fragment
         android:id="@+id/nav_privacy"
         android:name="de.rohnert.smarteatingsystem.frontend.privacy.fragment.PrivacyFragment"
@@ -72,11 +60,6 @@
             android:name="sMeal"
             app:argType="string" />
     </fragment>
-    <fragment
-        android:id="@+id/foodReportFragment"
-        android:name="de.rohnert.smarteatingsystem.frontend.foodtracker.fragment.foodreport.FoodReportFragment"
-        android:label="FoodReportFragment"
-        tools:layout="@layout/dialog_weekreport"/>
 
 
 </navigation>

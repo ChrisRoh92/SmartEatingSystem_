@@ -73,9 +73,6 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
 
 
         }
-
-
-
         }
 
 

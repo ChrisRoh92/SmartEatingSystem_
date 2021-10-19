@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,7 +52,20 @@ class StatisticFoodFragment:Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_statistic_food, container, false)
 
-        statisticViewModel = ViewModelProviders.of(this).get(StatisticViewModel::class.java)
+
+
+
+
+
+
+
+        return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        statisticViewModel = ViewModelProvider(requireParentFragment(),defaultViewModelProviderFactory).get(StatisticViewModel::class.java)
 
         // Views initialisieren:
 
@@ -63,13 +77,6 @@ class StatisticFoodFragment:Fragment()
 
         // Observer starten:
         startObserver()
-
-
-
-
-
-
-        return rootView
     }
 
     // Views initialisieren:

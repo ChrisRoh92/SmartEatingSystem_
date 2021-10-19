@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.Daily
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.MealEntry
@@ -32,6 +33,8 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
     //Allgemeines:
     private var helper = Helper()
     private var repository = MainRepository2(application)
+
+    private var scope = viewModelScope
 
     // Prozessoren...
     private var dailyProcess = DailyProcessor()
@@ -763,8 +766,25 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    fun updateFood(oldFood:ExtendedFood, newFood:ExtendedFood)
+    {
+        // TODO: Implementieren
+        scope.launch {
+            withContext(IO)
+            {
+                repository.updateFood(newFood)
+            }
+        }
+
+    }
+
+    fun addNewPortionToFood(food:ExtendedFood,portionName:String,portionValue:Double)
+    {
+        // TODO: Implementieren
+    }
+
     // Methode wird aufgerufen, wenn sich wegen der UserFoods etwas ändert...
-    fun setFoodListUpdater()
+    private fun setFoodListUpdater()
     {
         if(updatedFoodList.value != 1)
         {

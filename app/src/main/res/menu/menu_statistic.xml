@@ -9,9 +9,15 @@
         app:showAsAction="always" />-->
 
     <item
-        android:id="@+id/nav_statistic_export"
-        android:icon="@drawable/ic_export_dark"
-        android:title="Export"
+        android:id="@+id/nav_statistic_time"
+        android:icon="@drawable/ic_time_dark"
+        android:title="Zeitraum"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/nav_statistic_share"
+        android:icon="@drawable/ic_share"
+        android:title="Teilen"
         app:showAsAction="always" />
 
 </menu>

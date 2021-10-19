@@ -37,3 +37,10 @@ fun getStringFromDate(date:Date,pattern:String = "dd.MM.yyyy - HH:mm"):String
 fun getTimeStringFromDate(date:Date):String = getStringFromDate(date,"HH:mm")
 
 fun getSimpleDateStringFromDate(date:Date):String = getStringFromDate(date,"dd.MM.yyyy")
+
+
+
+fun stringIsNumericOnline(str:String):Boolean
+{
+    return str.matches("-?\\d+(\\.\\d+)?".toRegex())
+}

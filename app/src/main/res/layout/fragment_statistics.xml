@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgroundLight2">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/statistic_tablayout"
@@ -10,32 +12,17 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabBackground="@color/backgroundLight2" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/statistic_viewpager"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/statistic_viewpager2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statistic_tablayout" >
-
-    </androidx.viewpager.widget.ViewPager>
-
-    <Button
-        android:id="@+id/statistic_btn_time_range"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Zeitraum ändern"
-        app:cornerRadius="20dp"
-        app:icon="@drawable/ic_time_dark"
-        app:iconTint="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/statistic_tablayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
