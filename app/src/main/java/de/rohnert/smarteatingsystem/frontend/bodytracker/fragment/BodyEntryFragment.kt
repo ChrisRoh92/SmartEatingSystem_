@@ -1,21 +1,15 @@
 package de.rohnert.smarteatingsystem.frontend.bodytracker.fragment
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,9 +21,9 @@ import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferenc
 import de.rohnert.smarteatingsystem.frontend.bodytracker.BodyViewModel
 import de.rohnert.smarteatingsystem.frontend.bodytracker.adapter.BodyEntryRecyclerViewAdapter
 import de.rohnert.smarteatingsystem.frontend.bodytracker.animations.BodyEntryStatusViewAnimator
-import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.DialogFragmentNewBodyEntry
-import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.DialogShowBodyEntry
-import de.rohnert.smarteatingsystem.helper.others.CustomDividerItemDecoration
+import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.dialog_bodyentry.DialogFragmentNewBodyEntry
+import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.dialog_bodyentry.DialogShowBodyEntry
+import de.rohnert.smarteatingsystem.utils.getDateFromDateLong
 
 class BodyEntryFragment: Fragment() {
 
@@ -104,7 +98,7 @@ class BodyEntryFragment: Fragment() {
             else
             {
                 val lastBodyDate = adapter.content.first().date
-                val newDate = Helper().getDateWithOffsetDays(helper.getDateFromString(lastBodyDate),1)
+                val newDate = Helper().getDateWithOffsetDays(getDateFromDateLong(lastBodyDate),1)
                 var dialog = DialogFragmentNewBodyEntry(bodyViewModel,newDate)
                 dialog.show(childFragmentManager,"NewBodyDialog")
                 //Toast.makeText(rootView.context,"Du hast heute bereits ein Eintrag erstellt...",Toast.LENGTH_SHORT).show()
@@ -115,9 +109,11 @@ class BodyEntryFragment: Fragment() {
 
     private fun initObserver()
     {
-        bodyViewModel.getLiveBodyList().observe(viewLifecycleOwner,androidx.lifecycle.Observer{
-            adapter.updateContent(it)
+        // Aktuelle Bodyliste aus Datenbank für RecyclerView
+        bodyViewModel.getLiveBodyList().observe(viewLifecycleOwner,androidx.lifecycle.Observer{ bodylist ->
+            adapter.updateContent(bodylist)
         })
+
 
         bodyViewModel.getProgressWasSetValue().observe(viewLifecycleOwner,androidx.lifecycle.Observer{
             if(!firstStart)
@@ -159,7 +155,7 @@ class BodyEntryFragment: Fragment() {
         adapter.setOnBodyEntryClickListener(object:BodyEntryRecyclerViewAdapter.OnBodyEntryClickListener{
             override fun setOnBodyEntryClickListener(body: Body, pos: Int) {
                 var dialog = DialogShowBodyEntry(rootView.context,body,fragmentManager!!)
-                dialog.setOnDialogClickListener(object:DialogShowBodyEntry.OnDialogClickListener{
+                dialog.setOnDialogClickListener(object: DialogShowBodyEntry.OnDialogClickListener{
                     override fun setOnDialogClickListener(updatedBody: Body) {
                         bodyViewModel.updateBody(updatedBody)
                     }

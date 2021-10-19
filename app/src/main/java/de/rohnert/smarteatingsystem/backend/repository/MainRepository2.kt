@@ -141,12 +141,16 @@ class MainRepository2(var application: Application)
         return bodyRepository.getBodyList()
     }
 
-    suspend fun getBodyByDate(date:String): Body
+    suspend fun getBodyByDate(date:Long): Body
     {
         return bodyRepository.getBodyByDate(date)
     }
 
+    suspend fun getLatestBody():Body = bodyRepository.getLatestBody()
 
+    suspend fun getOldestBody():Body = bodyRepository.getOldestBody()
+
+    suspend fun getNumberOfBodyEntries():Int = bodyRepository.getNumberOfBodyEntries()
 
 
 

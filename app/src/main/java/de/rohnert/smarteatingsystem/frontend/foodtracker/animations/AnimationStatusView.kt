@@ -2,7 +2,6 @@ package de.rohnert.smarteatingsystem.frontend.foodtracker.animations
 
 import android.animation.*
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -11,7 +10,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smarteatingsystem.helper.animation.CustomValueAnimator
+import de.rohnert.smarteatingsystem.utils.animation.CustomValueAnimator
 import kotlin.math.roundToInt
 
 class AnimationStatusView(var context: Context,

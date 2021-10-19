@@ -202,7 +202,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <de.rohnert.smarteatingsystem.helper.views.CustomProgressBar
+                        <de.rohnert.smarteatingsystem.utils.views.CustomProgressBar
                             android:id="@+id/fragment_foodtracker_pb_kcal"
                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                             android:layout_width="150dp"

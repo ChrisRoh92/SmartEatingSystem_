@@ -1,8 +1,5 @@
 package de.rohnert.smarteatingsystem.frontend.foodtracker.fragment.foodtracker
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -14,7 +11,6 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -36,10 +32,10 @@ import de.rohnert.smarteatingsystem.frontend.foodtracker.dialogs.DialogMealList
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.lunchNames
 import de.rohnert.smarteatingsystem.frontend.premium.dialogs.DialogFragmentPremium
-import de.rohnert.smarteatingsystem.helper.animation.*
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogAppRating
-import de.rohnert.smarteatingsystem.helper.others.WrapContentLinearLayoutManager
-import de.rohnert.smarteatingsystem.helper.views.CustomProgressBar
+import de.rohnert.smarteatingsystem.utils.animation.*
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogAppRating
+import de.rohnert.smarteatingsystem.utils.others.WrapContentLinearLayoutManager
+import de.rohnert.smarteatingsystem.utils.views.CustomProgressBar
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.lang.Exception
 import kotlin.math.roundToInt

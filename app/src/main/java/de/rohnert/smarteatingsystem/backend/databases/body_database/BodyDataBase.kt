@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [Body::class], version = 1)
+@Database(entities = [Body::class], version = 2)
 abstract class BodyDataBase: RoomDatabase() {
     abstract fun bodyDao(): BodyDao
 }
@@ -28,6 +28,7 @@ object BodyDataBaseProvider
 
                     "body_database"
                 ).allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
 

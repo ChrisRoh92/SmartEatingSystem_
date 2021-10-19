@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.helper.animation.CustomValueAnimator
+import de.rohnert.smarteatingsystem.utils.animation.CustomValueAnimator
 
 import kotlin.math.roundToInt
 

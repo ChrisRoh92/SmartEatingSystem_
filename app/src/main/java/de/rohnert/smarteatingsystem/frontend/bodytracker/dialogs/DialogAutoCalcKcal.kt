@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.*
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleList
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleList
 
 class DialogAutoCalcKcal(var context:Context) : View.OnClickListener,
     AdapterView.OnItemClickListener {

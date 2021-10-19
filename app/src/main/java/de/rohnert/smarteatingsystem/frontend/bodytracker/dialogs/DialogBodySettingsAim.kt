@@ -8,7 +8,7 @@ import android.widget.*
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleChoiceList
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleChoiceList
 
 class DialogBodySettingsAim(var context: Context,var prefs:SharedAppPreferences ) :
     AdapterView.OnItemClickListener, View.OnClickListener {

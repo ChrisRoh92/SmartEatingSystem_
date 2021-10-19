@@ -24,7 +24,7 @@ import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.adapter.ClassicFoodListAdapter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.adapter.FoodListAdapter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.FoodListerFilter
-import de.rohnert.smarteatingsystem.helper.others.CustomDividerItemDecoration
+import de.rohnert.smarteatingsystem.utils.others.CustomDividerItemDecoration
 
 
 class DialogFragmentFoodList(var sMeal:String,var foodViewModel: FoodViewModel): DialogFragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {

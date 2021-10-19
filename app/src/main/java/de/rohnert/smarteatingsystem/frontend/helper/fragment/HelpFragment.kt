@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.frontend.helper.adapter.HelperRecyclerAdapter
 import de.rohnert.smarteatingsystem.frontend.helper.dialogs.*
-import de.rohnert.smarteatingsystem.helper.others.CustomDividerItemDecoration
+import de.rohnert.smarteatingsystem.utils.others.CustomDividerItemDecoration
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class HelpFragment: Fragment() {

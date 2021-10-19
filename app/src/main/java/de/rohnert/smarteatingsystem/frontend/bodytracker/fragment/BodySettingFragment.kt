@@ -27,8 +27,8 @@ import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.DialogAllowedFo
 import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.DialogBodySettingsAim
 import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.DialogNutrition
 import de.rohnert.smarteatingsystem.frontend.premium.dialogs.DialogFragmentPremium
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleLineInput
-import de.rohnert.smarteatingsystem.helper.others.CustomDividerItemDecoration
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleLineInput
+import de.rohnert.smarteatingsystem.utils.others.CustomDividerItemDecoration
 import kotlin.math.roundToInt
 
 class BodySettingFragment: Fragment()

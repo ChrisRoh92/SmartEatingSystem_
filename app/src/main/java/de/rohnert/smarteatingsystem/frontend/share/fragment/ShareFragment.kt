@@ -10,7 +10,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.helper.others.SimpleShare
+import de.rohnert.smarteatingsystem.utils.others.SimpleShare
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class ShareFragment : Fragment() {

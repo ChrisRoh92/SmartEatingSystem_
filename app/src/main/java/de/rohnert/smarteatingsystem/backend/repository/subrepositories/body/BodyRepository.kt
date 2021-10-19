@@ -38,8 +38,14 @@ class BodyRepository(var application: Application)
         return ArrayList(bodyDao.getBodyList())
     }
 
-    suspend fun getBodyByDate(date:String): Body
+    suspend fun getBodyByDate(date:Long): Body
     {
         return bodyDao.getBodyByDate(date)
     }
+
+    suspend fun getLatestBody():Body = bodyDao.getLatestBody()
+
+    suspend fun getOldestBody():Body = bodyDao.getOldestBody()
+
+    suspend fun getNumberOfBodyEntries():Int = bodyDao.getNumberOfBodyEntries()
 }

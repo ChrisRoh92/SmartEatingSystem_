@@ -17,9 +17,9 @@ import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smarteatingsystem.frontend.settings.adapter.NotificationSettingsAdapter
-import de.rohnert.smarteatingsystem.helper.dialogs.CustomDatePicker
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleChoiceList
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleLineInput
+import de.rohnert.smarteatingsystem.utils.dialogs.CustomDatePicker
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleChoiceList
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleLineInput
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList

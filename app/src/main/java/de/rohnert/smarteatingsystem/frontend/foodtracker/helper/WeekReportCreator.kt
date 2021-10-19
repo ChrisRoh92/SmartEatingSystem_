@@ -9,7 +9,7 @@ import de.rohnert.smarteatingsystem.backend.databases.daily_database.MealEntry
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.helper.CalcedFood
 import de.rohnert.smarteatingsystem.backend.repository.subrepositories.daily.DailyProcessor
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogLoading
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogLoading
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch

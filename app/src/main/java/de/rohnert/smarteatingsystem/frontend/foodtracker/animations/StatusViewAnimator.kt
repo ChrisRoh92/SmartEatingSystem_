@@ -4,7 +4,6 @@ import android.animation.AnimatorSet
 import android.content.Context
 import android.widget.ProgressBar
 import android.widget.TextView
-import de.rohnert.smarteatingsystem.helper.animation.getValueAnimator
 
 class StatusViewAnimator(var context: Context,
                          var pbList:ArrayList<ProgressBar>,

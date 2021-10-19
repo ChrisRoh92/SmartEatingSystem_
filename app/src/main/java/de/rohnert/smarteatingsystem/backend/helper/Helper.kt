@@ -37,6 +37,16 @@ class Helper
         return formatted2
     }
 
+    fun getLongDateStringFromDate(date:Date):String
+    {
+        return date.time.toString()
+    }
+
+    fun getDateStringFromLongDateString(longDateString:String):String
+    {
+        return getStringFromDate(Date(longDateString.toLong()))
+    }
+
     fun getWeekNumberFromDate(date:Date):Int
     {
         val cal = Calendar.getInstance()

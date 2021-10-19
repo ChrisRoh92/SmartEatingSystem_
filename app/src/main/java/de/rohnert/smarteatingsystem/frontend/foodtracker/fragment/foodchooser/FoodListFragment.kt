@@ -23,7 +23,6 @@ import de.rohnert.smarteatingsystem.frontend.foodtracker.adapter.ClassicFoodList
 import de.rohnert.smarteatingsystem.frontend.foodtracker.dialogs.*
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.TAG
-import de.rohnert.smarteatingsystem.helper.others.CustomDividerItemDecoration
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class FoodListFragment: Fragment(), View.OnClickListener, SearchView.OnQueryTextListener {

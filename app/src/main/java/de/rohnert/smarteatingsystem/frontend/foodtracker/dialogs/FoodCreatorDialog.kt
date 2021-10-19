@@ -9,7 +9,7 @@ import android.widget.*
 import de.rohnert.smarteatingsystem.R
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleLineInput
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleLineInput
 
 class FoodCreatorDialog(var foodViewModel: FoodViewModel, var context: Context) : AdapterView.OnItemSelectedListener {
 

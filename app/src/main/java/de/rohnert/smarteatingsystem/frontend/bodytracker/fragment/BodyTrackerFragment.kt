@@ -31,18 +31,25 @@ class BodyTrackerFragment: Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        bodyViewModel = ViewModelProvider(this).get(BodyViewModel::class.java)
+
         rootView = inflater.inflate(R.layout.fragment_bodytracker, container, false)
 
         //
-        initToolbar()
-        Handler().postDelayed({
-            initViewPager()
 
-        },100)
+//        Handler().postDelayed({
+//
+//
+//        },100)
 
 
         return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bodyViewModel = ViewModelProvider(this).get(BodyViewModel::class.java)
+        initToolbar()
+        initViewPager()
     }
 
     // Toolbar:
@@ -65,6 +72,7 @@ class BodyTrackerFragment: Fragment() {
 
         pager = rootView.findViewById(R.id.bodytracker_viewpager)
         adapter = BodyTrackerPagerAdapter(parentFragmentManager,lifecycle)
+        pager.offscreenPageLimit = 2
         pager.adapter = adapter
 
         tabLayout = rootView.findViewById(R.id.bodytracker_tablayout)
@@ -72,6 +80,8 @@ class BodyTrackerFragment: Fragment() {
         TabLayoutMediator(tabLayout,pager){tab, position ->
             tab.text = name[position]
         }.attach()
+
+
 
 
     }

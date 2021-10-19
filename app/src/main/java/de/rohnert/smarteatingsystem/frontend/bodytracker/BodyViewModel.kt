@@ -6,12 +6,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import de.rohnert.smarteatingsystem.utils.Constants.LOGGING_TAG
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.backend.databases.body_database.Body
 import de.rohnert.smarteatingsystem.backend.repository.subrepositories.body.BodyProcessor
 import de.rohnert.smarteatingsystem.backend.repository.MainRepository2
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedPreferencesSmeasyValues
+import de.rohnert.smarteatingsystem.utils.getDateFromString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -36,6 +38,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     private var bodyAimList:ArrayList<Float> = ArrayList()
     private var progressList:ArrayList<Float> = ArrayList()
     private var startBodyValues:ArrayList<Float> = ArrayList()
+    private var currentBodyValues: ArrayList<Float> = ArrayList()
 
     // LiveData
     private var liveBodyList:MutableLiveData<ArrayList<Body>> = MutableLiveData()
@@ -47,8 +50,8 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch(IO) {
             localBodyList = repository.getBodyList()
             sortLocalBodyList()
-            localCurrentBody = repository.getBodyByDate(date)
-            if(repository.getBodyByDate(date) == null)
+            localCurrentBody = repository.getBodyByDate(getDateFromString(date,"dd.MM.yyyy").time)
+            if(repository.getBodyByDate(getDateFromString(date,"dd.MM.yyyy").time) == null)
             {
                 if(localBodyList.isNullOrEmpty())
                 {
@@ -64,11 +67,11 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
             }
             else
             {
-                localCurrentBody = repository.getBodyByDate(date)
+                localCurrentBody = repository.getBodyByDate(getDateFromString(date).time)
                 saveCurrentBodyToPref()
             }
             setBodyProgress()
-            liveBodyList.postValue(localBodyList)
+            liveBodyList.postValue(repository.getBodyList())
         }
 
     }
@@ -77,16 +80,17 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
 
 
     // Methoden mit Zugriff:
-    fun addNewBody(weight:Float,kfa:Float,bauch:Float,brust:Float,hals:Float, huefte:Float, dir:String,entryDate:String = date)
+    fun addNewBody(weight:Float,kfa:Float,bauch:Float,brust:Float,hals:Float, huefte:Float, dir:String,entryDate:Long)
 {
     CoroutineScope(IO).launch {
         if(repository.getBodyByDate(entryDate) == null)
         {
+            Log.d(LOGGING_TAG,"EntryDate = $entryDate")
             var export = Body(entryDate,weight,kfa,bauch,brust,hals,huefte,dir)
             repository.addNewBody(export)
             localCurrentBody = export
             localBodyList.add(export)
-            liveBodyList.postValue(localBodyList)
+            liveBodyList.postValue(repository.getBodyList())
             setBodyProgress()
             saveCurrentBodyToPref()
         }
@@ -100,7 +104,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
             localBodyList.add(body)
             sortLocalBodyList()
             localCurrentBody = localBodyList.last()
-            liveBodyList.postValue(localBodyList)
+            liveBodyList.postValue(repository.getBodyList())
             setBodyProgress()
             saveCurrentBodyToPref()
         }
@@ -119,7 +123,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
 
             }
             runBlocking {
-                liveBodyList.postValue(localBodyList)
+                liveBodyList.postValue(repository.getBodyList())
                 repository.deleteBody(body)
             }
             setBodyProgress()
@@ -158,12 +162,15 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+
+
+
     fun checkIfBodyExist():Boolean
     {
         var export = false
         for(i in localBodyList)
         {
-            if(i.date == date)
+            if(i.date == getDateFromString(date,"dd.MM.yyyy").time)
             {
                 export = true
                 break
@@ -173,14 +180,85 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         return export
     }
 
-    fun setBodyProgress()
+    private fun setBodyProgress()
     {
 
+        CoroutineScope(IO).launch {
+
+            if(repository.getNumberOfBodyEntries() > 0)
+            {
+                bodyAimList = ArrayList()
+                progressList = ArrayList()
+
+                startBodyValues = ArrayList()
+
+                val oldestBody = repository.getOldestBody()
+                val latestBody = repository.getLatestBody()
+
+                // Werte vom ersten Eintrag:
+                startBodyValues.add(oldestBody.weight)
+                startBodyValues.add(oldestBody.kfa)
+                startBodyValues.add(bodyProcessor.calcBMI(prefs.userHeight, oldestBody.weight))
+                startBodyValues.add(oldestBody.bauch)
+                startBodyValues.add(oldestBody.brust)
+                startBodyValues.add(oldestBody.hals)
+                startBodyValues.add(oldestBody.huefte)
+
+
+                // Werte vom letzten Eintrag:
+                currentBodyValues =  ArrayList()
+                currentBodyValues.add(latestBody.weight)
+                currentBodyValues.add(latestBody.kfa)
+                currentBodyValues.add(bodyProcessor.calcBMI(prefs.userHeight,latestBody.weight))
+                currentBodyValues.add(latestBody.bauch)
+                currentBodyValues.add(latestBody.brust)
+                currentBodyValues.add(latestBody.hals)
+                currentBodyValues.add(latestBody.huefte)
+
+
+
+                // Liste enthält die aktuellen Ziele vom User
+                bodyAimList.add(prefs.weightAim)
+                bodyAimList.add(prefs.kfaAim)
+                bodyAimList.add(prefs.bmiAim)
+                bodyAimList.add(prefs.bauchAim)
+                bodyAimList.add(prefs.brustAim)
+                bodyAimList.add(prefs.halsAim)
+                bodyAimList.add(prefs.huefteAim)
+
+                // Hier werden die Progress eingestellt...
+                for ((index, i) in bodyAimList.withIndex()) {
+                    if (i > 0f && startBodyValues[index] != i && startBodyValues[index] > 0) {
+                        var value = (startBodyValues[index] - currentBodyValues[index]) / (startBodyValues[index] - i)*100f
+                        progressList.add(value)
+                    } else if (startBodyValues[index] != i) {
+                        progressList.add(0f)
+                    } else {
+                        progressList.add(0f)
+                    }
+                }
+
+                liveProgressValue.postValue(liveProgressValue.value?.plus(1))
+            }
+            else
+            {
+                for(i in 0..6)
+                {
+                    progressList.add(0f)
+                }
+            }
+
+            saveProgressToPref()
+            Log.d("Smeasy","BodyViewModel - setBodyProgress progressList: $progressList")
+
+
+
+        }
+
+/*        // TODO: Anstatt von der LocalbodyListe den letzten Eintrag holen, diesen direkt über das Repo abrufen
         if(localCurrentBody!=null && !localBodyList.isNullOrEmpty()) {
 
-            bodyAimList = ArrayList()
-            progressList = ArrayList()
-            startBodyValues = ArrayList()
+
 
             // Dieses Liste enthält die Werte von den ersten eingetragenen Körperwerten
             startBodyValues.add(localBodyList[0].weight)
@@ -237,8 +315,20 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
             }
         }
         saveProgressToPref()
-        Log.d("Smeasy","BodyViewModel - setBodyProgress progressList: $progressList")
+        Log.d("Smeasy","BodyViewModel - setBodyProgress progressList: $progressList")*/
 
+
+
+    }
+
+    fun updateBodyProgress()
+    {
+        CoroutineScope(IO).launch {
+            prefs = SharedAppPreferences(context)
+            setBodyProgress()
+            saveCurrentBodyToPref()
+            liveBodyList.postValue(repository.getBodyList())
+        }
 
 
     }
@@ -271,17 +361,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
         smeasyPrefs.setNewHuefteProgress(progressList[6])
     }
 
-    fun updateBodyProgress()
-    {
-        CoroutineScope(IO).launch {
-            prefs = SharedAppPreferences(context)
-            setBodyProgress()
-            saveCurrentBodyToPref()
-            liveBodyList.postValue(localBodyList)
-        }
 
-
-    }
 
 
 
@@ -289,9 +369,8 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     // LocalBodyListe sortieren:
     private fun sortLocalBodyList()
     {
-        var values:ArrayList<Body> = ArrayList()
-        values = ArrayList(localBodyList.sortedWith(compareBy { it.date }))
-        localBodyList = values
+        localBodyList = ArrayList(localBodyList.sortedWith(compareBy { it.date }))
+
     }
 
 

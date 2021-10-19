@@ -16,10 +16,10 @@ import com.github.mikephil.charting.data.PieEntry
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.frontend.statistics.StatisticViewModel
 import de.rohnert.smarteatingsystem.frontend.statistics.adapter.StatisticFoodTrackedFoodRecyclerAdapter
-import de.rohnert.smarteatingsystem.helper.others.CustomDividerItemDecoration
-import de.rohnert.smarteatingsystem.helper.standard_charts.StandardBarChart
-import de.rohnert.smarteatingsystem.helper.standard_charts.StandardLineChart
-import de.rohnert.smarteatingsystem.helper.standard_charts.StandardPieChart
+import de.rohnert.smarteatingsystem.utils.others.CustomDividerItemDecoration
+import de.rohnert.smarteatingsystem.utils.standard_charts.StandardBarChart
+import de.rohnert.smarteatingsystem.utils.standard_charts.StandardLineChart
+import de.rohnert.smarteatingsystem.utils.standard_charts.StandardPieChart
 
 class StatisticFoodFragment:Fragment()
 {

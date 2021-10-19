@@ -29,7 +29,7 @@ import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.frontend.foodtracker.adapter.WeekReportRecyclerViewAdapter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.MyValueFormatter
 import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.WeekReportCreator
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogLoading
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogLoading
 import java.util.*
 import kotlin.collections.ArrayList
 

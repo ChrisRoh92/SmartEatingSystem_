@@ -10,9 +10,9 @@ import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smarteatingsystem.MainActivity
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smarteatingsystem.helper.dialogs.CustomDatePicker
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleChoiceList
-import de.rohnert.smarteatingsystem.helper.dialogs.DialogSingleMessage
+import de.rohnert.smarteatingsystem.utils.dialogs.CustomDatePicker
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleChoiceList
+import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleMessage
 import java.util.*
 
 class IntroScreen : AppCompatActivity() {

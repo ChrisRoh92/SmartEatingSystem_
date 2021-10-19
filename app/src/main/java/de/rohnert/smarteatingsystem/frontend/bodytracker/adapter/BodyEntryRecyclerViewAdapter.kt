@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.backend.databases.body_database.Body
 import de.rohnert.smarteatingsystem.R
+import de.rohnert.smarteatingsystem.utils.getDateStringFromLongDateString
 import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
-import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.DialogShowPicture
+import de.rohnert.smarteatingsystem.frontend.bodytracker.dialogs.dialog_bodyentry.DialogShowPicture
 import de.rohnert.smarteatingsystem.frontend.premium.dialogs.DialogFragmentPremium
 
 
@@ -36,8 +37,42 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>, var fragmentMan
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvDate.text = "vom ${content[position].date}"
-        holder.tvWeight.text = "${helper.getFloatAsFormattedString(content[position].weight,"#.#")} kg"
+        val body = content[position]
+        holder.tvDate.text = "vom ${getDateStringFromLongDateString(body.date)}"
+        holder.tvWeight.text = "${helper.getFloatAsFormattedString(body.weight,"#.#")} kg"
+
+        if(body.fotoDir.isEmpty() || body.fotoDir.isBlank())
+        {
+            holder.imageBtn.setImageResource(R.drawable.ic_baseline_no_photography_24)
+            holder.imageBtn.isEnabled = false
+        }
+
+        else
+        {
+            holder.imageBtn.setOnClickListener {
+                if(prefs.premiumStatus)
+                {
+                    /*Log.d("Smeasy","BodyEntryRecyclerViewAdapter imageButton Click Listener")
+                    var captureDialog = DialogCapturePhoto(content[position].fotoDir)
+                    captureDialog.show(fragmentManager,"capture")*/
+                    if(content[position].fotoDir != "")
+                    {
+                        var dialog = DialogShowPicture(holder.imageBtn.context,content[position].fotoDir)
+                    }
+                    else
+                    {
+                        Toast.makeText(holder.imageBtn.context,"Kein Foto vorhanden...", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+                else
+                {
+                    var dialog = DialogFragmentPremium()
+                    dialog.show(fragmentManager,"Premium")
+                }
+
+            }
+        }
 
 
         if(!prefs.premiumStatus)
@@ -47,29 +82,7 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>, var fragmentMan
 
         }
 
-        holder.imageBtn.setOnClickListener {
-            if(prefs.premiumStatus)
-            {
-                /*Log.d("Smeasy","BodyEntryRecyclerViewAdapter imageButton Click Listener")
-                var captureDialog = DialogCapturePhoto(content[position].fotoDir)
-                captureDialog.show(fragmentManager,"capture")*/
-                if(content[position].fotoDir != "")
-                {
-                    var dialog = DialogShowPicture(holder.imageBtn.context,content[position].fotoDir)
-                }
-                else
-                {
-                    Toast.makeText(holder.imageBtn.context,"Kein Foto vorhanden...", Toast.LENGTH_SHORT).show()
-                }
 
-            }
-            else
-            {
-                var dialog = DialogFragmentPremium()
-                dialog.show(fragmentManager,"Premium")
-            }
-
-        }
 
         holder.itemView.setOnLongClickListener {
             if(mLongListener!=null)
@@ -93,8 +106,8 @@ class BodyEntryRecyclerViewAdapter(var content: ArrayList<Body>, var fragmentMan
 
     fun updateContent(content: ArrayList<Body>)
     {
-        var local = content.asReversed()
-        this.content = ArrayList(local)
+//        var local = content.asReversed()
+        this.content = content
         notifyDataSetChanged()
     }
 
