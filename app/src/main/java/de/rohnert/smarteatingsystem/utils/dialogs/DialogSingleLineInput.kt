@@ -11,7 +11,7 @@ import android.widget.TextView
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 
-class DialogSingleLineInput(var title:String,var subTitle:String, var context: Context, var inputType: Int, var value:String = "")
+open class DialogSingleLineInput(var title:String, var subTitle:String, var context: Context, var inputType: Int, var value:String = "")
 {
 
     lateinit var builder: AlertDialog.Builder
@@ -79,33 +79,24 @@ class DialogSingleLineInput(var title:String,var subTitle:String, var context: C
 
         et.setText(value)
 
-        btnAbort.setOnClickListener({
+        btnAbort.setOnClickListener {
             alertDialog.dismiss()
-        })
+        }
 
         // EingabeWert übergeben...
-        btnSave.setOnClickListener({
-            if(mListener!=null)
-            {
-                if(!et.text.isEmpty())
-                {
-                    if(et.text.matches("-?\\d+(\\.\\d+)?".toRegex()))
-                    {
+        btnSave.setOnClickListener {
+            if (mListener != null) {
+                if (!et.text.isEmpty()) {
+                    if (et.text.matches("-?\\d+(\\.\\d+)?".toRegex())) {
                         mListener.onDialogClickListener(et.text.toString().toFloat())
-                    }
-                    else
-                    {
+                    } else {
                         mListener.onDialogClickListener(et.text.toString())
                     }
 
                 }
                 alertDialog.dismiss()
             }
-        })
-
-
-
-
+        }
 
 
     }

@@ -54,16 +54,6 @@ class FoodProcessor(var application: Application, var foodList:ArrayList<Extende
 
 
 
-
-
-
-
-
-
-
-
-
-
     // Helper-Methoden:
     fun getCalcecFoodValues(entry: MealEntry):ArrayList<Float>
     {

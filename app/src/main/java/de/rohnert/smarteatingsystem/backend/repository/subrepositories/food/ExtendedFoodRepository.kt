@@ -112,5 +112,11 @@ class ExtendedFoodRepository(var application: Application)
     {
         return userFoodExtendDao.getDataById(id)
     }
+
+    suspend fun updateFood(newFood: ExtendedFood) {
+
+        appFoodExtendedDao.updateFood(newFood)
+
+    }
     ///////////////////////////////////////////////////////////////////////////////
 }

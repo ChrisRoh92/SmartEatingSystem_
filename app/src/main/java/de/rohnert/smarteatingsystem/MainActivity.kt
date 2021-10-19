@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        fragments = setOf(R.id.nav_foodtracker,R.id.nav_bodytracker,R.id.nav_setting,R.id.nav_share,R.id.nav_help)
+        fragments = setOf(R.id.nav_foodtracker,R.id.nav_bodytracker,R.id.nav_analyse,R.id.nav_setting,R.id.nav_share,R.id.nav_help)
         appBarConfiguration = AppBarConfiguration(fragments,drawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)

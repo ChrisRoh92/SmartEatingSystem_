@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import de.rohnert.smarteatingsystem.backend.helper.Helper
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.Daily
 import de.rohnert.smarteatingsystem.backend.databases.daily_database.MealEntry
@@ -32,6 +33,8 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
     //Allgemeines:
     private var helper = Helper()
     private var repository = MainRepository2(application)
+
+    private var scope = viewModelScope
 
     // Prozessoren...
     private var dailyProcess = DailyProcessor()
@@ -747,11 +750,13 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // FoodList Operations.
-    fun addNewFood(category:String,name:String,marke:String = "",menge:String ="",unit:String,kcal:Float,carb:Float,protein:Float,fett:Float,ean:String = "")
+    fun addNewFood(category:String,name:String,marke:String = "",menge:String ="",
+                    unit:String,kcal:Float,carb:Float,protein:Float,fett:Float,ean:String = "",
+                    portionName:ArrayList<String>,portionSize:ArrayList<Double>)
     {
         CoroutineScope(IO).launch {
             var newID = foodProcessor.getNextUserFoodList(repository.getUserFoodList())
-            var food = ExtendedFood(newID,category,name,marke,menge,unit,ean,kcal,carb,protein,fett)
+            var food = ExtendedFood(newID,category,name,marke,menge,unit,ean,kcal,carb,protein,fett,portionName,portionSize)
             repository.addNewUserFood(food)
             withContext(Main)
             {
@@ -763,8 +768,25 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    fun updateFood( newFood:ExtendedFood)
+    {
+        // TODO: Implementieren
+        scope.launch {
+            withContext(IO)
+            {
+                repository.updateFood(newFood)
+            }
+        }
+
+    }
+
+    fun addNewPortionToFood(food:ExtendedFood,portionName:String,portionValue:Double)
+    {
+        // TODO: Implementieren
+    }
+
     // Methode wird aufgerufen, wenn sich wegen der UserFoods etwas ändert...
-    fun setFoodListUpdater()
+    private fun setFoodListUpdater()
     {
         if(updatedFoodList.value != 1)
         {

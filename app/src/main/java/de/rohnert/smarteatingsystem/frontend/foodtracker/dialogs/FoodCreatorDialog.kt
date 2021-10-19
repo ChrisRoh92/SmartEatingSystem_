@@ -151,14 +151,16 @@ class FoodCreatorDialog(var foodViewModel: FoodViewModel, var context: Context) 
             }
 
 
-
+            // TODO: Bitte Portionsangaben berücksichtigen
             foodViewModel.addNewFood(spinner.selectedItem.toString(),
                                         et_name.editText!!.text.toString(),
                                         einheit,"","",
                                         et_kcal.editText!!.text.toString().toFloat(),
                                         et_carbs.editText!!.text.toString().toFloat(),
                                         et_protein.editText!!.text.toString().toFloat(),
-                                        et_fett.editText!!.text.toString().toFloat())
+                                        et_fett.editText!!.text.toString().toFloat(),
+                                        portionName = ArrayList<String>(),
+                                        portionSize =  ArrayList<Double>())
 
 
             alertDialog.dismiss()

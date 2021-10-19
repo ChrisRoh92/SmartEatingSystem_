@@ -4,6 +4,7 @@
 
     <item
         android:id="@+id/menu_bodytracker_report"
+        android:icon="@drawable/ic_baseline_assignment_24"
         android:title="Bericht"
         app:showAsAction="always" />
 </menu>

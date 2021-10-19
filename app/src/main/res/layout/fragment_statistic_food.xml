@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/background_light">
+        android:background="@color/backgroundLight2">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"

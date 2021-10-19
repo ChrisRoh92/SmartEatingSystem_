@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import de.rohnert.smarteatingsystem.backend.databases.food_database.extend_database.ExtendedFood
 
 
@@ -27,6 +28,9 @@ interface AppFoodExtendDao
 
     @Query("SELECT * FROM extend_food WHERE name LIKE :argument OR marken = :argument")
     suspend fun getFilteredData(argument:String):List<ExtendedFood>
+
+    @Update
+    suspend fun updateFood(newFood:ExtendedFood)
 
     @Insert
     suspend fun insert(food: ExtendedFood)

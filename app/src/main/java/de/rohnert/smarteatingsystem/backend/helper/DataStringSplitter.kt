@@ -1,16 +1,19 @@
 package de.rohnert.smarteatingsystem.backend.helper
 
 import de.rohnert.smarteatingsystem.backend.databases.food_database.extend_database.ExtendedFood
+import de.rohnert.smarteatingsystem.backend.databases.food_database.extend_database.ExtendedFoodConverter
 
 class DataStringSplitter {
 
     // Globale Variablen...
-    var helper: Helper = Helper()
+    private val helper: Helper = Helper()
+    private val converter = ExtendedFoodConverter()
 
 
     fun getExtendedFoodFromString(input:String): ExtendedFood
     {
         var values = input.split(";")
+
         var extendedFood = ExtendedFood(
             values[0],
             values[1],
@@ -22,7 +25,9 @@ class DataStringSplitter {
             values[7].toFloat(),
             values[8].toFloat(),
             values[9].toFloat(),
-            values[10].toFloat()
+            values[10].toFloat(),
+            converter.fromStringToPortionName(values[11]),
+            converter.fromStringToPortionSize(values[12])
         )
         return extendedFood
     }

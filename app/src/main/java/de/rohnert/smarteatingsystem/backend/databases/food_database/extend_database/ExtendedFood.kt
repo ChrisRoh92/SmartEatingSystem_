@@ -16,5 +16,7 @@ class ExtendedFood(
     @ColumnInfo(name = "kcal") var kcal:Float,
     @ColumnInfo(name = "carb") var carb:Float,
     @ColumnInfo(name = "protein") var protein:Float,
-    @ColumnInfo(name = "fett") var fett:Float
+    @ColumnInfo(name = "fett") var fett:Float,
+    @ColumnInfo(name = "portionName") var portionName:ArrayList<String>,
+    @ColumnInfo(name = "portionValue") var portionValue:ArrayList<Double>
 )
