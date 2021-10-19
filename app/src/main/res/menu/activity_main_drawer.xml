@@ -3,11 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single" android:id="@+id/item1">
+
+    <group
+        android:checkableBehavior="single"
+        android:menuCategory="container"
+        android:visible="true">
 
 
         <item
             android:id="@+id/nav_foodtracker"
+            android:checked="true"
             android:icon="@drawable/ic_foodtracker"
             android:title="Tagesübersicht" />
 
@@ -16,6 +21,13 @@
             android:icon="@drawable/ic_bodytracker"
 
             android:title="Körpertracking" />
+
+        <item
+            android:id="@+id/nav_analyse"
+            android:icon="@drawable/ic_statistic"
+
+            android:title="Analyse" />
+
 
         <item
             android:id="@+id/nav_setting"
@@ -33,7 +45,21 @@
             android:icon="@drawable/ic_help"
             android:title="Hilfe" />
 
+        <item
+            android:id="@+id/nav_functions"
+            android:icon="@drawable/ic_baseline_workspaces_24"
+            android:title="Funktionen" />
 
+        <item
+            android:id="@+id/nav_impressum"
+            android:icon="@drawable/ic_baseline_groups_24"
+            android:title="Impressum" />
+
+        <item
+            android:id="@+id/fragmentPrivacy"
+            android:icon="@drawable/ic_privacy"
+            android:title="Datenschutz" />
     </group>
+
 
 </menu>

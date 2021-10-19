@@ -6,26 +6,26 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/fragment_settings_card_main"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:focusable="auto"
                 app:cardCornerRadius="4dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:cardElevation="4dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -245,17 +245,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_settings_card_notification"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:id="@+id/fragment_settings_card_notification_food"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 app:cardCornerRadius="4dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_settings_card_premium">
+                app:cardElevation="4dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -269,9 +266,9 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:text="Benachrichtigungseinstellung"
+                        android:text="Benachrichtung Lebensmittel"
                         android:textColor="@color/textColor1"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -309,7 +306,7 @@
                         android:text="Benachrichtigung aktiv"
                         android:textColor="@color/textColor1"
                         android:textSize="18sp"
-                        app:layout_constraintEnd_toStartOf="@+id/fragment_settings_switch_notification"
+                        app:layout_constraintEnd_toStartOf="@+id/fragment_settings_switch_notification_food"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/divider58" />
 
@@ -320,12 +317,12 @@
                         android:layout_marginEnd="8dp"
                         android:text="Stelle hier ein, ob Benachrichtigungen angezeigt werden sollen"
                         android:textSize="10sp"
-                        app:layout_constraintEnd_toStartOf="@+id/fragment_settings_switch_notification"
+                        app:layout_constraintEnd_toStartOf="@+id/fragment_settings_switch_notification_food"
                         app:layout_constraintStart_toStartOf="@+id/textView137"
                         app:layout_constraintTop_toBottomOf="@+id/textView137" />
 
                     <Switch
-                        android:id="@+id/fragment_settings_switch_notification"
+                        android:id="@+id/fragment_settings_switch_notification_food"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -347,7 +344,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView138" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/fragment_settings_rv_notification"
+                        android:id="@+id/fragment_settings_rv_notification_food"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -362,47 +359,48 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_settings_card_premium"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:id="@+id/fragment_settings_card_notification_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
                 app:cardCornerRadius="4dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_settings_card_main">
+                app:cardElevation="4dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingBottom="8dp">
 
                     <TextView
-                        android:id="@+id/textView59"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/textView1351"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="Informationen Premium"
+                        android:layout_marginEnd="8dp"
+                        android:text="Benachrichtung Körpermessung"
                         android:textColor="@color/textColor1"
                         android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView77"
+                        android:id="@+id/textView136123"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:text="Hier siehst du den aktuellen Status zu dem Premium Paket"
-                        android:textSize="10sp"
+                        android:text="Stelle hier ein, ob und wann du Benachrichtigungen erhalten möchtest"
+                        android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/textView59"
-                        app:layout_constraintTop_toBottomOf="@+id/textView59" />
+                        app:layout_constraintStart_toStartOf="@+id/textView1351"
+                        app:layout_constraintTop_toBottomOf="@+id/textView1351" />
 
                     <View
-                        android:id="@+id/divider38"
+                        android:id="@+id/divider581"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_marginStart="8dp"
@@ -411,31 +409,45 @@
                         android:background="?android:attr/listDivider"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView77" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView136123" />
 
                     <TextView
-                        android:id="@+id/textView81"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/textView1372"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="Aktueller Premium Status"
+                        android:layout_marginEnd="8dp"
+                        android:text="Benachrichtigung aktiv"
                         android:textColor="@color/textColor1"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toStartOf="@+id/fragment_settings_switch_notification_body"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider38" />
+                        app:layout_constraintTop_toBottomOf="@+id/divider581" />
 
                     <TextView
-                        android:id="@+id/settings_tv_premium_state"
+                        android:id="@+id/textView1384"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="Stelle hier ein, ob Benachrichtigungen angezeigt werden sollen"
+                        android:textSize="10sp"
+
+                        app:layout_constraintStart_toStartOf="@+id/textView1372"
+                        app:layout_constraintTop_toBottomOf="@+id/textView1372" />
+
+                    <Switch
+                        android:id="@+id/fragment_settings_switch_notification_Body"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Premium nicht aktiv"
-                        android:textSize="10sp"
-                        app:layout_constraintStart_toStartOf="@+id/textView81"
-                        app:layout_constraintTop_toBottomOf="@+id/textView81" />
+                        android:layout_marginEnd="8dp"
+                        android:checked="true"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView1384"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView1372" />
 
                     <View
-                        android:id="@+id/divider39"
+                        android:id="@+id/divider591"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_marginStart="8dp"
@@ -444,67 +456,25 @@
                         android:background="?android:attr/listDivider"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settings_tv_premium_state" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView1384" />
 
-                    <TextView
-                        android:id="@+id/textView85"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Restzeit Premium Paket"
-                        android:textColor="@color/textColor1"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider39" />
-
-                    <TextView
-                        android:id="@+id/settings_tv_premium_timerange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textSize="10sp"
-                        app:layout_constraintStart_toStartOf="@+id/textView85"
-                        app:layout_constraintTop_toBottomOf="@+id/textView85" />
-
-                    <View
-                        android:id="@+id/divider40"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/fragment_settings_rv_notification_body"
                         android:layout_width="0dp"
-                        android:layout_height="1dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:background="?android:attr/listDivider"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settings_tv_premium_timerange" />
-
-                    <TextView
-                        android:id="@+id/textView87"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Ablaufdatum Premium Paket"
-                        android:textColor="@color/textColor1"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/divider40" />
-
-                    <TextView
-                        android:id="@+id/settings_tv_premium_enddate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="-"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/textView87"
-                        app:layout_constraintTop_toBottomOf="@+id/textView87" />
+                        app:layout_constraintTop_toBottomOf="@+id/divider591"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/recycleritem_settings_notification" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

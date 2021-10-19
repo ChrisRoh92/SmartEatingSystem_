@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +20,6 @@ import de.rohnert.smarteatingsystem.frontend.settings.adapter.NotificationSettin
 import de.rohnert.smarteatingsystem.utils.dialogs.CustomDatePicker
 import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleChoiceList
 import de.rohnert.smarteatingsystem.utils.dialogs.DialogSingleLineInput
-import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -41,40 +40,48 @@ class SettingsFragment : Fragment(), View.OnClickListener {
     private var itemIdList:ArrayList<Int> = arrayListOf(R.id.settings_item_bday,R.id.settings_item_sex,R.id.settings_item_userheight,R.id.settings_item_username)
     private var tvIdList:ArrayList<Int> = arrayListOf(R.id.settings_tv_bday_value,R.id.settings_tv_sex_value,R.id.settings_tv_userheight_value,R.id.settings_tv_username_value)
     private lateinit var mainContent:ArrayList<String>
-    // Notification
-    private var notificationContent:ArrayList<String> = arrayListOf("Frühstück","Mittagessen","Abendessen","Snacks")
-    private var notificationSubContent:ArrayList<String> = arrayListOf("09:00","12:00","18:00","15:00")
-    private var notificationCheckContent:ArrayList<Boolean> = arrayListOf(true,true,true,true)
 
-    private lateinit var layoutManagerMain:LinearLayoutManager
+    // Notification FoodTracker TODO: Das muss auch von den Prefs kommen!
+    private var notificationFoodContent:ArrayList<String> = arrayListOf("Frühstück","Mittagessen","Abendessen","Snacks")
+    private var notificationFoodSubContent:ArrayList<String> = arrayListOf("09:00","12:00","18:00","15:00")
+    private var notificationFoodCheckContent:ArrayList<Boolean> = arrayListOf(true,true,true,true)
 
-    private lateinit var rvNotification:RecyclerView
-    private lateinit var layoutManagerNotification:LinearLayoutManager
-    private lateinit var adapterNotification: NotificationSettingsAdapter
-    private lateinit var switchNotification:Switch
 
-    // PremiumCard
-    private lateinit var cardPremium:CardView
-    private lateinit var tvPremiumStatus:TextView
-    private lateinit var tvPremiumTime:TextView
-    private lateinit var tvPremiumDate:TextView
+    private lateinit var rvFoodNotification:RecyclerView
+    private lateinit var adapterFoodNotification: NotificationSettingsAdapter
+    private lateinit var switchFoodNotification:Switch
+
+
+    // Notification FoodTracker
+    private var notificationBodyContent:ArrayList<String> = arrayListOf("Morgens","Mittags","Abends")
+    private var notificationBodySubContent:ArrayList<String> = arrayListOf("09:00","12:00","20:00")
+    private var notificationBodyCheckContent:ArrayList<Boolean> = arrayListOf(true,true,true)
+
+    private lateinit var rvBodyNotification:RecyclerView
+    private lateinit var adapterBodyNotification: NotificationSettingsAdapter
+    private lateinit var switchBodyNotification:Switch
+
 
 
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_settings, container, false)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
+    }
 
-        // Toolbar bereinigen:
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        rootView = view
+
         prefs = SharedAppPreferences(rootView.context)
         initToolBar()
-        initPremiumCard()
+
         initContent()
         initMainCard()
-        //initNotificationCard()
+        initNotificationFoodCard()
+        initNotificationBodyCard()
 
-
-        return rootView
     }
 
     private fun initToolBar()
@@ -84,6 +91,7 @@ class SettingsFragment : Fragment(), View.OnClickListener {
             var toolbar = activity!!.findViewById<Toolbar>(R.id.toolbar)
             toolbar.menu.clear()
             toolbar.title = "Einstellungen"
+            toolbar.subtitle = ""
 
     }
 
@@ -124,53 +132,80 @@ class SettingsFragment : Fragment(), View.OnClickListener {
 
     }
 
-    private fun initPremiumCard()
+
+
+    private fun initNotificationFoodCard()
     {
-        cardPremium = rootView.findViewById(R.id.fragment_settings_card_premium)
 
-        var endDate = prefs.premiumEndDate
-        var status = prefs.premiumStatus
-
-        Log.d("Smeasy","SettingsFragment - initPremiumCard() - endDate:String = $endDate")
-        try {
-            Log.d("Smeasy","SettingsFragment - initPremiumCard() - endDate:Date = ${helper.getDateFromString(endDate)}")
-        }catch (e:Exception)
-        {
-            e.printStackTrace()
-            Log.d("Smeasy","SettingsFragment - initPremiumCard() - endDate:Date = geht nicht ....")
-        }
-
-
-
-        // TextView...
-        tvPremiumStatus = rootView.findViewById(R.id.settings_tv_premium_state)
-        tvPremiumTime = rootView.findViewById(R.id.settings_tv_premium_timerange)
-        tvPremiumDate = rootView.findViewById(R.id.settings_tv_premium_enddate)
-
-
-
-        if(status)
-        {
-            tvPremiumStatus.text = "Premium aktiv"
-            var restTage = 0
-            if(endDate != "")
-            {
-                restTage = helper.getDaysBetweenDates(helper.getDateFromString(endDate),helper.getCurrentDate()) +1
-            }
+        // Switch:
+        switchFoodNotification = rootView.findViewById(R.id.fragment_settings_switch_notification_food)
+        switchFoodNotification.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+            Toast.makeText(requireContext(),"Alarm ist nun Aktiv",Toast.LENGTH_SHORT).show()
             else
-            {
-                restTage = 0
+            Toast.makeText(requireContext(),"Alarm ist nun NICHT Aktiv",Toast.LENGTH_SHORT).show()
+        }
+
+
+
+        // RecyclerView initialisieren:
+        rvFoodNotification = rootView.findViewById(R.id.fragment_settings_rv_notification_food)
+        rvFoodNotification.layoutManager = LinearLayoutManager(rvFoodNotification.context,RecyclerView.VERTICAL,false)
+        adapterFoodNotification = NotificationSettingsAdapter(notificationFoodContent,notificationFoodSubContent,notificationFoodCheckContent)
+        rvFoodNotification.adapter = adapterFoodNotification
+
+        // Click Listener:
+        adapterFoodNotification.setOnNotificationCheckBoxListener(object:NotificationSettingsAdapter.OnNotificationCheckBoxListener{
+            override fun setOnNotificationCheckBoxListener(pos: Int) {
+                // TODO("Not yet implemented")
             }
 
-            tvPremiumTime.text = "Noch $restTage übrig"
-            tvPremiumDate.text = endDate
+        })
+        // Click Listener:
+        adapterFoodNotification.setOnNotificationSettingsClickListener(object:NotificationSettingsAdapter.OnNotificationSettingsClickListener{
+           override fun setOnNotificationSettingsClickListener(pos: Int) {
+                // TODO("Not yet implemented")
+            }
+
+        })
+
+
+    }
+
+    private fun initNotificationBodyCard()
+    {
+        // Switch:
+        switchBodyNotification = rootView.findViewById(R.id.fragment_settings_switch_notification_Body)
+        switchBodyNotification.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+                Toast.makeText(requireContext(),"Alarm ist nun Aktiv",Toast.LENGTH_SHORT).show()
+            else
+                Toast.makeText(requireContext(),"Alarm ist nun NICHT Aktiv",Toast.LENGTH_SHORT).show()
         }
-        else
-        {
-            tvPremiumStatus.text = "Premium nicht aktiv"
-            tvPremiumTime.text = "-"
-            tvPremiumDate.text = "-"
-        }
+
+
+
+        // RecyclerView initialisieren:
+        rvBodyNotification = rootView.findViewById(R.id.fragment_settings_rv_notification_body)
+        rvBodyNotification.layoutManager = LinearLayoutManager(rvBodyNotification.context,RecyclerView.VERTICAL,false)
+        adapterBodyNotification = NotificationSettingsAdapter(notificationBodyContent,notificationBodySubContent,notificationBodyCheckContent)
+        rvBodyNotification.adapter = adapterBodyNotification
+
+        // Click Listener:
+        adapterBodyNotification.setOnNotificationCheckBoxListener(object:NotificationSettingsAdapter.OnNotificationCheckBoxListener{
+            override fun setOnNotificationCheckBoxListener(pos: Int) {
+                // TODO("Not yet implemented")
+            }
+
+        })
+        // Click Listener:
+        adapterBodyNotification.setOnNotificationSettingsClickListener(object:NotificationSettingsAdapter.OnNotificationSettingsClickListener{
+            override fun setOnNotificationSettingsClickListener(pos: Int) {
+                // TODO("Not yet implemented")
+            }
+
+        })
+
     }
 
 

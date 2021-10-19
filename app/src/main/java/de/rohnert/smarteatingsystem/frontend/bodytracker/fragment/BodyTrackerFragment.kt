@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -29,17 +30,12 @@ class BodyTrackerFragment: Fragment() {
     private lateinit var pager: ViewPager2
     private lateinit var adapter: BodyTrackerPagerAdapter
 
+    private lateinit var toolbar:Toolbar
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         rootView = inflater.inflate(R.layout.fragment_bodytracker, container, false)
-
-        //
-
-//        Handler().postDelayed({
-//
-//
-//        },100)
 
 
         return rootView
@@ -56,9 +52,13 @@ class BodyTrackerFragment: Fragment() {
     private fun initToolbar()
     {
         // Access to Toolbar.
-        var toolbar = activity!!.toolbar
+        toolbar = requireActivity()!!.findViewById(R.id.toolbar)
+
         toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.menu_bodytracker)
+
         toolbar.title = "Körpertracking"
+        toolbar.subtitle = ""
 
     }
 

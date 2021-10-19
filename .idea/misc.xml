@@ -3,10 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/drawable-xxhdpi/navigationview_clicked.xml" value="0.3536458333333333" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/drawable-xxhdpi/navigationview_itembackground.xml" value="0.3536458333333333" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/drawable/ic_baseline_assignment_24.xml" value="0.3536458333333333" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/drawable/ic_baseline_workspaces_24.xml" value="0.3536458333333333" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/dialog_bodyentry_create.xml" value="0.33" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/fragment_bodytracker.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/fragment_bodytracker_bodyentries.xml" value="0.1" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/fragment_statistic_body.xml" value="0.3268641470888662" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/fragment_statistic_food.xml" value="0.3268641470888662" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/fragment_statistics.xml" value="0.3268641470888662" />
         <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/layout/recycleritem_bodyentry.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/menu/activity_main_drawer.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/menu/menu_bodytracker.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/menu/menu_foodtracker.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Chris/AndroidStudioProjects/SmartEatingSystem_2021/app/src/main/res/menu/menu_statistic.xml" value="0.3333333333333333" />
       </map>
     </option>
   </component>

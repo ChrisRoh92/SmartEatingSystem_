@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.*
+import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -34,10 +35,13 @@ import de.rohnert.smarteatingsystem.frontend.foodtracker.viewmodel.lunchNames
 import de.rohnert.smarteatingsystem.frontend.premium.dialogs.DialogFragmentPremium
 import de.rohnert.smarteatingsystem.utils.animation.*
 import de.rohnert.smarteatingsystem.utils.dialogs.DialogAppRating
+import de.rohnert.smarteatingsystem.utils.getStringFromDate
 import de.rohnert.smarteatingsystem.utils.others.WrapContentLinearLayoutManager
 import de.rohnert.smarteatingsystem.utils.views.CustomProgressBar
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 
@@ -52,6 +56,9 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
     private var helper = Helper()
     private var started = false
+
+    // Toolbar
+    private lateinit var toolbar: Toolbar
 
     // StatusView:
     // ProgressViews:
@@ -68,12 +75,11 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private lateinit var tvKcalActive: TextView
     private lateinit var tvRest: TextView
     private lateinit var tvAimProgress: TextView
-
     // TextViews of the StatusView:
     private lateinit var tvAimWeight:TextView
     private lateinit var tvAimKfa:TextView
 
-    // Das hier überdenken wir auch mal lieber ;)
+    // TODO: Das hier überdenken wir auch mal lieber ;)
     private lateinit var tvTitleBreakfast:TextView
     private lateinit var tvKcalBreakfast:TextView
     private lateinit var rvBreakfast:RecyclerView
@@ -147,7 +153,13 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_foodtracker, container, false)
+        return inflater.inflate(R.layout.fragment_foodtracker, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rootView = view
         foodViewModel = ViewModelProvider(requireActivity()).get(FoodViewModel::class.java)
 
         sharePrefs = SharedAppPreferences(rootView.context)
@@ -184,12 +196,7 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         initDateControlCardView()
 
         initViewModelObserver()
-
-
-
-        return rootView
     }
-
 
 
 
@@ -476,26 +483,20 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
     private fun initToolbar()
     {
         // Access to Toolbar.
-        var toolbar = activity!!.toolbar
+        toolbar = requireActivity().findViewById(R.id.toolbar)
         toolbar.title = "Tagesübersicht"
+        toolbar.subtitle = ""
         toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.menu_foodtracker)
 
         // Click Listener for the Toolbar
         toolbar.setOnMenuItemClickListener { item ->
-            if(item!!.itemId == R.id.menu_foodtracker_weekreport)
+            if(item!!.itemId == R.id.menu_foodtracker_today)
             {
-                // TODO("Normales Fragment mit den Navigation Components einbinden!")
-                findNavController().navigate(R.id.action_foodtracker_foodreport)
-
-                //DialogFragmentWeekReport(foodViewModel).show(parentFragmentManager,"WeekReport")
-
-            }
-            else if(item!!.itemId == R.id.menu_foodtracker_today)
-            {
-                if(foodViewModel.date != helper.getStringFromDate(helper.getCurrentDate()))
+                if(foodViewModel.date != getStringFromDate(Date(),"dd.MM.yyyy"))
                 {
 
+                    foodViewModel.setNewDate(getStringFromDate(Date(),"dd.MM.yyyy"))
                     tabLayout.getTabAt(helper.getDayOfWeekFromDate(helper.getCurrentDate()))?.select()
 
 

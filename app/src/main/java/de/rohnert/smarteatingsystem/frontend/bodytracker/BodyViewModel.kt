@@ -255,69 +255,6 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
 
         }
 
-/*        // TODO: Anstatt von der LocalbodyListe den letzten Eintrag holen, diesen direkt über das Repo abrufen
-        if(localCurrentBody!=null && !localBodyList.isNullOrEmpty()) {
-
-
-
-            // Dieses Liste enthält die Werte von den ersten eingetragenen Körperwerten
-            startBodyValues.add(localBodyList[0].weight)
-            startBodyValues.add(localBodyList[0].kfa)
-            startBodyValues.add(bodyProcessor.calcBMI(prefs.userHeight, localBodyList[0].weight))
-            startBodyValues.add(localBodyList[0].bauch)
-            startBodyValues.add(localBodyList[0].brust)
-            startBodyValues.add(localBodyList[0].hals)
-            startBodyValues.add(localBodyList[0].huefte)
-
-            // Liste enthält die aktuellen Ziele vom User
-            bodyAimList.add(prefs.weightAim)
-            bodyAimList.add(prefs.kfaAim)
-            bodyAimList.add(prefs.bmiAim)
-            bodyAimList.add(prefs.bauchAim)
-            bodyAimList.add(prefs.brustAim)
-            bodyAimList.add(prefs.halsAim)
-            bodyAimList.add(prefs.huefteAim)
-
-            // Liste enthält die aktuellen Körperwerte vom User (bzw. die vom letzten Eintrag)
-            var currentBodyValues: ArrayList<Float> = ArrayList()
-            currentBodyValues.add(localCurrentBody!!.weight)
-            currentBodyValues.add(localCurrentBody!!.kfa)
-            currentBodyValues.add(
-                bodyProcessor.calcBMI(
-                    prefs.userHeight,
-                    localCurrentBody!!.weight
-                )
-            )
-            currentBodyValues.add(localCurrentBody!!.bauch)
-            currentBodyValues.add(localCurrentBody!!.brust)
-            currentBodyValues.add(localCurrentBody!!.hals)
-            currentBodyValues.add(localCurrentBody!!.huefte)
-
-            // Hier werden die Progress eingestellt...
-            for ((index, i) in bodyAimList.withIndex()) {
-                if (i > 0f && startBodyValues[index] != i && startBodyValues[index] > 0) {
-                    var value = (startBodyValues[index] - currentBodyValues[index]) / (startBodyValues[index] - i)*100f
-                    progressList.add(value)
-                } else if (startBodyValues[index] != i) {
-                    progressList.add(0f)
-                } else {
-                    progressList.add(0f)
-                }
-            }
-
-            liveProgressValue.postValue(liveProgressValue.value?.plus(1))
-        }
-        else
-        {
-            for(i in 0..6)
-            {
-                progressList.add(0f)
-            }
-        }
-        saveProgressToPref()
-        Log.d("Smeasy","BodyViewModel - setBodyProgress progressList: $progressList")*/
-
-
 
     }
 
@@ -337,6 +274,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     // To Smeasy_Preferences save
     private fun saveCurrentBodyToPref()
     {
+        // TODO: Überlegen ob das so noch notwendig ist und anpassen!
         if(localCurrentBody!= null)
         {
             smeasyPrefs.setNewWeight(localCurrentBody!!.weight)
@@ -369,6 +307,7 @@ class BodyViewModel(application: Application) : AndroidViewModel(application)
     // LocalBodyListe sortieren:
     private fun sortLocalBodyList()
     {
+        // TODO: Wird die LocalBodyListe überhaupt noch benötigt?
         localBodyList = ArrayList(localBodyList.sortedWith(compareBy { it.date }))
 
     }
