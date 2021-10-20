@@ -14,6 +14,8 @@ import de.rohnert.smarteatingsystem.data.statistic.StatisticProcessor
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 class StatisticViewModel(application: Application) : AndroidViewModel(application)
 {
@@ -59,10 +61,11 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
 
             foodProcessor = FoodProcessor(application,foodList)
             statisticProcessor = StatisticProcessor(application,repository,foodProcessor)
+//
+//            dateList = helper.convertDateListToStringList(helper.getDateListWithValue(helper.getCurrentDate(),(7).toLong()
+//            ))
 
-            dateList = helper.convertDateListToStringList(helper.getDateListWithValue(helper.getCurrentDate(),
-                (7).toLong()
-            ))
+            dateList = helper.getWeekListAsString(Date())
 
             csvExport = CsvDataExport(application,repository,foodProcessor)
 

@@ -1,4 +1,4 @@
-package de.rohnert.smarteatingsystem.frontend.statistics.fragment
+package de.rohnert.smarteatingsystem.ui.statistics.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -8,15 +8,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.frontend.statistics.StatisticViewModel
-import de.rohnert.smarteatingsystem.frontend.statistics.adapter.StatisticFoodTrackedFoodRecyclerAdapter
+import de.rohnert.smarteatingsystem.ui.statistics.StatisticViewModel
+import de.rohnert.smarteatingsystem.ui.statistics.adapter.StatisticFoodTrackedFoodRecyclerAdapter
+
+
 import de.rohnert.smarteatingsystem.utils.others.CustomDividerItemDecoration
 import de.rohnert.smarteatingsystem.utils.standard_charts.StandardBarChart
 import de.rohnert.smarteatingsystem.utils.standard_charts.StandardLineChart
@@ -34,7 +36,7 @@ class StatisticFoodFragment:Fragment()
     // TrackedFood Cars:
     private lateinit var rvTrackedFood:RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var adapterTrackedFood:StatisticFoodTrackedFoodRecyclerAdapter
+    private lateinit var adapterTrackedFood: StatisticFoodTrackedFoodRecyclerAdapter
     // Values of Meals in PieChart:
     private lateinit var mealPieChart:StandardPieChart
     // CardView for Ø nutrition values in PieChart
@@ -73,7 +75,7 @@ class StatisticFoodFragment:Fragment()
         initTrackedFoodRecyclerView()
         initMealChart()
         initNutrititionPieChart()
-        initNutritionCourseLineChart()
+//        initNutritionCourseLineChart()
 
         // Observer starten:
         startObserver()
@@ -128,7 +130,7 @@ class StatisticFoodFragment:Fragment()
 
     private fun initNutritionCourseLineChart()
     {
-        var id = R.id.statistic_food_chart_line_nutrition
+        /*var id = R.id.statistic_food_chart_line_nutrition
         var values = statisticViewModel.getNutritionCourseData()
         var chartData:ArrayList<ArrayList<Entry>> = ArrayList()
         for((index,i) in values.withIndex())
@@ -158,7 +160,7 @@ class StatisticFoodFragment:Fragment()
 
         }
 
-        nutritionCourseLineChart = StandardLineChart(id,rootView,chartData,getLabels())
+        nutritionCourseLineChart = StandardLineChart(id,rootView,chartData,getLabels())*/
     }
 
     private fun initKcalBarChart()
@@ -217,7 +219,7 @@ class StatisticFoodFragment:Fragment()
     // Update Funktionen:
     private fun updateKcalBarChart()
     {
-        var values = statisticViewModel.getKcalValues()
+        var values = statisticViewModel.getKcalValues().asReversed()
         var chartValues:ArrayList<BarEntry> = ArrayList()
         for((index,i) in values.withIndex())
         {
@@ -254,7 +256,7 @@ class StatisticFoodFragment:Fragment()
 
     private fun updateNutritionCourseLineChart()
     {
-        // Muss noch implementiert werden...
+        /*// Muss noch implementiert werden...
         var values = statisticViewModel.getNutritionCourseValues()
         Log.d("Smeasy","StatisticFoodFragment - updateNutritionCourseLineChart values: $values")
         var chartData:ArrayList<ArrayList<Entry>> = ArrayList()
@@ -269,7 +271,7 @@ class StatisticFoodFragment:Fragment()
 
 //        chartData = ArrayList(chartData.asReversed())
 
-        nutritionCourseLineChart.updateLineChart(chartData)
+        nutritionCourseLineChart.updateLineChart(chartData)*/
 
 
     }

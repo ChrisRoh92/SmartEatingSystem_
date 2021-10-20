@@ -183,6 +183,10 @@ class Helper
 
     fun getDateListWithValue(date: Date,value:Long):ArrayList<Date>
     {
+        // Zurückgegeben werden soll eine Liste mit den Tagen der aktuellen Woche von
+        // Montag bis Freitag
+
+
 
         var cal = Calendar.getInstance()
         cal.time = date
