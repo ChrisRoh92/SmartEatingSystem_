@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/nav_foodtracker"
-        android:name="de.rohnert.smarteatingsystem.frontend.foodtracker.fragment.foodtracker.FoodTrackerFragment"
+        android:name="de.rohnert.smarteatingsystem.ui.foodtracker.fragment.foodtracker.FoodTrackerFragment"
         android:label="Tagesübersicht"
         tools:layout="@layout/fragment_foodtracker">
         <action
@@ -22,38 +22,38 @@
 
     <fragment
         android:id="@+id/nav_bodytracker"
-        android:name="de.rohnert.smarteatingsystem.frontend.bodytracker.fragment.BodyTrackerFragment"
+        android:name="de.rohnert.smarteatingsystem.ui.bodytracker.fragment.BodyTrackerFragment"
         android:label="Bodytracker"
         tools:layout="@layout/fragment_bodytracker"/>
 
     <fragment
         android:id="@+id/nav_setting"
-        android:name="de.rohnert.smarteatingsystem.frontend.settings.fragment.SettingsFragment"
+        android:name="de.rohnert.smarteatingsystem.ui.settings.fragment.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="de.rohnert.smarteatingsystem.frontend.share.fragment.ShareFragment"
+        android:name="de.rohnert.smarteatingsystem.ui.share.fragment.ShareFragment"
         android:label="@string/menu_share"
         tools:layout="@layout/fragment_share" />
     <fragment
         android:id="@+id/nav_analyse"
-        android:name="de.rohnert.smarteatingsystem.frontend.statistics.fragment.StatisticsFragment"
+        android:name="de.rohnert.smarteatingsystem.ui.statistics.fragment.StatisticsFragment"
         android:label="Statistics"
         tools:layout="@layout/fragment_statistics"/>
     <fragment
         android:id="@+id/nav_help"
-        android:name="de.rohnert.smarteatingsystem.frontend.helper.fragment.HelpFragment"
+        android:name="de.rohnert.smarteatingsystem.ui.helper.fragment.HelpFragment"
         android:label="Help"
         tools:layout="@layout/fragment_help"/>
     <fragment
         android:id="@+id/nav_privacy"
-        android:name="de.rohnert.smarteatingsystem.frontend.privacy.fragment.PrivacyFragment"
+        android:name="de.rohnert.smarteatingsystem.ui.privacy.fragment.PrivacyFragment"
         android:label="PrivacyFragment" />
     <fragment
         android:id="@+id/foodChooserFragment"
-        android:name="de.rohnert.smarteatingsystem.frontend.foodtracker.fragment.foodchooser.FoodChooserFragment"
+        android:name="de.rohnert.smarteatingsystem.ui.foodtracker.fragment.foodchooser.FoodChooserFragment"
         android:label="FoodChooserFragment"
         tools:layout="@layout/fragment_foodchooser">
         <argument

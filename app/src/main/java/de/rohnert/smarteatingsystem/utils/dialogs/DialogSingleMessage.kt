@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.backend.helper.Helper
+import de.rohnert.smarteatingsystem.data.helper.Helper
 
 class DialogSingleMessage(var title:String,var subTitle:String,var message:String,var context:Context)
 {

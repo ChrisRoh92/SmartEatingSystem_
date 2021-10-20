@@ -10,7 +10,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.MyValueFormatter
+import de.rohnert.smarteatingsystem.ui.foodtracker.helper.MyValueFormatter
 import de.rohnert.smarteatingsystem.utils.others.MyCustomValueFormatter
 
 class StandardLineChart(var id:Int, var view: View, var content:ArrayList<ArrayList<Entry>>,var labels:ArrayList<String>)

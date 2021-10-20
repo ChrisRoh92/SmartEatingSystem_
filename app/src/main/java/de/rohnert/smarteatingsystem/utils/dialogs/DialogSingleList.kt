@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.backend.helper.Helper
+import de.rohnert.smarteatingsystem.data.helper.Helper
 
 class DialogSingleList(var title:String,var subTitle:String, var content:ArrayList<String>,var context: Context, var listenerActiv:Boolean = true) :
     AdapterView.OnItemClickListener {

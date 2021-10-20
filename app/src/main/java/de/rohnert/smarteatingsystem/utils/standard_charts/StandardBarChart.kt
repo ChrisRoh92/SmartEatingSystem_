@@ -11,7 +11,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.MyValueFormatter
+import de.rohnert.smarteatingsystem.ui.foodtracker.helper.MyValueFormatter
 
 class StandardBarChart(var id:Int,var view:View,var content:ArrayList<BarEntry>)
 {

@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.backend.helper.Helper
+import de.rohnert.smarteatingsystem.data.helper.Helper
 
 class DialogTwoLineInput(var title:String, var subTitle:String, var context: Context,
                          var inputType1: Int,var inputType2: Int,
