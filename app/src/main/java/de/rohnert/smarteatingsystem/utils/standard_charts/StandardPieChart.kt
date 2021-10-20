@@ -10,7 +10,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.frontend.foodtracker.helper.MyPercentFormatter
+import de.rohnert.smarteatingsystem.ui.foodtracker.helper.MyPercentFormatter
 
 class StandardPieChart(var id:Int, var view: View, var content:ArrayList<PieEntry>)
 {

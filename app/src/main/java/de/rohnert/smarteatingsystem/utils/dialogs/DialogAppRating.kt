@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.backend.sharedpreferences.SharedAppPreferences
+import de.rohnert.smarteatingsystem.data.sharedpreferences.SharedAppPreferences
 import android.content.Intent
 import android.net.Uri
-import de.rohnert.smarteatingsystem.backend.helper.Helper
+import de.rohnert.smarteatingsystem.data.helper.Helper
 
 
 class DialogAppRating(var context: Context) : View.OnClickListener {

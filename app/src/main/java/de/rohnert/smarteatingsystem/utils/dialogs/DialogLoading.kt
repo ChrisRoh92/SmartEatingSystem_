@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import de.rohnert.smarteatingsystem.R
-import de.rohnert.smarteatingsystem.backend.helper.Helper
+import de.rohnert.smarteatingsystem.data.helper.Helper
 
 class DialogLoading(var context: Context)
 {
