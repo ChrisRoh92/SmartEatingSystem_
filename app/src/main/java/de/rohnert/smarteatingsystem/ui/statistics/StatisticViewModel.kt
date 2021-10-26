@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import de.rohnert.smarteatingsystem.data.databases.body_database.Body
 import de.rohnert.smarteatingsystem.data.helper.Helper
 import de.rohnert.smarteatingsystem.data.databases.daily_database.helper.CalcedFood
 import de.rohnert.smarteatingsystem.data.repository.subrepositories.food.FoodProcessor
@@ -42,10 +44,13 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     // Lokale Daten:
     private var foodList:ArrayList<ExtendedFood> = ArrayList()
 
-    // LiveDaten:
+    // LiveData - Food:
     private var foodListAvailable:MutableLiveData<Int> = MutableLiveData()
     private var statisticDataAvailable:MutableLiveData<Int> = MutableLiveData()
     private var exportDataFinish:MutableLiveData<Int> = MutableLiveData()
+
+    // LiveData - Body:
+    private var bodyDataList:MutableLiveData<ArrayList<Body>> = MutableLiveData()
 
 
     var date:String = helper.getStringFromDate(helper.getCurrentDate())
@@ -163,6 +168,15 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
 
 
 
+    // BodyDatas:
+    fun loadBodyData()
+    {
+        viewModelScope.launch {
+            bodyDataList.value = ArrayList(repository.getBodyList().asReversed())
+        }
+    }
+
+
 
 
 
@@ -208,6 +222,8 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
 
         return export
     }
+
+    fun getBodyList():LiveData<ArrayList<Body>> = bodyDataList
 
 
 

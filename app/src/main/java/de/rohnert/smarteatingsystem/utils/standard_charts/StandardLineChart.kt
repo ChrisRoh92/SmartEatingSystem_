@@ -1,5 +1,6 @@
 package de.rohnert.smarteatingsystem.utils.standard_charts
 
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
@@ -10,9 +11,11 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import de.rohnert.smarteatingsystem.R
 import de.rohnert.smarteatingsystem.ui.foodtracker.helper.MyValueFormatter
+import de.rohnert.smarteatingsystem.utils.Constants
 import de.rohnert.smarteatingsystem.utils.others.MyCustomValueFormatter
 
-class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double>,var xValues:ArrayList<String>,var labels:ArrayList<String> = arrayListOf("Set 1","Set 2"))
+class StandardLineChart(var id:Int, var view: View, var yContent:ArrayList<Double>,var xValues:ArrayList<String>,
+                        var labels:ArrayList<String> = arrayListOf("Set 1","Set 2"),var yIndices:ArrayList<Float> = ArrayList())
 {
     private lateinit var chart: LineChart
     private lateinit var dataSet: ArrayList<ILineDataSet>
@@ -36,7 +39,7 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
 
     init {
         transformInputData()
-        initPieChart()
+        initLineChart()
 
 
 
@@ -44,35 +47,50 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
 
     private fun transformInputData()
     {
-        chartData.clear()
+        chartData = ArrayList()
         chartData.add(ArrayList())
-        for((index,i) in content.withIndex())
+        if(yIndices.isNotEmpty() && yIndices.size == yContent.size)
         {
-            chartData[0].add(Entry(index.toFloat(),i.toFloat()))
+            for(i in yContent.indices)
+            {
+                chartData[0].add(Entry(yIndices[i],yContent[i].toFloat()))
+            }
         }
+        else
+        {
+            for((index,i) in yContent.withIndex())
+            {
+                chartData[0].add(Entry(index.toFloat(),i.toFloat()))
+            }
+        }
+
     }
 
-    private fun initPieChart()
+    private fun setChartData()
+    {
+        // Data initialisieren:
+        data = LineData(dataSet)
+
+
+        data.setValueFormatter(MyCustomValueFormatter(xValues))
+        data.setDrawValues(false)
+        chart.data = data
+        chart.description.isEnabled = false
+    }
+
+    private fun initLineChart()
     {
         // Chart initialisieren:
         chart = view.findViewById(id)
         dataSet = ArrayList()
         for((index,i) in chartData.withIndex())
         {
-            dataSet.add(getDataSetFromList(i,index,(index%2 != 0)))
+            dataSet.add(getDataSetFromList(i,index))
         }
 
 
 
-        fun setChartData()
-        {
-            // Data initialisieren:
-            data = LineData(dataSet)
-            data.setValueFormatter(MyCustomValueFormatter(xValues))
-            data.setDrawValues(false)
-            chart.data = data
-            chart.description.isEnabled = false
-        }
+
 
         fun setChartLegend()
         {
@@ -81,6 +99,7 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
             legend.setDrawInside(false)
             legend.isWordWrapEnabled = true
+            legend.isEnabled = false
 
         }
 
@@ -91,7 +110,13 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
             xAxis.setDrawGridLines(true)
             xAxis.setDrawLabels(true)
             xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.valueFormatter = MyValueFormatter()
+            xAxis.granularity = 1f
+            xAxis.valueFormatter = MyCustomValueFormatter(xValues)
+            xAxis.labelCount = 10
+
+
+
+
         }
 
         fun setYAxis()
@@ -104,8 +129,8 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
             yAxisLeft.isEnabled = true
             yAxisRight.isEnabled = false
 
-            var yMin = (content.min() ?: 0.0).toFloat()
-            var yMax = (content.max() ?: 0.0).toFloat()
+            var yMin = (yContent.min() ?: 0.0).toFloat()
+            var yMax = (yContent.max() ?: 0.0).toFloat()
             if(yMin > 0)
             {
                 yMin -= 10
@@ -116,17 +141,8 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
             }
 
             yAxisLeft.axisMinimum = yMin
-            yAxisRight.axisMinimum = yMax
+            yAxisLeft.axisMaximum = yMax
         }
-
-        setChartData()
-        setChartLegend()
-        setXAxis()
-        setYAxis()
-
-        // Diagramm starten:
-        chart.extraBottomOffset = 10f
-        chart.invalidate()
 
         fun disableTouchListener()
         {
@@ -139,7 +155,21 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
 
         }
 
-        disableTouchListener()
+        setChartData()
+        setChartLegend()
+        setXAxis()
+        setYAxis()
+//        disableTouchListener()
+
+        // Diagramm starten:
+        chart.extraBottomOffset = 10f
+
+        chart.setVisibleXRange(10f,xValues.size.toFloat())
+        chart.invalidate()
+
+
+
+
 
 
 
@@ -148,9 +178,32 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
 
     }
 
+
+
+    private fun updateLineChart()
+    {
+
+        // Aktuellen Chart leeren
+        chart.clear()
+        // Neue Daten Laden:
+        transformInputData()
+        dataSet = ArrayList()
+        for((index,i) in chartData.withIndex())
+        {
+            dataSet.add(getDataSetFromList(i,index,false))
+        }
+        // Neue Daten Laden
+        setChartData()
+        // Set new Axis Limits
+        updateAxisLimits()
+
+        chart.notifyDataSetChanged()
+        chart.invalidate()
+    }
+
     private fun getDataSetFromList(values:ArrayList<Entry>, pos:Int,dotted:Boolean = false):LineDataSet
     {
-        var dataSet= LineDataSet(values,labels[pos])
+        var dataSet= LineDataSet(values,"")
         dataSet.label = labels[pos]
         dataSet.color = colors[pos]
         dataSet.setDrawFilled(false)
@@ -169,25 +222,47 @@ class StandardLineChart(var id:Int, var view: View, var content:ArrayList<Double
 
     }
 
-    fun updateLineChart(content:ArrayList<Double>)
+    fun updateLineChart(yContent:ArrayList<Double>,xContent:ArrayList<String>)
     {
-        this.content = content
-        transformInputData()
-        dataSet = ArrayList()
-        for((index,i) in chartData.withIndex())
-        {
-            dataSet.add(getDataSetFromList(i,index,false))
-        }
+        this.yContent = yContent
+        this.xValues = xContent
 
-        data = LineData(dataSet)
+        updateLineChart()
 
-        data.setValueFormatter(MyCustomValueFormatter(xValues))
+
+
+
+/*        data = LineData(dataSet)
+
+        data.setValueFormatter(MyCustomValueFormatter(xContent))
         data.setDrawValues(false)
         chart.data = data
         chart.description.isEnabled = false
+        xAxis.valueFormatter = MyCustomValueFormatter(labels)
+        updateAxisLimits()
 
         chart.notifyDataSetChanged()
-        chart.invalidate()
+        chart.invalidate()*/
+
+    }
+
+    private fun updateAxisLimits(min:Float = 2f,max:Float = 2f)
+    {
+        var yMin = (yContent.min() ?: 0.0).toFloat()
+        var yMax = (yContent.max() ?: 0.0).toFloat()
+        if(yMin > 0)
+        {
+            yMin -= min
+        }
+        if(yMax > 0)
+        {
+            yMax += max
+        }
+
+        yAxisLeft.axisMinimum = yMin
+        yAxisLeft.axisMaximum = yMax
+
+        xAxis.valueFormatter = MyCustomValueFormatter(xValues)
 
     }
 }
