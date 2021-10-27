@@ -82,11 +82,12 @@ fun getDateListFromToDate(fromDate:Date,toDate:Date):ArrayList<Date>
 
     else
     {
-        do {
+        while(!datesAreOnSameDay(toDate,cal.time))
+        {
             dates.add(cal.time)
-            dayOfYear++
-            cal.set(Calendar.DAY_OF_YEAR,dayOfYear)
-        } while(!datesAreOnSameDay(toDate,cal.time))
+            cal.set(Calendar.DAY_OF_YEAR,cal.get(Calendar.DAY_OF_YEAR)+1)
+        }
+
 
         // Letzten Eintrag:
         dates.add(cal.time)

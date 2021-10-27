@@ -13,8 +13,12 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.ValueFormatter
 
 import de.rohnert.smarteatingsystem.R
+import de.rohnert.smarteatingsystem.data.databases.body_database.Body
 import de.rohnert.smarteatingsystem.ui.statistics.StatisticViewModel
+import de.rohnert.smarteatingsystem.ui.statistics.charts.WeightLineChart
 import de.rohnert.smarteatingsystem.utils.Constants.LOGGING_TAG_ANALYSIS
+import de.rohnert.smarteatingsystem.utils.datesAreOnSameDay
+import de.rohnert.smarteatingsystem.utils.getDateListFromToDate
 import de.rohnert.smarteatingsystem.utils.getStringFromDate
 import de.rohnert.smarteatingsystem.utils.others.MyCustomValueFormatter
 import de.rohnert.smarteatingsystem.utils.standard_charts.SingleLineChart
@@ -32,7 +36,7 @@ class StatisticBodyFragment: Fragment()
     private lateinit var viewModel: StatisticViewModel
 
     // Charts:
-    private lateinit var weightChart: StandardLineChart
+    private lateinit var weightChart: WeightLineChart
 
     // Views:
 
@@ -56,23 +60,15 @@ class StatisticBodyFragment: Fragment()
     private fun initObservers()
     {
         viewModel.getBodyList().observe(viewLifecycleOwner, Observer { bodylist ->
-            // Daten in das LineChart geben:
-            val weights = ArrayList<Double>()
-            val dates = ArrayList<String>()
-            val firstDate = bodylist[0].date
-            val lastDate = bodylist.last().date
-            for(i in bodylist)
-            {
-                weights.add(i.weight.toDouble())
-                dates.add(getStringFromDate(Date(i.date),"dd/MM"))
+            // val getBodyMap:
+            Log.d(LOGGING_TAG_ANALYSIS,"Anzahl Einträge in BodyList: ${bodylist.size}")
+            val bodyMap = getUniqueBodyMap(bodylist)
+            // Datelist erstellen:
+            val dateList = getDateListFromToDate(Date(bodylist[0].date), Date(bodylist.last().date))
 
-            }
+            weightChart.updateChart(bodyMap,dateList)
 
-            Log.d(LOGGING_TAG_ANALYSIS,"Num. of Entries of Weights: ${weights.size}")
-            Log.d(LOGGING_TAG_ANALYSIS,"Num. of Entries of Dates: ${dates.size}")
 
-            //weightChart.updateLineChart(weights,dates)
-            Toast.makeText(requireContext(),"Daten werden aktualisiert...",Toast.LENGTH_SHORT).show()
 
         })
 
@@ -80,19 +76,57 @@ class StatisticBodyFragment: Fragment()
 
     private fun initWeightLineChart()
     {
-        val xValues2 = ArrayList<String>()
+/*        val xValues2 = ArrayList<String>()
         for(i in 1..30)
         {
             xValues2.add("$i.07")
         }
 
         val xValues = arrayListOf("15.08.21","01.09.21","15.09.21","01.10.21")
-        val yValues = arrayListOf(98.0,97.3,96.5,95.8,95.3)
+        val yValues = arrayListOf(98.0,97.3,96.5,95.8,95.3)*/
 
-        weightChart = StandardLineChart(R.id.statistic_body_chart_kcal,rootView,
-            yValues, xValues2,yIndices = arrayListOf(0f,6f,13f,20f,27f)
-        )
+        weightChart = WeightLineChart(R.id.statistic_body_chart_kcal,rootView, mapOf<Int,Body>(),ArrayList())
+        weightChart.init()
 
+
+    }
+
+
+    private fun getUniqueBodyMap(bodyList:ArrayList<Body>):Map<Int, Body> {
+        // Map erstellen für Bodyeinträge mit Indices:
+        val bodyMap = mutableMapOf<Int, Body>()
+
+        // Start und End Datum feststellen....
+        val fromDate = Date(bodyList[0].date)
+        val toDate = Date(bodyList.last().date)
+        Log.d(LOGGING_TAG_ANALYSIS,"fromDate: $fromDate")
+        Log.d(LOGGING_TAG_ANALYSIS,"toDate: $toDate")
+
+
+        // Liste von Dates zwischen 1. und letzten Date generieren:
+//        Log.d(LOGGING_TAG_ANALYSIS,"dayList wird erstellt")
+        val dayList = getDateListFromToDate(fromDate, toDate)
+//        Log.d(LOGGING_TAG_ANALYSIS,"Anzahl Einträge in dayList: ${dayList.size}")
+        // Durch übergebene Body durchiterien:
+//        var currentDate = fromDate
+        for (body: Body in bodyList) {
+            // Prüfen, welcher Index das jeweilige Date von bodyList in dayList hat:
+            for (i in dayList.indices) {
+//                Log.d(LOGGING_TAG_ANALYSIS,"Index in For-Schleife: $i von ${dayList.size}")
+                if (datesAreOnSameDay(Date(body.date), dayList[i])) {
+                    bodyMap[i] = body
+//                    currentDate = Date(body.date)
+                    break
+                }
+            }
+
+//            Log.d(LOGGING_TAG_ANALYSIS,"Anzahl Einträge in bodyMap: ${bodyMap.size}")
+
+
+
+        }
+
+        return bodyMap
     }
 
 

@@ -180,7 +180,7 @@ class StandardLineChart(var id:Int, var view: View, var yContent:ArrayList<Doubl
 
 
 
-    private fun updateLineChart()
+    private fun updateChart()
     {
 
         // Aktuellen Chart leeren
@@ -227,7 +227,7 @@ class StandardLineChart(var id:Int, var view: View, var yContent:ArrayList<Doubl
         this.yContent = yContent
         this.xValues = xContent
 
-        updateLineChart()
+        updateChart()
 
 
 
