@@ -47,16 +47,16 @@
 
         <item
             android:id="@+id/nav_functions"
-            android:icon="@drawable/ic_baseline_groups_24"
+            android:icon="@drawable/ic_baseline_apps_24"
             android:title="Funktionen" />
 
         <item
             android:id="@+id/nav_impressum"
-            android:icon="@drawable/ic_baseline_groups_24"
+            android:icon="@drawable/ic_baseline_corporate_fare_24"
             android:title="Impressum" />
 
         <item
-            android:id="@+id/fragmentPrivacy"
+            android:id="@+id/nav_privacy"
             android:icon="@drawable/ic_privacy"
             android:title="Datenschutz" />
     </group>

@@ -60,6 +60,14 @@
             android:name="sMeal"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_impressum"
+        android:name="de.rohnert.smarteatingsystem.ui.impressum.ImpressumFragment"
+        android:label="ImpressumFragment" />
+    <fragment
+        android:id="@+id/nav_functions"
+        android:name="de.rohnert.smarteatingsystem.ui.functions.FunctionFragment"
+        android:label="FunctionFragment" />
 
 
 </navigation>
