@@ -50,7 +50,7 @@ class StatisticBodyFragment: Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity(),defaultViewModelProviderFactory).get(StatisticViewModel::class.java)
-        initWeightLineChart()
+        // initWeightLineChart()
         initObservers()
 
         // Befehl zum Laden der Daten absenden:

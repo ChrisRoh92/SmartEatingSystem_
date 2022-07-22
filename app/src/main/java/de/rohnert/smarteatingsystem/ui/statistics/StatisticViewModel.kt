@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 class StatisticViewModel(application: Application) : AndroidViewModel(application)
 {
@@ -215,7 +216,7 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
             export.add(ArrayList())
 
             for (j in 1..7) {
-                export[i-1].add(0f)
+                export[i-1].add(Random.nextFloat()*100.0F)
 
             }
         }

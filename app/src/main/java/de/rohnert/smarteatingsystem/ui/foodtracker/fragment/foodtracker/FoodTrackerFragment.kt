@@ -658,9 +658,6 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
                 }
 
-
-
-
             }
 
 
@@ -688,9 +685,6 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
 
                     }
             }
-
-
-
         })
 
         foodViewModel.getDinnerEntries().observe( viewLifecycleOwner, androidx.lifecycle.Observer

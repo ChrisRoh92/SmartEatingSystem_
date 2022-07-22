@@ -24,8 +24,7 @@ import de.rohnert.smarteatingsystem.utils.standard_charts.StandardBarChart
 import de.rohnert.smarteatingsystem.utils.standard_charts.StandardLineChart
 import de.rohnert.smarteatingsystem.utils.standard_charts.StandardPieChart
 
-class StatisticFoodFragment:Fragment()
-{
+class StatisticFoodFragment : Fragment() {
     // Allgmeine Variablen:
     private lateinit var rootView: View
 
@@ -34,32 +33,31 @@ class StatisticFoodFragment:Fragment()
 
     // View Elemente, geordnet nach den Cards:
     // TrackedFood Cars:
-    private lateinit var rvTrackedFood:RecyclerView
+    private lateinit var rvTrackedFood: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var adapterTrackedFood: StatisticFoodTrackedFoodRecyclerAdapter
+
     // Values of Meals in PieChart:
-    private lateinit var mealPieChart:StandardPieChart
+    private lateinit var mealPieChart: StandardPieChart
+
     // CardView for Ø nutrition values in PieChart
-    private lateinit var nutritionPieChart:StandardPieChart
+    private lateinit var nutritionPieChart: StandardPieChart
+
     // CardView für den Verlauf der Nährstoffe
-    private lateinit var nutritionCourseLineChart:StandardLineChart
+    private lateinit var nutritionCourseLineChart: StandardLineChart
+
     // CardView für den Verlauf der Kcal
-    private lateinit var kcalBarChart:StandardBarChart
-
-
+    private lateinit var kcalBarChart: StandardBarChart
 
 
     // Views:
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         rootView = inflater.inflate(R.layout.fragment_statistic_food, container, false)
-
-
-
-
-
-
-
 
         return rootView
     }
@@ -67,25 +65,26 @@ class StatisticFoodFragment:Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        statisticViewModel = ViewModelProvider(requireParentFragment(),defaultViewModelProviderFactory).get(StatisticViewModel::class.java)
+        statisticViewModel =
+            ViewModelProvider(requireParentFragment(), defaultViewModelProviderFactory).get(
+                StatisticViewModel::class.java
+            )
 
         // Views initialisieren:
-
         initKcalBarChart()
         initTrackedFoodRecyclerView()
         initMealChart()
         initNutrititionPieChart()
-//        initNutritionCourseLineChart()
+        initNutritionCourseLineChart()
 
         // Observer starten:
         startObserver()
     }
 
     // Views initialisieren:
-    private fun initTrackedFoodRecyclerView()
-    {
+    private fun initTrackedFoodRecyclerView() {
         rvTrackedFood = rootView.findViewById(R.id.statistic_food_rv)
-        layoutManager = LinearLayoutManager(rootView.context,RecyclerView.VERTICAL,false)
+        layoutManager = LinearLayoutManager(rootView.context, RecyclerView.VERTICAL, false)
         rvTrackedFood.layoutManager = layoutManager
         adapterTrackedFood = StatisticFoodTrackedFoodRecyclerAdapter(ArrayList())
         rvTrackedFood.adapter = adapterTrackedFood
@@ -94,7 +93,8 @@ class StatisticFoodFragment:Fragment()
             CustomDividerItemDecoration(RecyclerView.VERTICAL, rootView.context, 0)
         )
 
-        adapterTrackedFood.setOnRecyclerViewClickListener(object:StatisticFoodTrackedFoodRecyclerAdapter.OnRecyclerViewClickListener{
+        adapterTrackedFood.setOnRecyclerViewClickListener(object :
+            StatisticFoodTrackedFoodRecyclerAdapter.OnRecyclerViewClickListener {
             override fun setOnRecyclerViewClickListener(pos: Int) {
                 // Do Nothing in the Moment....
             }
@@ -102,37 +102,50 @@ class StatisticFoodFragment:Fragment()
         })
     }
 
-    private fun initMealChart()
-    {
+    private fun initMealChart() {
         var id = R.id.statistic_food_chart_pie_meal
-        var pieValues:ArrayList<PieEntry> = ArrayList()
-        var values = arrayListOf(0f,0f,0f,0f)
-        pieValues.add(PieEntry(values[0],"Frühstück"))
-        pieValues.add(PieEntry(values[1],"Mittagessen"))
-        pieValues.add(PieEntry(values[2],"Abendessen"))
-        pieValues.add(PieEntry(values[3],"Snacks"))
-        mealPieChart = StandardPieChart(id,rootView,pieValues)
+        var pieValues: ArrayList<PieEntry> = ArrayList()
+        var values = arrayListOf(0f, 0f, 0f, 0f)
+        pieValues.add(PieEntry(values[0], "Frühstück"))
+        pieValues.add(PieEntry(values[1], "Mittagessen"))
+        pieValues.add(PieEntry(values[2], "Abendessen"))
+        pieValues.add(PieEntry(values[3], "Snacks"))
+        mealPieChart = StandardPieChart(id, rootView, pieValues)
 
 
     }
 
-    private fun initNutrititionPieChart()
-    {
+    private fun initNutrititionPieChart() {
         var id = R.id.statistic_food_chart_pie_nutrition
-        var pieValues:ArrayList<PieEntry> = ArrayList()
-        var values = arrayListOf(0f,0f,0f)
-        pieValues.add(PieEntry(values[0],"Kohlenhydrate"))
-        pieValues.add(PieEntry(values[1],"Protein"))
-        pieValues.add(PieEntry(values[2],"Fett"))
-        nutritionPieChart = StandardPieChart(id,rootView,pieValues)
+        var pieValues: ArrayList<PieEntry> = ArrayList()
+        var values = arrayListOf(0f, 0f, 0f)
+        pieValues.add(PieEntry(values[0], "Kohlenhydrate"))
+        pieValues.add(PieEntry(values[1], "Protein"))
+        pieValues.add(PieEntry(values[2], "Fett"))
+        nutritionPieChart = StandardPieChart(id, rootView, pieValues)
 
     }
 
-    private fun initNutritionCourseLineChart()
-    {
-        /*var id = R.id.statistic_food_chart_line_nutrition
+    private fun initNutritionCourseLineChart() {
+        var id = R.id.statistic_food_chart_line_nutrition
         var values = statisticViewModel.getNutritionCourseData()
         var chartData:ArrayList<ArrayList<Entry>> = ArrayList()
+        var data:ArrayList<Double> = ArrayList()
+        var xData:ArrayList<String> = arrayListOf(
+            "Monday",
+            "Thusday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        )
+
+        for((index,i) in values[0].withIndex())
+        {
+            data.add(i.toDouble())
+        }
+
         for((index,i) in values.withIndex())
         {
             chartData.add(ArrayList())
@@ -160,33 +173,28 @@ class StatisticFoodFragment:Fragment()
 
         }
 
-        nutritionCourseLineChart = StandardLineChart(id,rootView,chartData,getLabels())*/
+        nutritionCourseLineChart = StandardLineChart(id, rootView, data, xData, getLabels())
     }
 
-    private fun initKcalBarChart()
-    {
+    private fun initKcalBarChart() {
         var id = R.id.statistic_food_chart_kcal
         var values = statisticViewModel.getKcalValues()
-        var chartValues:ArrayList<BarEntry> = ArrayList()
-        for(i in 1..7)
-        {
-            chartValues.add(BarEntry(i.toFloat(),0f))
+        var chartValues: ArrayList<BarEntry> = ArrayList()
+        for (i in 1..7) {
+            chartValues.add(BarEntry(i.toFloat(), 0f))
         }
-        for((index,i) in values.withIndex())
-        {
-            chartValues.add(BarEntry(index.toFloat(),i))
+        for ((index, i) in values.withIndex()) {
+            chartValues.add(BarEntry(index.toFloat(), i))
         }
-        kcalBarChart = StandardBarChart(id,rootView,chartValues)
+        kcalBarChart = StandardBarChart(id, rootView, chartValues)
 
 
     }
-
 
 
     // Observer
 
-    private fun startObserver()
-    {
+    private fun startObserver() {
         /*statisticViewModel.getFoodListAvailable().observe(viewLifecycleOwner, Observer {
             fun createFantasyTrackedFoodList()
             {
@@ -210,52 +218,44 @@ class StatisticFoodFragment:Fragment()
             updateNutritionCourseLineChart()
 
 
-
-
         })
     }
 
 
     // Update Funktionen:
-    private fun updateKcalBarChart()
-    {
+    private fun updateKcalBarChart() {
         var values = statisticViewModel.getKcalValues().asReversed()
-        var chartValues:ArrayList<BarEntry> = ArrayList()
-        for((index,i) in values.withIndex())
-        {
-            chartValues.add(BarEntry(index.toFloat(),i))
+        var chartValues: ArrayList<BarEntry> = ArrayList()
+        for ((index, i) in values.withIndex()) {
+            chartValues.add(BarEntry(index.toFloat(), i))
         }
         kcalBarChart.updateBarData(chartValues)
     }
 
-    private fun updateTrackedFoodRecyclerView()
-    {
+    private fun updateTrackedFoodRecyclerView() {
         adapterTrackedFood.updateContent(statisticViewModel.getTop20Foods())
     }
 
-    private fun updateMealChart()
-    {
-        var pieValues:ArrayList<PieEntry> = ArrayList()
+    private fun updateMealChart() {
+        var pieValues: ArrayList<PieEntry> = ArrayList()
         var values = statisticViewModel.getMealValues()
-        pieValues.add(PieEntry(values[0],"Frühstück"))
-        pieValues.add(PieEntry(values[1],"Mittagessen"))
-        pieValues.add(PieEntry(values[2],"Abendessen"))
-        pieValues.add(PieEntry(values[3],"Snacks"))
+        pieValues.add(PieEntry(values[0], "Frühstück"))
+        pieValues.add(PieEntry(values[1], "Mittagessen"))
+        pieValues.add(PieEntry(values[2], "Abendessen"))
+        pieValues.add(PieEntry(values[3], "Snacks"))
         mealPieChart.updatePieChart(pieValues)
     }
 
-    private fun updateNutritionPieChart()
-    {
-        var pieValues:ArrayList<PieEntry> = ArrayList()
+    private fun updateNutritionPieChart() {
+        var pieValues: ArrayList<PieEntry> = ArrayList()
         var values = statisticViewModel.getNutritionValues()
-        pieValues.add(PieEntry(values[0],"Kohlenhydrate"))
-        pieValues.add(PieEntry(values[1],"Protein"))
-        pieValues.add(PieEntry(values[2],"Fett"))
+        pieValues.add(PieEntry(values[0], "Kohlenhydrate"))
+        pieValues.add(PieEntry(values[1], "Protein"))
+        pieValues.add(PieEntry(values[2], "Fett"))
         nutritionPieChart.updatePieChart(pieValues)
     }
 
-    private fun updateNutritionCourseLineChart()
-    {
+    private fun updateNutritionCourseLineChart() {
         /*// Muss noch implementiert werden...
         var values = statisticViewModel.getNutritionCourseValues()
         Log.d("Smeasy","StatisticFoodFragment - updateNutritionCourseLineChart values: $values")

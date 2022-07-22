@@ -12,7 +12,7 @@ class StatisticPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecyc
     FragmentStateAdapter(fragmentManager, lifecycle)
 {
 
-    var fragments = arrayListOf(StatisticFoodFragment(), StatisticBodyFragment())
+    var fragments = arrayListOf(StatisticFoodFragment())
 
     override fun getItemCount(): Int {
         return fragments.size
