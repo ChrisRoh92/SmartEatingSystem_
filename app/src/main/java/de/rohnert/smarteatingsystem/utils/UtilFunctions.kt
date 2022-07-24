@@ -15,6 +15,11 @@ fun getDateStringFromLongDateString(date: Long): String {
     }
 }
 
+fun Date.toStringDate():String
+{
+    return getStringFromDate(this)
+}
+
 fun getLongDateFromDateString(date:String):Long
 {
     return getDateFromString(date).time
@@ -46,6 +51,13 @@ fun stringIsNumericOnline(str:String):Boolean
     return str.matches("-?\\d+(\\.\\d+)?".toRegex())
 }
 
+fun getDateNDaysAgo(n:Int): Date
+{
+    val cal = Calendar.getInstance()
+    cal.set(Calendar.DAY_OF_YEAR,cal.get(Calendar.DAY_OF_YEAR)-n)
+
+    return cal.time
+}
 
 fun datesAreOnSameDay(date1:Date,date2:Date):Boolean
 {
@@ -60,6 +72,18 @@ fun datesAreOnSameDay(date1:Date,date2:Date):Boolean
     return cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH) &&
             cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
             cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+}
+
+fun getDateListFromTodayToDate(fromDate: Date):ArrayList<Date>
+{
+    val today:Date = Calendar.getInstance().time
+    if(fromDate.time > today.time)
+    {
+        throw Exception("Passed Date must be in the past!")
+    }
+
+    return getDateListFromToDate(fromDate, today)
+
 }
 
 fun getDateListFromToDate(fromDate:Date,toDate:Date):ArrayList<Date>

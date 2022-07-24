@@ -360,8 +360,8 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                             override fun setOnDialogClickListener(delete: Boolean) {
                                 if(delete)
                                 {
-                                    foodViewModel.removeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index])
-                                    undoMealEntryDelete(calcedFood.f.id,calcedFood.menge,mealList[index])
+//                                    foodViewModel.removeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index])
+//                                    undoMealEntryDelete(calcedFood.f.id,calcedFood.menge,mealList[index])
                                 }
                                 else
                                 {
@@ -373,8 +373,8 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
                                         {
                                             if(mealList[index] != value)
                                             {
-                                                foodViewModel.changeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index],value)
-                                                //undoMealChange(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),value,mealList[index])
+//                                                foodViewModel.changeMealEntry(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),mealList[index],value)
+//                                                undoMealChange(MealEntry(calcedFood.id,calcedFood.f.id,calcedFood.menge),value,mealList[index])
                                                 /*viewmodel.removeMailFromDaily(MealEntry(calcedFood.food.id,calcedFood.menge),meal = mealList[index])
                                                 addFood = false
                                                 it.deleteItem(viewmodel.getCalcedFoodList().value!![index],pos)
@@ -574,22 +574,22 @@ class FoodTrackerFragment: Fragment(), View.OnClickListener{
         }
     }
     // Undo Methoden:
-    private fun undoMealEntryDelete(foodID:String,foodMenge:Float,meal:String)
-    {
-        // Sneakbar starten
-        var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Rückgängig machen",Snackbar.LENGTH_LONG)
-
-
-
-        snackbar.setAction("Rückgängig", object: View.OnClickListener{
-            override fun onClick(v: View?) {
-                foodViewModel.addNewMealEntry(foodID,foodMenge,meal)
-            }
-
-        })
-        snackbar.show()
-        // Click, soll das Löschen wieder rückgängig gemacht werden...
-    }
+//    private fun undoMealEntryDelete(foodID:String,foodMenge:Float,meal:String)
+//    {
+//        // Sneakbar starten
+//        var snackbar = Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment),"Rückgängig machen",Snackbar.LENGTH_LONG)
+//
+//
+//
+//        snackbar.setAction("Rückgängig", object: View.OnClickListener{
+//            override fun onClick(v: View?) {
+//                foodViewModel.addNewMealEntry(foodID,foodMenge,meal)
+//            }
+//
+//        })
+//        snackbar.show()
+//        // Click, soll das Löschen wieder rückgängig gemacht werden...
+//    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 

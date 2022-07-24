@@ -110,18 +110,18 @@ class DialogFragmentChooseHistoryMeals(var foodViewModel: FoodViewModel, var mea
 
     private fun saveEntries()
     {
-        if(rv!=null && adapter != null)
-        {
-            // Daten abrufen:
-            var data = adapter.getCalcedFoods()
-            if(data.isNotEmpty())
-            {
-                foodViewModel.addNewMealEntries(data,meal)
-            }
-
-            dismiss()
-
-
-        }
+//        if(rv!=null && adapter != null)
+//        {
+//            // Daten abrufen:
+//            var data = adapter.getCalcedFoods()
+//            if(data.isNotEmpty())
+//            {
+//                foodViewModel.addNewMealEntries(data,meal)
+//            }
+//
+//            dismiss()
+//
+//
+//        }
     }
 }

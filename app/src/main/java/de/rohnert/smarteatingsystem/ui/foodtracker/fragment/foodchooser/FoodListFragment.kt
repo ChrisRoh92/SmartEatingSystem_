@@ -137,7 +137,7 @@ class FoodListFragment: Fragment(), View.OnClickListener, SearchView.OnQueryText
 
         adapter.setOnSimpleClickListener(object:ClassicFoodListAdapter.OnSimpleClickListener{
             override fun setOnSimpleClickListener(food: ExtendedFood, position: Int) {
-                foodViewModel.addNewMealEntry(food.id,100f,foodViewModel.sMeal)
+                foodViewModel.addNewMealEntry(food.id,100f,foodViewModel.sMeal, food.kcal, food.carb, food.protein, food.fett)
                 Toast.makeText(requireContext(),"100g von ${food.name} wurden hinzugefügt",Toast.LENGTH_SHORT).show()
             }
 

@@ -104,78 +104,78 @@ class StatisticProcessor(var context: Context, var repository: MainRepository2, 
         return export
     }
 
-    fun getTop20Foods():ArrayList<CalcedFood>
-    {
-        var allFoods:ArrayList<CalcedFood> = ArrayList()
-        for(i in dailyList)
-        {
-            allFoods.addAll(getCalcedFoodFromMeal(i.breakfastEntry!!))
-            allFoods.addAll(getCalcedFoodFromMeal(i.lunchEntry!!))
-            allFoods.addAll(getCalcedFoodFromMeal(i.dinnerEntry!!))
-            allFoods.addAll(getCalcedFoodFromMeal(i.snackEntry!!))
-        }
-
-        // Nachfolgende Liste enhält alle Lebensmittel ohne Dubbels...
-        var singleFoodList:ArrayList<CalcedFood> = ArrayList()
-
-        // Check for Duplicates:
-        for((index,i)in allFoods.withIndex())
-        {
-            // Prüfen ob die nächste Id schon vorhanden ist...
-            var exist = false
-            for(j in singleFoodList)
-            {
-                if(j.f.id == i.f.id)
-                {
-                    exist = true
-                    break
-                }
-            }
-
-            // Wenn nicht, in dieser Liste weiterer dieser IDs suchen...
-            if(!exist)
-            {
-                var id = i.f.id
-                var menge = i.menge
-                // Nach allen Positionen suchen
-                for((indexJ,j) in allFoods.withIndex())
-                {
-                    if(indexJ != index)
-                    {
-                        if(j.f.id == id)
-                        {
-                            menge += j.menge
-                        }
-                    }
-                }
-                //Log.d("Smeasy","StatisticProcessor - getTop20Foods() - FoodID: $id , menge = $menge in g")
-                var calcedFood = CalcedFood(i.id,i.f,menge,foodProcessor.getCalcecFoodValues(
-                    MealEntry(i.id,i.f.id,menge)
-                ))
-                singleFoodList.add(calcedFood)
-            }
-        }
-
-        // Liste nach Menge Sortieren:
-        var sortedSingleFoodList:ArrayList<CalcedFood> = ArrayList()
-        sortedSingleFoodList = ArrayList(singleFoodList.sortedWith(compareBy { it.menge }))
-        sortedSingleFoodList = ArrayList(sortedSingleFoodList.asReversed())
-        // Top 2ß auswählen
-        var exportFoodList:ArrayList<CalcedFood> = ArrayList()
-        if(sortedSingleFoodList.size <= 20)
-        {
-            exportFoodList = sortedSingleFoodList
-        }
-        else
-        {
-            for(i in 0..19)
-            {
-                exportFoodList.add(sortedSingleFoodList[i])
-            }
-        }
-
-        return exportFoodList
-    }
+//    fun getTop20Foods():ArrayList<CalcedFood>
+//    {
+//        var allFoods:ArrayList<CalcedFood> = ArrayList()
+//        for(i in dailyList)
+//        {
+//            allFoods.addAll(getCalcedFoodFromMeal(i.breakfastEntry!!))
+//            allFoods.addAll(getCalcedFoodFromMeal(i.lunchEntry!!))
+//            allFoods.addAll(getCalcedFoodFromMeal(i.dinnerEntry!!))
+//            allFoods.addAll(getCalcedFoodFromMeal(i.snackEntry!!))
+//        }
+//
+//        // Nachfolgende Liste enhält alle Lebensmittel ohne Dubbels...
+//        var singleFoodList:ArrayList<CalcedFood> = ArrayList()
+//
+//        // Check for Duplicates:
+//        for((index,i)in allFoods.withIndex())
+//        {
+//            // Prüfen ob die nächste Id schon vorhanden ist...
+//            var exist = false
+//            for(j in singleFoodList)
+//            {
+//                if(j.f.id == i.f.id)
+//                {
+//                    exist = true
+//                    break
+//                }
+//            }
+//
+//            // Wenn nicht, in dieser Liste weiterer dieser IDs suchen...
+//            if(!exist)
+//            {
+//                var id = i.f.id
+//                var menge = i.menge
+//                // Nach allen Positionen suchen
+//                for((indexJ,j) in allFoods.withIndex())
+//                {
+//                    if(indexJ != index)
+//                    {
+//                        if(j.f.id == id)
+//                        {
+//                            menge += j.menge
+//                        }
+//                    }
+//                }
+//                //Log.d("Smeasy","StatisticProcessor - getTop20Foods() - FoodID: $id , menge = $menge in g")
+//                var calcedFood = CalcedFood(i.id,i.f,menge,foodProcessor.getCalcecFoodValues(
+////                    MealEntry(i.id,i.f.id,menge)
+//                ))
+//                singleFoodList.add(calcedFood)
+//            }
+//        }
+//
+//        // Liste nach Menge Sortieren:
+//        var sortedSingleFoodList:ArrayList<CalcedFood> = ArrayList()
+//        sortedSingleFoodList = ArrayList(singleFoodList.sortedWith(compareBy { it.menge }))
+//        sortedSingleFoodList = ArrayList(sortedSingleFoodList.asReversed())
+//        // Top 2ß auswählen
+//        var exportFoodList:ArrayList<CalcedFood> = ArrayList()
+//        if(sortedSingleFoodList.size <= 20)
+//        {
+//            exportFoodList = sortedSingleFoodList
+//        }
+//        else
+//        {
+//            for(i in 0..19)
+//            {
+//                exportFoodList.add(sortedSingleFoodList[i])
+//            }
+//        }
+//
+//        return exportFoodList
+//    }
 
     fun getCalcedNutritionValueList():ArrayList<ArrayList<Float>>
     {

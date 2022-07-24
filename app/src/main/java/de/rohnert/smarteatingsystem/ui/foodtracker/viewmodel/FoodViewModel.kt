@@ -269,7 +269,12 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Daily Operations...
-    fun addNewMealEntry(foodId:String,menge:Float,meal:String)
+    fun addNewMealEntry(foodID:String, mealEntry: MealEntry, meal:String)
+    {
+        addNewMealEntry(foodID, mealEntry.menge, meal, mealEntry.kcal, mealEntry.carb, mealEntry.protein, mealEntry.fat )
+    }
+
+    fun addNewMealEntry(foodId:String,menge:Float,meal:String, kcal:Float, carb:Float, protein:Float, fat:Float)
     {
         // Interne Methode für neue ID des MealEntries...
         fun getNewMealEntryId(iMeal:String):Int
@@ -279,13 +284,11 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
                 "lunch" -> getNewMealEntryId(localDaily.lunchEntry!!)
                 "dinner" -> getNewMealEntryId(localDaily.dinnerEntry!!)
                 else -> getNewMealEntryId(localDaily.snackEntry!!)
-
-
             }
         }
 
         // Neues MealEntry Objekt erstellen:
-        val newEntry = MealEntry(getNewMealEntryId(meal),foodId,menge)
+        val newEntry = MealEntry(getNewMealEntryId(meal),foodId,menge, kcal, carb, protein, fat)
 
         // newEntry in die jeweilige Liste der heutigen localDaily eintragen....
         when(meal)
@@ -337,66 +340,68 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
 
     }
 
-    fun addNewMealEntries(cfs:ArrayList<CalcedFood>,meal:String)
-    {
-        fun getNewMealEntryID(iMeal:String):Int
-        {
-            return when(iMeal) {
-                "breakfast" -> dailyProcess.getNewMealEntryId(localDaily.breakfastEntry!!)
-                "lunch" -> dailyProcess.getNewMealEntryId(localDaily.lunchEntry!!)
-                "dinner" -> dailyProcess.getNewMealEntryId(localDaily.dinnerEntry!!)
-                else -> dailyProcess.getNewMealEntryId(localDaily.snackEntry!!)
-
-                // "breakfast" -> dailyProcess.getNewMealEntryId(breakfastList!!.value!!)
-                //                "lunch" -> dailyProcess.getNewMealEntryId(lunchList!!.value!!)
-                //                "dinner" -> dailyProcess.getNewMealEntryId(dinnerList!!.value!!)
-                //                else -> dailyProcess.getNewMealEntryId(snackList!!.value!!)
-            }
-        }
-        var entries:ArrayList<MealEntry> = ArrayList()
-        for(i in cfs)
-        {
-            entries.add(MealEntry(getNewMealEntryID(meal),i.f.id,i.menge))
-        }
-
-        when(meal)
-        {
-            "breakfast" ->
-            {
-
-                localDaily.breakfastEntry!!.addAll(entries)
-                breakfastList!!.value = localDaily.breakfastEntry
-
-            }
-            "lunch" ->
-            {
-
-                /*localDaily.lunchEntry = lunchList!!.value!!
-                lunchList!!.value!!.add(newEntry)*/
-                localDaily.lunchEntry!!.addAll(entries)
-                lunchList!!.value = localDaily.lunchEntry
-            }
-            "dinner" -> {
-                /*dinnerList!!.value!!.add(newEntry)
-                localDaily.dinnerEntry = dinnerList!!.value!!*/
-                localDaily.dinnerEntry!!.addAll(entries)
-                dinnerList!!.value = localDaily.dinnerEntry
-            }
-            "snack" ->
-            {
-                /*snackList!!.value!!.add(newEntry)
-                localDaily.snackEntry = snackList!!.value!!*/
-                localDaily.snackEntry!!.addAll(entries)
-                snackList!!.value = localDaily.snackEntry
-            }
-        }
-
-        // Neue Entrylisten erstellen.
-        CoroutineScope(Main).launch {
-            //createEntryLists()
-            updateDaily(daily = localDaily)
-        }
-    }
+//    fun addNewMealEntries(cfs:ArrayList<CalcedFood>,meal:String)
+//    {
+//        fun getNewMealEntryID(iMeal:String):Int
+//        {
+//            return when(iMeal) {
+//                "breakfast" -> dailyProcess.getNewMealEntryId(localDaily.breakfastEntry!!)
+//                "lunch" -> dailyProcess.getNewMealEntryId(localDaily.lunchEntry!!)
+//                "dinner" -> dailyProcess.getNewMealEntryId(localDaily.dinnerEntry!!)
+//                else -> dailyProcess.getNewMealEntryId(localDaily.snackEntry!!)
+//
+//                // "breakfast" -> dailyProcess.getNewMealEntryId(breakfastList!!.value!!)
+//                //                "lunch" -> dailyProcess.getNewMealEntryId(lunchList!!.value!!)
+//                //                "dinner" -> dailyProcess.getNewMealEntryId(dinnerList!!.value!!)
+//                //                else -> dailyProcess.getNewMealEntryId(snackList!!.value!!)
+//            }
+//        }
+//        var entries:ArrayList<MealEntry> = ArrayList()
+//        for(i in cfs)
+//        {
+//            addNewMealEntry(
+//
+//            )
+//        }
+//
+//        when(meal)
+//        {
+//            "breakfast" ->
+//            {
+//
+//                localDaily.breakfastEntry!!.addAll(entries)
+//                breakfastList!!.value = localDaily.breakfastEntry
+//
+//            }
+//            "lunch" ->
+//            {
+//
+//                /*localDaily.lunchEntry = lunchList!!.value!!
+//                lunchList!!.value!!.add(newEntry)*/
+//                localDaily.lunchEntry!!.addAll(entries)
+//                lunchList!!.value = localDaily.lunchEntry
+//            }
+//            "dinner" -> {
+//                /*dinnerList!!.value!!.add(newEntry)
+//                localDaily.dinnerEntry = dinnerList!!.value!!*/
+//                localDaily.dinnerEntry!!.addAll(entries)
+//                dinnerList!!.value = localDaily.dinnerEntry
+//            }
+//            "snack" ->
+//            {
+//                /*snackList!!.value!!.add(newEntry)
+//                localDaily.snackEntry = snackList!!.value!!*/
+//                localDaily.snackEntry!!.addAll(entries)
+//                snackList!!.value = localDaily.snackEntry
+//            }
+//        }
+//
+//        // Neue Entrylisten erstellen.
+//        CoroutineScope(Main).launch {
+//            //createEntryLists()
+//            updateDaily(daily = localDaily)
+//        }
+//    }
 
     fun removeMealEntry(entry: MealEntry, meal:String)
     {
@@ -499,21 +504,21 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
 
             }
 
-    fun changeMealEntry(entry: MealEntry, oldMeal:String, newMeal:String)
-    {
-        var localEntry = entry
-        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - entry: $entry")
-        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - oldMeal: $oldMeal")
-        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - newMeal: $newMeal")
-        CoroutineScope(Main).launch()
-        {
-            runBlocking {
-                removeMealEntry(localEntry,oldMeal)
-                addNewMealEntry(localEntry.id,localEntry.menge,newMeal)
-            }
-        }
-
-    }
+//    fun changeMealEntry(entry: MealEntry, oldMeal:String, newMeal:String)
+//    {
+//        var localEntry = entry
+//        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - entry: $entry")
+//        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - oldMeal: $oldMeal")
+//        Log.d("Smeasy","FoodViewModel2 - changeMealEntry - newMeal: $newMeal")
+//        CoroutineScope(Main).launch()
+//        {
+//            runBlocking {
+//                removeMealEntry(localEntry,oldMeal)
+//                addNewMealEntry(localEntry.id,localEntry.menge,localEntry., newMeal.)
+//            }
+//        }
+//
+//    }
 
     private fun updateDaily(daily: Daily)
     {

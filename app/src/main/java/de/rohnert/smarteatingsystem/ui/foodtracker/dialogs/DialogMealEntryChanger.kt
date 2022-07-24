@@ -18,6 +18,7 @@ import de.rohnert.smarteatingsystem.data.databases.daily_database.helper.CalcedF
 import de.rohnert.smarteatingsystem.data.repository.subrepositories.daily.DailyProcessor
 import com.google.android.material.textfield.TextInputLayout
 import de.rohnert.smarteatingsystem.R
+import de.rohnert.smarteatingsystem.data.databases.daily_database.helper.getMealEntryFromCalcedFood
 import de.rohnert.smarteatingsystem.ui.foodtracker.viewmodel.FoodViewModel
 import de.rohnert.smarteatingsystem.ui.foodtracker.animations.AnimationFoodPicker2
 import de.rohnert.smarteatingsystem.ui.foodtracker.viewmodel.TAG
@@ -212,7 +213,7 @@ class DialogMealEntryChanger(var foodViewModel: FoodViewModel, var context: Cont
             //foodViewModel.addNewMealEntry(calcedFood.f.id,menge,meal)
             if(menge != calcedFood.menge) {
                 if(menge != 0f) {
-                    foodViewModel.updateMealEntry(MealEntry(calcedFood.id, calcedFood.f.id, menge),meal)
+                    foodViewModel.updateMealEntry(getMealEntryFromCalcedFood(calcedFood),meal)
 
                     alertDialog.dismiss()
                 } else {

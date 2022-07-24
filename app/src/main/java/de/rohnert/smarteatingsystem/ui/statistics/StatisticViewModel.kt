@@ -6,13 +6,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import de.rohnert.smarteatingsystem.data.databases.body_database.Body
-import de.rohnert.smarteatingsystem.data.helper.Helper
+import de.rohnert.smarteatingsystem.data.databases.daily_database.Daily
 import de.rohnert.smarteatingsystem.data.databases.daily_database.helper.CalcedFood
-import de.rohnert.smarteatingsystem.data.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smarteatingsystem.data.databases.food_database.extend_database.ExtendedFood
+import de.rohnert.smarteatingsystem.data.helper.Helper
 import de.rohnert.smarteatingsystem.data.repository.MainRepository2
+import de.rohnert.smarteatingsystem.data.repository.subrepositories.food.FoodProcessor
 import de.rohnert.smarteatingsystem.data.statistic.CsvDataExport
 import de.rohnert.smarteatingsystem.data.statistic.StatisticProcessor
+import de.rohnert.smarteatingsystem.utils.getDateListFromTodayToDate
+import de.rohnert.smarteatingsystem.utils.getDateNDaysAgo
+import de.rohnert.smarteatingsystem.utils.toStringDate
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import java.io.File
@@ -95,7 +99,7 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
         nutritionValueList = statisticProcessor.getCalcedNutritionValueList()
         nutritionValues = statisticProcessor.getAllNutritionValues()
         mealValues = statisticProcessor.getKcalFromMeal()
-        top20FoodList = statisticProcessor.getTop20Foods()
+//        top20FoodList = statisticProcessor.getTop20Foods()
 
 
 
@@ -178,17 +182,6 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Other Stuff
     fun getFoodList():ArrayList<ExtendedFood>
@@ -202,23 +195,51 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
 
+    fun getDailysFromLastNDays(n:Int): ArrayList<Daily>
+    {
+        // Get Daily by Date:
+        val fromDay:Date = getDateNDaysAgo(n)
+
+        // Create a List of Dates from current date to current data - n
+        val dates = getDateListFromTodayToDate(fromDay)
+        var dailies:ArrayList<Daily> = ArrayList()
+
+            // Try to get the
+            CoroutineScope(IO).launch{
+                for(date in dates) {
+                    val daily: Daily? = repository.getDailyByDate(date.toStringDate())
+                    if (daily != null) {
+                        dailies.add(daily)
+                    }
+                }
+
+        }
+        return dailies
+    }
+
+
 
 
 
 
     // Über diese Methode, werden die Daten für den LineChart zur Darstellung vom Verlauf der
     // Nährstoffe über einen gegebenen Zeitraum....
-    fun getNutritionCourseData():ArrayList<ArrayList<Float>>
+    /**
+     * @brief
+     *
+     * @return
+     */
+    fun getNutritionCourseData(includesDayNumber:Int = 7):ArrayList<ArrayList<Float>>
     {
+        // Get Daily Data from all days within includesDayNumbers
+        val dailyData = getDailysFromLastNDays(includesDayNumber)
+
+
         // Wird später natürlich korrekt berechnet...
         var export:ArrayList<ArrayList<Float>> = ArrayList()
-        for(i in 1..4) {
-            export.add(ArrayList())
+        for (data in dailyData) {
+//            export.add(data.breakfastEntry)
 
-            for (j in 1..7) {
-                export[i-1].add(Random.nextFloat()*100.0F)
-
-            }
         }
 
         return export

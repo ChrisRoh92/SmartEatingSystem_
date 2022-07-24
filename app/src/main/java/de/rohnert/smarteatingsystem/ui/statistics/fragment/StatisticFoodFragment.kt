@@ -141,10 +141,10 @@ class StatisticFoodFragment : Fragment() {
             "Sunday"
         )
 
-        for((index,i) in values[0].withIndex())
-        {
-            data.add(i.toDouble())
-        }
+//        for((index,i) in values[0].withIndex())
+//        {
+//            data.add(i.toDouble())
+//        }
 
         for((index,i) in values.withIndex())
         {
@@ -173,7 +173,7 @@ class StatisticFoodFragment : Fragment() {
 
         }
 
-        nutritionCourseLineChart = StandardLineChart(id, rootView, data, xData, getLabels())
+//        nutritionCourseLineChart = StandardLineChart(id, rootView, data, xData, getLabels())
     }
 
     private fun initKcalBarChart() {

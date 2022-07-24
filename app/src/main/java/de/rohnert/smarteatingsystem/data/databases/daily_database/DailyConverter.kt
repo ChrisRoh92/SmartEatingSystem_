@@ -1,7 +1,10 @@
 package de.rohnert.smarteatingsystem.data.databases.daily_database
 
+import android.util.Log
 import androidx.room.TypeConverter
 import de.rohnert.smarteatingsystem.data.helper.Helper
+import de.rohnert.smarteatingsystem.utils.Constants
+import de.rohnert.smarteatingsystem.utils.Constants.LOGGING_TAG
 import kotlin.collections.ArrayList
 
 class DailyConverter
@@ -47,7 +50,20 @@ class DailyConverter
     @TypeConverter
     fun fromMealEntryToString(entry: MealEntry?):String?
     {
-        return "${entry!!.mealID}_${entry.id}_${entry.menge}"
+        if(entry != null)
+        {
+            return "" +
+                    "${entry!!.mealID}_" +
+                    "${entry.id}_" +
+                    "${entry.menge}_" +
+                    "${entry.kcal}_" +
+                    "${entry.carb}_" +
+                    "${entry.protein}_" +
+                    "${entry.fat}"
+
+        }
+
+        return ""
 
     }
 
@@ -55,9 +71,20 @@ class DailyConverter
     fun fromStringToMealEntry(value: String?): MealEntry?
     {
 
-        var content = value!!.split("_")
+        Log.d(LOGGING_TAG,value)
 
-        return MealEntry(content[0].toInt(),content[1],content[2].toFloat())
+        val content = value!!.split("_")
+
+
+        return MealEntry(
+                    content[0].toInt(),
+                    content[1],
+                    content[2].toFloat(),
+                    content[3].toFloat(),
+                    content[4].toFloat(),
+                    content[5].toFloat(),
+                    content[6].toFloat()
+        )
     }
 
 

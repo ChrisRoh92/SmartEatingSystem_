@@ -353,7 +353,7 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel, var context: Context, v
     {
         if(menge != 0f)
         {
-            foodViewModel.addNewMealEntry(food.id,menge,meal)
+            foodViewModel.addNewMealEntry(food.id,menge,meal, food.kcal*(menge/1000.0F), food.carb*(menge/1000.0F), food.protein*(menge/1000.0F), food.fett*(menge/1000.0F))
 
             alertDialog.dismiss()
         }
@@ -366,12 +366,9 @@ class FoodPickerDialog(var foodViewModel: FoodViewModel, var context: Context, v
 
 
     ///////////////////////////////////////////////////////////
-    // Utils
     // Utils:
     private fun calcRestKcal():String
     {
-        Log.d(TAG,"FoodPickerDialog calcRestKcal(): restKcal = $restKcal")
-        Log.d(TAG,"FoodPickerDialog calcRestKcal(): calcedFood.values[0] = ${food.kcal}")
         return if(restKcal <= 0)
             "0"
         else
