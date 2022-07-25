@@ -50,8 +50,6 @@ class StatisticFoodFragment : Fragment() {
     private lateinit var kcalBarChart: StandardBarChart
 
 
-    // Views:
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -82,6 +80,26 @@ class StatisticFoodFragment : Fragment() {
     }
 
     // Views initialisieren:
+
+    /**
+     * First Element in Fragment
+     */
+    private fun initKcalBarChart() {
+        var id = R.id.statistic_food_chart_kcal
+        var values = statisticViewModel.getKcalValues()
+        var chartValues: ArrayList<BarEntry> = ArrayList()
+        for (i in 1..7) {
+            chartValues.add(BarEntry(i.toFloat(), 0f))
+        }
+        for ((index, i) in values.withIndex()) {
+            chartValues.add(BarEntry(index.toFloat(), i))
+        }
+        kcalBarChart = StandardBarChart(id, rootView, chartValues)
+    }
+
+
+
+
     private fun initTrackedFoodRecyclerView() {
         rvTrackedFood = rootView.findViewById(R.id.statistic_food_rv)
         layoutManager = LinearLayoutManager(rootView.context, RecyclerView.VERTICAL, false)
@@ -115,6 +133,10 @@ class StatisticFoodFragment : Fragment() {
 
     }
 
+
+    /**
+     *
+     */
     private fun initNutrititionPieChart() {
         var id = R.id.statistic_food_chart_pie_nutrition
         var pieValues: ArrayList<PieEntry> = ArrayList()
@@ -126,70 +148,45 @@ class StatisticFoodFragment : Fragment() {
 
     }
 
+
     private fun initNutritionCourseLineChart() {
-        var id = R.id.statistic_food_chart_line_nutrition
-        var values = statisticViewModel.getNutritionCourseData()
-        var chartData:ArrayList<ArrayList<Entry>> = ArrayList()
-        var data:ArrayList<Double> = ArrayList()
-        var xData:ArrayList<String> = arrayListOf(
-            "Monday",
-            "Thusday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-        )
 
-//        for((index,i) in values[0].withIndex())
-//        {
-//            data.add(i.toDouble())
-//        }
+        val id = R.id.statistic_food_chart_line_nutrition
+        nutritionCourseLineChart = StandardLineChart(id, rootView)
 
-        for((index,i) in values.withIndex())
+        val xValues:ArrayList<String> = arrayListOf(
+            "Monday", "Thusday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+        val labels:ArrayList<String> = arrayListOf("kcal", "carb", "protein", "fat")
+
+        val inputData:ArrayList<Map<String, Float>> = statisticViewModel.getNutritionCourseData()
+        val chartDataValues:ArrayList<ArrayList<Float>> = ArrayList()
+        val chartData:ArrayList<ArrayList<Entry>> = ArrayList()
+
+        for(values in inputData)
+        {
+            chartDataValues.add(arrayListOf(
+                values["kcal"] ?: 0.0F,
+                values["carb"] ?: 0.0F,
+                values["protein"] ?: 0.0F,
+                values["fat"] ?: 0.0F
+            ))
+        }
+
+        for(chartValue in chartDataValues)
         {
             chartData.add(ArrayList())
-            for((indexJ,j) in i.withIndex())
+            val data:ArrayList<Entry> = ArrayList()
+            for((index, value) in chartValue.withIndex())
             {
-                chartData[index].add(Entry(indexJ.toFloat(),j))
+                data.add(Entry(index.toFloat(), value))
             }
         }
-        fun getLabels():ArrayList<String>
-        {
-            var export:ArrayList<String> = ArrayList()
-            export.add("Kohlenhydrate")
-            export.add("Protein")
-            export.add("Fett")
-            export.add("100 %")
-
-            var values:ArrayList<String> = ArrayList()
-            for((index,i) in chartData.withIndex())
-            {
-                values.add(export[index])
-            }
-
-            return values
 
 
-        }
-
-//        nutritionCourseLineChart = StandardLineChart(id, rootView, data, xData, getLabels())
+        nutritionCourseLineChart.updateChart(chartData, xValues)
     }
 
-    private fun initKcalBarChart() {
-        var id = R.id.statistic_food_chart_kcal
-        var values = statisticViewModel.getKcalValues()
-        var chartValues: ArrayList<BarEntry> = ArrayList()
-        for (i in 1..7) {
-            chartValues.add(BarEntry(i.toFloat(), 0f))
-        }
-        for ((index, i) in values.withIndex()) {
-            chartValues.add(BarEntry(index.toFloat(), i))
-        }
-        kcalBarChart = StandardBarChart(id, rootView, chartValues)
 
-
-    }
 
 
     // Observer
@@ -255,24 +252,38 @@ class StatisticFoodFragment : Fragment() {
         nutritionPieChart.updatePieChart(pieValues)
     }
 
-    private fun updateNutritionCourseLineChart() {
-        /*// Muss noch implementiert werden...
-        var values = statisticViewModel.getNutritionCourseValues()
-        Log.d("Smeasy","StatisticFoodFragment - updateNutritionCourseLineChart values: $values")
-        var chartData:ArrayList<ArrayList<Entry>> = ArrayList()
-        for((index,i) in values.withIndex())
+    private fun updateNutritionCourseLineChart()
+    {
+
+        val xValues:ArrayList<String> = arrayListOf(
+            "Monday", "Thusday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+        val labels:ArrayList<String> = arrayListOf("kcal", "carb", "protein", "fat")
+
+        val inputData:ArrayList<Map<String, Float>> = statisticViewModel.getNutritionCourseData()
+        val chartDataValues:ArrayList<ArrayList<Float>> = ArrayList()
+        val chartData:ArrayList<ArrayList<Entry>> = ArrayList()
+
+        for(values in inputData)
+        {
+            chartDataValues.add(arrayListOf(
+                values["kcal"] ?: 0.0F,
+                values["carb"] ?: 0.0F,
+                values["protein"] ?: 0.0F,
+                values["fat"] ?: 0.0F
+            ))
+        }
+
+        for(chartValue in chartDataValues)
         {
             chartData.add(ArrayList())
-            for((indexJ,j) in i.withIndex())
+            val data:ArrayList<Entry> = ArrayList()
+            for((index, value) in chartValue.withIndex())
             {
-                chartData[index].add(Entry(indexJ.toFloat(),j))
+                data.add(Entry(index.toFloat(), value))
             }
         }
 
-//        chartData = ArrayList(chartData.asReversed())
 
-        nutritionCourseLineChart.updateLineChart(chartData)*/
-
-
+        nutritionCourseLineChart.updateChart(chartData, xValues)
     }
 }

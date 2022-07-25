@@ -935,8 +935,10 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
         return food!!
     }
 
-
-    // CalcedFoodStuffs
+    /**
+     * @brief
+     * @return: LiveData of what?
+     */
     fun getAllCalcedFood():LiveData<Int>
     {
         return allCalcedFood
@@ -959,7 +961,6 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
 
 
     // Get LiveData Stuff:
-
 
     // TODO("Das folgende evtl. als SQL Query ausführen!")
     fun searchInFoodList(query:String,simpleSearch:Boolean = true)
@@ -984,7 +985,6 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
 
                 if(onlyAllowedFoodFilter)
                 {
-
                     if(!checkIfFoodIsAllowed(food))
                         return false
                 }
@@ -1085,7 +1085,6 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
         }
 
     }
-
 
     // Interne Methoden:
     private fun checkIfFoodIsAllowed(food:ExtendedFood):Boolean{
@@ -1203,44 +1202,5 @@ class FoodViewModel(application: Application) : AndroidViewModel(application)
 
 
     fun getFilterFoodList():ArrayList<ExtendedFood>{return filteredFoodList}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

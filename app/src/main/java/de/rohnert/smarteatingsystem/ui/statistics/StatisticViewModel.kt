@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import de.rohnert.smarteatingsystem.data.databases.body_database.Body
 import de.rohnert.smarteatingsystem.data.databases.daily_database.Daily
+import de.rohnert.smarteatingsystem.data.databases.daily_database.MealEntry
 import de.rohnert.smarteatingsystem.data.databases.daily_database.helper.CalcedFood
 import de.rohnert.smarteatingsystem.data.databases.food_database.extend_database.ExtendedFood
 import de.rohnert.smarteatingsystem.data.helper.Helper
@@ -22,7 +23,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 class StatisticViewModel(application: Application) : AndroidViewModel(application)
 {
@@ -229,20 +229,107 @@ class StatisticViewModel(application: Application) : AndroidViewModel(applicatio
      *
      * @return
      */
-    fun getNutritionCourseData(includesDayNumber:Int = 7):ArrayList<ArrayList<Float>>
+    fun getNutritionCourseData(includesDayNumber:Int = 7):ArrayList<Map<String, Float>>
     {
+        // For each Day
+        var values:MutableMap<String, Float> = mutableMapOf(
+            Pair("kcal", 0.0F),
+            Pair("carb", 0.0F),
+            Pair("protein", 0.0F),
+            Pair("fat", 0.0F)
+        )
         // Get Daily Data from all days within includesDayNumbers
         val dailyData = getDailysFromLastNDays(includesDayNumber)
 
-
         // Wird später natürlich korrekt berechnet...
-        var export:ArrayList<ArrayList<Float>> = ArrayList()
-        for (data in dailyData) {
-//            export.add(data.breakfastEntry)
+        var export:ArrayList<Map<String, Float>> = ArrayList()
 
+        for (daily in dailyData) {
+            val data = getNutritionValuesFromDaily(daily)
+            var values:MutableMap<String, Float> = mutableMapOf(
+                Pair("kcal",        data["kcal"] ?: 0.0F),
+                Pair("carb",        data["carb"] ?: 0.0F),
+                Pair("protein",     data["protein"] ?: 0.0F),
+                Pair("fat",         data["fat"] ?: 0.0F)
+            )
+            export.add(values)
         }
 
         return export
+    }
+
+    private fun getNutritionValuesFromDaily(daily:Daily): Map<String, Float>
+    {
+        val values:MutableMap<String, Float> = mutableMapOf(
+            Pair("kcal", 0.0F),
+            Pair("carb", 0.0F),
+            Pair("protein", 0.0F),
+            Pair("fat", 0.0F)
+        )
+
+        // BreakFast:
+        if(!daily.breakfastEntry.isNullOrEmpty())
+        {
+            for(entry in daily.breakfastEntry!!)
+            {
+                val nutritionValues = getNutritionValuesFromMealEntry(entry)
+                values["kcal"] = (values["kcal"] ?: 0.0F)+(nutritionValues["kcal"])!!
+                values["carb"] = (values["carb"] ?: 0.0F)+(nutritionValues["carb"])!!
+                values["protein"] = (values["protein"] ?: 0.0F)+(nutritionValues["protein"])!!
+                values["fat"] = (values["fat"] ?: 0.0F)+(nutritionValues["fat"])!!
+            }
+        }
+
+        if(!daily.lunchEntry.isNullOrEmpty())
+        {
+            for(entry in daily.lunchEntry!!)
+            {
+                val nutritionValues = getNutritionValuesFromMealEntry(entry)
+                values["kcal"] = (values["kcal"] ?: 0.0F)+(nutritionValues["kcal"])!!
+                values["carb"] = (values["carb"] ?: 0.0F)+(nutritionValues["carb"])!!
+                values["protein"] = (values["protein"] ?: 0.0F)+(nutritionValues["protein"])!!
+                values["fat"] = (values["fat"] ?: 0.0F)+(nutritionValues["fat"])!!
+            }
+        }
+
+
+        if(!daily.dinnerEntry.isNullOrEmpty())
+        {
+            for(entry in daily.dinnerEntry!!)
+            {
+                val nutritionValues = getNutritionValuesFromMealEntry(entry)
+                values["kcal"] = (values["kcal"] ?: 0.0F)+(nutritionValues["kcal"])!!
+                values["carb"] = (values["carb"] ?: 0.0F)+(nutritionValues["carb"])!!
+                values["protein"] = (values["protein"] ?: 0.0F)+(nutritionValues["protein"])!!
+                values["fat"] = (values["fat"] ?: 0.0F)+(nutritionValues["fat"])!!
+            }
+        }
+
+        if(!daily.snackEntry.isNullOrEmpty())
+        {
+            for(entry in daily.snackEntry!!)
+            {
+                val nutritionValues = getNutritionValuesFromMealEntry(entry)
+                values["kcal"] = (values["kcal"] ?: 0.0F)+(nutritionValues["kcal"])!!
+                values["carb"] = (values["carb"] ?: 0.0F)+(nutritionValues["carb"])!!
+                values["protein"] = (values["protein"] ?: 0.0F)+(nutritionValues["protein"])!!
+                values["fat"] = (values["fat"] ?: 0.0F)+(nutritionValues["fat"])!!
+            }
+        }
+
+
+
+        return values
+    }
+
+    private fun getNutritionValuesFromMealEntry(entry: MealEntry): Map<String, Float> {
+
+        return mapOf(
+            Pair("kcal", entry.kcal),
+            Pair("carb", entry.carb),
+            Pair("protein", entry.protein),
+            Pair("fat", entry.fat)
+        )
     }
 
     fun getBodyList():LiveData<ArrayList<Body>> = bodyDataList

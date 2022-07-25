@@ -15,223 +15,147 @@ import de.rohnert.smarteatingsystem.utils.Constants
 import de.rohnert.smarteatingsystem.utils.others.MyCustomValueFormatter
 
 class StandardLineChart(
-    var id: Int,
-    var view: View,
-    var yContent: ArrayList<Double>,
-    var xValues: ArrayList<String>,
-    var labels: ArrayList<String> = arrayListOf("Set 1", "Set 2"),
-    var yIndices: ArrayList<Float> = ArrayList()
+    var m_id: Int,
+    var m_view: View
 ) {
-    private lateinit var chart: LineChart
-    private lateinit var dataSet: ArrayList<ILineDataSet>
-    private lateinit var data: LineData
-    private lateinit var legend: Legend
-    private lateinit var xAxis: XAxis
-    private lateinit var yAxisLeft: YAxis
-    private lateinit var yAxisRight: YAxis
 
-    private var chartData: ArrayList<ArrayList<Entry>> = ArrayList()
-
-    // Farben:
-    private var colors = arrayListOf(
-        ContextCompat.getColor(view.context, R.color.bar_color_1),
-        ContextCompat.getColor(view.context, R.color.bar_color_2),
-        ContextCompat.getColor(view.context, R.color.bar_color_3),
-        ContextCompat.getColor(view.context, R.color.bar_color_4),
-        ContextCompat.getColor(view.context, R.color.bar_color_5),
-        ContextCompat.getColor(view.context, R.color.bar_color_6)
+    private lateinit var m_chart: LineChart
+    private lateinit var m_dataSet: ArrayList<ILineDataSet>
+    private lateinit var m_data: LineData
+    private lateinit var m_legend: Legend
+    private lateinit var m_xAxis: XAxis
+    private lateinit var m_yAxisLeft: YAxis
+    private lateinit var m_yAxisRight: YAxis
+    private var m_wasAlreadyInitialized: Boolean = false
+    private var m_colors = arrayListOf(
+        ContextCompat.getColor(m_view.context, R.color.bar_color_1),
+        ContextCompat.getColor(m_view.context, R.color.bar_color_2),
+        ContextCompat.getColor(m_view.context, R.color.bar_color_3),
+        ContextCompat.getColor(m_view.context, R.color.bar_color_4),
+        ContextCompat.getColor(m_view.context, R.color.bar_color_5),
+        ContextCompat.getColor(m_view.context, R.color.bar_color_6)
     )
 
-    init {
-        transformInputData()
-        initLineChart()
-
-
-    }
-
-    private fun transformInputData() {
-        chartData = ArrayList()
-        chartData.add(ArrayList())
-        if (yIndices.isNotEmpty() && yIndices.size == yContent.size) {
-            for (i in yContent.indices) {
-                chartData[0].add(Entry(yIndices[i], yContent[i].toFloat()))
-            }
-        } else {
-            for ((index, i) in yContent.withIndex()) {
-                chartData[0].add(Entry(index.toFloat(), i.toFloat()))
-            }
-        }
-
-    }
-
-    private fun setChartData() {
-        // Data initialisieren:
-        data = LineData(dataSet)
-
-
-        data.setValueFormatter(MyCustomValueFormatter(xValues))
-        data.setDrawValues(false)
-        chart.data = data
-        chart.description.isEnabled = false
-    }
-
-    private fun initLineChart() {
+    /**
+     * @brief: Central API to update the LineChart with new Data
+     * @param values: List of Entries to be rendered
+     * @param xValues: List of the to render xValues (Monday, Thusday...)
+     */
+    fun updateChart(values: ArrayList<ArrayList<Entry>>, xValues: ArrayList<String>) {
         // Chart initialisieren:
-        chart = view.findViewById(id)
-        dataSet = ArrayList()
-        for ((index, i) in chartData.withIndex()) {
-            dataSet.add(getDataSetFromList(i, index))
+        m_chart = m_view.findViewById(m_id)
+        m_dataSet = ArrayList()
+        for ((index, i) in values.withIndex()) {
+            m_dataSet.add(getDataSetFromList(i, index))
         }
 
-        fun setChartLegend() {
-            legend = chart.legend
-            legend.direction = Legend.LegendDirection.LEFT_TO_RIGHT
-            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            legend.setDrawInside(false)
-            legend.isWordWrapEnabled = true
-            legend.isEnabled = false
+        setChartData(m_dataSet, xValues)
 
+        if (true) {
+            setChartLegend()
+            setXAxis(xValues)
+            setYAxis()
+            disableTouchListener()
+            m_wasAlreadyInitialized = true
+            m_chart.extraBottomOffset = 10.0F
+            m_chart.extraLeftOffset = 10.0F
         }
 
-        fun setXAxis() {
-            xAxis = chart.xAxis
-            xAxis.setDrawAxisLine(true)
-            xAxis.setDrawGridLines(false)
-            xAxis.setDrawLabels(true)
-            xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.granularity = 1f
-            xAxis.valueFormatter = MyCustomValueFormatter(xValues)
-            xAxis.labelCount = 5
-            xAxis.spaceMin = 0.5F
-            xAxis.spaceMax = 0.5F
-
-        }
-
-        fun setYAxis() {
-            yAxisLeft = chart.axisLeft
-            yAxisRight = chart.axisRight
-            yAxisLeft.setDrawLabels(true)
-            yAxisLeft.setDrawGridLines(false)
-            yAxisRight.setDrawGridLines(false)
-            yAxisLeft.isEnabled = true
-            yAxisRight.isEnabled = false
-
-            var yMin = (yContent.min() ?: 0.0).toFloat()
-            var yMax = (yContent.max() ?: 0.0).toFloat()
-            if (yMin > 0) {
-                yMin -= 10
-            }
-            if (yMax > 0) {
-                yMax += 10
-            }
-
-            yAxisLeft.axisMinimum = yMin
-            yAxisLeft.axisMaximum = yMax
-        }
-
-        fun disableTouchListener() {
-            chart.setTouchEnabled(false)
-            chart.isDragEnabled = false
-            chart.setScaleEnabled(false)
-            chart.setPinchZoom(false)
-            chart.isDoubleTapToZoomEnabled = false
-            chart.isDragDecelerationEnabled = false
-
-        }
-
-        setChartData()
-        setChartLegend()
-        setXAxis()
-        setYAxis()
-        disableTouchListener()
-
-        // Diagramm starten:
-        chart.extraBottomOffset = 10f
-        chart.extraLeftOffset = 10.0F
-
-//        chart.setVisibleXRange(7F, xValues.size.toFloat())
-        chart.invalidate()
+        m_chart.invalidate()
     }
 
-
-    private fun updateChart() {
-
-        // Aktuellen Chart leeren
-        chart.clear()
-        // Neue Daten Laden:
-        transformInputData()
-        dataSet = ArrayList()
-        for ((index, i) in chartData.withIndex()) {
-            dataSet.add(getDataSetFromList(i, index, false))
-        }
-        // Neue Daten Laden
-        setChartData()
-        // Set new Axis Limits
-        updateAxisLimits()
-
-        chart.notifyDataSetChanged()
-        chart.invalidate()
+    /**
+     * @brief: Fills the Chart with the dataset
+     * @param dataSet: List of ILineData to be put in the chart
+     * @param xValues: List of the to render xValues (Monday, Thusday...)
+     */
+    private fun setChartData(dataSet: ArrayList<ILineDataSet>, xValues: ArrayList<String>) {
+        // Data initialisieren:
+        m_data = LineData(dataSet)
+        m_data.setValueFormatter(MyCustomValueFormatter(xValues))
+        m_data.setDrawValues(false)
+        m_chart.data = m_data
+        m_chart.description.isEnabled = false
     }
 
+    /**
+     * @brief: Default Settings for the Chart Legend
+     */
+    private fun setChartLegend() {
+        m_legend = m_chart.legend
+        m_legend.direction = Legend.LegendDirection.LEFT_TO_RIGHT
+        m_legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        m_legend.setDrawInside(false)
+        m_legend.isWordWrapEnabled = true
+        m_legend.isEnabled = false
+    }
+
+    /**
+     * @brief: Default Settings for X Axis of the LineChart
+     * @param xValues: List of the to render xValues (Monday, Thusday...)
+     */
+    private fun setXAxis(xValues: ArrayList<String>) {
+        m_xAxis = m_chart.xAxis
+        m_xAxis.setDrawAxisLine(true)
+        m_xAxis.setDrawGridLines(false)
+        m_xAxis.setDrawLabels(true)
+        m_xAxis.position = XAxis.XAxisPosition.BOTTOM
+        m_xAxis.granularity = 1f
+        m_xAxis.valueFormatter = MyCustomValueFormatter(xValues)
+        m_xAxis.labelCount = 5
+        m_xAxis.spaceMin = 0.5F
+        m_xAxis.spaceMax = 0.5F
+    }
+
+    /**
+     * @brief: Default Settings for Y Axis of the LineChart
+     */
+    private fun setYAxis() {
+        m_yAxisLeft = m_chart.axisLeft
+        m_yAxisRight = m_chart.axisRight
+        m_yAxisLeft.setDrawLabels(true)
+        m_yAxisLeft.setDrawGridLines(false)
+        m_yAxisRight.setDrawGridLines(false)
+        m_yAxisLeft.isEnabled = true
+        m_yAxisRight.isEnabled = false
+    }
+
+    /**
+     * @brief: Disable the Touch Listener for the Line Chart
+     */
+    private fun disableTouchListener() {
+        m_chart.setTouchEnabled(false)
+        m_chart.isDragEnabled = false
+        m_chart.setScaleEnabled(false)
+        m_chart.setPinchZoom(false)
+        m_chart.isDoubleTapToZoomEnabled = false
+        m_chart.isDragDecelerationEnabled = false
+    }
+
+    /**
+     * @brief: Gets of Entry Object a LineDataSet
+     * @param values: List of Entries
+     * @param pos: Position of Values in List
+     * @param dotted: Mark if Line should be dotted renderd
+     */
     private fun getDataSetFromList(
-        values: ArrayList<Entry>,
-        pos: Int,
-        dotted: Boolean = false
+        values: ArrayList<Entry>, pos: Int, dotted: Boolean = false
     ): LineDataSet {
         var dataSet = LineDataSet(values, "")
-        dataSet.label = labels[pos]
-        dataSet.color = colors[pos]
+        dataSet.color = m_colors[pos]
         dataSet.setDrawFilled(false)
-        dataSet.fillColor = colors[pos]
+        dataSet.fillColor = m_colors[pos]
         dataSet.fillAlpha = 50
         dataSet.mode = LineDataSet.Mode.LINEAR
         if (dotted) dataSet.enableDashedLine(10f, 5f, 0f)
         dataSet.setDrawCircles(true)
         dataSet.circleRadius = 5f
         dataSet.circleHoleRadius = 0f
-        dataSet.setCircleColor(colors[pos])
+        dataSet.setCircleColor(m_colors[pos])
         dataSet.setDrawCircleHole(false)
         dataSet.lineWidth = 2f
 
         return dataSet
-
-    }
-
-    fun updateLineChart(yContent: ArrayList<Double>, xContent: ArrayList<String>) {
-        this.yContent = yContent
-        this.xValues = xContent
-
-        updateChart()
-
-
-/*        data = LineData(dataSet)
-
-        data.setValueFormatter(MyCustomValueFormatter(xContent))
-        data.setDrawValues(false)
-        chart.data = data
-        chart.description.isEnabled = false
-        xAxis.valueFormatter = MyCustomValueFormatter(labels)
-        updateAxisLimits()
-
-        chart.notifyDataSetChanged()
-        chart.invalidate()*/
-
-    }
-
-    private fun updateAxisLimits(min: Float = 2f, max: Float = 2f) {
-        var yMin = (yContent.min() ?: 0.0).toFloat()
-        var yMax = (yContent.max() ?: 0.0).toFloat()
-        if (yMin > 0) {
-            yMin -= min
-        }
-        if (yMax > 0) {
-            yMax += max
-        }
-
-        yAxisLeft.axisMinimum = yMin
-        yAxisLeft.axisMaximum = yMax
-
-        xAxis.valueFormatter = MyCustomValueFormatter(xValues)
 
     }
 }

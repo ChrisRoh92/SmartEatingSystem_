@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 
-
 class StatisticsFragment: Fragment() {
 
     // Allgemeine Variablen:
@@ -41,22 +40,17 @@ class StatisticsFragment: Fragment() {
     private var timeValue ="Letzte 7 Tage"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-
         return inflater.inflate(R.layout.fragment_statistics, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        statisticViewModel = ViewModelProvider(requireActivity(),defaultViewModelProviderFactory).get(StatisticViewModel::class.java)
 
+        statisticViewModel = ViewModelProvider(requireActivity(),defaultViewModelProviderFactory).get(StatisticViewModel::class.java)
         rootView = view
 
         initViewPager2()
         initToolbar()
-
-
-
     }
 
     // Toolbar:
@@ -66,9 +60,7 @@ class StatisticsFragment: Fragment() {
         toolbar = activity!!.findViewById(R.id.toolbar)
         toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.menu_statistic)
-
         toolbar.setOnMenuItemClickListener { menuItem ->
-
             if(menuItem.itemId == R.id.nav_statistic_share)
             {
                 shareData()
@@ -77,17 +69,12 @@ class StatisticsFragment: Fragment() {
             {
                 setTimeRange()
             }
-
-
             true
         }
 
         toolbar.title = "Statistik"
         toolbar.subtitle ="Zeitraum: Letzte 7 Tage"
-
     }
-
-
 
     private fun initViewPager2()
     {
@@ -101,12 +88,6 @@ class StatisticsFragment: Fragment() {
         TabLayoutMediator(tabLayout,pager){tab, position ->
             tab.text = names[position]
         }.attach()
-
-
-
-
-
-
     }
 
     private fun setTimeRange()
@@ -117,7 +98,6 @@ class StatisticsFragment: Fragment() {
                 timeValue = value
                 toolbar.subtitle = "Zeitraum: $value"
             }
-
         })
     }
 
@@ -127,26 +107,15 @@ class StatisticsFragment: Fragment() {
         // TODO: Teilen von Daten implementieren
     }
 
-
-
-
     private fun startCSVExportProess()
     {
-
         //var dialog = DialogLoading(rootView.context)
-
         statisticViewModel.getCSVExportFinished().observe(viewLifecycleOwner, Observer {
             //dialog.dismiss()
             var file = statisticViewModel.returnNewCSVFile()
             Log.d("Smeasy","StatisticsFragment startCSVExportProess - filename = $file")
             startShareIntentProcess(file!!)
-
-
         })
-
-
-
-
         statisticViewModel.startCSVExport()
     }
 
