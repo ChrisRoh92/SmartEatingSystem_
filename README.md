@@ -47,3 +47,5 @@ SmartEatingSystem ist wahrlich noch nicht vollständig. Wir stehen erst am Anfan
 
 
 Wir wünschen dir viel Spaß beim Benutzen der App und wünschen dir viel Erfolg deine Ziele zu erreichen.
+
+Christoph Rohnert
